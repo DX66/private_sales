@@ -1,0 +1,38 @@
+Index: include/check_useraccount.php
+--- include/check_useraccount.php	2011-01-10 16:11:48.000000000 +0300
++++ include/check_useraccount.php	2011-04-14 10:52:57.000000000 +0400
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: check_useraccount.php,v 1.111.2.3 2011/01/10 13:11:48 ferz Exp $
++ * @version    $Id: check_useraccount.php,v 1.111.2.5 2011/04/14 06:52:57 ferz Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -65,15 +65,13 @@
+     )
+ ) {
+ 
+-    // Operate as user
+-    x_load('user');
+-
++    // Operate as user feature
+     func_start_user_session($operate_as_user);
+ 
+     // Get cart content when admin operate as user
+     x_session_register('cart');
+ 
+-    $s_cart = func_query_first_cell("SELECT cart FROM $sql_tbl[customers] WHERE id='$operate_as_user' AND usertype='" . $tmp['usertype'] . "'");
++    $s_cart = func_query_first_cell("SELECT cart FROM $sql_tbl[customers] WHERE id='$operate_as_user'");
+ 
+     $cart = unserialize($s_cart);
+ 
+@@ -364,7 +362,6 @@
+         empty($login)
+         && $config['General']['enable_anonymous_checkout'] == 'Y'
+     ) {
+-        x_session_register('anonymous_userinfo', array());
+         $is_anonymous = true;
+ 
+     } elseif (!empty($login)) {

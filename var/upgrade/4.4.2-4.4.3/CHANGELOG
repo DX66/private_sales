@@ -1,0 +1,1470 @@
+$Id: CHANGELOG,v 1.20.2.3 2011/01/10 08:46:38 aim Exp $
+
+------------------ X-CART v4.4.2 RELEASED
+
+*CHECKOUT*
+
+[!] 01 Oct 2010, aim - Bug (0099607, 0099718): E-mail tooltip blocks some elements of the form on the One-Page Checkout page. Fixed.
+[!] 15 Oct 2010, aim - Bug (0099842): Selecting 'Disable online payment methods for orders containing egoods' on the One-Page Checkout page creates an infinite loop. Fixed.
+[!] 19 Oct 2010, aim - Bug (0099835): Fast Lane checkout not allowed for cart with zero in total_cost. Fixed.
+[!] 03 Nov 2010, aim - Bug (0100626): The 'Place Order' button appears disabled in some cases in the One-Page Checkout module. Fixed.
+[!] 03 Nov 2010, aim - Bug (0099674): The One-Page Checkout module occasionally doesn't allow selecting a payment method. Fixed.
+[*] 05 Nov 2010, aim - Improvement (0100187): Added international charset support to the One-Page Checkout module. (AJAX functionality).
+[!] 05 Jan 2011, aim - Bug (0099512): Problems with the 'Modify address' link in the Fast_Lane_Checkout module. Fixed.
+
+*DESIGN AND APPEARANCE*
+
+[!] 30 Sep 2010, aim - Bug (0099212): A problem with PNG images (log, rating stars) in alternative skins for IE6. Fixed.
+[!] 04 Oct 2010, ferz - Bug (0099348): Header missing for the related products section on the product details page ("display as tabs" option disabled). Fixed.
+[!] 19 Oct 2010, aim - Bug (0099682): Multiple problems with auxiliary CSS (modules, skins) in the Speed-Up CSS and Normal CSS modes. Fixed.
+[!] 22 Oct 2010, aim - Bug (0099803): 'Error: there is no attribute "alt"' w3c error. Fixed.
+[!] 26 Oct 2010, aim - Bug (0098064): Product rows appear highlighted in the multicolumn mode in the vivid violet scheme. Fixed.
+[*] 15 Nov 2010, aim - Improvement (0096902): Site title and breadcrumb navigation bar are now formed independently of one another.
+[*] 15 Nov 2010, aim - Improvement (0099847): HTML entities are now allowed in product names.
+[!] 18 Nov 2010, ferz - Bug (	): Image Verification: Fixed the position of the Submit button.
+[!] 22 Nov 2010, aim - Bug (0101505): Attempting to rate a product pops an error message. Fixed.
+[!] 24 Nov 2010, aim - Bug (0101633): Missing image in the Special Offer demo data. Fixed.
+[!] 07 Dec 2010, ferz - Bug (0100738): The 'Ask a Question' pop-up form on the product detail page appears cropped in IE7. Fixed.
+[!] 09 Dec 2010, aim - Bug (0100116): HTML tags not allowed for some content entities. Fixed.
+[!] 17 Dec 2010, aim - Bug (0100809): W3C errors on the category pages. Fixed.
+[!] 20 Dec 2010, ferz - Bug (0099015): Chrome browser crops long lines of text in "Terms and Conditions". Fixed.
+
+*INTERFACE*
+
+[*] 01 Jul 2010, igoryan - Improvement (0100840): Minor improvements in user interface.
+[*] 27 Oct 2010, ferz - Improvement (0100349): Message/warning on-screen time now can be edited in the Appearance settings.
+
+*LANGUAGES*
+
+[!] 26 Oct 2010, aim - Bug (0099885): Missing language variables. Fixed.
+[*] 15 Nov 2010, aim - Improvement (0101195): Slight optimization in the func_get_langvar_by_name function.
+[!] 08 Dec 2010, ferz - Bug (0100413): Grammar error. Fixed.
+[!] 21 Dec 2010, ferz - Bug (0102546): Typo error on the 3D Secure Transaction settings page. Fixed.
+[*] 06 Jan 2011, aim - Improvement (0103211): Adjusted txt_login_email_not_match label.
+
+*ORDERS*
+
+[!] 17 Dec 2010, ferz - Bug (0102328): ZIP code in the shipping address is always the same as ZIP code in the billing address on the order info page in the Admin area. Fixed.
+
+*SHIPPING*
+
+[!] 11 Oct 2010, aim - Bug (0099128): Destination location does not show in the cart when 'Presume that a not logged in customer is from the default country' is enabled. Fixed.
+[!] 03 Nov 2010, ferz - Bug (0100562): FedEx real-time shipping rate calculator ignores some configuration settings. Fixed.
+[!] 05 Jan 2011, aim - Bug (0102496, 0038896): Issues related to USPS shipping methods. Fixed. USPS shipping methods updated.
+
+*TAXES*
+
+[!] 09 Nov 2010, ferz - Bug (0100837): Deleted tax data remained in some database tables. Fixed.
+
+*USERS*
+
+[!] 01 Oct 2010, ferz - Bug (0078329): On login failure sends the administrator's login failure message instead of of the customer's one. Fixed.
+[!] 04 Oct 2010, aim - Bug (0099071): Multiple functionality problems related to the 'Password recovery' and 'Add admininstaror profile' features and the 'Use password strength check' setting. Fixed.
+[!] 08 Oct 2010, aim - Bug (0099479): The delete user procedure fails to delete some user-related entities. Fixed.
+[!] 12 Oct 2010, aim - Bug (0099712): "Default customer options" do not show up by default in the user registration/user profile forms. Fixed.
+[!] 12 Oct 2010, aim - Bug (0099599): Zip4 codes like 0039 not saved correctly with the 'Enable ZIP+4 support for US customers' setting enabled. Fixed.
+[!] 21 Oct 2010, aim - Bug (0100120): Empty address fields on the Fast Lane checkout page and some other pages. Fixed.
+[!] 25 Oct 2010, aim - Bug (0099401): Occasionally fails to save the state and county fields. Fixed.
+[!] 08 Nov 2010, aim - Bug (0100001): Fails to use the user information, typed on the cart checkout page, on the payments/store pages. Fixed.
+[!] 29 Nov 2010, ferz - Bug (0101802): Deleting user with the Special Offers module turned off raises issues. Fixed.
+[!] 16 Dec 2010, ferz - Bug (0100567): The Provider field on the order details page shows user id instead of login/email. Fixed.
+[!] 28 Dec 2010, ferz - Bug (0102984): Title fails to appear properly in the Admin area -> Profile details section. Fixed.
+
+*PAYMENTS*
+
+[!] 02 Nov 2010, aim - Bug (0100452): 'MD5 transaction signature is incorrect' error in AuthorizeNet - AIM payment module. Fixed.
+[!] 10 Nov 2010, aim - Bug (0100799): 3D secure engine occasionally fails to decline fake orders. Fixed.
+[*] 10 Nov 2010, aim - Improvement (0099201): Added the 3D Secure feature for the 'RBS WorldPay - Global Gateway' payment gateway.
+[!] 18 Oct 2010, aim - Bug (0098771): Problem with the Website Payments Pro methods on the One-Page Checkout page. Fixed.
+[!] 11 Nov 2010, ferz - Bug (0099843): Quantum Gateway: Wrong redirect with the register_globals PHP variable turned off. Fixed.
+[!] 11 Nov 2010, aim - Bug(0100661): Some payments failed to work because of empty phone/fax user fields. Fixed.
+[*] 18 Nov 2010, ferz - Improvement (0087218): HSBC: An additional note added to the HSBC configuration page.
+[!] 30 Nov 2010, aim - Bug (0101498): "ChronoPay" payment module. Uses obsolete HTTP_POST_VARS variable. Fixed.
+[!] 01 Dec 2010, aim - Bug (0099723): Query library not included in the payment template for iframe-based payments. Fixed.
+[*] 17 Dec 2010, ferz - Improvement (0102120): Changed Authorize.net URL.
+[*] 27 Dec 2010, aim - Improvement (0099384): Line items feature added for PayPal express checkout.
+
+
+*PRODUCTS*
+
+[!] 01 Oct 2010, ferz - Bug (	0068004): Generates wrong product page URL when the search string is found in the product description but not found in the product name. Fixed.
+[!] 20 Dec 2010, aim - Bug (0100490): Fails to refresh product count for category when adding a new product. Fixed.
+
+*CATEGORIES*
+
+[!] 17 Dec 2010, aim - Bug (0099595): Fails to properly sort categories after adding a new category. Fixed.
+
+*IMPORT/EXPORT*
+
+[!] 20 Oct 2010, aim - Bug (0099804): Importing products returns wrong category count. Fixed.
+[!] 11 Nov 2010, aim - Bug (0100810): Importing products generates wrong image path. Fixed.
+[!] 11 Nov 2010, aim - Bug (0100602): Fails to generate product thumbnails upon completion of importing. Fixed.
+
+*MODULES/ADD-ONS*
+
+[!] 05 Oct 2010, aim - Bug (0099440): Obsolete code in the XPayments_Connector module. Fixed.
+[!] 11 Oct 2010, aim - Bug (0099621): Typo error in the Product_Options module. Fixed.
+[!] 20 Oct 2010, aim - Bug (0099757): 'Warning: include(/include/check_useraccount.php)' appears on the One-Page Checkout page. Fixed.
+[*] 25 Nov 2010, ferz - Improvement (0099732): Updated MailChimp: MCAPI.class.php to version 1.2.6.
+[!] 28 Oct 2010, ferz - Bug (0100054): WYSIWYG editor causes problems with the short product description. Fixed.
+[!] 10 Nov 2010, ferz - Bug (0100218): News Management: Fails to switch the news list status to 'Sent'. Fixed.
+[*] 29 Nov 2010, ferz - Improvement (0099090): XML sitemap: Added an additional note to the XML Sitemap options page.
+[!] 30 Nov 2010, ferz - Bug (0101660): Discount Coupons: Stores wrong information on the use of coupons, allowing in some to use limited coupons more times than it is specified by the Admin. Fixed.
+[!] 30 Nov 2010, ferz - Bug (0092348): Discount Coupons: Option "Discount is applied once per order" fails on products with variants when the cart contains multiple variants of the product. Fixed.
+[!] 08 Dec 2010, ferz - Bug (0102156): Product Wholesale module occasionally causes JS error when the "Show quantity selector as input textbox" option is used. Fixed.
+[!] 08 Dec 2010, ferz - Bug (0100518): The gift certificate field does not appear on the checkout page in the Vivid Dreams schemes when Fast Lane Checkout is used. Fixed.
+[!] 15 Dec 2010, ferz - Bug (0102375): Gift Certificates: The "Allowed values" format does not reflect the "Primary currency display format" setting. Fixed.
+[!] 16 Dec 2010, aim - Bug (0100007): Extra Fields: Fails to clear extra field value on the modify product page. Fixed.
+[!] 23 Dec 2010, aim - Bug (0102835): SQL errors related to the Wishlist and Gift_Registry modules. Fixed.
+[!] 23 Dec 2010, aim - Bug (0096499): Free product bonus fails to work properly in the Special Offers module. Fixed.
+[!] 28 Dec 2010, aim - Bug (0102966): SQL errors related to the Special offer module. Fixed.
+[!] 29 Dec 2010, aim - Bug (0100872): PHP fatal error occurs when applying a coupon. Fixed.
+
+*PERFORMANCE*
+
+[*] 12 Nov 2010, aim - Improvement (0090129): Optimized language cache generation.
+[!] 15 Nov 2010, aim - Bug (0101133): Inefficient use of languages cache. Fixed.
+[!] 16 Nov 2010, aim - Bug (0101276): func_get_categories_list stalls on large category count. Fixed.
+[*] 16 Nov 2010, aim - Improvement (0101208): func_get_categories_tree call is now cached.
+[*] 18 Nov 2010, aim - Improvement (0098443): Added Flyout_Menus cache autogeneration.
+[!] 19 Nov 2010, aim - Bug (0087411): Optimized displaying Smarty templates. Added an option to skip deleting empty strings in templates. Fixed.
+[*] 22 Nov 2010, aim - Improvement (0099710): Speeded up CSS/JavaScript tools.
+[*] 24 Nov 2010, aim - Improvement (0100709): Special offer optimization: func_get_offers_categoryid is now cached.
+[*] 24 Nov 2010, aim - Improvement (0095413): Optimized Smarty. (Affects only for MySQL version 5.0.17 and single-language stores).
+[*] 25 Nov 2010, aim - Improvement (0100744): Optimized performance of the recommends module with the 'Select recommended products randomly' mode disabled.
+[*] 26 Nov 2010, aim - Improvement (0101551): Slightly optimized static page select query.
+[*] 26 Nov 2010, aim - Improvement (0100715): Slightly optimized special offer module query.
+[*] 26 Nov 2010, aim - Improvement (0101534): Slightly optimized session expiry logic.
+[!] 29 Nov 2010, aim - Bug (0101793): Optimized the X-Cart init procedure. Configuration test is now cached. Fixed.
+[!] 29 Nov 2010, aim - Bug (0100740): Statistics module shows poor performance. Fixed. Smarty display templates optimized.
+[*] 30 Nov 2010, aim - Improvement (0070427): Estimate directory size link is added for Summary and Maintenance admin pages.
+[*] 01 Dec 2010, aim - Improvement (0101504): Fancy cache is now turned on by default.
+[*] 01 Dec 2010, aim - Improvement (0101945): Added a new 'Generate X-Cart cache every N hour(s)' setting. TTL for X-Cart cache is changed to 12 hours.
+[*] 03 Dec 2010, aim - Improvement (0102036): Smarty optimization: alter_currency not available for empty alternative currency symbol.
+[*] 06 Dec 2010, aim - Improvement (0080385): Added the 'Enable this to check only main category condition for products selection and product search' option.
+[*] 09 Dec 2010, aim - Improvement (0102071): Added settings: "Do not check product's category availability and product's category membership on all the product related pages" and "Use simple sort by productid on all the product related pages".
+[*] 09 Dec 2010, aim - Improvement (0092173): Slightly optimized init.php. variables are now cached for 10 minutes.
+[*] 09 Dec 2010, aim - Improvement (0102161): Slightly optimized orders functionality.
+[*] 09 Dec 2010, aim - Improvement (0102154): Fixed the problem with func_data_cache_get. Added PEAR lib. Added PEAR::Cache_Lite package.
+[*] 13 Dec 2010, aim - Improvement (0102320): Smarty templates now recompile when the 'Use cache for language variables' option changes.
+[*] 15 Dec 2010, aim - Improvement (0087566): Added a new 'Do not check if templates are changed (Smarty compile_check)' option.
+[*] 16 Dec 2010, aim - Improvement (0100793): Removed BINARY from sql selects. Optimized importing.
+[*] 22 Dec 2010, aim - Improvement (0102824): Slight optimization. (pi Index for xcart_quick_flags table is changed to UNIQUE)
+[*] 23 Dec 2010, aim - Improvement (0102839): Slightly optimized product search. Changed indexes for the xcart_categories, xcart_variants and xcart_feature_classes SQL tables.
+[*] 29 Dec 2010, aim - Improvement (0101765): Disabled saving sessions for Internet bots.
+
+*MISCELLANEOUS*
+
+[!] 30 Sep 2010, aim - Bug (0099235): Fails to properly disable the 'Send Invitations' functionality with admin_safe_mode enabled. Fixed.
+[*] 01 Oct 2010, ferz - Improvement (0099681): mysql_num_rows() occasionally pops a warning message. Fixed.
+[*] 12 Oct 2010, aim - Improvement (0099586): Refactored code for the func_test_htaccess function.
+[!] 13 Oct 2010, aim - Bug (0099735): The shopkey in "The storefront is closed" link does not work. Fixed.
+[!] 13 Oct 2010, aim - Bug (0099750): Typo error in the One-Page Checkout address info template. Fixed.
+[!] 14 Oct 2010, aim - Bug (0099514): Wrong substitution symbol used in the clean urls and HTML catalog links. Fixed.
+[!] 29 Oct 2010, aim - Bug (0100401): Problem related to the func_esd_in_cart function. Fixed.
+[!] 01 Nov 2010, aim - Bug (0100433): Clean URLs and 'CSS and JavaScript optimization tools' fail to work on shared SLL hostings. Fixed.
+[!] 18 Nov 2010, aim - Bug (0101335): 'Cannot redeclare func_generate_codes()' error occurs in PHP version 4.4.9. Fixed.
+[!] 18 Nov 2010, aim - Bug (0101412): The "Terms & Conditions" and "Privacy statement" links do not work on the One-Page Checkout page. Fixed.
+[*] 24 Nov 2010, aim - Improvement (0101536): Contact us image(contact_us.jpg) changed for fashion_mosaic schemes.
+[*] 25 Nov 2010, aim - Bug (0090151): test_expat() causes server crash on some configurations. Fixed.
+[!] 30 Nov 2010, aim - Bug (0099604): Problem with gzip content. Fixed.
+[*] 08 Dec 2010, ferz - Improvement (0102125): Tabs in the account details section fail to show up on some servers. Fixed.
+[!] 17 Dec 2010, aim - Bug (0102558): Multiple issues related to a new PHP version. Fixed.
+[!] 20 Dec 2010, aim - Bug (0102706): SQL errors occur during cart recalculation related to the Special Offers free products feature. Fixed.
+[!] 20 Dec 2010, aim - Bug (0102717): SQL errors occur when customer clicks the 'Add products for special price' button in the cart. Fixed.
+[!] 20 Dec 2010, aim - Bug (0101217): jQuery colorbox fails to work properly with the new jQuery version in the Detailed Product Image popup window. Fixed. jQuery colorbox updated to version 1.3.15.
+[!] 21 Dec 2010, aim - Bug (0102747, 0102739, 0102689): Multiple SQL errors found by the internal audit. Fixed.
+[!] 23 Dec 2010, aim - Bug (0102798): Typo errors in some files. Fixed.
+[!] 05 Jan 2011, aim - Bug (0102605): Privilege issues related fulfillment accounts. Fixed.
+[!] 06 Jan 2011, aim - Bug (0103168): Cache_Lite: 'Unable to remove cache' error occurs sometimes. Fixed.
+[*] 06 Jan 2011, aim - Improvement (0102504): Added auto-generation of the installation auth code.
+
+------------------ X-CART v4.4.1 RELEASED
+
+*CHECKOUT*
+
+[!] 24 Aug 2010, igoryan - Bug (B-0038402): Credit card expiration date, CC type and some other fields were not properly passed to payment processor (One page checkout, background payment methods). Fixed.
+[!] 25 Aug 2010, igoryan - Bug (0097731): Payment/shipping/summary blocks were not updated after user profile creation. Fixed.
+[!] 28 Sep 2010, igoryan - Bug (0097259): Ajax error occured in certain cases when selecting shipping method at One Page Checkout. Fixed.
+
+*DESIGN AND APPEARANCE*
+
+[!] 16 Aug 2010, igoryan - Bug (0097323): Header was missing for the recommended products section on the product details page when the "display as tabs" option was disabled. Fixed.
+[!] 16 Aug 2010, igoryan - Bug (B-0038354): Detailed images did not pop up using ColorBox widget if "Display detailed product image thumbnails below the product image" was unchecked. Fixed.
+[!] 16 Aug 2010, igoryan - Bug (B-0038354): JS error in IE7 on the product details page. Fixed.
+[!] 19 Aug 2010, igoryan - Bug (0097448): IE CSS fixes did not load for modules. Fixed.
+[!] 19 Aug 2010, igoryan - Bug (B-0038355): Multiple layout fixes and improvements for the One page checkout (IE6+).
+[!] 27 Aug 2010, igoryan - Bug (0097519): One page checkout section header style overwrites cart page headers. Edit profile section was corrupted in IE8. Layout problem with printable link in IE6. Javascript warning on most storefront pages in IE6. Fixed.
+[!] 01 Sep 2010, aim - Bug (0095638): There was an 'Error: missing ) after argument list' JavaScript error related to Google maps functionality. Fixed.
+[!] 02 Sep 2010, aim - Bug (0088959): The 'Details' button disappeared in the multi-column product list for configurable products. Fixed.
+[!] 09 Sep 2010, ferz - Bug (0098272): Typo error in popup_open.js script. Fixed.
+[!] 15 Sep 2010, aim - Bug (0098391): Static page content disappeared if there was an "h3" HTML tag. Fixed.
+[!] 16 Sep 2010, aim - Bug (0098495): Some items from speed bar disappeared in the Vivid Dreams skins. Fixed.
+[!] 22 Sep 2010, aim - Bug (0098609): There was a 'there is no attribute "height"' W3c error. Fixed.
+[!] 29 Sep 2010, igoryan - Bug (0097115): Odd information was displayed at checkout (2-columns skin). Fixed.
+[!] 29 Sep 2010, igoryan - Bug (0099138): Product category was not taken into account with tree-like expanding Flyout menus style and SEO URLs enabled. Fixed.
+[!] 29 Sep 2010, igoryan - Bug (0089101): Flyout menus (Tree-like expanding mode) did not work properly in IE6/7 browser. Fixed.
+
+*INTERFACE*
+
+[!] 06 Aug 2010, aim - Bug (0095370): There were w3c errors on the welcome page. Fixed.
+[*] 10 Aug 2010, igoryan - Improvement (÷-0038321): Small improvements to the Languages page in the back-end.
+[!] 10 Aug 2010, igoryan - Bug (0097059): Modal pop-up window hung over with the loading screen in case of 404/403 response. Fixed.
+[!] 13 Aug 2010, igoryan - Bug (0097206): "Manufacturer is not specified" option could not be disabled. Fixed.
+[!] 16 Aug 2010, igoryan - Bug (0097307): Some help links were underlined twice. Fixed.
+[!] 16 Aug 2010, igoryan - Bug (B-0038353): There was a Smarty error on the product page if the "Display additional sections as tabs on product details page" setting was disabled. Fixed.
+[!] 17 Aug 2010, igoryan - Bug (0097327): Text was prepared incorrectly for the common error messages. Fixed.
+[!] 01 Sep 2010, igoryan - Bug (0097902): Modal pop-up dialog appeared behind some page content sometimes in IE7. Fixed.
+[!] 13 Sep 2010, ferz - Bug (0098326): A wrong note was shown on the configuration page in Admin area. Fixed.
+[!] 28 Sep 2010, aim - Bug (0098895): There was a JS error on 'Affiliate plan management' page. Fixed.
+[!] 29 Sep 2010, ferz - Bug (0099075): Typo on the General Settings page. Fixed.
+
+*ORDERS*
+
+[!] 16 Aug 2010, igoryan - Bug (0097306): Some unnecessary data was written to the order details (One page checkout). Fixed.
+[!] 16 Aug 2010, igoryan - Bug (B-0038350): Gift wrap was not showing on order details when the Gift registry module was disabled. Fixed.
+[!] 21 Sep 2010, aim - Bug (0098285): Anonymous user could not print invoice. Fixed.
+[!] 25 Aug 2010, igoryan - Bug (B-0038357): Empty customer information in the orders list in the back-end in certain cases. Fixed.
+
+*USERS*
+
+[!] 11 Aug 2010, igoryan - Bug (B-0038228): Profile area was incorrectly defined for administrator users during profile update. Fixed.
+[*] 13 Aug 2010, igoryan - Improvement (0097251): Validation improved for the default addresses functionality.
+[!] 09 Sep 2010, aim - Bug (0098258): The 'Additional fields' feature did not work properly for anonymous users. Fixed.
+[!] 09 Sep 2010, ferz - Bug (0098268): During providers import a directory for user files was not created. Fixed.
+[!] 13 Sep 2010, aim - Bug (0098298): PRO version. During the provider registration a directory for user files was not created. Fixed.
+[!] 14 Sep 2010, aim - Bug (0098205): The 'Additional Fields' feature did not work properly on the 'Contact Us' page. Fixed.
+[!] 16 Sep 2010, aim - Bug (0098475): The values entered by a customer on the registration page were not recovered in case of an error. Fixed.
+[!] 16 Sep 2010, ferz - Bug (0098544): Tax number feature did not work for partners. Fixed.
+[!] 17 Sep 2010, aim - Bug (0098594): The First Name / Last name fields were cleared on one step checkout page. Fixed.
+[!] 20 Sep 2010, aim - Bug (0098672): Image verification code was not displayed on the provider registration page. Fixed.
+[!] 21 Sep 2010, aim - Bug (0098633): Approve/Decline functionality did not work properly for partner/provider user types. Fixed.
+[!] 21 Sep 2010, aim - Bug (0098453): Provider details were not shown after successful registration. Fixed.
+[!] 22 Sep 2010, aim - Bug (0098294): The Address (line 2) field was not saved in the profile. Fixed.
+[!] 22 Sep 2010, ferz - Bug (0098855): Providers were not able to see their orders. Fixed.
+[!] 23 Sep 2010, igoryan - Bug (B-0038509): User profile could not be created from admin area in the "Username as login" authentication mode when the "Allow users to change their usernames" setting was disabled. Fixed.
+[!] 24 Sep 2010, aim - Bug (0098811): The 'One page checkout' did not work in the 'Username as login' mode. Fixed.
+
+*PAYMENTS*
+
+[*] 18 Aug 2010, ferz - Improvement (0097438): Authorize.net(AIM) sometimes returns empty transaction ID. Possible errors caused by this are now prevented.
+[!] 24 Aug 2010, ferz - Bug (0088114): PayPal Website Payments Pro: Maestro and Solo cards support improved.
+[*] 02 Sep 2010, aim - Improvement (0097623): Redirect to "Shipping & Payment" page added in case the order total is greater than the balance on the gift certificate the customer has applied.
+[!] 03 Sep 2010, aim - Bug (0089724): PayPal did not allow to use fractional parts for JPY, TWD and HUF currency. Fixed.
+[!] 03 Sep 2010, aim - Bug (0097035): The RBS WorldPay - Global Gateway did not work properly with 3D-Secure. Fixed.
+[!] 06 Sep 2010, aim - Bug (0097033): There were HTML tags in the plain text 2Checkout payment email notifications. Fixed.
+[!] 09 Sep 2010, ferz - Bug (0098222): X-Payments Connector did not process "abort" transactions. Fixed.
+[*] 09 Sep 2010, aim - Improvement (0097943): Card-Not-Present and Card-Present account support added for the AuthorizeNet-AIM payment gateway.
+[!] 16 Sep 2010, aim - Bug (0093589): The 'SagePay Direct' payment method with an enabled 3D-Secure feature did not work correctly in the 'Auth only' mode. Fixed.
+[!] 27 Sep 2010, aim - Bug (0099030): There was a typo in the 'ChronoPay' payment method. Fixed.
+[*] 27 Sep 2010, aim - Improvement (0089862): Netbanx redirection feature added.
+
+*CATEGORIES*
+
+[!] 20 Sep 2010, aim - Bug (0098670): The 'Add new category' functionality did not work. Fixed.
+[!] 23 Sep 2010, igoryan - Bug (0098889): "Category location" drop-down list sometimes did not contain categories, to which the category could be moved. Fixed.
+
+*PRODUCTS*
+
+[!] 10 Sep 2010, aim - Bug (0098300): Quantity was disabled incorrectly for products with variants. Fixed.
+
+*SHIPPING*
+
+[!] 03 Sep 2010, aim - Bug (0097155): The 'Maximum package weight' setting did not work for the USPS shipping method. Fixed.
+[!] 23 Sep 2010, ferz - Bug (0098721): USPS module could not calculate shipping rates for both First Class and Priority Mail. Fixed.
+[!] 23 Sep 2010, ferz - Bug (0098927): Products were distributed into packages incorrectly in certain configurations. Fixed.
+[!] 23 Sep 2010, igoryan - Bug (0098772): Incorrect message about free shipping was shown sometimes on the cart and checkout pages. Fixed.
+
+*CHECKOUT*
+
+[!] 30 Aug 2010, igoryan - Bug (B-0038409): When the cart contained only downloadable products, a customer was still forced to select a shipping method. Fixed.
+[!] 23 Sep 2010, igoryan - Bug (B-0038439): Orders with incorrect Gift certificate ID could be processed via One page checkout. Fixed.
+[!] 27 Sep 2010, ferz - Bug (0099002): Gift certificates were not removed from the cart during the 'clear cart' procedure. Fixed.
+
+*USABILITY*
+
+[!] 28 Sep 2010, igoryan - Bug (0099112): Datepicker fields were not disabled when the search orders page was loaded and another date period was selected. Fixed.
+[*] 29 Sep 2010, ferz - Improvement (0098853): 'Estimate shipping address' functionality in the shopping cart improved.
+[!] 30 Aug 2010, igoryan - Bug (B-0038395): Quick search in the back-end did not show any notes when the results were empty. Fixed.
+
+*MODULES/ADD-ONS*
+
+[!] 09 Jul 2010, joy - Bug (0095638): Google map widget did not work correctly when the search string contained special characters in some cases.
+[!] 17 Aug 2010, igoryan - Bug (0097202): There were PHP errors on feature comparison pages in some cases. Fixed.
+[!] 17 Aug 2010, igoryan - Bug (0097442): Comparison class names with empty hint description were not displayed in the storefront pages. Fixed.
+[!] 20 Aug 2010, ferz - Bug (0097590): Special offers: Bonus points were not applied. Fixed.
+[!] 24 Aug 2010, ferz - Bug (0096965): Webmaster mode: Breadcrumbs were corrupted in the Admin area in webmaster mode. Fixed.
+[!] 24 Aug 2010, ferz - Bug (0097692): XML Sitemap: hard-coded text replaced with a text label.
+[!] 25 Aug 2010, igoryan - Bug (B-0038393): Magnifier widget was not working in product tabs. Fixed.
+[!] 26 Aug 2010, ferz - Bug (0097822): Quick Books: The gift certificate data was not exported when order total was zero. Fixed.
+[!] 30 Aug 2010, ferz - Bug (B-0038410): RMA: After the return for the ESD product is created, completed, and the Gift Certificate with credit is issued, customer was still able to download the product. Fixed.
+[!] 30 Aug 2010, ferz - Bug (0097794): XML sitemap: There were double slashes in the generated URL. Fixed.
+[!] 30 Aug 2010, ferz - Bug (B-0038410): RMA: After the return for the ESD product had been created, completed, and the Gift Certificate with credit had been issued, a customer was still able to download the product. Fixed.
+[*] 10 Sep 2010, joy - Improvement (0097827): SALE transaction flag added to X-Payments Connector module.
+[!] 10 Sep 2010, aim - Bug (B-0038471): There was a 'Call to undefined function func_category_get_position()' error in the AOM module. Fixed.
+[!] 13 Sep 2010, ferz - Bug (0098340): Wholesale prices were shown on the product page even when they were defined incorrectly.
+[!] 14 Sep 2010, aim - Bug (0097334): The 'Cache the menu' setting did not work correctly for the Flyout Menus module. Fixed.
+[!] 15 Sep 2010, ferz - Bug (0098496): Manufacturers. The "Product Search" configuration page did not work when the Manufacturers module was turned off but manufacturer records were present in the database. Fixed.
+[!] 17 Sep 2010, ferz - Bug (0098654): Egoods. Sometimes a warning appeared on the cart page during the module usage. Fixed.
+[!] 20 Sep 2010, aim - Bug (0098073): 'One page checkout' did not work correctly with Image Verification module. Fixed.
+[!] 22 Sep 2010, ferz - Bug (0098857): X-Affiliate: Partner ID was not saved on the checkout page. Fixed.
+[!] 28 Sep 2010, ferz - Bug (0099084): Special offers section was shown even when no special offers were available (expired). Fixed.
+
+*MISCELLANEOUS*
+
+[*] 10 Aug 2010, igoryan - Improvement (0097077): jQuery UI core and libraries updated to the most recent version (1.8.4).
+[!] 10 Aug 2010, igoryan - Bug (0097009): Fatal error occured on the Products map page sometimes. Fixed.
+[!] 11 Aug 2010, igoryan - Bug (B-0038323): There were hardcoded area paths in some JS scripts. Fixed.
+[!] 11 Aug 2010, ferz - Bug (0097099): Typo error in the func.category.php script. Fixed.
+[!] 12 Aug 2010, igoryan - Bug (B-0038324): CSS files/code did not load via load_defer_code plugin in the second phase. Fixed.
+[*] 13 Aug 2010, igoryan - Improvement (0096935): Charset converting wrapper function used in AJAX requests improved.
+[!] 16 Aug 2010, igoryan - Bug (B-0038349): A closing quote was missing in some templates. Fixed.
+[!] 18 Aug 2010, igoryan - Bug (0097456): Simple_Mode was not taken into account for providers registration links. Fixed.
+[!] 19 Aug 2010, igoryan - Bug (0097468): CSS files were not properly included in IE for modules and alternative skins. Fixed.
+[!] 31 Aug 2010, ferz - Bug (0097899): Search date selectors did not work for PHP versions prior to 5.1.0. Fixed.
+[!] 01 Sep 2010, igoryan - Bug (0097512): The "Users Online" module displays all users as "Registered Customers". Fixed 
+[!] 13 Sep 2010, aim - Bug (0098346): Egoods in PRO version. The downloading ESD product functionality did not work properly sometimes. Fixed.
+[!] 23 Sep 2010, ferz - Bug (0098284): During the "Force cache generation" process the subcategories count was generated incorrectly. Fixed.
+[*] 23 Sep 2010, igoryan - Improvement (0097607): Multiple fixes and improvements related to users, cart and checkout functionality.
+[!] 23 Sep 2010, igoryan - Bug (0097208): Shipping rate became zero in certain cases. Fixed.
+[*] 23 Sep 2010, aim - Improvement (0098757): X-Payments advertising added to the admin area.
+[*] 28 Sep 2010, ferz - Improvement (0099110): It is now not possible to create empty Extra Fields.
+[!] 29 Sep 2010, ferz - Bug (0099088): Typo error in CSS. Fixed.
+[*] 29 Sep 2010, ferz - Improvement (0098599): The version.php script improved.
+[!] 29 Sep 2010, igoryan - Bug (0098891): Login was used instead of user ID in some queries, PHP scripts and templates in several places. Fixed.
+
+------------------ X-CART v4.4.0 RELEASED
+
+[!] 05 Aug 2010, igoryan - (0089223) Callbacks from some payment gateways were not properly processed. Fixed
+[!] 05 Aug 2010, joy - (0096830) Bug: Cache was not correctly rebuild using Memcache.
+[*] 05 Aug 2010, joy - (0096269) Small design change in Artistic Tunes skin.
+[*] 05 Aug 2010, igoryan - (0096832) Logic improvements in the https checking functionality.
+[!] 05 Aug 2010, joy - Bug: SQL error in MySQL 3.x version.
+[*] 05 Aug 2010, joy - Small style code changes.
+[*] 05 Aug 2010, igoryan - (0096806) Changelogs are updated.
+[!] 05 Aug 2010, joy - (0096848), (0096254) Wrong design in Artistic Tunes and Vivid Dreams skin.
+[!] 05 Aug 2010, joy - Bug: Warning in isset orerator in several cases.
+[!] 04 Aug 2010, igoryan - (0093164) "Use secure login form on a separate page (HTTPS)" was not taken into account for provider and partner registration. Fixed
+[*] 04 Aug 2010, igoryan - (0093164) Missing PHPDoc file comments are added
+[!] 04 Aug 2010, joy - (0096824) Bug: Wrong margin on the checkout page in Fashion mosaic skin.
+[*] 04 Aug 2010, igoryan - (0093164) Missing PHPDoc file comments are added. Part 1
+[!] 04 Aug 2010, igoryan - (0096829) Incorrect behaviour of the warning note on the user profiles page. Fixed
+[!] 04 Aug 2010, joy - Bug: View detailed images link was too close to product image.
+[*] 04 Aug 2010, joy - Some security improvements.
+[!] 04 Aug 2010, igoryan - (0096810) There was grey background on the Google checkout button. Fixed.
+[*] 04 Aug 2010, joy - (0094286) Improvement: Text changes for Registration page error. 
+[*] 04 Aug 2010, igoryan - (0096801) Small improvement to the default address selection functionality. 
+[*] 04 Aug 2010, ferz - (0096804) Improvement:  RBS WorldPay Global Gateway: issues were found with special symbols in the password field. Fixed. 
+[!] 04 Aug 2010, aim - (0089223) Bug:  There was an 'Error: document type does not allow element "option" here' w3c error. Fixed. 
+[!] 04 Aug 2010, igoryan - White text color on white background. Fixed (VD Violet skin). 
+[!] 04 Aug 2010, igoryan - (0095889) IE6-7 layout fixes. Some wording changes. 
+[!] 04 Aug 2010, igoryan - (0094457), (0095889) Some IE6-7 fixes for the modal dialog pop up window dimensions. 
+[!] 04 Aug 2010, joy - (0096798) Bug: Warning in include/get_language.PHP script in several cases. 
+[*] 04 Aug 2010, joy - (0096797) Some security improvements. 
+[*] 04 Aug 2010, igoryan - (0095889) Small fix for the minicart section in IE 
+[*] 03 Aug 2010, igoryan - (0095889) Several design improvements. 
+[*] 03 Aug 2010, joy - (0096794) Some security checking  added. 
+[!] 03 Aug 2010, joy - (0096790) Bug: Redirect to cart option turned off AJAX minicart. 
+[*] 03 Aug 2010, igoryan - (0096594) Check credit card number script is now using a custom JS alerts at checkout. 
+[!] 03 Aug 2010, igoryan - (0096520) Some fixes for the One page checkout logic. 
+[!] 03 Aug 2010, joy - (0096786) Bug: Wrong condition is used for strpos function. 
+[*] 03 Aug 2010, joy - (0094966) Small improvement. thanks2radionov. 
+[!] 03 Aug 2010, joy - (0096759) Bug: Group operations did not work with users list.  Fixed.
+[!] 03 Aug 2010, joy - (0094495) Bug: Answer was not correctly checked in Survey module. 
+[!] 03 Aug 2010, igoryan - There was an infinite redirect at checkout under certain conditions. Fixed. 
+[*] 03 Aug 2010, aim - (0089615) Improvement:  Optimization for the Recommended_Products module. Order by RAND() expression is removed. Fixed. Thanks2Abr. 
+[!] 03 Aug 2010, igoryan - (0096577) Payment systems (Paypal Express, Google & Amazon checkout) were not totally adapted for proper work with the functionality changes related to user profiles. Global fixes and logic changes. 
+[*] 03 Aug 2010, joy - (0096753) Some code changes. Security improvements. 
+[!] 03 Aug 2010, ferz - (0096730) Bug:  Image Verification: case_sensitive_note was not shown in some cases. Fixed. 
+[*] 03 Aug 2010, joy - (0096639) Some code changes. Security improvements. 
+[*] 03 Aug 2010, joy - (0094190) Some security improvements. 
+[*] 03 Aug 2010, joy - (0094190) Some security improvements 
+[!] 03 Aug 2010, igoryan - (0096577) Several layout issues in the minicart. Fixed 
+[!] 02 Aug 2010, aim - (0096716) Bug:  Static cache key in the func_check_survey_filling function was assembled in a wrong way. 
+[!] 02 Aug 2010, igoryan - (0096654) Unnecessary escaping removal (product names, speed bar links). 
+[!] 02 Aug 2010, igoryan - (0096643) PHP warning on the comparison list page. Fixed 
+[*] 02 Aug 2010, joy - (0096675) Some security improvements. 
+[!] 02 Aug 2010, igoryan - (0096246) Compare selected buttons were not shown on the products map page. Fixed 
+[*] 02 Aug 2010, joy - (0096638) Some security improvements. 
+[!] 02 Aug 2010, igoryan - (0096246) "Add to list" dropout layer was out of visible area sometimes. Fixed 
+[*] 02 Aug 2010, joy - (0096056) Some security improvements. 
+[!] 02 Aug 2010, aim - (0084997) Bug:  Export did not work if export_dir (var/tmp) directory had rw-rw-rw permissions. Fixed. 
+[*] 02 Aug 2010, joy - (0094497) Some security improvements are added. 
+[*] 02 Aug 2010, igoryan - (0096644) PHP warning in some cases. Fixed 
+[!] 02 Aug 2010, ferz - (0096625) Bug:  Survey: Image Verification issues. Fixed. 
+[*] 02 Aug 2010, igoryan - (0096488) Products map styling is improved and adapted for alternative skins colors. 
+[!] 31 Jul 2010, slam - (0095730) HTML catalog was not generated if c|p|m|s were not checked but other objects were 
+[!] 31 Jul 2010, slam - (0096480) Cron settings removed 
+[*] 30 Jul 2010, aim - (0096514) Improvement:  All func_unhtmlentities invocations are removed from X-Cart source code. 
+[-] 30 Jul 2010, joy - (0096526) Obsolete FF2 CSS file was removed. 
+[*] 30 Jul 2010, joy - (0096542) Improvement: Small code improvement. 
+[*] 30 Jul 2010, aim - (0095679) Improvement:  Optimization for func_userinfo function. 
+[*] 30 Jul 2010, aim - (0095679) Improvement:  Optimization for Special_Offers module. Fixed.  
+[!] 30 Jul 2010, joy - (0096576) Bug: Fatal error on search page in several cases. 
+[!] 30 Jul 2010, joy - (0096571) Bug: Errors in Smarty expressions. 
+[*] 30 Jul 2010, aim - (0095679) Improvement:  Optimization for Special_Offers module 
+[!] 30 Jul 2010, igoryan - (0096578) Unnecessary escaping of the static page name. Fixed 
+[*] 30 Jul 2010, joy - (0089542) Improvement: Some changes were added according toPayPal and American Express work changes. 
+[*] 30 Jul 2010, igoryan - Logic changes in the restore password functionality. Unnecessary escaping is removed from the code. 
+[*] 30 Jul 2010, igoryan - (0091636) Demo data was accidentally moved to the base configuration values. Removed. 
+[*] 30 Jul 2010, joy - Style code changes. 
+[*] 29 Jul 2010, igoryan - (0038246), (0096530) Product tabs selections are now stored in browser cookies and automatically load last selection.
+[+] 29 Jul 2010, igoryan - jquery cookie plugin is added to the core. 
+[*] 29 Jul 2010, aim - (0089615) Improvement:  Optimization for the Recommended_Products module. Order by RAND() expression is removed. Fixed. Thanks2Abr. 
+[*] 29 Jul 2010, joy - (0094814) Small design changes. 
+[*] 29 Jul 2010, igoryan - Minor correction to the language variable content. 
+[!] 29 Jul 2010, igoryan - (0096528) Admin could not choose an .esd file for provider product. Fixed 
+[*] 29 Jul 2010, joy - (0094914) Small design changes. thanks2lehach. 
+[*] 29 Jul 2010, igoryan - Design improvements regarding headers colors at One page checkout. Minor CSS code style changes 
+[*] 29 Jul 2010, igoryan - Roll-back of the changes committed in #53478 (design conflicts). 
+[*] 29 Jul 2010, igoryan - (0095889) Default company logo shown on the invoice is changed. 
+[*] 29 Jul 2010, igoryan - (0091636) "Comment" field is restored back to xcart_config table. 
+[*] 29 Jul 2010, igoryan - (0096491) Unnecessary comments removed from the XML sitemap. 
+[*] 29 Jul 2010, igoryan - (0096488) CSS code style changes and design fix for the Products map module. 
+[!] 28 Jul 2010, igoryan - (0096085) PHP error occurred sometimes. Fixed 
+[!] 28 Jul 2010, igoryan - (0094830) Typo in the js variable name. Fixed 
+[*] 28 Jul 2010, igoryan - Code style changes 
+[*] 28 Jul 2010, igoryan - Design improvements regarding headers colors. 
+[!] 28 Jul 2010, igoryan - (0096267) Minor design fix (Artistic tunes Business  skin) 
+[*] 28 Jul 2010, joy - Small style code changes. 
+[*] 28 Jul 2010, joy - (0094707) Improvement: Design changes. 
+[*] 28 Jul 2010, aim - (0095679) Improvement:  Optimization for QUICK_START scripts like image.PHP adaptive.PHP and others. 
+[*] 28 Jul 2010, joy - (0038271) Improvement: Coupon code is added to cart total and subtotal area. 
+[*] 28 Jul 2010, aim - (0095679) Improvement:  Small Optimization in the antibot_image.PHP Image_Verification module. Fixed.  
+[*] 28 Jul 2010, aim - (0095679) Improvement:  Small Optimization in the antibot_image.PHP Image_Verification module. 
+[*] 28 Jul 2010, igoryan - Logic changes in the register/update button names. 
+[!] 28 Jul 2010, igoryan - (0095851), (0038228) Fixed multiple issues with the address book functionality. 
+[*] 28 Jul 2010, joy - (0096323) Improvement: Small logic changes in get ratings query. 
+[*] 28 Jul 2010, aim - (0095679) Improvement:  Small Optimization in the func_search_products function. 
+[!] 28 Jul 2010, aim - (0096453) Bug: *PRODUCTS* There was PHP warning during product clone procedure related to Subscriptions module. Fixed. 
+[*] 27 Jul 2010, igoryan - Ask a question link is reworked using a button template. Continue 
+[!] 27 Jul 2010, aim - (0093576) Bug:  IE6 did not work correctly with datepicker jquery UI element. The related pages were 'Orders history', 'Store coupons' and others. Fixed. 
+[*] 27 Jul 2010, igoryan - (0038253) System printing dialog is automatically appears when printable version of the page is loaded. 
+[*] 27 Jul 2010, igoryan - (0038253) Buttons are now not shown on printable versions of the pages.
+[*] Ask a question link is reworked using a button template. 
+[!] 27 Jul 2010, igoryan - (0038259) Nocookie warning did not appear in the back-end areas. Fixed
+[*] Cookie detection mechanism was not adapted to work with AJAX  forms. Fixed
+[*] Some file comments are added. 
+[*] 27 Jul 2010, igoryan - (0038254) Detailed images are now centered when displaying in a product tab. 
+[*] 27 Jul 2010, ferz - (0096238) Improvement:  Shipping Label Generator: USPS shipping methods list has been updated. Fixed.  
+[*] 27 Jul 2010, igoryan - (0038261) Layout improvement in the non-storefront areas. 
+[!] 27 Jul 2010, ferz - (0093705) Bug: There was 'Warning: anchor "General" already defined' w3c warning. Fixed.  
+[*] 27 Jul 2010, igoryan - Minor layout improvement in the Survey menu. 
+[*] 27 Jul 2010, igoryan - (0038251) Dialog menu layout changes: extra space is removed from the bottom. 
+[!] 27 Jul 2010, aim - (0096386) Bug: There was 'Error: general entity "manufacturerid" not defined and no default entity' w3c Error.  Fixed. 
+[!] 27 Jul 2010, aim - (0096386) Bug: There was 'Error: general entity "language" not defined and no default entity' w3c Error.  Fixed. 
+[!] 27 Jul 2010, aim - (0096386) Bug: There was 'Error: general entity "area" not defined and no default entity' w3c Error. Fixed. 
+[*] 26 Jul 2010, aim - (0096284) Improvement: Multilanguage tax names is stored in the order data.Advanced_Order_Management(AOM) modules uses original tax name for calculation now. 
+[*] 26 Jul 2010, igoryan - Minor layout change. 
+[!] 26 Jul 2010, igoryan - (0096050) Multiple fixes to One page checkout and other JS issues:
+Zip code validation issues:
+- incorrect warning was displayed sometimes. Fixed
+- state was not pre-filled if there are no any states defined for the country. Fixed (commit 53293 undo)
+- some error messages were generated incorrectly. Fixed
+Top messages were not displayed on One page checkout in IE. Fixed
+[!] (0096279) Fixed gift certificate applying issues on One page checkout.
+[!] Fixed multiple JavaScript/AJAX issues in IE on One page checkout. 
+[-] 26 Jul 2010, joy - (0095382), (0038256) Remove: 'preview', 'restore all' features were removed. 'Compile all' feature was removed from design. 
+[!] 26 Jul 2010, aim - (0096333) Bug:  There was 'Warning:  escaping malformed URI reference' w3c warning. Fixed. 
+[*] 23 Jul 2010, slam - (0094899) Unused code removed 
+[*] 23 Jul 2010, slam - (0094899) Improvement: Cache functionality added to the Sitemap module 
+[+] 23 Jul 2010, joy - (0096256) New: New distributive of XPConnector for old X-Cart versions is added. 
+[*] 23 Jul 2010, joy - (0096256) Improvement: XPConnector module changes for old X-Cart versions. 
+[*] 23 Jul 2010, aim - (0096153) Improvement:  An additional libcurl option has been added. Fixed.  
+[!] 23 Jul 2010, aim - (0096264) Bug: There was 'Error: end tag for "ul" which is not finished' w3c error. Fixed. 
+[!] 23 Jul 2010, joy - (0096272) Bug: Magnifier window was not resizable. 
+[*] 22 Jul 2010, joy - (0038217) Improvement: New language variable to control Site Path in customer breadcrumbs. 
+[!] 22 Jul 2010, aim - (0093705) Bug: There was 'Warning: trimming empty ' w3c warning. Fixed. 
+[!] 22 Jul 2010, aim - (0096264) Bug: There was 'Error: end tag for "ul" which is not finished' w3c error. Fixed. 
+[!] 22 Jul 2010, aim - (0093705) Bug: There was 'Error: ID "location" already defined' here' w3c error. Fixed. 
+[*] 22 Jul 2010, joy - (0095507) Improvement: Small design changes. 
+[!] 22 Jul 2010, aim - (0093705) Bug: There was 'Error: document type does not allow element "td" here' w3c error. Fixed. 
+[!] 22 Jul 2010, aim - (0093705) Bug: There was 'Warning: cannot generate system identifier for general entity "for"' w3c error. Fixed. 
+[!] 22 Jul 2010, aim - (0093705) Bug: There was 'Error: an attribute value specification must be an attribute value literal unless SHORTTAG YES is specified' w3c error. Fixed. 
+[*] 22 Jul 2010, joy - (0095507) Improvement: Small design changes. 
+[!] 22 Jul 2010, igoryan - (0096180) Part of the AJAX minicart box appeared behind of the main page content. Fixed 
+[*] 22 Jul 2010, joy - (0095507) Improvement: Small design change. 
+[-] 22 Jul 2010, igoryan - skin1_tmp folder is removed since no longer used (due to the skins re-structure). 
+[!] 22 Jul 2010, aim - (0093705) Bug: There was 'Warning: unescaped & which should be written as &' w3c warning. Fixed. 
+[*] 22 Jul 2010, joy - (0095507) Small design changes. 
+[*] 22 Jul 2010, joy - (0095507) Improvement: Small design changes. 
+[!] 22 Jul 2010, igoryan - (0096140) W3C validation error in case no categories are set up in the store (Flyout menus is enabled). Fixed 
+[*] 22 Jul 2010, igoryan - Small code style changes 
+[*] 22 Jul 2010, ferz - (0096238) Improvement:  Shipping Label Generator: USPS shipping methods list has been updated. 
+[!] 22 Jul 2010, aim - (0093705) Bug: There was 'Warning: unescaped & which should be written as &' w3c warning. Fixed. 
+[!] 22 Jul 2010, aim - (0093705) Bug: There was 'Warning: unescaped & which should be written as &' w3c warning. Fixed. 
+[!] 22 Jul 2010, aim - (0093705) Bug: There was 'Error: an attribute specification must start with a name or name token' w3c error. Fixed. 
+[!] 22 Jul 2010, igoryan - (0096137) Checkbox focused border was cut off slightly on a cart page. Fixed 
+[!] 22 Jul 2010, igoryan - (0096142) Gift wrapping option was not saved after update. Fixed 
+[!] 22 Jul 2010, aim - (0093705) Bug: There was 'Warning: cannot generate system identifier for general entity "sort"' w3c warning. Fixed. 
+[!] 22 Jul 2010, aim - (0093705) Bug: There was 'Error: there is no attribute "type"' w3c Error. Fixed. 
+[!] 22 Jul 2010, aim - (0093705) Bug: There was 'Warning: cannot generate system identifier for general entity "for"' w3c warning. Fixed. 
+[!] 22 Jul 2010, aim - (0093705) Bug: There was 'Warning: reference to non-existent ID "s_state"' w3c warning. Fixed. 
+[!] 22 Jul 2010, aim - (0093705) Bug: There was 'Warning: cannot generate system identifier for general entity "planid"' w3c warning. Fixed. 
+[!] 22 Jul 2010, aim - (0093705) Bug: There was 'Warning: unescaped & which should be written as &' w3c warning. Fixed. 
+[!] 22 Jul 2010, aim - (0093705) Bug: There was 'Warning:  escaping malformed URI reference' w3c error. Fixed. 
+[!] 22 Jul 2010, igoryan - (0038221) Missing admin header on the User profile options page. Fixed 
+[!] 21 Jul 2010, aim - (0093705) Bug: There were w3c warnings and erros on the 'one page checkout' page. Fixed.  
+[!] 21 Jul 2010, joy - Bug: Some JS arrays was not correctly defined in several cases. 
+[!] 21 Jul 2010, ferz - (0096157) Bug:  X-Affiliate: The partner_time cookie expiration time was defined incorrectly. Fixed. 
+[!] 21 Jul 2010, aim - (0093705) Bug: There was 'Warning: unescaped & which should be written as &' w3c warning. Fixed.  
+[+] 21 Jul 2010, joy - (0038217) New: bread crumbs separator string is added. 
+[!] 21 Jul 2010, aim - (0093705) Bug: There was 'Warning: anchor "authmode" already defined' w3c warning. Fixed. 
+[*] 21 Jul 2010, ferz - (0096153) Improvement:  An additional libcurl option has been added. 
+[!] 21 Jul 2010, aim - (0093705) Bug: There was 'Error: ID "phone/state" already defined' w3c error. Fixed. 
+[!] 21 Jul 2010, joy - (0096221) Bug: No Mailchimp checkbox in One Page Checkout process. 
+[!] 21 Jul 2010, aim - (0093705) Bug: There was 'Error: ID "tooltip_link" already defined' w3c error. Fixed. 
+[!] 21 Jul 2010, joy - (0096218) Bug: Wrong code for .htaccess file. 
+[!] 21 Jul 2010, aim - (0093705) Bug: There was 'Error: end tag for "script" omitted, but OMITTAG NO was specified' w3c error. Fixed. 
+[*] 21 Jul 2010, joy - (0095952) Improvement: XPayments_Connector code changes. (for X-Cart old versions update) 
+[*] 21 Jul 2010, joy - Small style code changes. 
+[!] 21 Jul 2010, aim - (0093705) Bug: There was 'Warning: unescaped & which should be written as &' w3c warning. Fixed. 
+[!] 21 Jul 2010, aim - (0093705) Bug: There was 'Warning:  anchor "General" already defined' w3c warning. Fixed. 
+[!] 21 Jul 2010, igoryan - Typo in the query. Fixed 
+[!] 21 Jul 2010, aim - (0093705) Bug: There was 'Error: the name and VI delimiter can be omitted from an attribute specification only if SHORTTAG YES is specified' w3c error. Fixed. 
+[!] 21 Jul 2010, aim - (0093705) Bug: There was 'Warning:  attribute "href" lacks value' w3c warning. Fixed. 
+[!] 21 Jul 2010, aim - (0093705) Bug: There was 'Error: document type does not allow element "style" here' w3c error in the admin area. Fixed. 
+[!] 21 Jul 2010, aim - (0093705) Bug: There was 'Error: an attribute value literal can occur in an attribute specification list only after a VI delimiter' w3c error in the admin area. Fixed. 
+[!] 21 Jul 2010, aim - (0093705) Bug: There was 'Error: end tag for "param" omitted, but OMITTAG NO was specified' w3c error. Fixed. 
+[!] 21 Jul 2010, aim - (0093705) Bug: There was 'Error: end tag for "img" omitted, but OMITTAG NO was specified' w3c error. Fixed. 
+[!] 21 Jul 2010, aim - (0093705) Bug: There was 'Error: end tag for "area" omitted, but OMITTAG NO was specified' w3c error. Fixed. 
+[!] 21 Jul 2010, aim - (0093705) Bug: There was 'Error: end tag for "input" omitted, but OMITTAG NO was specified' w3c error in the admin area. Fixed. 
+[!] 21 Jul 2010, aim - (0093705) Bug: There was 'Error: the name and VI delimiter can be omitted from an attribute specification only if SHORTTAG YES is specified' w3c error in the admin area. Fixed. 
+[!] 21 Jul 2010, aim - (0093705) Bug: There was 'Warning: cannot generate system identifier for general entity "so"' w3c warning in the admin area. Fixed. 
+[*] 21 Jul 2010, igoryan - (0057259) Address fields limit is changed to 255. 
+[!] 21 Jul 2010, aim - (0093705) Bug: There was 'Warning:  attribute "href" lacks value' w3c warning in the admin area. Fixed. 
+[*] 21 Jul 2010, igoryan - (0094191) Hitting Ctrl+~ is now setting focus on a quick search panel input. 
+[!] 21 Jul 2010, joy - (0096176) Bug: Shipping address was not extracted in some cases in user info. 
+[!] 21 Jul 2010, igoryan - Duplicate warning message appeared (in popup dialog and after page reload). Fixed 
+[!] 21 Jul 2010, igoryan - Corrupted message about failed login was displayed in AJAX response. Fixed 
+[*] 21 Jul 2010, igoryan - (0096168) International descriptions section is not shown on the product editing page if there is only one language in the store.
+[*] 21 Jul 2010, igoryan - Code style changes 
+[*] 20 Jul 2010, igoryan - Minor improvements to the One page checkout module. 
+[!] 20 Jul 2010, igoryan - (0096049) Data received via AJAX request was processed and saved in incorrect charset. Fixed 
+[*] 20 Jul 2010, joy - (0095382) Improvement: Small design changes. 
+[*] 20 Jul 2010, igoryan - (0096103), (0096056) Some code improvements. 
+[*] 20 Jul 2010, aim - (0095797) Improvement:  Advanced_Order_Management(AOM) modules uses original tax rate/value for calculation now. 
+[!] 20 Jul 2010, igoryan - (0096023) Fixed some W3C validation issues in admin area.
+[*] 20 Jul 2010, igoryan - (0096023) Slight code refactoring of the top menu box (admin)
+[-] 20 Jul 2010, igoryan - (0096023) Old popup hint functionality is removed and replaced with jQuery cluetip plugin
+[*] 20 Jul 2010, igoryan - (0096023) Tooltip widget enhancements: support of wrapper tag and alternative icon is added.
+[!] 20 Jul 2010, igoryan - (0096023) Added missing language definitions for modules descriptions. 
+[!] 20 Jul 2010, igoryan - (0096033) PHP warning in func.db.PHP. Fixed 
+[*] 19 Jul 2010, joy - (0094190) Improvement: Small code changes. 
+[*] 19 Jul 2010, joy - (0094914) Improvement: Simple list products changes. Thanks to lehach. 
+[!] 19 Jul 2010, igoryan - (0096087) "Illegal offset type" PHP warning in some cases. Fixed 
+[*] 19 Jul 2010, joy - (0094914) Improvement: Small design changes. 
+[*] 19 Jul 2010, igoryan - (0096016) Some extra validation is added to the 'Inventory update' script. Continue 
+[*] 19 Jul 2010, igoryan - (0096016) Some extra validation is added to the 'Inventory update' script. 
+[*] 19 Jul 2010, igoryan - Some file comments and code style changes. 
+[*] 19 Jul 2010, ferz - (0069983) Improvement: *PAYMENTS* eSelect Plus: New configuration option has been added. Fixed.  
+[*] 19 Jul 2010, ferz - (0069983) Improvement: *PAYMENTS* eSelect Plus: New configuration option has been added. 
+[!] 19 Jul 2010, joy - Bug: Typo error. 
+[*] 19 Jul 2010, joy - (0094914) Improvement: Small design changes. 
+[!] 19 Jul 2010, igoryan - (0096059) PHP warning appeared in some cases. Fixed 
+[!] 19 Jul 2010, igoryan - (0096021) JS errors on some forms in the admin area. Fixed 
+[!] 19 Jul 2010, igoryan - (0038200) Free shipping coupon could not be set/unset on the cart page for users who did not fill in profile details or select shipping method (Fast lane checkout). Fixed 
+[*] 19 Jul 2010, igoryan - (0038203) State code field is now case insensitive when sending requests to UPS server.
+[*] 19 Jul 2010, igoryan - Some code style changes and file comments are added. 
+[!] 19 Jul 2010, igoryan - (0094712) Minicart displayed incorrect total items and content for configurable products. Fixed 
+[*] 19 Jul 2010, ferz - (0096006) Improvement:  HTML catalog generation halted on some servers. Fixed. 
+[*] 19 Jul 2010, igoryan - (0096009) Small improvement to the admin menu. 
+[!] 19 Jul 2010, igoryan - Provider ID instead of name was shown on the product classes list. Fixed
+[*] 19 Jul 2010, igoryan - Small interface improvements on some pages in admin area. 
+[!] 19 Jul 2010, igoryan - Users environment statistics was not tracked. Fixed
+[*] 19 Jul 2010, joy - (0095952) Improvement: XPCs for old X-Cart versions are changed. 
+[*] 19 Jul 2010, joy - (0095952) Improvement: Additional functional checking is added. 
+[!] 19 Jul 2010, aim - (0085630) Bug: There was a problem with 'or use' phrase in the vivid_dreams_aquamarine scheme. Fixed. 
+[!] 16 Jul 2010, igoryan - There was a 'Out of stock' when editing options on the cart page. Fixed 
+[*] 16 Jul 2010, joy - (0095035) Improvement: Per page widget small changes. 
+[!] 16 Jul 2010, aim - (0094088) Bug: Layout was cut for Light & Lucid (3 columns), IE6 & 1024x768. Fixed. 
+[!] 16 Jul 2010, igoryan - (0038198), (0095970) Cart subtotal section was not shown on the cart page. Fixed. Some logic and design changes. 
+[*] 16 Jul 2010, igoryan - (0038167) Send to friend section improvement: ability to send a personal message is added. 
+[!] 16 Jul 2010, igoryan - (0095889) Need help link disappeared for logged in customers (2-columns skin). Fixed 
+[*] 16 Jul 2010, igoryan - (0038192) Product options appearance is improved on the product details page. 
+[*] 16 Jul 2010, joy - Improvement: Detailed errors description is added. 
+[*] 16 Jul 2010, igoryan - (0038191) Login validation improvements: email checking is added (email as login mode), warning messages are corrected in accordance with store authentication mode. 
+[!] 16 Jul 2010, igoryan - (0038197) Category location bread crumbs were not defined on the product page. Fixed 
+[*] 16 Jul 2010, joy - (0038196) Improvement: Detailed logging is added to GDlib functions. 
+[!] 16 Jul 2010, aim - (0087459) Bug:  Products with defined shipping freight did not allow use real-time shipping methods. Fixed. 
+[*] 16 Jul 2010, igoryan - (0038195) Check/uncheck all function is added to detailed product images list. 
+[*] 16 Jul 2010, igoryan - Minor interface improvements of the zones management. 
+[*] 16 Jul 2010, igoryan - (0087304) Edit area plugin is updated to 0.8.2 version. 
+
+
+----------------- X-CART v4.4.0 beta 2 RELEASED
+
+
+[*] 15 Jul 2010, aim - (0095803) Improvement:  State field is not prefilled with default value for non-default country. Fixed.  
+[*] 15 Jul 2010, joy - (0038084) Improvement: Continue shopping link is changed. 
+[*] 15 Jul 2010, aim - (0095792) Improvement: Missing labels are added. Some w3c errors were fixed. 
+[*] 15 Jul 2010, igoryan - (0038145) Small improvement to debug console. 
+[*] 15 Jul 2010, aim - (0095803) Improvement:  State field is not prefilled with default value for non-default country. 
+[!] 15 Jul 2010, igoryan - (0038138) gzipped Code editor plugin did not load on some server configurations. 
+[*] 15 Jul 2010, igoryan - Tiny code style changes. 
+[!] 15 Jul 2010, igoryan - CSS/JS optimization did not work on windows servers. Fixed 
+[!] 15 Jul 2010, igoryan - (0038158) Incorrect template location path was shown in webmaster mode (Win). Fixed 
+[!] 15 Jul 2010, joy - Several modes were not supported correctly in cc_xpc.PHP file 
+[!] 15 Jul 2010, igoryan - (0038180) Some products of the demo dump had relationships with non-existing manufacturers.
+[!] 15 Jul 2010, aim - (0095860) Bug:  There was 'Warning: explode() expects parameter 2 to be string, array given in mod_UPS.PHP on l87' on the cart page. Fixed. 
+[!] 15 Jul 2010, igoryan - (0095851) Some fixes in the address validation function. 
+[!] 15 Jul 2010, igoryan - Icons were not displayed in the dialog message (Artistic tunes Business scheme). Fixed 
+[!] 15 Jul 2010, igoryan - Dialog message was not shown in case of disabled JavaScript. Fixed 
+[*] 14 Jul 2010, aim - (0093891) Improvement:  The category thumbnail cache generation is added when alt skin is changed by admin. Fixed.  
+[!] 14 Jul 2010, igoryan - (0038136) Highlighting of template blocks did not work in webmaster mode due to the recent changes in templates structure. Fixed 
+[*] 14 Jul 2010, aim - (0093891) Improvement:  The category thumbnail cache generation is added when alt skin is changed by admin. Fixed.  
+[!] 14 Jul 2010, igoryan - (0038119) USPS rates were not incorrectly returned when retrieved from cache. Fixed 
+[*] 14 Jul 2010, igoryan - Some file comments are added 
+[*] 14 Jul 2010, aim - (0087277) Improvement: *PRODUCTS* Translit clean URL function is adjusted. Support for cyrillique, roumain, polskie, turc etc languages is added. 
+[*] 14 Jul 2010, igoryan - (0095798) Logic change in the minicart totals section: sum amount of all products and gift certificate items is displayed. 
+[*] 14 Jul 2010, igoryan - (0038184) Limit to specify only 3 columns max to display the products list and offers list is removed. Options names are changed, warning notes added. Corresponding changes in the option behavior. 
+[*] 13 Jul 2010, joy - (0038168) Improvement: Small design changes. 
+[!] 13 Jul 2010, joy - (0038157) Bug: Trash comments in the HTML source. 
+[!] 13 Jul 2010, joy - (0038187) Bug: Alternative skin selector did not correctly work in several browsers. 
+[!] 13 Jul 2010, joy - (0038101) Bug: Since last login was not correctly calculated. 
+[*] 13 Jul 2010, igoryan - (0038114) Military states are added to US states dump.
+[*] Small change in the xcart_states table structure (state name may contain up to 64 characters). 
+[*] 13 Jul 2010, igoryan - (0038143) Dialog widget with "noborder" parameter is improved.
+[!] Some design fixes in Fashion mosaic skin. 
+[!] 13 Jul 2010, igoryan - Small fix for the minicart horizontal line layout position. 
+[*] 13 Jul 2010, aim - (0093891) Improvement:  The category thumbnail cache generation is added when alt skin is changed by admin. 
+[*] 13 Jul 2010, igoryan - (0038182) Tooltip widget is improved ("sticky" parameter support is added). 
+[!] 13 Jul 2010, igoryan - Some fixes for the minicart links section (Artistic tunes skin) 
+[!] 13 Jul 2010, igoryan - (0038143) Previous commit caused some conflicts in alternative skins. Changes undo. 
+[*] 13 Jul 2010, igoryan - (0038143) Some logic improvements to the storefront dialog sections with "noborder" attribute. 
+[!] 13 Jul 2010, igoryan - Minicart links were out of minicart area on some skins. Fixed 
+[!] 13 Jul 2010, igoryan - (0038185) Some obsolete code, templates and language variables are removed. Small code style changes. 
+[!] 12 Jul 2010, aim - (0095728) Bug:  'Referred from' statistics included own shop links. Fixed. 
+[*] 12 Jul 2010, joy - (0038164) Improvement: Some design changes
+[*] 12 Jul 2010, joy - (0038113) Improvement: Dialog tools tab is correctly selected in the General Settings page. 
+[!] 12 Jul 2010, aim - (0094427) Bug:  Destination address is changed to customer billing address for Antifraud service measure distance tool. Fixed.  
+[*] 12 Jul 2010, joy - Improvement: Small design changes. 
+[!] 12 Jul 2010, aim - (0095676) Bug:  There was fatal error on the cart page when special offers module was enabled. Fixed. 
+[*] 12 Jul 2010, joy - (0038179) Improvement: Small text and design changes. 
+[!] 12 Jul 2010, ferz - (0095654) Bug:  Payment method data on the Order info page was shown with spare comma symbols. Fixed. 
+[!] 09 Jul 2010, aim - (0089757) Bug: *IMPORT/EXPORT* Export orders functionality did not work for Fulfillment staff if there was a category with / symbol in category name. Fixed. 
+[!] 09 Jul 2010, aim - (0094427) Bug:  Destination address is changed to customer billing address for Antifraud service measure distance tool. Fixed.  
+[*] 09 Jul 2010, igoryan - (0038150) Validation is improved on One page checkout. Continue 
+[*] 09 Jul 2010, igoryan - (0038150) Validation is improved on One page checkout. 
+[!] 09 Jul 2010, joy - (0095638) Bug: Google map widget does not contain escaping in some cases. 
+[!] 09 Jul 2010, aim - (0094427) Bug:  Destination address is changed to customer billing address for Antifraud service measure distance tool.Thanks2Feakie. 
+[!] 09 Jul 2010, joy - (0095629) Bug: Wrong redirect during login. 
+[!] 09 Jul 2010, slam - urls are not present in the pmap products array 
+[!] 09 Jul 2010, aim - (0094061) Bug: The 'Show quantity in stock' setting was not used on the product's list page. Fixed. 
+[!] 09 Jul 2010, aim - (0084605) Bug: *PRODUCTS* There was empty select box if a product had min_amount property was higher then "Maximum number of selections in quantity selectbox" setting. Fixed. 
+[-] 09 Jul 2010, igoryan - Restored previous version of the file (committed by accident) 
+[*] 09 Jul 2010, igoryan - (0093686) Sticky layer functionality is improved: now it is enough to wrap the buttons section into "sticky_content" div to make this automatically working. 
+[*] 09 Jul 2010, joy - (0038129) Improvement: Small design changes. 
+[!] 09 Jul 2010, igoryan - Button fix in Vivid dreams lotus scheme. 
+[*] 09 Jul 2010, igoryan - Default font family is changed to Tahoma in non-storefront areas (Helvetica caused different design issues in IE) 
+[*] 09 Jul 2010, igoryan - (0038132) Small changes in the colorbox images behavior. 
+[*] 09 Jul 2010, igoryan - Some language variables are updated. 
+[*] 09 Jul 2010, igoryan - Some file comments are added. 
+[*] 09 Jul 2010, igoryan - (0038132) Slideshow autostart is disabled by default in jQuery colorbox. 
+[*] 09 Jul 2010, igoryan - (0087304) jQuery ColorBox widget is updated to the latest version (1.3.9) 
+[*] 09 Jul 2010, igoryan - Small design changes on the modules page (admin). 
+[!] 09 Jul 2010, igoryan - (0038123) Product tabs container did not have space at the bottom. Fixed 
+[*] 09 Jul 2010, igoryan - Some style changes in comments 
+[!] 08 Jul 2010, joy - (0038124) Bug: Wrong redirect if leave_https option is turned on. 
+[!] 08 Jul 2010, igoryan - (0095152) Some dialog titles were not displayed in IE. Fixed 
+[!] 08 Jul 2010, joy - (0038115) Bug: Horizontal line was always shown in the minicart menu. 
+[+] 08 Jul 2010, igoryan - (0093686) Sticky layer containing form buttons is initially implemented and added to some admin forms.
+[*] 08 Jul 2010, igoryan - (0094778) Top messages location and behavior is improved using JS.
+[*] 08 Jul 2010, igoryan - Minor design improvements on some admin pages. 
+[!] 08 Jul 2010, aim - (0095544) Bug:  There was debug code in the Sitemap module. Fixed. 
+[!] 08 Jul 2010, joy - (0038122) Bug: Detailed images were not correctly resized in popup window. 
+[!] 08 Jul 2010, aim - (0095530) Bug:  There was 'Fatal error: Cannot redeclare is_https_link()' error if the 'Use HTTPS for users' login and registration' setting was enabled. Fixed. 
+[!] 08 Jul 2010, aim - (0095444) Bug:  There was 'Warning: MySQL_select_db() [function.MySQL-select-db]: Access denied for user' warning if MySQL5x was used with PHP5.3. Fixed. 
+[!] 08 Jul 2010, igoryan - (0095161) Sending incorrect parameter in the functional call. Fixed. 
+[*] 07 Jul 2010, igoryan - Admin menu design improvements. 
+[!] 07 Jul 2010, ferz - (0095454) Bug:  The 'Storefront' link in the admin area was generated incorrectly for stores installed in the root. Fixed. 
+[*] 07 Jul 2010, igoryan - (0095259) Tabs look and feel is improved. 
+[*] 07 Jul 2010, joy - Small design changes. 
+[!] 07 Jul 2010, aim - (0095320) Bug:  Customers could not change language shop language if html catalog was visited. Fixed. 
+[*] 07 Jul 2010, joy - Improvement: Small design changes. 
+[*] 07 Jul 2010, igoryan - (0038118) Small changes to the Update and Clear cart buttons appearance. Confirmation is added on hitting the clear cart button.
+[!] 07 Jul 2010, igoryan - (0038118) Some fixes to the header section on the cart and checkout page (2-columns skin)
+[*] 07 Jul 2010, igoryan - (0038118) Minor design changes and fixes. 
+[*] 07 Jul 2010, joy - (0038102) Improvement: Small design changes for 'Ask a question' label. 
+[!] 07 Jul 2010, igoryan - Some fixes for alternative skins at checkout. 
+[*] 07 Jul 2010, xcart - (0095315) X-Payments connector module is moved to X-Cart distribution. Release scripts are updated 
+[!] 07 Jul 2010, aim - (0093512) Bug:  There was 'Use of undefined constant' notice if SQL database details were not filled. Fixed. 
+[*] 07 Jul 2010, igoryan - (0095315) X-Payments connector module is moved to X-Cart distribution. 
+[*] 07 Jul 2010, joy - Improvement: Small code changes. 
+[!] 07 Jul 2010, slam - (0094733) pmap fallen on big amount of products 
+[*] 07 Jul 2010, igoryan - (0038095) Small logic change in the payment methods sorting order. 
+[*] 07 Jul 2010, slam - (0094766) sitemap and pmap hc pages generation is optional now 
+[-] 07 Jul 2010, slam - (0094766) sitemap and pmap entries removed from speed bar 
+[*] 07 Jul 2010, slam - (0093236) sitemap options text changed 
+[!] 06 Jul 2010, igoryan - (0094689) Payment systems were not fully adapted to work with user accounts related changes. 
+[!] 06 Jul 2010, igoryan - (0094689) Wrong function name call. Fixed 
+[-] 06 Jul 2010, igoryan - (0092690) Obsolete function is removed. 
+[*] 06 Jul 2010, igoryan - (0092690) Some image functions are adapted to recent skins structure changes. 
+[*] 06 Jul 2010, igoryan - (0092690) Patch/upgrade functionality is adapted to recent skins structure changes. 
+[!] 06 Jul 2010, aim - (0095138) Bug:  There was PHP warning "Warning: array_unique() [function.array-unique]: The argument should be an array" during shipping calculation. Fixed. 
+[!] 06 Jul 2010, aim - (0073339) Bug:  HTML catalog was not generated properly for multilanguage stores(Manufacturer pages). Fixed. 
+[!] 06 Jul 2010, igoryan - (0038096) Email address was not displayed in the password recovery message. Fixed 
+[!] 06 Jul 2010, igoryan - Incorrect payment name was saved within order (One page checkout). Fixed
+[!] 06 Jul 2010, igoryan - (0038076) Incorrect payment script URL was defined as default. Fixed
+[*] 06 Jul 2010, igoryan - (0038100) Some improvements to email address validation logic during One page checkout.
+[*] 06 Jul 2010, igoryan - Small code style changes. 
+[!] 06 Jul 2010, igoryan - (0095272) Expanded flag was not taken into account while drawing the categories tree. Fixed. Continue 
+[!] 06 Jul 2010, igoryan - (0038073) Bug: Additional languages could not be added if there is only one language installed in the store. Fixed 
+[*] 05 Jul 2010, igoryan - (0038100) Some logic improvements to One page checkout module. 
+[!] 05 Jul 2010, joy - (0038108) Bug: Wrong paths were used in Webmaster debug console. 
+[!] 05 Jul 2010, igoryan - (0095272) "Tree-like" flyout menu issues: Incorrect variable name for categories list. Fixed
+[!] 05 Jul 2010, igoryan - (0095272) "Tree-like" flyout menu issues: Expanded flag was not taken into account while drawing the categories tree. Fixed
+[*] 05 Jul 2010, igoryan - (0094274) Displaying paid amount and transactions list is added to One page checkout. 
+[*] 05 Jul 2010, igoryan - Some file comments and code style changes. 
+[!] 05 Jul 2010, igoryan - (0038091) Incorrect exporting of category name in case of root level (Featured products section). Fixed 
+[*] 05 Jul 2010, igoryan - Some file comments are added. Code style changes 
+[!] 05 Jul 2010, igoryan - (0038078) Layout overlap of the payment section. Fixed 
+[!] 05 Jul 2010, igoryan - (0038077) Customers were not forced to create an account with disabled anonymous checkout option. Fixed 
+[*] 05 Jul 2010, igoryan - Minor improvement of the language import process. 
+[*] 05 Jul 2010, igoryan - Minor design change of the password recovery section. 
+[!] 05 Jul 2010, igoryan - Some issues with failed login error reporting. Fixed. 
+[*] 02 Jul 2010, igoryan - Some file comments are added. 
+[!] 02 Jul 2010, igoryan - (0038093) Area type has not been taken into account when restoring password. Fixed 
+[!] 02 Jul 2010, joy - (0094624) Bug: Modal window was not hidden if Google map error is occurred. 
+[!] 02 Jul 2010, aim - (0093988) Bug: HTML catalog did not work correctly if the 'Disable inventory tracking' and 'Show products which are out of stock' settings were disabled. Fixed. 
+[!] 02 Jul 2010, igoryan - (0038087) Incorrect variable name for subcategories list. Fixed 
+[!] 02 Jul 2010, igoryan - Wrong sorting order while re-building categories indexes. Fixed 
+[!] 02 Jul 2010, joy - (0094406) Bug: Wrong image type was shown in Cloud Zoom icon. 
+[!] 02 Jul 2010, igoryan - (0038089) Gift wrapping did not work properly with disabled Gift Registry module. Fixed 
+[*] 02 Jul 2010, joy - (0038081) Improvement: IE8 compatibility tag is added.
+[*] 02 Jul 2010, joy - (0038083) Small design changes in admin menu. 
+[*] 02 Jul 2010, joy - (0094274) Improvement: Partially-paid feature interface changes. 
+[*] 02 Jul 2010, joy - (0094274) Improvement: Partially-paid feature interface changes. 
+[*] 02 Jul 2010, joy - Small code format changes. 
+[!] 02 Jul 2010, igoryan - (0038089) Too high "rows" attribute value of the textarea. 
+[!] 02 Jul 2010, igoryan - (0038080) Incorrect payment template was shown in several cases. Fixed. Continue 
+[!] 02 Jul 2010, igoryan - (0038080) Incorrect payment template was shown in several cases. Fixed 
+[!] 02 Jul 2010, slam - (0095206) Sitemap layout fix in IE 
+[!] 02 Jul 2010, aim - (0095210) Bug:  There was PHP error 'Cannot redeclare _return_productid()'. Fixed. 
+[!] 02 Jul 2010, joy - Bug: Wrong GOLD version checking during login. 
+[*] 02 Jul 2010, igoryan - (0038075) Small logic changes in voting bar/reviews sections appearance. 
+[!] 02 Jul 2010, igoryan - (0038075) Bug: "Customer feedback" tab did not appear on the product page. Fixed 
+[*] 02 Jul 2010, aim - (0087108) Improvement: *PAYMENTS* Admin can change the 'Address override' request setting on the 'PayPal Website Payments Standard' configuration page. Fixed.  
+
+
+----------------- X-CART v4.4.0 beta 1 RELEASED
+
+
+[*] 01 Jul 2010, aim - (0087108) Improvement: *PAYMENTS* Admin can change the 'Address override' request setting on the 'PayPal Website Payments Standard' configuration page. 
+[*] 01 Jul 2010, igoryan - Minor interface improvements. 
+[*] 01 Jul 2010, igoryan - Hack for IE to fix onchange events with radio buttons at one page checkout. 
+[*] 01 Jul 2010, aim - (0094748) Improvement: *SECURITY* Security is improved in the News subscription module. 
+[*] 30 Jun 2010, ferz - (0094973) Improvement: *PAYMENTS* Virtual Merchant: the "PIN Invalid" error message was not shown on the cart page. Undo changes. 
+[*] 30 Jun 2010, igoryan - (0095042) Version is changed to 4.4.0 beta 1 
+[*] 30 Jun 2010, igoryan - File comment is added 
+[*] 30 Jun 2010, igoryan - (0095064) Entered authcode value is trimmed after submit during installation. 
+[*] 30 Jun 2010, igoryan - Some logic style changes for One page checkout. 
+[*] 30 Jun 2010, ferz - (0094269) Improvement:  Special Offers: the promo option text (hint) has been improved. 
+[*] 30 Jun 2010, igoryan - (0094478) One page checkout is adapted for alternative skins. 
+[*] 30 Jun 2010, ferz - (0094973) Improvement: *PAYMENTS* Virtual Merchant: the "PIN Invalid" error message was not shown on the cart page. 
+[*] 30 Jun 2010, igoryan - One page checkout is set as default checkout module.
+[*] Customer.checkout.task is adjusted 
+[-] 29 Jun 2010, igoryan - (0094997) Ajax functionality is removed from HTML catalog pages. 
+[*] 29 Jun 2010, igoryan - Minor design change. 
+[*] 29 Jun 2010, ferz - The cc_eselect_form.PHP script was adjusted. 
+[*] 29 Jun 2010, igoryan - Some interface fixes and improvements for the admin zone. 
+[*] 29 Jun 2010, igoryan - (0094909) Logic of the password confirmation check is improved.
+[*] Login link logic is improved depending on Security options. 
+[*] 28 Jun 2010, igoryan - (0094808) Minicart did not get updated in html catalog after page load. Fixed 
+[*] 28 Jun 2010, ferz - (0094000) Improvement:  The FedEx account number setting validation is added. Fixed.  
+[*] 28 Jun 2010, igoryan - (0094769) Form checking JS function is improved. 
+[*] 28 Jun 2010, igoryan - (0094825) Logic change in the container class name. 
+[*] 28 Jun 2010, igoryan - (0094825) Similar elements at One page checkout and Fast lane checkout are now using the same CSS classes.
+[*] 28 Jun 2010, aim - (0092778) Improvement:  The 'Encode mail headers using "Base 64"' setting is enabled by default. 
+[*] 28 Jun 2010, slam - (0094766) move sitemap and pmap urls to special menu 
+[*] 25 Jun 2010, igoryan - (0094804) Logic improvement to the gift wrapping section of the cart. 
+[*] 25 Jun 2010, igoryan - Minor improvement to the popup window widget. 
+[-] 25 Jun 2010, igoryan - (0094815) Wrong text color in alerts. Fixed. Some unused CSS styles are removed. 
+[*] 25 Jun 2010, igoryan - Small improvement to custom js alert and confirmation windows. 
+[*] 25 Jun 2010, igoryan - Code style changes 
+[*] 25 Jun 2010, xcart - (0094761) Subscriptions module is split to a separate add-on. Part 2. Distributive generation scripts are adjusted
+[*] Commited recent changes related to the skins re-structuring. 
+[-] 25 Jun 2010, igoryan - (0094761) Subscriptions module is split to a separate add-on. Part 1. SQL changes 
+[*] 25 Jun 2010, joy - (0094771) Improvement: "Ask question" link is hidden if Company email is empty.
+[*] 25 Jun 2010, igoryan - (0088289) Calendar image is changed for datepicker. 
+[*] 25 Jun 2010, igoryan - (0088289) jQuery UI themes are added to Artistic tunes and Vivid dreams skins. 
+[*] 24 Jun 2010, igoryan - (0094729) Usability improvement: "Tools" page is renamed and moved to the "Maintenance" link in the "Tools" menu. 
+[*] 24 Jun 2010, igoryan - (0094729) Usability improvement on the summary page. 
+[*] 24 Jun 2010, igoryan - (0094729) Usability improvement on the category edit page. 
+[*] 24 Jun 2010, igoryan - (0088289) jQuery UI theme is updated for Admin skin. 
+[*] 24 Jun 2010, igoryan - (0088289) jQuery UI theme is updated for Fashion mosaic skins. 
+[*] 24 Jun 2010, igoryan - (0088289) jQuery UI theme is updated for 2-columns skin. 
+[*] 24 Jun 2010, igoryan - (0088289) Base jQuery UI theme is updated. 
+[*] 24 Jun 2010, igoryan - Minor design improvement. 
+[*] 24 Jun 2010, joy - Small code changes. 
+[*] 23 Jun 2010, igoryan - (0094602) Some modifiers were not implemented. 
+[*] 23 Jun 2010, aim - Improvement:  The tool to generate commit string is adjusted. 
+[*] 23 Jun 2010, aim - (0094688) Improvement:  The tool to find undefined functions is adjusted. 
+[*] 23 Jun 2010, igoryan - File comment is added 
+[*] 23 Jun 2010, igoryan - (0094619) Rebuild indexes is forced only if pos. value is changed (category edit page). 
+[*] 23 Jun 2010, igoryan - (0094619) Further optimizations to the categories functionality. 
+[*] 23 Jun 2010, igoryan - (0094619) Further optimizations to the categories list retrieving function. 
+[*] 23 Jun 2010, igoryan - (0094619) Some optimizations to the categories list retrieving function. 
+[*] 23 Jun 2010, joy - Improvement: Small code changes. 
+[+] 23 Jun 2010, igoryan - Stress configurator script is added to the development tools folder. 
+[-] 23 Jun 2010, igoryan - (0094546) Roll back of the commit #52937 as unused in 4.4. Will be moved to 4.5 
+[*] 23 Jun 2010, igoryan - (0094619) Small optimization improvement to the categories tree retrieving function. 
+[*] 23 Jun 2010, igoryan - (0094619) Optimization improvement to the category modification script. 
+[*] 22 Jun 2010, joy - Improvement: Several notices removing. Small code changes. 
+[*] 22 Jun 2010, igoryan - Some design fixes for the popup image selection window. 
+[*] 22 Jun 2010, joy - Improvement: Some text changes in XPayments Connector module. 
+[*] Some code style changes and file comments were added. 
+[*] 22 Jun 2010, ferz - (0094269) Improvement:  Special Offers: some labels were changed. 
+[*] 22 Jun 2010, igoryan - (0094461) Layout structure of the Advanced search link is improved (Fashion mosaic skin). 
+[*] 21 Jun 2010, slam - (0094391) Proxies to modules pages in admin|customer|provider|partner areas added, so modules don't have to add their files to not-'modules' directory 
+[*] 21 Jun 2010, joy - (0094182) Improvement: Default value is added to "items per page" selector. 
+[*] 21 Jun 2010, joy - (0094467) Improvement: Autoscroll is added to HTML Catalog generation page. 
+[*] 21 Jun 2010, ferz - (0094160) Improvement: *PAYMENTS* SecureTrading payment method has been updated. 
+[*] 21 Jun 2010, igoryan - Small logic changes in the Vivid dreams skins templates. 
+[*] 21 Jun 2010, igoryan - (0094342) Small improvement to the modal window. 
+[*] 21 Jun 2010, igoryan - Logic change in the "Ask a question" link behavior. 
+[*] 21 Jun 2010, igoryan - (0094352) Form validation is applied to the image verification field. 
+[*] 21 Jun 2010, igoryan - (0094351) Form fields validation function is improved. Continue 
+[*] 21 Jun 2010, igoryan - (0094351) Form fields validation function is improved. 
+[*] 21 Jun 2010, igoryan - (0094343) Firstname/lastname fields are allowed to be set as active/required again on the User profiles options page. 
+[*] 18 Jun 2010, igoryan - (0094343) Greeting name generation is improved.
+[*] 18 Jun 2010, igoryan - (0094358) Button fix for IE6 using bgiframe plugin. 
+[-] 18 Jun 2010, igoryan - EmulateIE7 meta tag is removed. 
+[+] 18 Jun 2010, igoryan - (0094358) bgiframe plugin is added and included into the storefront to fix IE6 issues. 
+[*] 18 Jun 2010, igoryan - Minor design changes to the modify return page (storefront). 
+[*] 18 Jun 2010, aim - (0094387) Improvement:  xsl extension is added for the tool. 
+[*] 18 Jun 2010, ferz - (0090477) The README file has been updated. Link is changed. 
+[*] 18 Jun 2010, igoryan - (0087304) TinyMCE editor is updated to the most recent version (3.3.7). 
+[*] 18 Jun 2010, igoryan - (0087304) CKEditor is updated to the most recent version (3.3.1). 
+[*] 18 Jun 2010, igoryan - (0094330) Logic changes in the username displaying on the search results page. 
+[*] 18 Jun 2010, igoryan - (0094281) Some improvements and w3c fixes for the address book section. 
+[*] 18 Jun 2010, joy - (0094286) Improvement: Registration top message errors were changed. 
+[*] 18 Jun 2010, igoryan - File comment added. 
+[*] 18 Jun 2010, igoryan - Unnecessary code removed. 
+[*] 18 Jun 2010, ferz - (0094000) Improvement:  The FedEx account number setting validation is added. Fixed.  
+[*] 18 Jun 2010, slam - (0093616) PhpDoc comments formatted 
+[*] 17 Jun 2010, igoryan - Logic improvement to the login link. 
+[*] Displaying of the address book is improved. 
+[*] 17 Jun 2010, joy - (0094184) Improvement: Small design changes on Cart page. 
+[*] 16 Jun 2010, igoryan - (0094220) zipcode checking function is now using custom alerts 
+[*] 16 Jun 2010, igoryan - Minor layout improvement for the modal popup appearance. 
+[*] 16 Jun 2010, igoryan - (0094223) Modal popup is adjusted not to close on hitting Escape button. 
+[*] 16 Jun 2010, igoryan - (0094232) Survey alerts are now using custom jquery UI message box. 
+[*] Modal popup functionality is slightly optimized and improved 
+[+] 16 Jun 2010, joy - (0090552) New: Partially paid orders support is added to the payment core functionality. 
+[*] 16 Jun 2010, ferz - (0094000) Improvement:  The FedEx account number setting validation is added. 
+[*] 16 Jun 2010, igoryan - (0093286) Image magnifier is now opened using modal dialog window 
+[*] 16 Jun 2010, igoryan - (0087304) swfobject.js library is updated to 2.2 version 
+[*] 16 Jun 2010, igoryan - (0087304) HTMLPurifier is updated to v4.1.1 
+[*] 16 Jun 2010, igoryan - (0087304) jQuery ColorBox widget is updated to the latest version 
+[*] 16 Jun 2010, igoryan - (0087304) jQuery UI libraries are updated to 1.8.2 version 
+[*] 15 Jun 2010, ferz - (0090477) Improvement:  Links in the Installation wizard have been updated. 
+[*] 15 Jun 2010, igoryan - PHPDoc descriptions are added to some scripts. 
+[*] 15 Jun 2010, igoryan - Minor layout changes in the Modify maillist section of the survey management page. 
+[*] 15 Jun 2010, igoryan - (0086682) Minor design improvements of the surveys page in the admin area. 
+[*] 11 Jun 2010, igoryan - (0093286) Modal window detection is moved to init.PHP script. Some file descriptions are added. 
+[*] 11 Jun 2010, igoryan - (0093286) Popup products and categories selection is now using AJAX modal window.
+[*] Some fixes and improvements to the popup widget 
+[*] 11 Jun 2010, igoryan - (0086682) Further button style improvements in the admin interface. 
+[*] 11 Jun 2010, igoryan - (0086682) Buttons styling is improved in the admin interface.
+[*] Ajax core functions are initially added to the non-storefront interfaces. 
+[*] 11 Jun 2010, igoryan - Small code style changes 
+[*] 10 Jun 2010, aim - (0091092) Improvement:  Deprecated function is removed. 
+[*] 10 Jun 2010, igoryan - (0092092) Alt skins CSS stylesheet re-formatting according to the new standards. 
+[*] 10 Jun 2010, aim - (0090175) Improvement:  UPS shipping labels are generated according to last SampleOrderImport1.pdf. Fixed.  
+[*] 10 Jun 2010, aim - (0090175) Improvement:  UPS shipping labels are generated according to last SampleOrderImport1.pdf. Fixed.  
+[*] Logic changes and code improvements in the category modification script.
+[*] Clean URL field displaying is improved. 
+[*] 10 Jun 2010, aim - (0090175) Improvement:  UPS shipping labels are generated according to last SampleOrderImport1.pdf 
+[*] 10 Jun 2010, igoryan - Minor design improvements to the admin notification dialog. 
+[*] 10 Jun 2010, igoryan - (0093392) Category indexes regeneration section is added to the Tools page.
+[*] 09 Jun 2010, igoryan - (0093392) Optimization of the categories-related functionality. Part 3 
+[*] 09 Jun 2010, igoryan - (0093392) Optimization of the categories-related functionality. Part 2 
+[*] 09 Jun 2010, aim - (0091092) Improvement:  UPS shipping methods are updated.UPS shipping method codes for Shipping_Label_Generator module are updated. 
+[*] 09 Jun 2010, igoryan - (0093616) security.stopper.task is updated 
+[*] 08 Jun 2010, igoryan - (0093392) Optimization of the categories-related functionality. Part 1. 
+[+] 08 Jun 2010, slam - (0093616) Products Map: module added. Part 2 
+[+] 08 Jun 2010, joy - (0093655) New: New product options type is added. (textarea)
+[*] (0085872) Improvement: Memcache optimization is initially added.
+[*] Improvement: Small style code changes. 
+[+] 08 Jun 2010, slam - (0093616) Products Map: module added. Part 1 
+[*] 04 Jun 2010, igoryan - (0093666) Improvement: old JavaScript inline code comment wrappers are changed to new xhtml standards. Continue 
+[*] 04 Jun 2010, igoryan - (0093666) Improvement: old JavaScript inline code comment wrappers are changed to new xhtml standards. 
+[*] 04 Jun 2010, igoryan - (0093663) Datepicker input fields are now working with disabled JavaScript. Some functionality improvements. 
+[*] 03 Jun 2010, aim - (0093062) Improvement: *SECURITY* Redirect to secure page is added for the contact us form. 
+[*] 03 Jun 2010, igoryan - (0086682) Admin interface improvements: jQuery UI theme is added. Default buttons are replaced with jQuery widget. 
+[*] 03 Jun 2010, igoryan - (0087447) Code style changes: double quotes are replaced with single quotes, where possible. Part 6 (modules folder) 
+[*] 03 Jun 2010, aim - (0090514) Improvement:  Format validation is added for discount coupon codes. Fixed.  
+[*] 02 Jun 2010, aim - (0090514) Improvement:  Format validation is added for discount coupon codes. 
+[*] 02 Jun 2010, slam - debug comments removed 
+[*] 02 Jun 2010, joy - Small code style changes. 
+[*] 02 Jun 2010, igoryan - (0087447) Code style changes: open bracket is starting on a new line after function declaration. 
+[*] 02 Jun 2010, igoryan - (0087447) Code style changes: double quotes are replaced with single quotes, where possible. Part 5(root folder) 
+[*] 02 Jun 2010, igoryan - (0087447) Code style changes: double quotes are replaced with single quotes, where possible. Part 4 ('shipping' and 'payment' folders) 
+[*] 02 Jun 2010, igoryan - (0087447) Code style changes: double quotes are replaced with single quotes, where possible. Part 3 ('provider/' folder) 
+[*] 02 Jun 2010, igoryan - (0087447) Code style changes: double quotes are replaced with single quotes, where possible. Part 2 ('admin' folder) 
+[*] 02 Jun 2010, igoryan - (0087447) Code style changes: double quotes are replaced with single quotes, where possible. Part 1 ('include/' folder) 
+[*] 02 Jun 2010, igoryan - Minor logic corrections in the partner/provider registration form. 
+[*] 02 Jun 2010, igoryan - Minor code style change 
+[*] 02 Jun 2010, igoryan - (0093236) Security.stopper.task is updated 
+[+] 01 Jun 2010, slam - (0093236) Sitemap: module added 
+[*] 01 Jun 2010, joy - Small code style changes. 
+[*] 01 Jun 2010, slam - (0085953) XML_Sitemap: minor functionality changes. Part 2 
+[*] 01 Jun 2010, igoryan - demo.sh is improved: developer email is applied to all configuration emails 
+[*] 01 Jun 2010, igoryan - (0090051) Incorrect default value for payment setting. Fixed 
+[*] 01 Jun 2010, joy - Improvement: Google map is set only on specific pages. 
+[*] 01 Jun 2010, igoryan - (0090051) 3D secure option support is added to First Data Global Gateway. Part 2 
+[+] 01 Jun 2010, igoryan - (0090051) 3D secure option support is added to First Data Global Gateway. Part 1 
+[*] 01 Jun 2010, joy - Minor changes. 
+[*] 01 Jun 2010, igoryan - Minor design improvements 
+01 Jun 2010, ferz - typo error in xcart_data.SQL 
+[*] 31 May 2010, slam - (0085953) XML_Sitemap: minor functionality changes 
+[*] 31 May 2010, igoryan - (0092183) Some design improvements and language variable changes. 
+[*] 31 May 2010, joy - Improvement: Some code optimization is added.
+[*] Improvement: Google map integration is improved. 
+[+] 31 May 2010, igoryan - (0092183) Ability for providers to register is added. 
+[*] Improvement: Some code optimization and style changes. 
+[*] 31 May 2010, igoryan - Minor design improvements. 
+[*] 31 May 2010, joy - Improvement: Small style code changes. 
+[*] 31 May 2010, joy - (0085872) Improvement: Some code optimization.
+[*] 31 May 2010, igoryan - (0090185) Modules' CSS stylesheets re-formatting according to the standards. 
+[*] 28 May 2010, joy - Some code style changes. 
+[*] 28 May 2010, slam - Passing template filename to load if no entry present in common_templates.tpl. Continue 
+[*] 28 May 2010, joy - Small code style changes. 
+[*] 28 May 2010, igoryan - (0090185) CSS stylesheets re-formatting according to the standards. Continue 
+[*] 28 May 2010, slam - Generate hc files for additional pages. Replace URLs to additional pages by hc ones. Continue 
+[*] 28 May 2010, slam - Passing template filename to load if no entry present in common_templates.tpl. Continue 
+[*] 28 May 2010, igoryan - General main.CSS stylesheet re-formatting according to the standards. 
+[+] 28 May 2010, joy - (0093149) New: Cloud Zoom integration with the Product Detailed Images module. 
+[*] 28 May 2010, igoryan - (0090185) File description is added to config and initialization scripts 
+[-] 28 May 2010, igoryan - Some not used old files are removed. 
+[-] 28 May 2010, igoryan - (0090185) Most of the unused style definitions are removed from skin1_admin.CSS file. 
+[-] 28 May 2010, igoryan - Unused js script is removed. 
+[*] 27 May 2010, slam - M:small : [Passing template filename to load if no entry present in common_templates.tpl] 
+[*] 27 May 2010, slam - M:small : [Generate hc files for additional pages. Replace URLs to additional pages by hc ones. @see modules/Sitemap/config.PHP | modules/Sitemap/func.PHP] 
+[*] 27 May 2010, igoryan - (0090185) PHPDoc file comments are added to modules' JS scripts. Tabs replaced with 2 spaces. 
+[*] 27 May 2010, igoryan - (0090185) PHPDoc file comments are added to JS scripts. Tabs replaced with 2 spaces. Small code style changes.
+[*] swfobject-min.js is moved to a lib folder. Old uncompressed one is removed 
+[-] 27 May 2010, igoryan - Old jquery fixes for safari browser are removed. 
+[*] 27 May 2010, igoryan - (0090185) common.js script code style improvements. Obsolete functions are removed. 
+[*] 27 May 2010, igoryan - (0093164) Changed URL in the @link PHPdoc file comment. 
+[*] 27 May 2010, joy - (0085872) Some code optimization on search page.
+[*] Code style changes. 
+[*] 26 May 2010, igoryan - (0087447) Wrong info in @author and @copyright PHPDoc tags in some scripts. 
+[*] 26 May 2010, igoryan - (0087447) Code style changes: PHP comments are changed to match PEAR coding standards, where possible. PHPDoc file comment is added.
+[*] 26 May 2010, igoryan - (0090185) Admin CSS stylesheet code style is totally reformatted. 
+[*] 26 May 2010, joy - Improvement: Some code changes. Not used files removing. 
+[*] 26 May 2010, igoryan - (0083745) Error handling of AJAX errors is improved in popup dialogs and on One page checkout. 
+[*] 26 May 2010, joy - Improvement: Small code changes. 
+[*] 25 May 2010, igoryan - (0087447) Code style improvement: spaces are removed in the end of lines in native X-Cart PHP scripts. 
+[*] 25 May 2010, igoryan - (0087447) Code style improvement: tabs replaced with 4 spaces in native X-Cart PHP scripts. 
+[*] 25 May 2010, igoryan - (0087447) Code style improvement: vim directive is added to native X-Cart PHP scripts. 
+[*] 25 May 2010, igoryan - (0083745) [*] Error handling of AJAX errors is added to popup dialog actions. 
+[*] 25 May 2010, igoryan - (0083745) [*] Error handling of AJAX errors is added to One page checkout actions. 
+[*] 25 May 2010, igoryan - (0083745) Further changes to One page checkout module: address validation is added to anonymous users, logic improvements to the shipping methods/totals section update condition, changes to the modal popup widget. 
+[*] 25 May 2010, joy - .htaccess file is initially added. 
+[*] 25 May 2010, joy - (0086410) Restore file feature is updated. Small design changes. 
+[*] 25 May 2010, igoryan - Minor design changes and logic improvements to displaying the orders list for admin. 
+[*] 25 May 2010, xcart - DEMO is updated for X-Cart 4.4.x 
+[*] 25 May 2010, igoryan - (0092961) Wording changes: "Receipt" is displayed for paid orders, "Invoice" for uncompleted ones. 
+[*] 25 May 2010, joy - Small design changes. (Wrong skin1 catalog was used) 
+[*] 25 May 2010, aim - (0087041) Improvement:  Integrity checking is added for upgrade packs. 
+[*] 25 May 2010, joy - Small design changes. 
+[*] 24 May 2010, igoryan - Some improvements and fixes related to the Shipping estimator functionality. 
+[*] 24 May 2010, igoryan - Some JS improvements for the modal popup window. 
+[*] 24 May 2010, joy - (0086410) Improvement: Old skin files were removed. 
+[*] 24 May 2010, joy - Improvement: Smarty modifier moved to common directory. 
+[*] 24 May 2010, igoryan - (0083743) Multiple changes to the UPS address validation tool to make it work with the recent changes. Part 3 
+[*] 24 May 2010, joy - Improvement: Some optimization. 
+[*] 21 May 2010, igoryan - (0083743) Multiple changes to the UPS address validation tool to make it work with the recent changes. Part 2 
+[+] 21 May 2010, aim - (0092449) Improvement:  Configurations files for 4.3.0/4.3.1->4.3.2 upgrade packs added. 
+[*] 21 May 2010, igoryan - (0086410) Removed .orig files added during previous commit by an accident. 
+[*] 21 May 2010, joy - (0086410) Improvement: All skins are moved to 'skin' catalog.
+[*] Minor design changes. 
+[*] 21 May 2010, igoryan - (0083743) Multiple changes to the UPS address validation tool to make it work with the recent changes. Part 1 
+[*] 20 May 2010, igoryan - Code from the complex language variable is moved to the template. Language record is removed 
+[*] Improvement: Code style changes. 
+[*] 19 May 2010, joy - (0085872) Improvement: Some optimization and code style changes. 
+[*] 19 May 2010, igoryan - Zipcode checking on the "Test rea-ltime shipping" page is improved. 
+[*] 19 May 2010, igoryan - (0085872) Code and optimization improvement: error suppressions with @ on including PHP scripts are replaced with corresponding checking (if file exists and readable). Continue 
+[*] 18 May 2010, joy - (0085872) Improvement: Some optimization and code style changes. 
+[*] 18 May 2010, joy - (0085872) Improvement: Some PHP optimization. 
+[*] 18 May 2010, igoryan - (0085872) Code and optimization improvement: error suppressions with @ on including PHP scripts are replaced with corresponding checking (if file exists and readable) 
+[*] 17 May 2010, joy - (0086410) Improvement: Skin selection process changes in installation script. 
+[*] 17 May 2010, joy - (0086410) Improvement: Minor design changes. 
+[*] 17 May 2010, igoryan - (0083736) Merged code changes from xcart_4_3_x branch to the HEAD branch. 
+[*] 14 May 2010, igoryan - (0083745) Minor logic changes. 
+[*] 14 May 2010, igoryan - (0083745) Further changes to the one page checkout module. 
+[*] 14 May 2010, igoryan - (0083745) Checkout form JS validation is added. 
+[*] 14 May 2010, igoryan - (0083745) Small logic changes in the GC applying via AJAX. 
+[*] 14 May 2010, igoryan - (0083745) Applying gift certificate via AJAX is implemented on one page checkout. 
+[*] 14 May 2010, igoryan - (0086410) Minor improvement to the skins preview behavior. 
+[*] 13 May 2010, igoryan - (0083745) Unsetting GC via AJAX is added to one page checkout. 
+[*] 13 May 2010, joy - (0091864) Improvement: Small warning text changes. 
+[*] 13 May 2010, igoryan - (0083745) Some design and functionality improvements to the coupons applying at one page checkout. 
+[*] 13 May 2010, igoryan - (0083745) Apply/unset of discount coupons functionality is added to one page checkout. 
+[*] 13 May 2010, joy - (0086410) Improvement: Several skin screenshots are added. 
+[*] 13 May 2010, joy - (0086410) Improvement: 404 pages changes. Screenshots for alternative skins are added. 
+[*] 13 May 2010, igoryan - Minor design change to the popup modal dialog window. 
+[*] 12 May 2010, igoryan - (0083745) Logic changes to the payment selection processing at one page checkout. 
+[*] 12 May 2010, igoryan - (0083745) Further modifications to one page checkout. 
+[*] 12 May 2010, joy - (0090547) Improvement: Authorize.NET AIM API is updated. 
+[*] 12 May 2010, igoryan - Internal debug module is updated to work properly with multiskin changes. 
+[*] 12 May 2010, joy - (0086410) Improvement: Multiskin loading small changes. 
+[*] 12 May 2010, igoryan - (0086410) File structure for jquery UI themes is adjusted. altskin.conf files are removed since no longer needed. 
+[*] 11 May 2010, joy - (0086410) Improvement: .htaccess file is updated in schemes directory. 
+[*] 11 May 2010, igoryan - (0083745) Further changes to One page checkout functionality 
+[*] 11 May 2010, igoryan - (0083745) Some logical improvements to the address selection at checkout. 
+[+] 07 May 2010, joy - (0086410) Multiskin feature is added. part 1. 
+[*] 07 May 2010, igoryan - (0083745) Further changes to One page checkout functionality 
+[*] 07 May 2010, igoryan - Minor improvements to JS form checking functions. 
+[*] 07 May 2010, igoryan - Restored blank line that was removed by previous commit (required for internal purposes) 
+[*] 07 May 2010, igoryan - (0083745) Functionality to force customer to standard checkout is added in case of disabled JS in the browser. 
+[*] 06 May 2010, igoryan - (0083745) Greetings block is now updated after profile creation. 
+[*] 06 May 2010, igoryan - (0083745) Further modifications and bug fixes to One page checkout module. 
+[*] 05 May 2010, joy - (0087115) Improvement: .htaccess file checking is added for several configuration variables values. 
+[*] 05 May 2010, igoryan - (0083745) Further modifications and bug fixes to One page checkout module. 
+[*] 05 May 2010, joy - (0091864) Improvement: Default values of configuration variables are changed. 
+[*] 05 May 2010, igoryan - (0083745) Further modifications and bug fixes to One page checkout module and Address book functionality. 
+[-] 05 May 2010, igoryan - popup_image() JS function is no longer used anywhere. Removed related code and file. 
+[*] 05 May 2010, igoryan - Minor logic changes. 
+[*] 04 May 2010, joy - (0089542) Improvement: Default value configuration variable changes.
+[+] 04 May 2010, joy - (0089542) New: Active flag is added to Card type feature. 
+[*] 04 May 2010, igoryan - Small logic changes in the anonymous users functionality. 
+[*] 04 May 2010, igoryan - Some languages are added to JS variables initialization. 
+[*] 04 May 2010, igoryan - jQuery UI library is updated to 1.8.1 version. 
+[*] 04 May 2010, igoryan - Alternative JS alert and confirm dialogs are improved. 
+[*] 04 May 2010, igoryan - (0091636) "Comment" field is removed from the xcart_config table. Continue 
+[*] 30 Apr 2010, joy - (0091198) Improvement: Several design changes in Feature Comparison module. 
+[*] 30 Apr 2010, igoryan - Alternative JS alert and confirm dialogs are added. 
+[*] 30 Apr 2010, joy - Small code changes on configuration page. 
+[*] 30 Apr 2010, igoryan - Optional ID parameter is added to the customer button template 
+[*] 30 Apr 2010, igoryan - Debug module is adjusted (redirect to http_referer after changing checkout_module) 
+[*] 30 Apr 2010, joy - Small changes in config structure. 
+[*] 30 Apr 2010, igoryan - (0091636) "Comment" field is removed from the xcart_config table. Code and SQL dumps are adjusted. 
+[*] 30 Apr 2010, igoryan - Added missing language descriptions for some configuration options. 
+[*] 30 Apr 2010, igoryan - (0091631) 'Allow provider users to edit their seller address' setting is moved to a Shipping options page. 
+[*] 29 Apr 2010, igoryan - Minor logic changes. 
+[*] 29 Apr 2010, xcart - (0089759) pack.sh is updated: removing provider commissions settings from the Gold package 
+[*] 29 Apr 2010, igoryan - (0086413) Session name generation format is changed 
+[*] 29 Apr 2010, joy - Skin changes. 
+[*] 29 Apr 2010, joy - (0086712) Improvement: Several UI changes. 
+29 Apr 2010, ferz - (0091185) The obsolete setting 'display_all_products_on_1_page' was removed. 
+[*] 28 Apr 2010, igoryan - (0090980) Language variables changes. 
+[*] 28 Apr 2010, igoryan - (0083736) Logic code changes after merge. 
+[*] 28 Apr 2010, igoryan - Small improvement. 
+[*] 28 Apr 2010, igoryan - (0083736) Merged code changes from xcart_4_3_x branch to the HEAD branch. 
+[*] 28 Apr 2010, igoryan - (0090980) Patch/upgrade page usability improvements. 
+[*] 27 Apr 2010, igoryan - (0083745) Further modifications and bugfixes for the One page checkout module. "Loadmask" jQuqery plugin is replaced with blockUI widget. 
+[*] 26 Apr 2010, joy - (0085872) Improvement: Optimizations changes. 
+[*] 23 Apr 2010, igoryan - (0091214) Files and folders structure improvements. Old files are removed from alternative skins 
+[*] 23 Apr 2010, joy - (0091198) Improvement: Multiple design improvements. part 3. 
+[*] 23 Apr 2010, joy - Improvement: Style code changes 
+[*] 23 Apr 2010, igoryan - (0091214) Files and folders structure improvements. CSS files structure is changed for alternative skins 
+[*] 23 Apr 2010, joy - (0091198) Improvement: Multiple design changes. part 2. 
+[*] 23 Apr 2010, igoryan - (0091214) Files and folders structure improvements. jQuery UI dirs structure is changed
+[*] 23 Apr 2010, igoryan - (0091214) Alt skins common_diff's are updated. 
+[*] 23 Apr 2010, joy - (0091198) Improvement: Multiple design improvements. part 1.
+[*] 23 Apr 2010, joy - (0091198) Improvement: Multiple style code changes. 
+[*] 23 Apr 2010, igoryan - (0091214) Files and folders structure improvements. JS files structure is changed
+[*] 23 Apr 2010, igoryan - (0091214) Files and folders structure improvements: colorbox plugin is moved to the "lib" folder. 
+[*] 23 Apr 2010, igoryan - (0091214) Files and folders structure improvements: edit_area plugin is moved to the "lib" folder. 
+[*] 23 Apr 2010, igoryan - (0091207) jQuery Tooltip plugin replaced with Cluetip, which is more flexible and supports jQuery 1.4 
+[*] 22 Apr 2010, joy - (0091186) Improvement: Authorize.NET API update. SIM. 
+[*] 22 Apr 2010, joy - (0091182) Small design changes for IE CSS problem. 
+[*] 22 Apr 2010, igoryan - (0091140) CSS files structure for jQuery UI is changed. 
+[*] 22 Apr 2010, igoryan - Minor code change. 
+[*] 22 Apr 2010, igoryan - (0085953) Code style changes and minor improvement in the XML sitemap module. 
+[*] 21 Apr 2010, igoryan - (0083745) Further modifications and bugfixes for the One page checkout module. 
+[*] 20 Apr 2010, igoryan - (0086679) Minor design changes. 
+[*] 20 Apr 2010, joy - (0085339) Improvement: Several text and design changes. 
+[+] 20 Apr 2010, joy - (0085339) New: Amazon Checkout is added. [contribution by Random] 
+[*] 20 Apr 2010, igoryan - (0083745) Some further changes to the checkout widget. 
+[*] 20 Apr 2010, igoryan - (0086679) Minor layout changes. Typo error in the product URL. Fixed 
+[+] 20 Apr 2010, igoryan - (0086679) Recently viewed module is added [contribution by Slam] 
+[*] 20 Apr 2010, igoryan - (0089759) Minor design change. 
+[+] 19 Apr 2010, joy - (0086676) New: "Generate thumbnails after products import" feature is added. 
+[*] 16 Apr 2010, joy - Style code changes. 
+[*] 16 Apr 2010, igoryan - Minor design changes. 
+[*] 16 Apr 2010, igoryan - (0089759) Some language variables are changed. 
+[*] 16 Apr 2010, igoryan - (0089759) Language variables are updated. 
+[*] 16 Apr 2010, igoryan - Modal popup window is improved. Support of showing error messages is added. 
+[*] 16 Apr 2010, joy - Code style changes. 
+[*] 15 Apr 2010, igoryan - Minor logic change 
+[*] 15 Apr 2010, igoryan - Required fields validation is added to the non-storefront login forms. 
+[*] 15 Apr 2010, igoryan - Required fields validation is added to the storefront login form. 
+[*] 15 Apr 2010, igoryan - Minor logic changes to the modal popup form. 
+[*] 15 Apr 2010, joy - Style code changes 
+[*] 15 Apr 2010, igoryan - Minor style changes. 
+[+] 15 Apr 2010, igoryan - Tooltip widget is added and replaced old viewHelp functionality. Obsolete functions are removed. 
+[*] 15 Apr 2010, igoryan - loadmask() plugin is now accessible on all storefront pages 
+[*] 15 Apr 2010, joy - Style code changes. Small code refactoring. 
+[*] 15 Apr 2010, joy - Style code changes. Small code refactoring. 
+[+] 15 Apr 2010, igoryan - (0089759) Providers commissions functionality is initially added [contribution by marcus]. Part 3. Additional changes 
+[*] 15 Apr 2010, joy - Improvement: Style code changes. Small code refactoring. 
+[*] 15 Apr 2010, joy - Improvement: Style code changes. small code refactoring. 
+[*] 15 Apr 2010, igoryan - (0090643) Improvement: XC_DS constant (alternative for DIRECTORY_SEPARATOR) is added. Part 1 
+[*] 15 Apr 2010, igoryan - Language variable changes. 
+[+] 15 Apr 2010, igoryan - (0089759) Providers commissions functionality is initially added [contribution by marcus]. Part 2 
+[*] 15 Apr 2010, igoryan - Minor code style changes 
+[*] 14 Apr 2010, joy - Improvement: Style code changes. 
+[*] 14 Apr 2010, joy - (0086672) Improvement: Invoice products is sorted according their configurability. 
+[*] 14 Apr 2010, igoryan - (0083745) Modal popup functionality is improved. Support of displaying static pages in the JS popup is added. 
+[+] 14 Apr 2010, joy - (0089965) XPayments Connector modules for old X-Cart versions are added. 
+[*] 14 Apr 2010, igoryan - (0083745) Design and functionality improvements to the "loadmask" plugin. 
+14 Apr 2010, igoryan - (0083745) Uncompressed dev version of the "loadmask" plugin is added. It has been manually adjusted to fix some positioning issues and support displaying the loading block w/o text label. Minor design changes. 
+[*] 14 Apr 2010, joy - (0090450) Improvement: Some text changes. 
+[*] 13 Apr 2010, igoryan - (0083745) Further modifications to One page checkout module. 
+[*] 13 Apr 2010, igoryan - auth-sample.sh is improved to easily switch between MySQL servers. Warning about incorrect version is added 
+[*] 13 Apr 2010, igoryan - auth-sample.sh is improved to easily switch between MySQL servers. 
+[*] 12 Apr 2010, igoryan - (0085953) Language variables changes. 
+[*] 12 Apr 2010, joy - (0090450) Improvement: MailChimp modules small text changes.
+[+] 12 Apr 2010, joy - (0090450) New: Mailchimp module is initially added. 
+[*] 12 Apr 2010, igoryan - (0056724) Improvement: Code style changes. Notices removing. Continue 
+[+] 12 Apr 2010, igoryan - (0085953) XML Sitemap module is added. 
+[*] 12 Apr 2010, igoryan - (0084165) $mode is added to the list of required variables and always initialized. 
+[*] 12 Apr 2010, igoryan - (0090471) Optimization: constant including the time() value is added. All time() function calls are replaced with that constant. 
+[*] 09 Apr 2010, joy - (0056724) Improvement: Multiple notices removing and style code changes. 
+[*] 09 Apr 2010, igoryan - (0056724) Improvement: Code style changes. Notices removing. Continue 
+[*] 09 Apr 2010, joy - Improvement: Code style changes. Notices removing. 
+[*] 09 Apr 2010, igoryan - (0056724) Multiple code fixes and improvements
+[*] 09 Apr 2010, joy - (0089967) Improvement: Small design and text changes. 
+[*] 08 Apr 2010, igoryan - (0090295) Typo error. Fixed 
+[*] 08 Apr 2010, igoryan - Added missing class to main.CSS stylesheet 
+[*] 08 Apr 2010, igoryan - (0090295) Fixed layout issues in the Fashion mosaic skin 
+[*] 08 Apr 2010, igoryan - (0090295) $fullname template variable is trimmed before assigning it to templater. 
+[*] 08 Apr 2010, igoryan - (0090295) Ask a question form is improved. Automatic JS validation is added. 
+[*] 08 Apr 2010, joy - (0089967) Improvement: Design changes. 
+[*] 08 Apr 2010, joy - (0089967) Improvement: Design changes in X-Payments template generator script. 
+[*] 08 Apr 2010, igoryan - (0090295) Customer interface improvements. Part 1 
+[*] 08 Apr 2010, joy - (0086672) Improvement: Product list is improved for Product Configurator module. 
+[*] 08 Apr 2010, igoryan - Small code style changes. 
+[*] 08 Apr 2010, igoryan - (0090295) Default user profile fields are adjusted: title is not required by default, first name and last name are forced to be required. 
+[*] 08 Apr 2010, igoryan - (0085834) Information about partner ID is added to the affiliate area. 
+[*] 08 Apr 2010, joy - Improvement: Style code changes. 
+[+] 07 Apr 2010, igoryan - (0089759) Providers commissions functionality is initially added [contribution by marcus]. Part 1 
+[*] 07 Apr 2010, joy - (0089967) Improvement: X-Payments template generator is changed for X-Cart 4.0.x versions. 
+[*] 07 Apr 2010, igoryan - Minor design changes 
+[+] 07 Apr 2010, joy - (0089967) New: X-Payments template generator for X-Cart is added. works with versions : 4.1.x, 4.2.x, 4.3.x, 4.4.x 
+[*] 07 Apr 2010, igoryan - (0085848) Shipping calculator code and logic is improved. Continue 
+[*] 07 Apr 2010, igoryan - (0085848) Shipping calculator code and logic is improved. 
+[*] 07 Apr 2010, igoryan - Internal demo.sh script is updated to support additional arguments. "-d" option is added, which enables some payment methods and turns on the Debug module. 
+[*] 07 Apr 2010, igoryan - (0085834) Logic changes in the registration templates 
+[*] 06 Apr 2010, igoryan - (0084165) Code style improvement: smarty templates are cleaned up from PHP operators. Part 4 
+[*] 06 Apr 2010, igoryan - (0084165) Code style improvement: smarty templates are cleaned up from native PHP operators. Part 3. 
+[*] 06 Apr 2010, igoryan - (0084165) Code style improvement: smarty templates are cleaned up from native PHP operators. Part 2. PHP negations ("!") are replaced with smarty alternate ("not"). Continue 
+[*] 06 Apr 2010, igoryan - (0084165) Code style improvement: smarty templates are cleaned up from native PHP operators. Part 2. PHP negations ("!") are replaced with smarty alternate ("not") 
+[*] 06 Apr 2010, igoryan - (0084165) Code style improvement: smarty templates are cleaned up from native PHP operators. Part 1. "&&" and "||" conditional operators are replaced with "and" and "or" accordingly 
+[*] 06 Apr 2010, igoryan - Minor interface improvements 
+[*] 06 Apr 2010, joy - (0090065) Improvement: Card type is sent during ordering to X-Cart. 
+[*] 06 Apr 2010, igoryan - (0085848) Shipping estimator popup window is improved. Data validation is added. 
+[*] 06 Apr 2010, igoryan - (0083736) Merged code changes from xcart_4_3_x branch to the HEAD branch. Some fixes/changes are manually adapted to be compatible with the current version 
+[*] 06 Apr 2010, igoryan - dbclear.SQL is updated in accordance with the recent changes 
+[*] 05 Apr 2010, igoryan - (0086413) xcart_session_name is now randomly generated during installation. 
+[+] 05 Apr 2010, igoryan - (0085403) ZIP+4 support is added for US customers. Continue 
+[+] 05 Apr 2010, igoryan - (0085403) ZIP+4 support is added for US customers. Part 1 
+[*] 05 Apr 2010, joy - (0090065) Improvement: last 4 CC number is added to payment log for X-Payments. 
+[*] 05 Apr 2010, igoryan - (0085775) Customer profile name is copied over from billing address during registration, in case if personal details section is disabled at checkout. 
+[*] 02 Apr 2010, joy - (0044778) Improvement: Small design changes on partner plans page. 
+[*] 02 Apr 2010, igoryan - Some logic changes for func_userinfo calls in the special offers module 
+[*] 02 Apr 2010, aim - (0087767) Improvement:  The XAffiliate module structure is optimized. 
+[*] 02 Apr 2010, igoryan - (0085775) Multiple changes and fixes related to recent modifications on user profiles (address book, email as login etc). 
+[*] 02 Apr 2010, igoryan - (0086681) Gift wrapping is now a standalone feature and works w/o Gift Registry module (nevertheless files and templates structure is maintained). 
+[*] 02 Apr 2010, joy - (0044763) Improvement: Small improvements for Related products section. 
+[*] 02 Apr 2010, igoryan - (0086409) Additional description is added to ColorBox widget 
+[*] 01 Apr 2010, igoryan - (0083745) Further changes and fixes to the one page checkout module 
+[*] 01 Apr 2010, igoryan - (0085775) Address book import/export functionality is added. Continue 
+[*] 01 Apr 2010, igoryan - (0085775) Address book import/export functionality is added. Some code style changes in the core scripts. 
+[*] 01 Apr 2010, joy - Improvement: Code style changes. 
+[*] 01 Apr 2010, igoryan - (0085775) Some additional changes to users import script. 
+[*] 01 Apr 2010, igoryan - (0085775) Users import/export script is reworked in accordance with "userid" autoincrement key and address book changes. 
+[*] 01 Apr 2010, joy - (0044786) Improvement: Several configuration variables have been changed. 
+[*] 01 Apr 2010, joy - Improvement: Code style changes. 
+[*] 01 Apr 2010, igoryan - All import/export functions are moved from general scripts to corresponding func.import.PHP and func.export.PHP scripts 
+[*] 01 Apr 2010, joy - (0044786) Improvement: Logic changes in several configuration variables. 
+[*] 01 Apr 2010, igoryan - (0085775) Profile details template is adjusted for registration/update email notifications. 
+[*] 01 Apr 2010, igoryan - Required fields auto-validation JS logic is improved. 
+[*] 01 Apr 2010, igoryan - (0085775) Logic code changes 
+[*] 01 Apr 2010, joy - Small style code changes. 
+[*] 01 Apr 2010, igoryan - (0085775) Default active/required address book fields are adjusted 
+[*] 31 Mar 2010, joy - (0044786) Improvement: Code and design changes. 
+[*] 31 Mar 2010, igoryan - (0086682) Templates are cleaned up from the extra empty blank lines 
+[*] 31 Mar 2010, igoryan - (0086682) Removed obsolete comments from the templates. 
+[*] 31 Mar 2010, igoryan - (0086682) Time format is adjusted: new formats are added (w/o seconds). Layout of the users search page is improved. 
+[*] 31 Mar 2010, joy - (0044786) Improvement: Small text and design changes. 
+[*] 31 Mar 2010, joy - (0086712) Improvement: UI changes. 
+[*] 31 Mar 2010, igoryan - (0084165) Code style changes. 
+[*] 31 Mar 2010, igoryan - (0084165) func_403 is reworked to support all area tyypes 
+[*] 30 Mar 2010, igoryan - (0084165) Improvement: func_403 is now used to dispay an error message in all areas instead of redirect to error_message.PHP script 
+[*] 30 Mar 2010, igoryan - (0085775) Logic changes in the registration script related to the address book feature. 
+[*] 30 Mar 2010, joy - (0086712) Improvement: UI design improvements. 
+[+] 30 Mar 2010, joy - (0085848) New: Shipping calculator feature is added. 
+[*] 30 Mar 2010, igoryan - (0083745) Improvement: email address is now checked automatically onblur event. 
+[*] 30 Mar 2010, igoryan - (0083745) Some bugfixes and improvements related to registration at checkout. 
+[*] 30 Mar 2010, igoryan - (0085872) Automated JS form fields validation and highlighting is improved. Continue 
+[*] 30 Mar 2010, igoryan - (0083745) Logic changes in the checkout code 
+[*] 30 Mar 2010, igoryan - (0083745) Minor logic change 
+[*] 30 Mar 2010, igoryan - (0085872) Automated JS form fields validation and highlighting is improved. 
+[*] 30 Mar 2010, joy - Style code changes. 
+[*] 29 Mar 2010, igoryan - (0083745) Minor design and text changes. 
+[*] 29 Mar 2010, igoryan - (0083745) Ability to sign up for a newsletter is added during checkout. Logic changes to the checkout templates. 
+[*] 29 Mar 2010, igoryan - (0083745) Default profile fields are adjusted for "Customer at checkout" section. Some code style changes 
+[*] 29 Mar 2010, joy - Style code changes. 
+[*] 29 Mar 2010, igoryan - (0083745) Minor logic changes 
+[*] 29 Mar 2010, joy - Style code changes. 
+[*] 29 Mar 2010, igoryan - (0083745) Giftwrap editing is removed from the totals section at checkout. 
+[*] 29 Mar 2010, joy - Code styling and refactoring. 
+[*] 29 Mar 2010, igoryan - (0083745) Added missing images related to the recent changes 
+[*] 29 Mar 2010, igoryan - (0083745) Additional adjustments to checkout styles. 
+[*] 29 Mar 2010, igoryan - (0083745) Checkout styles corrections in the 2-columns skin. 
+[*] 29 Mar 2010, igoryan - (0083745) Internal debug console is updated: ability to switch between checkout modules is added. 
+[*] 29 Mar 2010, igoryan - (0088289) jQuery UI theme is added for L&L 2-columns skin 
+[*] 29 Mar 2010, igoryan - (0088289) Minor logic change in the jQuery UI schemes include path 
+[*] 29 Mar 2010, igoryan - (0088289) Default UI theme is updated (for L&L 3-columns skin) 
+[*] 29 Mar 2010, igoryan - (0087722) Base CSS styles are updated for jQuery UI plugins 
+[*] 29 Mar 2010, igoryan - (0088289) jQuery UI core and JS components are updated to 1.8 version 
+[*] 26 Mar 2010, joy - Some code style changes. 
+[*] 26 Mar 2010, igoryan - (0083736) Merged code changes from xcart_4_3_x branch to the HEAD branch. Some fixes/changes are manually adapted to be compatible with the current version. 
+[*] 26 Mar 2010, aim - (0080124) Improvement:  Config vars are changed to aim's sets. 
+[*] 25 Mar 2010, joy - Style code changes. 
+[*] 25 Mar 2010, igoryan - (0083745) Minor code improvements and logic changes. Clean up obsolete code. 
+[*] 25 Mar 2010, igoryan - (0089004) Date format definition for jQuery dateFormat() function is added to initialization script. 
+[*] 25 Mar 2010, joy - Style code changes. 
+[*] 25 Mar 2010, igoryan - (0088690) Admin user condition is moved to a common place. Continue 
+[*] 25 Mar 2010, igoryan - (0088690) Minor code improvements 
+[*] 25 Mar 2010, igoryan - (0088690) Admin user condition is moved to a common place. Initial definition 
+[*] 25 Mar 2010, igoryan - (0089004) Code re-factoring: timestamp generation is wrapped into common function, where possible. 
+[+] 25 Mar 2010, igoryan - (0089004) jQuery datepicker is applied to most of X-Cart forms (replacing default html_select_date). Part 3
+[+] 25 Mar 2010, igoryan - (0089004) jQuery datepicker is applied to most of X-Cart forms (replacing default html_select_date). Part 2 
+[+] 25 Mar 2010, joy - (0086678) New: "Per page" selector is added to customer product search. continue 
+[+] 25 Mar 2010, igoryan - (0089004) jQuery datepicker is implemented and applied to most of X-Cart forms (replacing default html_select_date). Part 1 
+[*] 25 Mar 2010, joy - Some style changes. 
+[+] 25 Mar 2010, joy - (0086678) New: "Per page" selector is added to customer product search. 
+[*] 24 Mar 2010, igoryan - (0087722), (0089004) Datepicker jQuqery library is included
+[*] 24 Mar 2010, igoryan - (0088289) Minor changes in the UI custom CSS styles for default skin 
+[*] 24 Mar 2010, igoryan - (0085863) "Accept terms" mandatory option is added to the final checkout steps.
+[*] 24 Mar 2010, igoryan - (0084165) Code related to the profile fields checking at checkout is moved to a common script for all payment types.
+[*] 24 Mar 2010, igoryan - (0083745) Further modifications on One Page Checkout module 
+[*] 24 Mar 2010, joy - (0085879) Improvement: Google Analytics tracking is added to Google Checkout process. 
+[*] 24 Mar 2010, igoryan - (0089418) Printable version is now enabled for static pages. 
+[*] 24 Mar 2010, joy - (0089300) Improvement: "Buy" button is added to advertisements.
+[+] 24 Mar 2010, igoryan - (0086395) New: "Ask a question" form is added on product details page. 
+[*] 22 Mar 2010, joy - Small design changes. 
+[*] 22 Mar 2010, joy - Some code style changes. 
+[*] 22 Mar 2010, joy - (0085884) Improvement: Navigation bar is added to the bottom of the Ratings page. 
+[*] 22 Mar 2010, joy - Improvement: Code style changes. 
+[*] 22 Mar 2010, joy - Improvement: Some styling and design changes. 
+[*] 22 Mar 2010, joy - (0085884) Improvement: Pagination widget is added to Coupons, Gift Certificates list pages. 
+[*] 19 Mar 2010, igoryan - (0085872) Automated JS validation of form fields is now supported in admin/provider/partner areas.
+[*] 19 Mar 2010, joy - Small design changes. 
+[*] 19 Mar 2010, igoryan - (0083745) Further changes related to checkout functionality and One Page checkout module. 
+[*] 19 Mar 2010, igoryan - (0085872) Multiple improvements related to JS functionality. Part 2: CSS class-based checking of form fields is adapted to table-based X-Cart forms 
+[*] 19 Mar 2010, joy - (0086682) Improvement: Login / Forgot password pages are changed for secured areas.
+[*] 19 Mar 2010, joy - (0086682) Improvement: Multiple code refactoring and styling. 
+[*] 19 Mar 2010, igoryan - (0085872) Multiple improvements related to JS functionality. Part 1:
+- Including js files is moved to a separate template service_js.tpl
+- JS fixes and onload events code is now loaded from onload_js.tpl template. Old files are removed
+- CSS class-based checking of the form fields is now automatically applied to all document forms. 
+[*] 18 Mar 2010, joy - (0086416) Improvement: Small SEO improvement for "shop close" feature. 
+[*] 18 Mar 2010, joy - Improvement: Small code refactoring. 
+[*] 18 Mar 2010, joy - (0086682) Improvement: Several links are changed in HELP menu section 
+[*] 17 Mar 2010, joy - (0086682) Improvement: Small design changes. 
+[*] 17 Mar 2010, joy - (0086682) Improvement: Multiple design change in secured areas. part 5. partner area. 
+[*] 17 Mar 2010, joy - (0086682) Improvement: Multiple design change in secured areas. part 4. single mode admin area. 
+[*] 17 Mar 2010, joy - (0086682) Improvement: Multiple design change in secured areas. part 3. fulfilment staff area. 
+[*] 17 Mar 2010, joy - (0086682) Improvement: Multiple design change in secured areas. part 2. provider area. 
+[*] 17 Mar 2010, joy - (0086682) Improvement: Multiple design change in secured areas. part 1. admin area. 
+[*] 16 Mar 2010, igoryan - (0083745) Code improvement: JS checking of the registration form is moved to a separate template. Continue 3 
+[*] 16 Mar 2010, igoryan - (0083745) Code improvement: JS checking of the registration form is moved to a separate template. Continue 2 
+[*] 16 Mar 2010, igoryan - (0083745) Additional modifications to login functionality. Core changes to use login form in the modal pop up. 
+[*] 16 Mar 2010, igoryan - (0083745) Code improvement: JS checking of the registration form is moved to a separate template. Continue 
+[*] 16 Mar 2010, igoryan - (0083745) Code improvement: JS checking of the registration form is moved to a separate template. 
+[*] 16 Mar 2010, aim - (0080124) Improvement:  Module descriptions have been added for the 4.2.x 4.3.x branch. 
+[*] 15 Mar 2010, igoryan - (0083745) Logic changes in the titles selector code 
+[*] 15 Mar 2010, igoryan - (0085775) Minor change in the address book editing functionality. 
+[*] 15 Mar 2010, igoryan - (0088659) Code re-factoring of the functionality related to users authentication. Part 3. Alternative skins are updated and re-compiled 
+[*] 12 Mar 2010, igoryan - (0088659) Code re-factoring of the functionality related to users authentication. Part 2 
+[*] 12 Mar 2010, igoryan - (0083745) Removed obsolete CSS styles, cart page related styles are moved to main.CSS 
+[*] 12 Mar 2010, igoryan - (0088659) Code re-factoring of the functionality related to users authentication. Part 1 
+[*] 12 Mar 2010, igoryan - (0085775) Include js script using load_defer plugin in some templates 
+[*] 12 Mar 2010, igoryan - depack.sh is improved to remove skin directories from any location 
+[*] 10 Mar 2010, igoryan - (0085872) Improvement: CSS styles definitions for built-in modules are moved from general CSS file to corresponding separate CSS files. 
+[*] 10 Mar 2010, igoryan - (0085775) JS states and zipcode checking is improved and adapted to work in the modal pop up. 
+[-] 10 Mar 2010, igoryan - (0085775) Empty and unused template is removed 
+[*] 10 Mar 2010, igoryan - (0087800) Minor logic changes in the popup modal dialog. 
+[*] 10 Mar 2010, igoryan - (0088023) Language variable change. 
+[*] 10 Mar 2010, igoryan - (0088289) jQuery UI theme is updated for the default skin. Continue 
+[*] 10 Mar 2010, igoryan - (0088289) Internal debug module is adjusted to work with altskins config files. 
+[*] 09 Mar 2010, igoryan - (0086262) Minor improvements in the anonymous orders functionality 
+[*] 09 Mar 2010, igoryan - (0084173) SagePay Go - Server integration method is completed. Fixed some bugs and typo errors 
+[*] 09 Mar 2010, igoryan - (0083745) Alternative skins are updated. Continue (new files added) 
+[*] 09 Mar 2010, igoryan - (0083745) Alternative skins are updated to correct conflicts caused by the recent changes made to cart & checkout functionality. 
+[*] 09 Mar 2010, joy - (0086406) Improvement: Small text changes. 
+[*] 09 Mar 2010, igoryan - (0086411) Restore password functionality is adjusted (now only login/email is required). 
+[*] 09 Mar 2010, igoryan - (0088289) jQuery UI theme is updated for the default skin. 
+[*] 05 Mar 2010, igoryan - (0085775) customer.checkout.task test is adjusted to support address book feature 
+[+] 05 Mar 2010, joy - (0086406) New: GC buy GC option was initially added. 
+[*] 05 Mar 2010, igoryan - (0083745) Logic changes in the checkout-related functionality. Continue 
+[-] 05 Mar 2010, igoryan - (0084165) Removed unnecessary files (samples, source and tests) for ckeditor plugin. 
+[*] 05 Mar 2010, igoryan - (0086702) Logic changes in security-related functionality in some places 
+[*] 05 Mar 2010, joy - (0086407) Improvement: Small change in import note and several design fixes. 
+[*] 04 Mar 2010, igoryan - (0083745) Logic changes in the customer templates structure and checkout-related functionality. 
+[*] 04 Mar 2010, igoryan - (0088289) Logic changes in the ui library files structure and names. Part 2. "altskin.conf" files are added to each skin 
+[*] 04 Mar 2010, igoryan - (0088289) jQuery UI libraries are updated to 1.8rc3 version
+[*] 04 Mar 2010, igoryan - Logic changes in the ui library files structure and names. Part 1 
+[*] 03 Mar 2010, joy - (0082385) Small code changes in USPS shipping method. 
+[*] 03 Mar 2010, igoryan - (0086708) Style of the jquery UI tabs displaying is adjusted 
+[*] 03 Mar 2010, joy - (0085348) Improvement: Currency conversion rate is added to several shippers. Fixed.  
+[*] 03 Mar 2010, joy - (0085348) Improvement: Currency conversion rate is added to several shippers. 
+[*] 03 Mar 2010, igoryan - (0086702) Services_JSON PHP class is updated to the latest version. 
+[*] 02 Mar 2010, igoryan - Code on including old jquery fixes is restored back 
+[*] 02 Mar 2010, igoryan - (0087798) Some fixes and improvements for registration templates. 
+[*] 02 Mar 2010, igoryan - (0085775) Included address-book related scripts to security.stopper task 
+[+] 02 Mar 2010, igoryan - (0084173) SagePay Go - Server integration method is added. Part 1
+[*] 02 Mar 2010, igoryan - (0084173) Now common function is used to process capture/refunds for both Sage Pay Server and Direct integrations. 
+[-] 01 Mar 2010, igoryan - (0087722) Including old jquery fixes is temporarily removed. 
+[*] 27 Feb 2010, igoryan - (0083736) Merged code changes from xcart_4_3_x branch to the HEAD branch. 
+[*] 27 Feb 2010, igoryan - (0086409) ColorBox languages are now editable in X-Cart. All possible options are added to the intitialization JS script. 
+[*] 27 Feb 2010, igoryan - (0084165) View cart and Checkout links are now shown in minicart only if the cart is not empty. 
+[+] 26 Feb 2010, igoryan - (0086409) Ability to display detailed images using ColorBox widget (http://colorpowered.com/colorbox) is added. 
+[*] 26 Feb 2010, igoryan - (0086708) Additional changes related to My account section. 
+[+] 26 Feb 2010, igoryan - (0086708) My account functionality is added. Part 1 
+[+] 26 Feb 2010, igoryan - (0088023) Ability to display additional product sections as tabs is added (continue) 
+[+] 26 Feb 2010, igoryan - (0088023) Common tabs functionality based on jQuery UI is added
+[+] 26 Feb 2010, igoryan - (0088023) Ability to display additional product sections as tabs is added 
+[*] 25 Feb 2010, igoryan - (0087722) jQuery is updated to 1.4.2 version, UI libraries are updated to current 1.8 version. Changes in the file structure logic for UI components 
+[*] 25 Feb 2010, igoryan - (0085775) Minor logic changes in the admin editor mode 
+[*] 25 Feb 2010, igoryan - (0085775) JS-based checkFormFields() function is improved to support 'admin editor' mode (allow to submit form with empty required fields) 
+[*] 25 Feb 2010, igoryan - (0085775) Highlighting required fields on error is improved. 
+[*] 25 Feb 2010, igoryan - (0085775) JS-based checking of required fields is improved for Registration and Contact us forms in all profile areas.
+[*] 22 Feb 2010, igoryan - (0085775) Further modifications to address book functionality. Error reporting is improved 
+[*] 22 Feb 2010, igoryan - (0084165) Including of the common scripts is now performed in the include/common.PHP script depending on the area 
+[*] 22 Feb 2010, igoryan - (0085775) Further modifications to registration script
+[*] 22 Feb 2010, igoryan - (0084165) Code improvement: states checking for specified country is moved to a separate function. 
+[*] 22 Feb 2010, igoryan - (0085775) Further modifications and fixes for address book functionality. Logic changes in the registration script 
+[*] 22 Feb 2010, igoryan - (0085775) Added missing file for commit #51242 
+[*] 21 Feb 2010, igoryan - (0085775) Further modifications and fixes for address book functionality. 
+[*] 20 Feb 2010, igoryan - (0085775) Further modifications, improvements and fixes for address book functionality. Error handling is improved 
+[+] 20 Feb 2010, igoryan - (0087722) ui.draggable and ui.resizable libraries are added. UI scheme and images initally added
+[*] 20 Feb 2010, igoryan - (0087722) Widget for popupOpen JS function is totally rewritten basing on ui.dialog jquery extension 
+[*] 18 Feb 2010, igoryan - (0087722) jQuery UI core and "dialog" library is added 
+[+] 18 Feb 2010, igoryan - (0085775) Address book feature is added. Part 3. Further modifications, fixes and code improvements 
+[+] 17 Feb 2010, igoryan - (0085775) Address book feature is added. Part 2. Further modifications and code improvements 
+[*] 17 Feb 2010, igoryan - (0085834) Minor improvements to displaying orders list in the backend 
+[*] 17 Feb 2010, joy - (0085872) Improvement: HTML is gzipped only if CSS is optimized. 
+[+] 16 Feb 2010, igoryan - (0085775) Address book feature is added. Part 1 
+[+] 16 Feb 2010, joy - (0085872) Multiple HTML, CSS, Javascript optimizations. part 1. 
+[*] 12 Feb 2010, joy - PHPdoc comment is added 
+[*] 12 Feb 2010, joy - (0086400) Small code improvement. 
+[+] 11 Feb 2010, joy - (0085881) Google map feature is added. 
+[*] 11 Feb 2010, xcart - (0087213) Root provider is removed from XC Pro demo users. Continue 
+[*] 11 Feb 2010, xcart - (0087213) Root provider is removed from X-Cart Pro installation package. Continue 
+[*] 11 Feb 2010, xcart - (0087213) Root provider is removed from X-Cart Pro installation package 
+[*] 11 Feb 2010, igoryan - (0087213) Option to use email as login is added to installation script. Root provider is no longer exists in the fresh installation. 
+[*] 11 Feb 2010, igoryan - (0087213) Unique pair (email+usertype) is now used for email authentication. So there can be users with same email but with different usertypes 
+[*] 11 Feb 2010, igoryan - (0086703) Purchase a paid license link was visible in the help menu even if X-Cart was already licensed 
+[*] 11 Feb 2010, igoryan - (0086703) Link to X-Cart Services page is added to the admin help menu. 
+[*] 10 Feb 2010, igoryan - (0086702) HTMLPurifier is updated to 4.0 version. Continue 2 
+[*] 10 Feb 2010, igoryan - (0087304) Jquery is updated to 1.4.1 version 
+[*] 10 Feb 2010, igoryan - (0086264) Some fixes and improvements to the registration script 
+[*] 10 Feb 2010, igoryan - (0086264), (0087212) Minor logic changes 
+[*] 10 Feb 2010, igoryan - DB version is changed to pass functional tests 
+[*] 10 Feb 2010, igoryan - (0086262) Functionality related to anonymous customers is totally reworked. Continue 
+[*] 10 Feb 2010, xcart - (0087212) pack.sh is adjusted in accordance with the recent changes 
+[*] 10 Feb 2010, igoryan - (0087212) Default logins are replaced with emails for X-Cart demo 
+[*] 10 Feb 2010, igoryan - (0087212) "Email as login" mode is enabled by default in X-Cart demo
+[*] 10 Feb 2010, igoryan - (0086262) Demo dumps are corrected with additional 'access_key' field for orders 
+[*] 10 Feb 2010, igoryan - (0086261) Current implementation of the phishing protection in customer area is removed. Another solution will be worked out in case a security hole is found in the future. 
+[*] 10 Feb 2010, igoryan - (0086702) Services_JSON PHP package is updated to the latest version. 
+[*] 10 Feb 2010, igoryan - (0086702) PHP Mailer SMTP class is updated to the latest version that supports PHP4. 
+[*] 10 Feb 2010, igoryan - (0086702) HTMLPurifier is updated to 4.0 version. Continue 
+[*] 10 Feb 2010, igoryan - (0086702) HTMLPurifier is updated to 4.0 version 
+[*] 10 Feb 2010, igoryan - (0086702) Minimum required PHP version is up to 4.4. Obsolete wrappers for some PHP functions (version_compare, array_key_exists) are removed. 
+[*] 09 Feb 2010, igoryan - (0087203) Minor logic correction. 
+[*] 09 Feb 2010, igoryan - (0086262) Functionality related to anonymous customers is totally reworked. Continue 
+[*] 09 Feb 2010, igoryan - (0086262) Functionality related to anonymous customers is totally reworked. Part 1 
+[*] 05 Feb 2010, igoryan - (0085834) Logic changes in collecting info about the partner. Partner user ID is now should be sent in the post/get params instead of login. Continue 
+[*] 05 Feb 2010, igoryan - (0085834) Logic changes in collecting info about the partner. Partner user ID is now should be sent in the post/get params instead of login. 
+[*] 05 Feb 2010, igoryan - (0086947) Minor change in the comment description 
+[*] 05 Feb 2010, xcart - (0085834) pack.sh is adjusted to work with the recent SQL/files changes properly 
+[*] 05 Feb 2010, aim - (0086565) Improvement:  4.3.0-4.3.1 configuration file is added for cumulative upgrade tool. 
+[*] 05 Feb 2010, igoryan - (0086947) Changes in the logic of naming providers directories. 
+05 Feb 2010, xcart - (0086129)
+[*] 05 Feb 2010, igoryan - (0086264) Minor changes in the alternative skins. 
+[*] 05 Feb 2010, igoryan - (0086264) Minor design change 
+[*] 05 Feb 2010, igoryan - (0083736) Merged code changes from xcart_4_3_x branch to the MAIN branch. 
+[*] 04 Feb 2010, igoryan - (0086939) Year is changed to 2010 
+[*] 04 Feb 2010, igoryan - (0085834) Links for the database integrity checking tool are updated.
+[*] 04 Feb 2010, igoryan - (0086264) Minor design changes on the Summary > Tools page. 
+[*] 04 Feb 2010, igoryan - (0086264) Language variables changes 
+[*] 04 Feb 2010, igoryan - (0086264) Small changes to email as login feature 
+[+] 03 Feb 2010, igoryan - (0086264) Functionality to use email as login is added.
+[*] 03 Feb 2010, igoryan - Logic and code improvements in the registration and login scripts and templates 
+[*] 01 Feb 2010, svowl - (0020474): Support for CURLOPT_SSLCERTPASSWD option in libcurl added 
+[*] 27 Jan 2010, igoryan - (0086314) Logins are now case-insensitive. Continue 
+[*] 27 Jan 2010, igoryan - (0086314) Logins are now case-insensitive.
+[-] 27 Jan 2010, igoryan - (0086261) Escaping of html special chars is temporarily commented out (prepare.PHP, customer area). Another security improvement is being implemented. 
+[-] 27 Jan 2010, igoryan - (0086261) Escaping of html special chars is temporarily commented out (prepare.PHP,  customer area). Another security improvement is being implemented.
+[*] 27 Jan 2010, igoryan - (0086263) Some extra special characters are supported in the login. 
+[*] 26 Jan 2010, igoryan - (0085834) x_load('debug') is removed from the init script. Typo error is corrected. 
+[*] 26 Jan 2010, igoryan - (0084165) Improvement: func_query_first and func_query_first_cell functions are enhanced to support limit first record flag, that is enabled by default. 
+[*] 26 Jan 2010, igoryan - (0085834) Obsolete escaping is removed from some MySQL queries 
+[+] 26 Jan 2010, igoryan - (0085834) Improvement: Autoincrementing ID primary key is added to the users table. Related tables structure and demo dumps are updated. PHP and Smarty code is reworked to use this key field in MySQL queries. 
+[*] 20 Jan 2010, igoryan - (0084165) There were 2 identical templates performing the same operation. Merged into one. 
+[*] 20 Jan 2010, igoryan - (0085074) Additional logic changes to the functionality of the 'Direct post' payment methods 
+[*] 19 Jan 2010, igoryan - (0085074) Logic changes in PHP variables and function names 
+[*] 19 Jan 2010, igoryan - (0084181) Additional changes to viaKlix V2 (Merchant provided form) payment module
+[*] 19 Jan 2010, igoryan - (0084181) Virtual Merchant - Virtual Merchant Provided Form module is changed to support direct posting of the form from X-Cart 
+[*] 19 Jan 2010, igoryan - (0084181) viaKlix V2 (Merchant provided form) module is changed to support direct posting of the form from X-Cart. 
+[*] 19 Jan 2010, igoryan - (0084181) GoEmerchant (EZ Payment Gateway Direct) integration is changed to support direct posting of the form from X-Cart. 
+[*] 19 Jan 2010, igoryan - (0085074) Further modifications to the payment page. 
+[*] 19 Jan 2010, igoryan - (0085074) Function description is updated 
+[*] 19 Jan 2010, igoryan - (0084176), (0084178) Global Gateway - Connect (EMEA & NA) integration is updated to support direct posting of X-Cart form to a payment gateway 
+[*] 19 Jan 2010, igoryan - (0085074) Payment processing core is expanded to support direct post payment method type 
+[*] 15 Jan 2010, igoryan - (0085381) USPS shipping methods are updated. Logic changes in the integration 
+[*] 15 Jan 2010, igoryan - (0085403) Logic changes in the zip code checking function 
+[*] 14 Jan 2010, igoryan - (0084586) Inline frame payment methods support is added. Continue 
+[*] 14 Jan 2010, igoryan - (0085403) Checking zipcode is added on a PHP level during registration. Minor logic changes 
+[+] 14 Jan 2010, igoryan - (0085403) Zip-4 support is added for US users 
+[*] 13 Jan 2010, igoryan - (0084586) Language variables changes 
+[*] 13 Jan 2010, igoryan - Text corrections in the head of PHP scripts 
+[*] 13 Jan 2010, igoryan - (0083736) Merged code changes from xcart_4_3_x branch to the HEAD branch. 
+[*] 13 Jan 2010, igoryan - (0084175) Quantum Gateway (In Line Frame API) integration is updated. Profile fields are prepopulated in the payment form. 
+[*] 11 Jan 2010, igoryan - (0084617) Minor correction in the option description 
+[*] 06 Jan 2010, igoryan - (0084990) Minor improvement of the Edit languages page functionality 
+[*] 06 Jan 2010, igoryan - (0084617) Some tests are updated 
+[*] 06 Jan 2010, igoryan - (0084617) Cart- and checkout-related code re-factoring
+[*] 29 Dec 2009, aim - (0082460) Improvement:  A new tool to find undefined functions is added. 
+[*] 28 Dec 2009, igoryan - (0084617) cart_process.php functions are moved to the func.cart.php script 
+[-] 28 Dec 2009, igoryan - (0084154) Neon Lights skin is removed
+[*] 28 Dec 2009, igoryan - (0084613) Whitespaces are removed after opening bracket and before closing bracket in smarty templates. Continue 
+[*] 26 Dec 2009, igoryan - (0084585) Minor logic changes 
+[*] 26 Dec 2009, igoryan - (0084613) White spaces are removed after opening bracket and before closing bracket in smarty templates 
+[-] 26 Dec 2009, igoryan - (0084585) $js_enabled condition is removed from templates since no longer needed. Minor logic changes in the templates code 
+[*] 26 Dec 2009, igoryan - (0084586), (0084175) Changes in the language variable text. SQL dump is regenerated 
+[*] 25 Dec 2009, igoryan - (0084586) Payment processing core is expanded to support iframe payment method types
+[+] 25 Dec 2009, igoryan - (0084175) Quantum Gateway - In Line Frame API payment method is added 
+[*] 25 Dec 2009, igoryan - (0084586) Minor logic changes: logging functionality of some payment methods is moved to a separate function 
+[*] 24 Dec 2009, igoryan - (0084451) Options descriptions are revised on the General settings page. Part 1 
+[*] 24 Dec 2009, igoryan - (0083743) Configuration script is updated for the UPS Developer Kit 
+[*] 24 Dec 2009, igoryan - Option title is changed 
+[*] 24 Dec 2009, igoryan - (0083743) Minor interface changes on the UPS configuration page 
+[*] 24 Dec 2009, igoryan - (0083743) UPS trademarks changes in the shipping methods 
+[*] 23 Dec 2009, igoryan - (0083743) Language variable title is changed on the UPS configuration page 
+[*] 23 Dec 2009, igoryan - (0083743) Minor updates to the UPS integration 
+[*] 23 Dec 2009, igoryan - (0083743) UPS Online Tools module is renamed to UPS Developer Kit. Language variable changes. Hardcoded labels are moved into language variables. Minor interface improvements. 
+[*] 23 Dec 2009, igoryan - (0083752) Allowed currencies list is added to the DIBS FlexWin payment module 
+[*] 23 Dec 2009, igoryan - Integration with the Fedex Rate API is updated to v7. Major logic changes 
+[*] 22 Dec 2009, igoryan - (0084172) Minor logic change in the eWay UK (Hosted payment page) payment method integration 
+[*] 22 Dec 2009, igoryan - An alternative http_build_query function is added to the core 
+[*] 21 Dec 2009, igoryan - (0084172) Additional changes to the eWay UK (Hosted payment page) payment method integration. 
+[+] 21 Dec 2009, igoryan - (0084172) eWay UK (Hosted payment page) payment module is added 
+[*] 21 Dec 2009, igoryan - (0083752) Logic changes in the DIBS FlexWin payment integration. Continue 
+[*] 21 Dec 2009, igoryan - (0083752) Logic changes in the DIBS FlexWin payment integration 
+[+] 20 Dec 2009, igoryan - (0083752) DIBS FlexWin payment method is added 
+[*] 17 Dec 2009, igoryan - Obsolete files are removed 
+[*] 17 Dec 2009, igoryan - Logic changes in the titles functionality: revert commits from the #0061947
+[*] 16 Dec 2009, igoryan - Old installation files are removed for some modules 
+[*] 16 Dec 2009, igoryan - (0083725) SQL dump changes for several modules 
+[*] 16 Dec 2009, igoryan - $store_ch checking is removed from X-Payments connector module. 
+[*] 16 Dec 2009, igoryan - (0083736) Merged code changes from xcart_4_3_x branch to the HEAD branch. 

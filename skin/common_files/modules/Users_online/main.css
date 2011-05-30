@@ -1,0 +1,20 @@
+/* vim: set ts=2 sw=2 sts=2 et: */
+/**
+ * Users online module CSS stylesheet
+ *  
+ * @category   X-Cart
+ * @package    X-Cart
+ * @subpackage CSS
+ * @author     Ruslan R. Fazlyev <rrf@x-cart.com> 
+ * @version    $Id: main.css,v 1.2 2010/05/31 06:08:30 igoryan Exp $
+ * @link       http://www.x-cart.com/
+ * @see        ____file_see____
+ */
+
+/* Users statistics box */
+.uo-box {
+  width: 100%;
+  border-top: 1px solid #acb7c7;
+  background-color: #e8edf4;
+  padding: 10px 0 10px 13px;
+}

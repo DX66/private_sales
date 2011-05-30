@@ -1,0 +1,102 @@
+Index: include/import.php
+--- include/import.php	2011-01-10 16:11:49.000000000 +0300
++++ include/import.php	2011-03-14 12:09:50.000000000 +0300
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: import.php,v 1.117.2.2 2011/01/10 13:11:49 ferz Exp $
++ * @version    $Id: import.php,v 1.117.2.6 2011/03/14 09:09:50 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -247,7 +247,7 @@
+             unset($import_specification[$k]);
+ 
+         } elseif (
+-            $v['need_provider']
++            !empty($v['need_provider'])
+             && empty($import_data_provider)
+             && $user_account['usertype'] == 'A'
+         ) {
+@@ -256,7 +256,7 @@
+             $provider_only_sections_tags[] = $k;
+ 
+         } elseif (
+-            $v['oninitimport']
++            !empty($v['oninitimport'])
+             && function_exists($v['oninitimport'])
+         ) {
+ 
+@@ -479,9 +479,6 @@
+                 }
+ 
+             }
+-
+-            $import_file['images_directory_is_url'] = is_url($images_directory);
+-
+         }
+ 
+     }
+@@ -626,7 +623,7 @@
+         // Start log file writing...
+         $current_date = date(
+             "d-M-Y H:i:s",
+-            mktime() + $config['Appearance']['timezone_offset']
++            XC_TIME + $config['Appearance']['timezone_offset']
+         );
+ 
+         $message =<<<OUT
+@@ -649,9 +646,9 @@
+     $renamed_cols             = $import_pass['renamed_cols'];
+     $section                 = $import_pass['section'];
+     $values                 = $import_pass['values'];
+-    $current_row             = $import_pass['current_row'];
+-    $last_row_idx             = $import_pass['last_row_idx'];
+-    $data_row                 = $import_pass['data_row'];
++    $current_row             = @$import_pass['current_row'];
++    $last_row_idx             = @$import_pass['last_row_idx'];
++    $data_row                 = @$import_pass['data_row'];
+     $is_subrow                 = $import_pass['is_subrow'];
+     $line_index             = 1;
+     $file_position             = $import_pass['file_position'];
+@@ -1016,7 +1013,7 @@
+ 
+                     $_section = '';
+ 
+-                } elseif ($import_specification[$_section]['no_import']) {
++                } elseif (!empty($import_specification[$_section]['no_import'])) {
+ 
+                     $no_import_sections[] = $_section;
+ 
+@@ -1057,10 +1054,10 @@
+ 
+                     foreach ($import_specification[$section]['columns'] as $k => $v) {
+ 
+-                        if ($v['is_key'])
++                        if (!empty($v['is_key']))
+                             $key_columns[] = $k;
+ 
+-                        if ($v['array'])
++                        if (!empty($v['array']))
+                             $is_array_fields = true;
+ 
+                     }
+@@ -1667,7 +1664,7 @@
+                 $last_row_idx = $import_pass['line_index'];
+ 
+             // Set value as subrow
+-            if ($import_specification[$section]['columns'][$colnames[$i]]['array']) {
++            if (!empty($import_specification[$section]['columns'][$colnames[$i]]['array'])) {
+ 
+                 if ($is_subrow) {
+ 
+@@ -1947,7 +1944,7 @@
+ $smarty->assign('import_options',             $import_options);
+ $smarty->assign('my_files_location',         func_get_files_location() . XC_DS);
+ 
+-$import_data['options']['category_sep'] = func_import_get_category_sep($import_data['options']['category_sep']);
++$import_data['options']['category_sep'] = func_import_get_category_sep(@$import_data['options']['category_sep']);
+ 
+ if (empty($import_data['source']))
+     $import_data['source'] = 'server';

@@ -1,0 +1,29 @@
+Index: include/account_tabs.php
+--- include/account_tabs.php	2011-01-10 16:11:48.000000000 +0300
++++ include/account_tabs.php	2011-01-25 12:43:11.000000000 +0300
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>. All rights reserved
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: account_tabs.php,v 1.8.2.2 2011/01/10 13:11:48 ferz Exp $
++ * @version    $Id: account_tabs.php,v 1.8.2.3 2011/01/25 09:43:11 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -64,14 +64,14 @@
+     'url'   => 'orders.php'
+ );
+ 
+-if ($active_modules['RMA']) {
++if (!empty($active_modules['RMA'])) {
+     $account_tabs[] = array(
+         'title' => func_get_langvar_by_name('lbl_returns'),
+         'url'   => 'returns.php'
+     );
+ }
+ 
+-if ($active_modules['Special_Offers']) {
++if (!empty($active_modules['Special_Offers'])) {
+     $account_tabs[] = array(
+         'title' => func_get_langvar_by_name('lbl_sp_my_bonuses'),
+         'url'   => 'bonuses.php'

@@ -1,0 +1,19 @@
+Index: skin/common_files/customer/main/product.tpl
+--- skin/common_files/customer/main/product.tpl	2010-10-22 11:52:52.000000000 +0400
++++ skin/common_files/customer/main/product.tpl	2011-03-14 11:34:17.000000000 +0300
+@@ -1,5 +1,5 @@
+ {*
+-$Id: product.tpl,v 1.7.2.1 2010/10/22 07:52:52 aim Exp $
++$Id: product.tpl,v 1.7.2.2 2011/03/14 08:34:17 ferz Exp $
+ vim: set ts=2 sw=2 sts=2 et:
+ *}
+ {include file="form_validation_js.tpl"}
+@@ -12,7 +12,7 @@
+ 
+ {else}
+ 
+-  {if $config.General.ajax_add2cart eq 'Y' and $config.General.redirect_to_cart ne 'Y'}
++  {if $config.General.ajax_add2cart eq 'Y' and $config.General.redirect_to_cart ne 'Y' and not ($smarty.cookies.robot eq 'X-Cart Catalog Generator' and $smarty.cookies.is_robot eq 'Y')}
+     {include file="customer/ajax.add2cart.tpl" _include_once=1}
+ 
+ <script type="text/javascript">

@@ -1,0 +1,39 @@
+/*
+$Id: main.IE7.css,v 1.1.2.1 2010/09/29 06:32:57 igoryan Exp $
+vim: set ts=2 sw=2 sts=2 et:
+*/
+.fancycat-icons-e ul {
+  width: 127px;
+}
+.fancycat-icons-e li ul li {
+  width: 116px;
+}
+
+.fancycat-icons-e li ul {
+  left: 121px;
+}
+.fancycat-icons-e li ul.fancycat-icons-level-1 li ul {
+  left: 112px;
+}
+
+.fancycat-icons-e li ul {
+  border: 0px none;
+  background: #b1c6d7 none;
+  padding: 1px;
+}
+
+.fancycat-icons-e ul li {
+  background: white none;
+  padding-right: 6px;
+  padding-left: 5px;
+}
+
+.fancycat-icons-e li:hover ul,
+  .fancycat-icons-e li.over ul
+{
+  display: none;
+}
+
+.fancycat-icons-c ul {
+  zoom: 1; 
+}

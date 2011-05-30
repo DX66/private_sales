@@ -1,0 +1,95 @@
+Index: skin/common_files/main/commissions.tpl
+--- skin/common_files/main/commissions.tpl	2010-12-15 12:44:39.000000000 +0300
++++ skin/common_files/main/commissions.tpl	2011-01-19 18:16:07.000000000 +0300
+@@ -1,9 +1,11 @@
+ {*
+-$Id: commissions.tpl,v 1.4.2.1 2010/12/15 09:44:39 aim Exp $
++$Id: commissions.tpl,v 1.4.2.3 2011/01/19 15:16:07 aim Exp $
+ vim: set ts=2 sw=2 sts=2 et:
+ *}
+ {include file="page_title.tpl" title=$lng.lbl_provider_commissions}
+-{$lng.txt_provider_commissions_note}
++{if $usertype eq 'A' or ($usertype eq 'P' and $active_modules.Simple_Mode)}
++  {$lng.txt_provider_commissions_note}
++{/if}
+ 
+ <br />
+ 
+@@ -32,6 +34,7 @@
+         <td height="10" width="10">&nbsp;</td>
+         <td nowrap="nowrap"><input type="text" size="8" name="search[orderid]" value="{$search.orderid}" /></td>
+       </tr>
++      {if $usertype eq 'A' or ($usertype eq 'P' and $active_modules.Simple_Mode)}
+       <tr>
+         <td height="10" class="FormButton" nowrap="nowrap">{$lng.lbl_provider}:</td>
+         <td height="10" width="10">&nbsp;</td>
+@@ -44,6 +47,7 @@
+           </select>
+         </td>
+       </tr>
++      {/if}
+       <tr>
+         <td height="10" class="FormButton" nowrap="nowrap">{$lng.lbl_order_status}</td>
+         <td height="10" width="10">&nbsp;</td>
+@@ -120,7 +124,7 @@
+       <table cellpadding="3" cellspacing="1" width="100%">
+ 
+         <tr class="TableHead">
+-          <td nowrap="nowrap" rowspan="2">{$lng.lbl_partner}</td>
++          <td nowrap="nowrap" rowspan="2">{$lng.lbl_provider}</td>
+           <td nowrap="nowrap" colspan="2" align="center">{$lng.lbl_order}</td>
+           <td nowrap="nowrap" rowspan="2" align="center">{$lng.lbl_total}</td>
+           <td nowrap="nowrap" rowspan="2" align="center">{$lng.lbl_commission}</td>
+@@ -137,7 +141,14 @@
+         {foreach from=$orders item=v}
+ 
+           <tr{cycle values=', class="TableSubHead"'}>
+-            <td nowrap="nowrap"><a href="user_modify.php?user={$v.userid}&amp;usertype=P">{$v.firstname} {$v.lastname}</a><br /><span class="SmallText">({$v.login})</td>
++            <td nowrap="nowrap">
++              {if $usertype eq 'A' or ($usertype eq 'P' and $active_modules.Simple_Mode)}
++                <a href="{$catalogs.admin}/user_modify.php?user={$v.userid}&amp;usertype=P">{$v.firstname} {$v.lastname}</a>
++                <br /><span class="SmallText">({$v.login})</span>
++              {else}
++                <a href="{$current_area}/register.php?mode=update">{$fullname|default:$v.firstname}</a>
++              {/if}
++            </td>
+             <td><a href="order.php?orderid={$v.orderid}">{$v.orderid}</a></td>
+             <td nowrap="nowrap">{$v.date|date_format:$config.Appearance.date_format}</td>
+             <td align="right" nowrap="nowrap">{currency value=$v.subtotal}</td>
+@@ -150,7 +161,12 @@
+ 
+               {elseif $v.paid eq 'A' and $v.ready}
+                 {include file="main/tooltip_js.tpl" title=$lng.lbl_ready_to_pay text=$lng.txt_provider_payment_ready_note id="note_`$v.orderid`" idfor="paid_`$v.userid`_`$v.orderid`" type="label"}
+-                <input type="checkbox" id="paid_{$v.userid}_{$v.orderid}" name="paid[{$v.orderid}]" value="{$v.commissions}" onclick="javascript: return markPartnerPayment(this);" />
++                {if $usertype eq 'A' or ($usertype eq 'P' and $active_modules.Simple_Mode)}
++                  <input type="checkbox" id="paid_{$v.userid}_{$v.orderid}" name="paid[{$v.orderid}]" value="{$v.commissions}" onclick="javascript: return markPartnerPayment(this);" />
++                {else}  
++                  {*To avoid w3c error related to idfor attr for non-existent element*}
++                  <div id="paid_{$v.userid}_{$v.orderid}" style="display: none;"></div>
++                {/if}
+ 
+               {elseif $v.paid eq 'A'}
+ 
+@@ -163,10 +179,10 @@
+               {/if}
+             </td>
+             <td>
+-              {if $usertype eq "P"}
+-                {$v.note}
+-              {else}
++              {if $usertype eq 'A' or ($usertype eq 'P' and $active_modules.Simple_Mode)}
+                 <textarea name="posted_data[{$v.orderid}][note]" cols="20" rows="2">{$v.note}</textarea>
++              {else}  
++                {$v.note}
+               {/if}
+             </td>
+           </tr>
+@@ -190,7 +206,7 @@
+ 
+           <ul class="xaff-paid-partners">
+             {foreach from=$ready item=v name=ready}
+-              <li id="user_{$v.login|escape}" class="zero">
++              <li id="user_{$v.userid|escape}" class="zero">
+                 {$v.firstname} {$v.lastname}:
+                 <span class="total" id="row_{$v.userid|escape}">{0|formatprice}</span>
+                 {if $v.min_paid gt 0}

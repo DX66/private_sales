@@ -1,0 +1,224 @@
+/* vim: set ts=2 sw=2 sts=2 et: */
+/**
+ * Special offers module CSS stylesheet
+ *  
+ * @category   X-Cart
+ * @package    X-Cart
+ * @subpackage CSS
+ * @author     Ruslan R. Fazlyev <rrf@x-cart.com> 
+ * @version    $Id: main.css,v 1.2 2010/05/31 06:08:30 igoryan Exp $
+ * @link       http://www.x-cart.com/
+ * @see        ____file_see____
+ */
+
+.products-list .special-price-row {
+  text-decoration: line-through;
+}
+
+.offers-cart-button {
+  float: right;
+}
+
+.cart .right-buttons-row {
+  width: 60%;
+}
+
+.cart .right-buttons-row .button-separator {
+  width: 60px;
+  float: right;
+}
+
+.cart .offers-common-price {
+  color: #010101;
+  font-weight: bold;
+  font-size: 12px;
+  background: transparent url(../../images/spacer_black.gif) repeat-x left 8px;
+  padding: 0;
+  margin: 0;
+}
+
+.cart .offers-free-note {
+  margin: 10px 0;
+  padding: 0;
+  font-size: 14px;
+  color: #a10000;
+}
+
+.cart .offers-free-shipping-note {
+  margin: 10px 0;
+  padding: 0;
+  font-size: 14px;
+  color: #a10000;
+}
+
+.products-list .special-price-row {
+  text-decoration: line-through;
+}
+
+.cart .right-buttons-row .button-separator {
+  width: 60px;
+  float: right;
+}
+
+a.offers-thumbnail:link,
+a.offers-thumbnail:visited,
+a.offers-thumbnail:hover,
+a.offers-thumbnail:active
+{
+  padding: 0;
+  margin: 0 0 0 -51px;
+  text-decoration: none;
+  text-align: left;
+}
+
+.products-table a.offers-thumbnail:link,
+.products-table a.offers-thumbnail:visited,
+.products-table a.offers-thumbnail:hover,
+.products-table a.offers-thumbnail:active
+{
+  display: inline;
+  position: static;
+  margin: 0 0 0 -51px;
+  text-align: left;
+}
+
+.rtl a.offers-thumbnail:link,
+.rtl a.offers-thumbnail:visited,
+.rtl a.offers-thumbnail:hover,
+.rtl a.offers-thumbnail:active
+{
+  text-align: right;
+}
+
+.rtl .products-table a.offers-thumbnail:link,
+.rtl .products-table a.offers-thumbnail:visited,
+.rtl .products-table a.offers-thumbnail:hover,
+.rtl .products-table a.offers-thumbnail:active
+{
+  display: block;
+  position: relative;
+  margin: -44px 0 0 70px;
+  text-align: left;
+}
+
+a.offers-thumbnail:link img,
+a.offers-thumbnail:visited img,
+a.offers-thumbnail:hover img,
+a.offers-thumbnail:active img
+{
+  width: 49px;
+  height: 50px;
+  margin: 0;
+  background: transparent url(../../images/special_offer_icon.png) no-repeat left top;
+}
+
+.offers-price {
+  color: #b51a00;
+  font-weight: bold;
+  font-size: 14px;
+  margin: 15px 0;
+  padding: 0;
+}
+
+/**
+ * Offers short list 
+ */
+.offers-short-list {
+  margin-bottom: 10px;
+  margin-top: 15px;
+  text-align: left;
+}
+
+.printable .offers-short-list {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.offers-cell {
+  float: left;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.offers-cell.first {
+  padding-left: 0;
+}
+
+.offers-cell.last {
+  padding-right: 0;
+}
+
+.offers-cell img {
+  margin: 5px;
+}
+
+.offers-more-info {
+  text-align: right;
+  vertical-align: middle;
+}
+
+.offers-more-info a:link,
+.offers-more-info a:visited,
+.offers-more-info a:hover,
+.offers-more-info a:active
+{
+  color: #043fa0;
+  padding-right: 12px;
+}
+
+.offers-more-info a:link,
+.offers-more-info a:visited,
+.offers-more-info a:hover,
+.offers-more-info a:active
+{
+  text-decoration: underline;
+}
+
+/**
+ * Bonuses view
+ */
+.offers-bonus-title {
+  float: left;
+  width: 50%;
+  text-align: right;
+}
+
+.offers-bonus-value {
+  font-weight: bold;
+}
+
+.offers-bonuses-page .subheader {
+  margin-top: 15px;
+}
+
+.error-page .offers-short-list {
+  display: none;
+}
+
+.cart-free-offer-title {
+  color: #043fa0;
+  font-weight: bold;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.product-details .details .bp-icon-header {
+  height: 35px;
+  text-align: center;
+  vertical-align: middle;
+  color: #ff6d00;
+  font-weight: bold;
+  font-size: 18px;
+  background: transparent url(images/bp_icon_top_middle.gif) repeat-x;
+}
+
+.product-details .details .bp-icon-footer {
+  height: 19px;
+  text-align: center;
+  vertical-align: middle;
+  color: #fff;
+  font-weight: bold;
+  font-size: 10px;
+  white-space: nowrap;
+  background: transparent url(images/bp_icon_bottom_middle.gif) repeat-x;
+}

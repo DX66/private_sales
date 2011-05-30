@@ -1,0 +1,39 @@
+Index: modules/Product_Configurator/func.php
+--- modules/Product_Configurator/func.php	2011-01-10 16:11:59.000000000 +0300
++++ modules/Product_Configurator/func.php	2011-02-07 18:34:46.000000000 +0300
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: func.php,v 1.27.2.1 2011/01/10 13:11:59 ferz Exp $
++ * @version    $Id: func.php,v 1.27.2.2 2011/02/07 15:34:46 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -238,7 +238,7 @@
+     // Get default product
+     if (!empty($slot_data['default_productid'])) {
+ 
+-        $slot_data['default_product'] = func_query_first_cell("SELECT IF($sql_tbl[products_lng].productid != '', $sql_tbl[products_lng].product, $sql_tbl[products].product) as product FROM $sql_tbl[products] LEFT JOIN $sql_tbl[products_lng] ON $sql_tbl[products_lng].code='$store_language' AND $sql_tbl[products_lng].productid = $sql_tbl[products].productid WHERE $sql_tbl[products].productid = '".$slot_data["default_productid"]."'");
++        $slot_data['default_product'] = func_query_first_cell("SELECT IF($sql_tbl[products_lng].productid != '', $sql_tbl[products_lng].product, $sql_tbl[products].product) as product FROM $sql_tbl[products] LEFT JOIN $sql_tbl[products_lng] ON $sql_tbl[products_lng].code='$current_language' AND $sql_tbl[products_lng].productid = $sql_tbl[products].productid WHERE $sql_tbl[products].productid = '".$slot_data["default_productid"]."'");
+ 
+     }
+ 
+@@ -384,7 +384,7 @@
+ function func_pconf_prepare_requirements($slot, $configuration, $ptypes_and = false)
+ {
+     global $sql_tbl, $shop_language;
+-    global $check_bidirectional_requirements;
++    global $check_bidirectional_requirements, $language_var_names;
+ 
+     // Get list of products that already are in the slots
+ 
+@@ -462,7 +462,7 @@
+                     ) {
+ 
+                         if (
+-                            is_array($required_specifications[$v2['ptypeid']])
++                            @is_array($required_specifications[$v2['ptypeid']])
+                             && in_array($v2['specid'], $required_specifications[$v2['ptypeid']])
+                         ) {
+ 

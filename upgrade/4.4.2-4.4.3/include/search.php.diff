@@ -1,0 +1,155 @@
+Index: include/search.php
+--- include/search.php	2011-01-10 16:11:50.000000000 +0300
++++ include/search.php	2011-04-22 16:18:19.000000000 +0400
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: search.php,v 1.233.2.13 2011/01/10 13:11:50 ferz Exp $
++ * @version    $Id: search.php,v 1.233.2.18 2011/04/22 12:18:19 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -160,7 +160,7 @@
+         }
+ 
+         if (!$need_advanced_options)
+-            $need_advanced_options = (doubleval($posted_data['price_min']) != 0 || intval($posted_data['avail_min']) != 0 || doubleval($posted_data['weight_min']) != 0);
++            $need_advanced_options = (doubleval(@$posted_data['price_min']) != 0 || intval(@$posted_data['avail_min']) != 0 || doubleval(@$posted_data['weight_min']) != 0);
+ 
+         if (!$need_advanced_options && $current_area == 'C' && !empty($posted_data['categoryid']))
+             $need_advanced_options = true;
+@@ -197,9 +197,6 @@
+ 
+         }
+ 
+-        $posted_data['is_modify'] = $posted_data['is_modify'];
+-        $posted_data['is_export'] = $posted_data['is_export'];
+-
+         func_unset($posted_data, '_');
+ 
+         if (!is_array($posted_data)) {
+@@ -289,8 +286,6 @@
+         $flag_save = true;
+     }
+ 
+-    $search_data["products"]["by_shortdescr"] = $search_data["products"]["by_fulldescr"] = $search_data["products"]["by_descr"];
+-
+     if (is_array($search_data['products'])) {
+ 
+         $data = $search_data['products'];
+@@ -786,7 +781,7 @@
+         $search_by_price = true;
+     }
+ 
+-    if (!empty($data['price_max']) && $data['price_max'] > 0) {
++    if (strlen(@$data["price_max"]) > 0) {
+         $where[] = "$sql_tbl[pricing].price <= '".$data["price_max"]."'";
+         $search_by_price = true;
+     }
+@@ -804,7 +799,7 @@
+         $where[] = "$avail_cond_string >= '" . $data["avail_min"] . "'";
+     }
+ 
+-    if (!empty($data['avail_max']) && $data['avail_max'] > 0) {
++    if (strlen(@$data["avail_max"]) > 0) {
+         $search_by_variants = true;
+         $where[] = "$avail_cond_string <= '" . $data["avail_max"] . "'";
+     }
+@@ -818,7 +813,7 @@
+         $where[] = "$weight_cond_string >= '" . $data["weight_min"] . "'";
+     }
+ 
+-    if (!empty($data['weight_max']) && $data['weight_max'] > 0) {
++    if (strlen(@$data["weight_max"]) > 0) {
+         $search_by_variants = true;
+         $where[] = "$weight_cond_string <= '" . $data["weight_max"] . "'";
+     }
+@@ -1325,8 +1320,7 @@
+             $thumb_dims = func_query_hash("SELECT id, image_x, image_y FROM $sql_tbl[images_T] WHERE id IN ('" . implode("','", array_map('_return_productid', $products)) . "')", "id", false);
+ 
+             $max_images_width = 0;
+-
+-            $show_special_prices = !empty($active_modules['Special_Offers']) && !empty($search_data['products']['show_special_prices']);
++            x_load('product');
+ 
+             foreach ($products as $k => $v) {
+ 
+@@ -1409,34 +1403,14 @@
+ 
+                 $products[$k] = func_array_merge($products[$k], $dims_tmp);
+ 
+-                if (
+-                    !empty($products[$k]['image_x']) 
+-                    && !empty($products[$k]['image_y'])
+-                ) {
+-
+-                    $products[$k]['tmbn_x'] = $products[$k]['image_x'];
+-                    $products[$k]['tmbn_y'] = $products[$k]['image_y'];
+-
+-                    $need_resize = ($products[$k]['tmbn_x'] > $config['Appearance']['thumbnail_width'] || $products[$k]['tmbn_y'] > $config['Appearance']['thumbnail_height']);
+-
+-                    if ($need_resize) {
+-
+-                        list(
+-                            $products[$k]['tmbn_x'], 
+-                            $products[$k]['tmbn_y']
+-                        ) = func_get_proper_dimensions(
+-                            $products[$k]['image_x'], $products[$k]['image_y'],
+-                            $config['Appearance']['thumbnail_width'], $config['Appearance']['thumbnail_height']
+-                        );
+-
+-                    }
+-
+-                }
++                $_limit_width = $config['Appearance']['thumbnail_width'];
++                $_limit_height = $config['Appearance']['thumbnail_height'];
++                $products[$k] = func_get_product_tmbn_dims($products[$k], $_limit_width, $_limit_height);
+ 
+                 $max_images_width = max($max_images_width,  $products[$k]['tmbn_x'], 125);
+ 
+                 // Calculate product taxes
+-                if ($show_special_prices) {
++                if (!empty($active_modules["Special_Offers"]) && !empty($search_data["products"]["show_special_prices"])) {
+ 
+                     func_offers_search_apply_special_price($products[$k], $logged_userid);
+ 
+@@ -1459,7 +1433,6 @@
+                 if ($products[$k]['fulldescr'] == strip_tags($products[$k]['fulldescr']))
+                     $products[$k]['fulldescr'] = str_replace("\n", "<br />", $products[$k]['fulldescr']);
+ 
+-                x_load('product');
+ 
+                 if (!func_get_allow_active_content($products[$k]['provider'])) {
+ 
+@@ -1491,7 +1464,7 @@
+ 
+             unset($thumb_dims);
+ 
+-            if ($show_special_prices) {
++            if (!empty($active_modules["Special_Offers"]) && empty($search_data["products"]["show_special_prices"])) {
+ 
+                 func_offers_check_products($logged_userid, $current_area, $products);
+ 
+@@ -1518,12 +1491,19 @@
+             }
+ 
+             $smarty->assign_by_ref('products',         $products);
+-            $smarty->assign('max_images_width', $max_images_width);
++
++            if (isset($max_images_width))
++                $smarty->assign('max_images_width', $max_images_width);
++
+             $smarty->assign('first_item',       $first_page + 1);
+             $smarty->assign('last_item',        min($first_page + $objects_per_page, $total_items));
+ 
+-            if (!empty($active_modules['Feature_Comparison']))
++            if (
++                !empty($active_modules['Feature_Comparison']) 
++                && isset($products_has_fclasses)
++            ) {
+                 $smarty->assign('products_has_fclasses', $products_has_fclasses);
++            }    
+ 
+             $smarty->assign('total_items',  $total_items);
+             $smarty->assign('mode',         'search');

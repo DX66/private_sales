@@ -1,0 +1,38 @@
+Index: address_book.php
+--- address_book.php	2011-01-10 16:11:42.000000000 +0300
++++ address_book.php	2011-02-24 16:50:31.000000000 +0300
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>. All rights reserved
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: address_book.php,v 1.11.2.1 2011/01/10 13:11:42 ferz Exp $
++ * @version    $Id: address_book.php,v 1.11.2.2 2011/02/24 13:50:31 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -52,7 +52,24 @@
+ 
+ include $xcart_dir . '/include/common.php';
+ 
+-include $xcart_dir . '/include/address_book.php';
++// Process deletion of the address in the storefront
++if (
++    $mode == 'delete'
++    && !empty($id)
++    && func_check_address_owner($logged_userid, $id)
++) {
++    $res = func_delete_address($id);
++
++    if ($res) {
++        $top_message = array(
++            'type'    => 'I',
++            'content' => func_get_langvar_by_name('txt_address_' . $mode . '_success')
++        );
++    }
++
++    func_header_location('address_book.php');
++}
++
+ 
+ $addresses = func_get_address_book($logged_userid, $login_type);
+ $smarty->assign('addresses', $addresses);

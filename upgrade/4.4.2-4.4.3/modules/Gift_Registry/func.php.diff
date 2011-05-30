@@ -1,0 +1,52 @@
+Index: modules/Gift_Registry/func.php
+--- modules/Gift_Registry/func.php	2011-01-10 16:11:57.000000000 +0300
++++ modules/Gift_Registry/func.php	2011-02-07 18:34:46.000000000 +0300
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: func.php,v 1.21.2.1 2011/01/10 13:11:57 ferz Exp $
++ * @version    $Id: func.php,v 1.21.2.2 2011/02/07 15:34:46 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -95,7 +95,7 @@
+  */
+ function func_get_giftwrap_tax_rates($taxes, $provider)
+ {
+-    global $sql_tbl, $user_account, $config, $single_mode;
++    global $sql_tbl, $user_account, $config, $single_mode, $logged_userid;
+     static $saved_tax_rates = array();
+ 
+     if (empty($taxes) || !is_array($taxes))
+@@ -120,7 +120,7 @@
+         static $_customer_tax_exempt;
+ 
+         if (empty($_customer_tax_exempt)) {
+-            $_customer_tax_exempt = func_query_first_cell("SELECT tax_exempt FROM $sql_tbl[customers] WHERE id='$zone_account'");
++            $_customer_tax_exempt = func_query_first_cell("SELECT tax_exempt FROM $sql_tbl[customers] WHERE id='$logged_userid'");
+         }
+ 
+         if ($_customer_tax_exempt == 'Y') {
+@@ -139,7 +139,7 @@
+             $provider_condition = "AND $sql_tbl[tax_rates].provider = '$provider'";
+ 
+         if (!isset($address_zones[$provider][$v['address_type']])) {
+-            $address_zones[$provider][$v['address_type']] = array_keys(func_get_customer_zones_avail($zone_account, $provider, $v['address_type']));
++            $address_zones[$provider][$v['address_type']] = array_keys(func_get_customer_zones_avail($logged_userid, $provider, $v['address_type']));
+         }
+         $zones = $address_zones[$provider][$v['address_type']];
+ 
+@@ -188,11 +188,7 @@
+         $tax_rate['rate_value'] *= 1;
+         $tax_rate['tax_display_name'] = isset($_tax_names['tax_'.$v['taxid']]) ? $_tax_names['tax_'.$v['taxid']] : $v['tax_name'];
+ 
+-        if ($is_array) {
+-            $tax_rates[$productid][$v['tax_name']] = func_array_merge($v, $tax_rate);
+-        } else {
+-            $tax_rates[$v['tax_name']] = func_array_merge($v, $tax_rate);
+-        }
++        $tax_rates[$v['tax_name']] = func_array_merge($v, $tax_rate);
+     }
+ 
+     return $tax_rates;

@@ -1,0 +1,21 @@
+Index: include/func/func.tests.php
+--- include/func/func.tests.php	2011-01-10 16:11:52.000000000 +0300
++++ include/func/func.tests.php	2011-02-07 18:34:45.000000000 +0300
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: func.tests.php,v 1.32.2.2 2011/01/10 13:11:52 ferz Exp $
++ * @version    $Id: func.tests.php,v 1.32.2.3 2011/02/07 15:34:45 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -288,7 +288,7 @@
+     foreach ($ccprocessors as $index=>$processor) {
+         $result = test_ccprocessor($processor);
+ 
+-        $processor['is_down'] = !$result['status'];
++        $is_down = $processor['is_down'] = !$result['status'];
+         if (!$is_down || !$hide_disfunctional)
+             $result[] = $processor;
+     }

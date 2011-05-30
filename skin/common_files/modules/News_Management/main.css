@@ -1,0 +1,59 @@
+/* vim: set ts=2 sw=2 sts=2 et: */
+/**
+ * News management module CSS stylesheet
+ *  
+ * @category   X-Cart
+ * @package    X-Cart
+ * @subpackage CSS
+ * @author     Ruslan R. Fazlyev <rrf@x-cart.com> 
+ * @version    $Id: main.css,v 1.2 2010/05/31 06:08:29 igoryan Exp $
+ * @link       http://www.x-cart.com/
+ * @see        ____file_see____
+ */
+
+.news-register-item {
+  margin-bottom: 5px;
+}
+
+.news-register-item label {
+  line-height: 15px;
+}
+
+.news-register-item span {
+  font-style: italic;
+}
+
+/* News list */
+label.news-item {
+  display: block;
+  font-weight: bold;
+}
+
+.news-item-descr {
+  font-style: italic;
+  padding-left: 20px;
+  padding-bottom: 15px;
+}
+
+.news-list .news-item {
+  margin-top: 27px;
+}
+
+.news-list .news-item.last {
+  margin-bottom: 27px;
+}
+
+.news-list .news-date {
+  color: #818891;
+}
+
+.news-list .news-title {
+  color: #2c3e49;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.news-list .news-body {
+  margin-top: 10px;
+}
+

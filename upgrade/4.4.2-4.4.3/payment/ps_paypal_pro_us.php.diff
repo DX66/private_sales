@@ -1,0 +1,55 @@
+Index: payment/ps_paypal_pro_us.php
+--- payment/ps_paypal_pro_us.php	2011-01-10 16:12:08.000000000 +0300
++++ payment/ps_paypal_pro_us.php	2011-02-24 16:50:32.000000000 +0300
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: ps_paypal_pro_us.php,v 1.56.2.6 2011/01/10 13:12:08 ferz Exp $
++ * @version    $Id: ps_paypal_pro_us.php,v 1.56.2.9 2011/02/24 13:50:32 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -102,9 +102,11 @@
+ 
+     if (!empty($do_return) && !empty($paypal_token)) {
+         $str_token = "<Token>$paypal_token</Token>";
++    } else {
++        $str_token = '';
+     }
+ 
+-    $pp_locale_code = in_array($all_languages[$shop_language]['contry_code'], $pp_locale_codes) ? $all_languages[$shop_language]['contry_code'] : 'US';
++    $pp_locale_code = in_array($all_languages[$shop_language]['country_code'], $pp_locale_codes) ? $all_languages[$shop_language]['country_code'] : 'US';
+ 
+     $address = '';
+ 
+@@ -287,7 +289,7 @@
+ 
+     if (!empty($login) && $login_type == 'C') {
+ 
+-        $cart['used_s_address'] = $address;
++        $cart = func_set_cart_address($cart, 'S', $address);
+ 
+         // Fill empty address book
+         if (func_is_address_book_empty($logged_userid)) {
+@@ -302,7 +304,6 @@
+     }
+     elseif ($config['General']['enable_anonymous_checkout'] == 'Y') {
+ 
+-        x_load('user');
+ 
+         // Fill-in anonymous customer profile
+ 
+@@ -332,10 +333,8 @@
+         }
+ 
+         // save anonymous customer info in session
+-        x_session_register('anonymous_userinfo', array());
+-        $anonymous_userinfo = $pp_anon_user;
+-        $anonymous_userinfo['usertype'] = empty($usertype) ? 'C' : $usertype;
+-
++        x_load('user');
++        func_set_anonymous_userinfo($pp_anon_user);
+     }
+     else {
+         // Display a warning message about expired session

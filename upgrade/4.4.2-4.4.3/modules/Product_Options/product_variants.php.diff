@@ -1,0 +1,21 @@
+Index: modules/Product_Options/product_variants.php
+--- modules/Product_Options/product_variants.php	2011-01-10 16:12:01.000000000 +0300
++++ modules/Product_Options/product_variants.php	2011-02-03 14:39:18.000000000 +0300
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: product_variants.php,v 1.49.2.2 2011/01/10 13:12:01 ferz Exp $
++ * @version    $Id: product_variants.php,v 1.49.2.3 2011/02/03 11:39:18 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -686,7 +686,7 @@
+ }
+ 
+ $variants     = func_get_product_variants($productid);
+-$svariants     = $search_variants[$productid];
++$svariants     = isset($search_variants[$productid]) ? $search_variants[$productid] : array();
+ 
+ if (
+     $svariants

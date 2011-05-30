@@ -1,0 +1,30 @@
+Index: modules/Product_Configurator/pconf_customer_cart.php
+--- modules/Product_Configurator/pconf_customer_cart.php	2011-01-10 16:12:00.000000000 +0300
++++ modules/Product_Configurator/pconf_customer_cart.php	2011-02-04 18:40:22.000000000 +0300
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: pconf_customer_cart.php,v 1.36.2.1 2011/01/10 13:12:00 ferz Exp $
++ * @version    $Id: pconf_customer_cart.php,v 1.36.2.3 2011/02/04 15:40:22 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -102,7 +102,7 @@
+                     );
+ 
+                     $cart['products'][] = array(
+-                        'cartid'         => func_generate_cartid($cart['products']),
++                        'cartid'         => func_generate_cartid(),
+                         'productid'     => $product_info['productid'],
+                         'amount'         => $amount * $product_info['amount'],
+                         'pcitem_amount' => $product_info['amount'],
+@@ -131,7 +131,7 @@
+ 
+         foreach ($cart['products'] as $k=>$v) {
+ 
+-            if ($v['hidden'] != $productindex) {
++            if (@$v['hidden'] != $productindex) {
+ 
+                 $products_tmp[] = $v;
+ 

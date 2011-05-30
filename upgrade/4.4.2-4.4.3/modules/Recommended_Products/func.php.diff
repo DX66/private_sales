@@ -1,0 +1,21 @@
+Index: modules/Recommended_Products/func.php
+--- modules/Recommended_Products/func.php	2011-01-10 16:12:01.000000000 +0300
++++ modules/Recommended_Products/func.php	2011-01-19 09:32:53.000000000 +0300
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>. All rights reserved
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: func.php,v 1.1.2.2 2011/01/10 13:12:01 ferz Exp $
++ * @version    $Id: func.php,v 1.1.2.3 2011/01/19 06:32:53 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -59,6 +59,8 @@
+     static $max_rnd_number = '';
+ 
+     $_time = XC_TIME - intval($config['Recommended_Products']['rnd_keys_refresh_period']) * 3600;
++    
++    settype($config['last_rnd_keys_refresh_time'], 'int');
+     if (
+         (intval($config['last_rnd_keys_refresh_time']) > $_time && empty($productid))
+         || empty($active_modules['Recommended_Products'])

@@ -1,0 +1,67 @@
+Index: skin/common_files/js/common.js
+--- skin/common_files/js/common.js	2011-01-10 16:12:10.000000000 +0300
++++ skin/common_files/js/common.js	2011-03-03 13:53:08.000000000 +0300
+@@ -8,7 +8,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com> 
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: common.js,v 1.13.2.3 2011/01/10 13:12:10 ferz Exp $
++ * @version    $Id: common.js,v 1.13.2.4 2011/03/03 10:53:08 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -1035,10 +1035,11 @@
+     return true;
+   }
+ 
+-  var err = empty = false;
++  var error_found = err = empty = false;
+   var frm = this;
+     
+-  $('label', frm).each(function() {
++  $('label[for]', frm).each(function() {
++    err = empty = false;
+ 
+     if (!this.htmlFor) {
+       return;
+@@ -1050,7 +1051,7 @@
+       return;
+     }
+ 
+-    if ($(f).parents(':hidden').length > 0) {
++    if ($(f).is(':hidden')) {
+       return;
+     }
+ 
+@@ -1136,17 +1137,15 @@
+     }
+ 
+     if (err) {
++      error_found = true;
++      markErrorField(f, empty ? lbl_field_required: '');
++      $(f).focus();
+ 
+       if (is_admin_editor) {
+-        errFields[errFields.length] = $(this).html();
++        if (errFields.length < 20) 
++          errFields[errFields.length] = $(this).html();
+       }
+       else {
+-        markErrorField(f, empty ? lbl_field_required: '');
+-
+-        if ($(f).not(':hidden')) {
+-          $(f).focus();
+-        }
+-
+         xAlert(substitute(errMsg, 'field', $(this).html()), lbl_warning);
+         return false;
+       }
+@@ -1154,7 +1153,7 @@
+ 
+   });
+ 
+-  if (err && !is_admin_editor) {
++  if (error_found && !is_admin_editor) {
+ 
+     return false;
+ 

@@ -1,0 +1,118 @@
+Index: include/data_cache.php
+--- include/data_cache.php	2011-01-10 16:11:48.000000000 +0300
++++ include/data_cache.php	2011-05-03 12:31:29.000000000 +0400
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: data_cache.php,v 1.42.2.17 2011/01/10 13:11:48 ferz Exp $
++ * @version    $Id: data_cache.php,v 1.42.2.22 2011/05/03 08:31:29 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -109,8 +109,6 @@
+         || (XC_TIME-$config['data_cache_expiration']) > $_data_cache_ttl
+     ) {
+ 
+-        func_data_cache_clear();
+-
+         $config['data_cache_expiration'] = XC_TIME;
+ 
+         func_array2insert(
+@@ -123,10 +121,35 @@
+             ),
+             true
+         );
++
++        func_data_cache_clear();
+     }
+     $_data_cache_ttl = null;
+ }
+ 
++/**
++ * Sort active_modules according order to initialization
++ */
++function func_sort_active_modules($a, $b)
++{
++    static $sort_order = array(
++        'Amazon_Checkout' => 1, #can be unsetted in config/init.php
++        'Flyout_Menus' => 1, #can be unsetted in config/init.php
++        'Google_Checkout' => 1, #can be unsetted in config/init.php
++        'Magnifier' => 1, #can be unsetted in config/init.php
++        'Wishlist' => 11, #Gift_Registry depends on Wishlist
++        'Gift_Registry' => 12, #can be unsetted in config/init.php
++        'News_Management' => 31,
++        'Survey' => 32,
++        'Image_Verification' => 33,# Image_Verification depends on Survey/News_Management
++        'Manufacturers' => 23,
++        'XAffiliate' => 24, #XAffiliate depends on Manufacturers
++    );
++    $key_a = isset($sort_order[$a]) ? -$sort_order[$a] : -1000;
++    $key_b = isset($sort_order[$b]) ? -$sort_order[$b] : -1001;
++    return $key_b - $key_a;
++}
++
+ function func_dc_modules()
+ {
+     global $sql_tbl;
+@@ -136,6 +159,7 @@
+     $active_modules = array();
+ 
+     if ($all_active_modules) {
++        usort($all_active_modules, 'func_sort_active_modules');
+         foreach($all_active_modules as $active_module) {
+             $active_modules[$active_module] = true;
+         }
+@@ -196,7 +220,7 @@
+ 
+     $languages_codes = implode("', '", $_codes);
+ 
+-    if (defined('X_MYSQL41_COMP_MODE')) {
++    if (version_compare(X_MYSQL_VERSION, '4.1.0') >= 0) {
+         $languages = func_query_hash("
+                 SELECT tmp_lng.*, IFNULL(lng_l.value, tmp_lng.language) AS language,
+                        $sql_tbl[images_G].image_path, $sql_tbl[images_G].image_x, $sql_tbl[images_G].image_y
+@@ -277,12 +301,11 @@
+     return null;
+ }
+ 
+-function func_dc_get_categories_tree($root = 0, $simple = true, $language = false, $membershipid = false)
++function func_dc_get_categories_tree($root, $simple, $language, $membershipid)
+ {
+     global $sql_tbl;
+ 
+     x_load('category');
+-
+     return func_get_categories_tree($root, $simple, $language, $membershipid);
+ }
+ 
+@@ -308,7 +331,7 @@
+         || $lng_code == $default_language
+     ) {
+         $labels = db_query("SELECT name, value FROM xcart_languages WHERE code = '$lng_code'");
+-    } elseif(defined('X_MYSQL5_COMP_MODE')) {
++    } elseif(version_compare(X_MYSQL_VERSION, '5.0.1') > 0) {
+         // Obtain all languages with $lng_code, add $default_language for empty names. Thanks2Abr.
+         db_query("CREATE OR REPLACE VIEW base_lang AS SELECT name,value FROM xcart_languages WHERE code ='$lng_code'");
+         $labels = db_query("
+@@ -348,7 +371,10 @@
+ 
+ function func_dc_sql_vars()
+ {
+-    return func_query_hash("SHOW VARIABLES", 'Variable_name', false, true);
++    if (version_compare(X_MYSQL_VERSION, '5.0.3') >= 0)
++        return func_query_hash("SHOW VARIABLES WHERE Variable_name in ('max_allowed_packet', 'lower_case_table_names', 'max_join_size', 'character_set_client')", 'Variable_name', false, true);
++    else        
++        return func_query_hash("SHOW VARIABLES", 'Variable_name', false, true);
+ }
+ 
+ /*
+@@ -429,7 +455,7 @@
+ 
+     $storage = array();
+     foreach ($all_tables as $k => $v) { 
+-        $storage[$v] = func_query_column('SHOW FIELDS FROM ' . $v);
++        $storage[strtolower($v)] = func_query_column('SHOW FIELDS FROM ' . $v);
+     }    
+ 
+     return $storage;

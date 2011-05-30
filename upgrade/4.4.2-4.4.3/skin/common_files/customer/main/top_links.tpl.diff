@@ -1,0 +1,19 @@
+Index: skin/common_files/customer/main/top_links.tpl
+--- skin/common_files/customer/main/top_links.tpl	2010-07-07 15:49:46.000000000 +0400
++++ skin/common_files/customer/main/top_links.tpl	2011-03-09 13:47:40.000000000 +0300
+@@ -1,5 +1,5 @@
+ {*
+-$Id: top_links.tpl,v 1.2 2010/07/07 11:49:46 igoryan Exp $ 
++$Id: top_links.tpl,v 1.2.2.1 2011/03/09 10:47:40 aim Exp $ 
+ vim: set ts=2 sw=2 sts=2 et:
+ *}
+ <div id="top-links" class="ui-tabs ui-widget ui-corner-all">
+@@ -7,7 +7,7 @@
+   {foreach from=$tabs item=tab key=ind}
+     {inc value=$ind assign="ti"}
+     <li class="ui-corner-top ui-state-default{if $tab.selected} ui-tabs-selected ui-state-active{/if}">
+-      <a href="{if $tab.url}{$tab.url|amp}{else}#{$prefix}{$ti}{/if}">{$tab.title|escape}</a>
++      <a href="{if $tab.url}{$tab.url|amp}{else}#{$prefix}{$ti}{/if}">{$tab.title|wm_remove|escape}</a>
+     </li>
+   {/foreach}
+   </ul>

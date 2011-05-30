@@ -1,0 +1,19 @@
+Index: skin/common_files/main/order_info.tpl
+--- skin/common_files/main/order_info.tpl	2010-12-17 11:48:48.000000000 +0300
++++ skin/common_files/main/order_info.tpl	2011-01-20 11:03:45.000000000 +0300
+@@ -1,5 +1,5 @@
+ {*
+-$Id: order_info.tpl,v 1.1.2.5 2010/12/17 08:48:48 ferz Exp $
++$Id: order_info.tpl,v 1.1.2.6 2011/01/20 08:03:45 aim Exp $
+ vim: set ts=2 sw=2 sts=2 et:
+ *}
+ {include file="main/subheader.tpl" title=$lng.lbl_products_info}
+@@ -312,7 +312,7 @@
+   <td>&nbsp;&nbsp;{$login_field_name}</td>
+   <td>
+     {if (($usertype eq 'A' and $current_membership_flag ne 'FS') or ($usertype eq 'P' and $active_modules.Simple_Mode)) and $customer.login ne ''}
+-      <a href="user_modify.php?user={$customer.userid}&amp;usertype=C" title="{$lng.lbl_modify_profile|escape}" target="_blank">{$customer.login}</a>
++      <a href="{$catalogs.admin}/user_modify.php?user={$customer.userid}&amp;usertype=C" title="{$lng.lbl_modify_profile|escape}" target="_blank">{$customer.login}</a>
+     {else}
+       {if $customer.userid gt 0} <font class="Star">({$lng.lbl_deleted}, {$lng.lbl_id}: {$customer.userid})</font>{else}{$lng.lbl_anonymous}{/if}
+     {/if}

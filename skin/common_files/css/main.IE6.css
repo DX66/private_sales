@@ -1,0 +1,349 @@
+/* vim: set ts=2 sw=2 sts=2 et: */
+/**
+ * General CSS stylesheet (overrides for IE6.x)
+ * 
+ * @category   X-Cart
+ * @package    X-Cart
+ * @subpackage CSS
+ * @author     Ruslan R. Fazlyev <rrf@x-cart.com> 
+ * @version    $Id: main.IE6.css,v 1.6.2.2 2010/09/27 05:48:48 igoryan Exp $
+ * @link       http: //www.x-cart.com/
+ * @see        ____file_see____
+ */
+
+/**
+ * Page container
+ */
+#page-container {
+  height: 100%;
+  border-left: 780px solid #fff;
+  float: left;
+  position: relative;
+}
+
+#page-container2 {
+  float: left;
+  margin-left: -780px;
+  position: relative;
+  height: 620px; /* bottom-expand */
+}
+
+#center-main {
+  width: 100%;
+}
+
+hr {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+td,
+th
+{
+  font-size: 11px;
+}
+
+/**
+ * Vertical align centering
+ */
+.valign-middle * {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.valign-middle-adv-lvl1 {
+  position: relative;
+}
+
+.valign-middle-adv-lvl2 {
+  position: absolute;
+  top: 50%;
+}
+
+.valign-middle-adv-lvl3 {
+  position: relative;
+  top: -50%;
+}
+
+/**
+ * Horizontal align
+ */
+.halign-center {
+  display: inline;
+  width: 1px;
+  text-align: center;
+}
+
+label input {
+  vertical-align: middle;
+}
+
+/**
+ * Product page
+ */
+table.product-properties {
+  width: auto;
+}
+
+table.product-properties .property-value {
+  padding-left: 20px;
+}
+
+#dialog-message .box {
+  height: 52px;
+}
+
+/**
+ * Overflow wrapper
+ */
+.overflow {
+  width: 100%;
+  overflow-y: hidden;
+  margin-right: 0;
+}
+
+/**
+ * Tab styles
+ */
+.tabs li {
+  width: 0;
+}
+
+/**
+ * Products list
+ */
+.products .details {
+  width: 100%;
+  padding-left: 0;
+}
+
+/**
+ * Product details page
+ */
+.product-details .details {
+  padding-left: 40px;
+}
+
+.product-details .details .save {
+  height: 57px;
+}
+
+/**
+ * Alternative layout: printable
+ */
+.printable #page-container {
+  float: none;
+  border: 0 none;
+  position: static;
+}
+
+.printable #page-container2 {
+  float: none;
+  margin-left: 0;
+  position: static;
+}
+
+.printable #center-main {
+  width: auto;
+  vertical-align: top;
+  overflow: visible;
+}
+
+.printable .product-details .details .save {
+  right: 13px;
+}
+
+/**
+ * Alternative layout: error 404
+ */
+.error-404 #page-container {
+  border-left: 0 none;
+  float: none;
+  height: 100%;
+}
+
+.error-404 #page-container2 {
+  float: none;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+}
+
+input.image-button {
+  background-position: left top;
+}
+
+/**
+ * Dropout-button
+ */
+div.dropout-box iframe {
+  position: absolute;
+  top: 0;
+  left: -1px;
+  z-index: -1;
+  filter: mask();
+}
+
+.checkout-top-login {
+  line-height: 16px;
+}
+
+/**
+ * Menu dialog
+ */
+#left-bar .menu-dialog .content {
+  zoom: 1;
+}
+
+#right-bar .menu-dialog .content {
+  zoom: 1;
+}
+
+.images-preview-bg {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background: #000 none;
+  filter:progid: DXImageTransform.Microsoft.Alpha(opacity=50);
+}
+
+iframe.images-preview-iframe {
+  position: absolute;
+  top: 50px;
+  left: 50px;
+  background: #fff none;
+  border: 0 none;
+}
+
+iframe.images-preview-iframe-modal {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 2900;
+  background: transparent none;
+  filter:progid: DXImageTransform.Microsoft.Alpha(opacity=50);
+  border: 0 none;
+}
+
+.images-preview div.list-box {
+  text-align: left;
+}
+
+.images-viewer-icons img {
+  margin: auto 1px;
+}
+
+/**
+ * Right-to-left text direction
+ */
+.rtl #page-container2 {
+  float: none;
+}
+
+.rtl #content-container2 {
+  right: 0;
+  left: 100%;
+}
+
+.minicart-box {
+  top: 21px;
+}
+
+.minicart-box .buttons-row .light-button * {
+  float: left;
+}
+
+.minicart-box .checkout-popup-link div.buttons-box {
+  top: 26px;
+}
+
+.ajax-minicart img.minicart-button {
+  margin-top: 3px;
+  margin-bottom: 3px;
+}
+
+.creviews-vote-bar a,
+.creviews-vote-bar span,
+.creviews-vote-bar a img,
+.creviews-vote-bar span img
+{
+  background-image: none;
+}
+
+.creviews-vote-bar .bg,
+.creviews-vote-bar a img,
+.creviews-vote-bar span img
+{
+  display: block;
+  position: absolute;
+  left: 1px;
+  right: 1px;
+  top: 0;
+  width: 20px;
+  height: 100px;
+  filter:progid: DXImageTransform.Microsoft.AlphaImageLoader(src="skin/common_files/images/stars.png",
+sizingMethod="crop");
+}
+
+.creviews-vote-bar span.full .bg,
+.creviews-vote-bar span img
+{
+  top: -20px;
+}
+
+.allow-add-rate a .bg {
+  top: -40px;
+}
+
+.allow-add-rate a.full .bg,
+.allow-add-rate a img
+{
+  top: -60px;
+}
+
+.allow-add-rate a.over .bg {
+  top: -80px;
+}
+
+.allow-add-rate a.over img {
+  display: none;
+}
+
+.printable div.evaluation-notice {
+  zoom: 1;
+}
+
+img.language-code-out {
+  margin: 1px;
+}
+
+/**
+ *   Dialog container
+ */
+.list-dialog .title div.sort-box {
+  width: 70%;
+}
+
+/**
+ *  Advanced search page
+*/ 
+.search-again {
+  margin-left: 320px;
+}
+
+div.new-address-label a.new-address {
+  display: block;
+  padding-bottom: 75px;
+}
+
+li.address-box {
+  width: 265px;
+}
+
+.popup-address li.address-box {
+  width: 215px;
+}

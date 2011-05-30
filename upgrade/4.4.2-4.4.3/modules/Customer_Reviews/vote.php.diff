@@ -1,0 +1,21 @@
+Index: modules/Customer_Reviews/vote.php
+--- modules/Customer_Reviews/vote.php	2011-01-10 16:11:55.000000000 +0300
++++ modules/Customer_Reviews/vote.php	2011-03-09 10:13:03.000000000 +0300
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: vote.php,v 1.26.2.1 2011/01/10 13:11:55 ferz Exp $
++ * @version    $Id: vote.php,v 1.26.2.2 2011/03/09 07:13:03 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -119,7 +119,7 @@
+         // Check review
+ 
+         x_session_register('antibot_err');
+-        $antibot_err = (!empty($active_modules['Image_Verification']) && func_validate_image("on_reviews", $antibot_input_str));
++        $antibot_err = (!empty($active_modules['Image_Verification']) && func_validate_image("on_reviews", $antibot_input_str_on_reviews));
+         $result = func_query_first("SELECT * FROM $sql_tbl[product_reviews] WHERE remote_ip = '$REMOTE_ADDR' AND productid = '$productid'");
+         $review_author = trim($review_author);
+         $review_message = trim($review_message);

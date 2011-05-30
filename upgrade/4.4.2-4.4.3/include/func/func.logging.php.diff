@@ -1,0 +1,30 @@
+Index: include/func/func.logging.php
+--- include/func/func.logging.php	2011-01-10 16:11:52.000000000 +0300
++++ include/func/func.logging.php	2011-02-07 18:34:45.000000000 +0300
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: func.logging.php,v 1.27.2.4 2011/01/10 13:11:52 ferz Exp $
++ * @version    $Id: func.logging.php,v 1.27.2.6 2011/02/07 15:34:45 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -355,7 +355,7 @@
+         );
+     }
+ 
+-    if ($force_output !== false && $fource_output !== true)
++    if ($force_output !== false && $force_output !== true)
+         $force_output = false;
+ 
+     $keys = array_keys($all_labels);
+@@ -619,7 +619,7 @@
+ 
+         // Write error to file
+         $bt = '';
+-        if (defined('LOG_WITH_BACKTRACE') && constant('LOG_WITH_BACKTRACE') && preg_match("/^Smarty error: /", $errstr)) {
++        if (func_constant('LOG_WITH_BACKTRACE') || func_constant('DEVELOPMENT_MODE')) {
+             $bt = "\nREQUEST_URI: ".$_SERVER['REQUEST_URI'];
+             $bt .= "\nBacktrace:\n\t".implode("\n\t", func_get_backtrace(1));
+         }

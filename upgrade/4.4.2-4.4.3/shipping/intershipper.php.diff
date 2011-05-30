@@ -1,0 +1,32 @@
+Index: shipping/intershipper.php
+--- shipping/intershipper.php	2011-01-10 16:12:09.000000000 +0300
++++ shipping/intershipper.php	2011-04-14 12:01:08.000000000 +0400
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: intershipper.php,v 1.91.2.1 2011/01/10 13:12:09 ferz Exp $
++ * @version    $Id: intershipper.php,v 1.91.2.2 2011/04/14 08:01:08 ferz Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -121,7 +121,7 @@
+     $ZO = $orig_address['zipcode'];
+ 
+     $CD=$__intershipper_userinfo['s_country'];
+-    $ZD=urlencode($__intershipper_userinfo['s_zipcode']);
++    $ZD=$__intershipper_userinfo['s_zipcode'];
+ 
+     if (!empty($intershipper_countries[$CD])) $CD = $intershipper_countries[$CD];
+     if (!empty($intershipper_countries[$CO])) $CO = $intershipper_countries[$CO];
+@@ -192,8 +192,10 @@
+         $post[] = "OptionCode$i=$v";
+     }
+ 
++    $post = array_map("urlencode",$post);
+     $query = join('&', $post);
+     $md5_request = md5($query);
++
+     if ((func_is_shipping_result_in_cache($md5_request)) &&  ($debug != 'Y')){
+         return func_get_shipping_result_from_cache($md5_request);
+     }

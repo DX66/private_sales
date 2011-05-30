@@ -1,0 +1,16 @@
+Index: skin/common_files/main/tooltip_js.tpl
+--- skin/common_files/main/tooltip_js.tpl	2010-07-20 10:47:40.000000000 +0400
++++ skin/common_files/main/tooltip_js.tpl	2011-01-19 17:57:31.000000000 +0300
+@@ -1,10 +1,10 @@
+ {*
+-$Id: tooltip_js.tpl,v 1.5 2010/07/20 06:47:40 igoryan Exp $ 
++$Id: tooltip_js.tpl,v 1.5.2.1 2011/01/19 14:57:31 aim Exp $ 
+ vim: set ts=2 sw=2 sts=2 et:
+ *}
+ {if $type eq 'label'}
+ 
+-  <label id="{$idfor|default:"for_tooltip_link"}">
++  <label for="{$idfor|default:"for_tooltip_link"}">
+     <a class="{$class|default:"NeedHelpLink"|escape}"{if $show_title} title="{$title|default:$lng.lbl_need_help|escape}"{/if} id="{$id|default:"tooltip_link"}" rel="#{$id|default:"tooltip_link"}_tooltip">{$title|default:$lng.lbl_need_help}</a>
+   </label>
+ 

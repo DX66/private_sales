@@ -1,0 +1,44 @@
+/* vim: set ts=2 sw=2 sts=2 et: */
+/**
+ * X-Magnifier module CSS stylesheet
+ *  
+ * @category   X-Cart
+ * @package    X-Cart
+ * @subpackage CSS
+ * @author     Ruslan R. Fazlyev <rrf@x-cart.com> 
+ * @version    $Id: main.css,v 1.2.2.1 2010/08/25 09:09:34 igoryan Exp $
+ * @link       http://www.x-cart.com/
+ * @see        ____file_see____
+ */
+
+/* Product details page */
+.magnifier-popup-link {
+  margin-top: 3px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.magnifier-popup-link a:link,
+.magnifier-popup-link a:visited,
+.magnifier-popup-link a:hover,
+.magnifier-popup-link a:active
+{
+  text-decoration: underline;
+  background: transparent url(../../images/zoom_image.gif) no-repeat left top;
+  padding-left: 16px;
+}
+
+.printable .magnifier-popup-link {
+  display: none;
+}
+
+#magnifier_wrapper {
+  min-height: 400px;
+  margin: 0 auto;
+  padding: 0;
+}
+
+#magnifier_div {
+  position: relative;
+  text-align: center;
+}

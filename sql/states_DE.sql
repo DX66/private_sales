@@ -1,0 +1,16 @@
+INSERT INTO xcart_states (state, code, country_code) VALUES ('Baden-Württemberg','BW','DE');
+INSERT INTO xcart_states (state, code, country_code) VALUES ('Bayern','BY','DE');
+INSERT INTO xcart_states (state, code, country_code) VALUES ('Berlin','BE','DE');
+INSERT INTO xcart_states (state, code, country_code) VALUES ('Brandenburg','BR','DE');
+INSERT INTO xcart_states (state, code, country_code) VALUES ('Bremen','HB','DE');
+INSERT INTO xcart_states (state, code, country_code) VALUES ('Hamburg','HH','DE');
+INSERT INTO xcart_states (state, code, country_code) VALUES ('Hessen','HE','DE');
+INSERT INTO xcart_states (state, code, country_code) VALUES ('Mecklenburg-Vorpommern','MV','DE');
+INSERT INTO xcart_states (state, code, country_code) VALUES ('Niedersachsen','NI','DE');
+INSERT INTO xcart_states (state, code, country_code) VALUES ('Nordrhein-Westfalen','NW','DE');
+INSERT INTO xcart_states (state, code, country_code) VALUES ('Rheinland-Pfalz','RP','DE');
+INSERT INTO xcart_states (state, code, country_code) VALUES ('Sachsen-Anhalt','ST','DE');
+INSERT INTO xcart_states (state, code, country_code) VALUES ('Sachsen','SN','DE');
+INSERT INTO xcart_states (state, code, country_code) VALUES ('Saarland','SL','DE');
+INSERT INTO xcart_states (state, code, country_code) VALUES ('Schleswig-Holstein','SH','DE');
+INSERT INTO xcart_states (state, code, country_code) VALUES ('Thüringen','TH','DE');

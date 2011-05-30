@@ -1,0 +1,14 @@
+Index: skin/fashion_mosaic_blue/customer/categories.tpl
+--- skin/fashion_mosaic_blue/customer/categories.tpl	2010-12-17 18:12:37.000000000 +0300
++++ skin/fashion_mosaic_blue/customer/categories.tpl	2011-03-21 16:16:31.000000000 +0300
+@@ -1,8 +1,8 @@
+ {*
+-$Id: categories.tpl,v 1.2.2.1 2010/12/17 15:12:37 aim Exp $
++$Id: categories.tpl,v 1.2.2.2 2011/03/21 13:16:31 aim Exp $
+ vim: set ts=2 sw=2 sts=2 et:
+ *}
+-{if $categories_menu_list ne ''}
++{if $categories_menu_list ne '' or $fancy_use_cache}
+ {capture name=menu}
+ 
+ {if $active_modules.Flyout_Menus}

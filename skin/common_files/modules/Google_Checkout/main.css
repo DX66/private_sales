@@ -1,0 +1,56 @@
+/* vim: set ts=2 sw=2 sts=2 et: */
+/**
+ * Google checkout Module CSS stylesheet
+ *  
+ * @category   X-Cart
+ * @package    X-Cart
+ * @subpackage CSS
+ * @author     Ruslan R. Fazlyev <rrf@x-cart.com> 
+ * @version    $Id: main.css,v 1.3 2010/08/04 08:32:27 igoryan Exp $
+ * @link       http://www.x-cart.com/
+ * @see        ____file_see____
+ */
+
+.gcheckout-cart-buttons {
+}
+
+.gcheckout-cart-buttons div {
+  width: 200px;
+  margin-left: auto;
+  margin-right: 0;
+  overflow: visible;
+  text-align: right;
+}
+
+.gcheckout-cart-buttons p {
+  width: 100%;
+  text-align: right;
+  margin: 10px 0;
+}
+
+table.gcheckout-top-button {
+  float: right;
+  margin-bottom: 3px;
+}
+
+table.gcheckout-top-button tr td {
+  padding: 0;
+}
+
+table.gcheckout-top-button tr td.gcheckout-or-use {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.error-page .gcheckout-top-button {
+  display: none;
+}
+
+.gcheckout-button,
+.gcheckout-button img
+{
+  width: 160px;
+  height: 43px;
+  border: none;
+  background: transparent none;
+}

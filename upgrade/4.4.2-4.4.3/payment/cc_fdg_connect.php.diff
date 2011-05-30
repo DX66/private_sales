@@ -1,0 +1,62 @@
+Index: payment/cc_fdg_connect.php
+--- payment/cc_fdg_connect.php	2011-01-10 16:12:06.000000000 +0300
++++ payment/cc_fdg_connect.php	2011-03-10 12:01:03.000000000 +0300
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: cc_fdg_connect.php,v 1.16.2.1 2011/01/10 13:12:06 ferz Exp $
++ * @version    $Id: cc_fdg_connect.php,v 1.16.2.2 2011/03/10 09:01:03 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -129,10 +129,10 @@
+ 
+     $is_preauth         = ($module_params['use_preauth'] == 'Y' || func_is_preauth_force_enabled($secure_oid));
+ 
+-    $fdg_total_cost     = number_format($cart['total_cost'], 2);
++    $fdg_total_cost     = number_format($cart['total_cost'], 2, '.', '');
+     $trantype           = $is_preauth ? 'preauth' : 'sale';
+     $fdg_oid            = fdg_trim($fdg_prefix.join("-", $secure_oid), 100);
+-    $fdg_subtotal       = number_format($cart['total_cost'] - $cart['shipping_cost'] - $cart['tax_cost'], 2);
++    $fdg_subtotal       = number_format($cart['total_cost'] - $cart['shipping_cost'] - $cart['tax_cost'], 2, '.', '');
+     $fdg_response_url   = $current_location.'/payment/'.$module_params['processor'];
+     $fdg_trim_limit     = ($fdg_region == 'EMEA') ? 30 : 96;
+     $fdg_user_name      = fdg_trim($userinfo['firstname']." ".$userinfo['lastname'], $fdg_trim_limit);
+@@ -144,22 +144,22 @@
+         'oid'               => $fdg_oid,
+         'chargetotal'       => $fdg_total_cost,
+         'mode'              => $fdg_mode,
+-        'subtotal'          => number_format($fdg_total_cost - $cart['shipping_cost'] - $cart['tax_cost'], 2),
+-        'shipping'          => number_format($cart['shipping_cost'], 2),
+-        'tax'               => number_format($cart['tax_cost'], 2),
++        'subtotal'          => $fdg_subtotal,
++        'shipping'          => number_format($cart['shipping_cost'], 2, '.', ''),
++        'tax'               => number_format($cart['tax_cost'], 2, '.', ''),
+         'comments'          => fdg_trim($customer_notes, 1024),
+ 
+         'bcompany'          => fdg_trim($userinfo['company'], $fdg_trim_limit),
+            'bname'          => $fdg_user_name,
+            'baddr1'         => fdg_trim($userinfo['b_address'], $fdg_trim_limit),
+-        'baddr2'            => fdg_trim($userinfo['b_address_2'], $fdg_trim_limit),
++        'baddr2'            => fdg_trim(@$userinfo['b_address_2'], $fdg_trim_limit),
+            'bcity'          => fdg_trim($userinfo['b_city'], $fdg_trim_limit),
+            'bcountry'       => $userinfo['b_country'],
+         'bzip'              => $userinfo['b_zipcode'],
+ 
+         'sname'             => $fdg_user_name,
+         'saddr1'            => fdg_trim($userinfo['s_address'], $fdg_trim_limit),
+-        'saddr2'            => fdg_trim($userinfo['s_address_2'], $fdg_trim_limit),
++        'saddr2'            => fdg_trim(@$userinfo['s_address_2'], $fdg_trim_limit),
+         'scity'             => fdg_trim($userinfo['s_city'], $fdg_trim_limit),
+         'scountry'          => $userinfo['s_country'],
+         'szip'              => $userinfo['s_zipcode'],
+@@ -189,6 +189,8 @@
+             'authenticateTransaction' => $fdg_3dsecure == 'Y' ? 'true' : 'false',
+         );
+ 
++    } else {
++        $fdg_check_str = '';
+     }
+ 
+     foreach (array('b', 's') as $state_type) {

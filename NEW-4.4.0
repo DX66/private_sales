@@ -1,0 +1,73 @@
+X-CART 4.4 NEW FEATURES
+========================
+
+DESIGN AND APPEARANCE
+----------------------
+
+
+* The admin area interface has been revamped. X-Cart admin area looks completely different now, navigating it became easier. Read  this section to get acquainted with the new interface. 
+
+* Changing the skin used in your store also became much easier. It is now enough to simply select the required skin from the list and click Save. Read this section for more information. 
+
+* There are now two checkout options - Fast Lane Checkout or One page AJAX checkout. One page checkout allows to enter name and address, select shipping and payment methods on one page. 
+
+* It is now possible to create a site map and make it available to customers. Use the Sitemap module to configure the contents and the look and feel of the site map page. 
+
+* Customers can now view Product map, which includes all the products alphabetically. Only the products whose names begin with a specific letter can be viewed. The results are paginated. 
+
+
+
+SHIPPING & PAYMENT MODULES
+---------------------------
+
+* UPS and FedEx shipping modules have been updated to current API documentation.
+
+* Compatibility with ZIP+4 codes used in the US has been added.
+
+* The following payment modules have been added: 
+
+- DIBS FlexWin
+- eWay UK (Hosted Payment Page)
+- SagePay Gp (Server integration)
+- Quantum Gateway In Line Frames API
+- Global Gateway Connect - EMEA (merchant payment form)
+- Global Gateway Connect - North America (bypassing the payment form) 
+
+* The following payment module has been removed: 
+
+- Quantum Gateway QGWdatabase Engine 
+
+* The following payment modules have been renamed: 
+
+old name 	                            new name
+
+eWay Realtime Payments Shared           eWay Shared Payment
+eWay Realtime Payments XML              eWay Merchant Hosted Payment
+SagePay Form Protocol                   SagePay Go Form integration
+SagePay Direct Protocol                 SagePay Go Direct integration
+PayPoint.net SECPay payment page        PayPoint.net Lite/Professional
+PayPoint.net Metacharge payment page    PayPoint.net Fast Track 
+
+
+
+MISCELLANEOUS
+--------------
+
+* "My Account" page has been added to the customer area, where a customer can control all the account information.
+
+* Gift wrapping functionality can now be enabled even if the Gift Registry module is disabled.
+
+* Email can now be used as login.
+
+* Customers can now use an address book in "My account" section to manage their shipping and billing addresses. 
+
+
+
+ADD-ONS
+------
+
+All the add-on modules available for X-Cart 4.3 have been included into X-Cart 4.4 out of the box. Now you do not need to buy and install any of them separately. 
+
+
+-------------------------------------------
+Please read the CHANGELOG for more details.

@@ -1,0 +1,138 @@
+Index: include/search_users.php
+--- include/search_users.php	2011-01-10 16:11:50.000000000 +0300
++++ include/search_users.php	2011-04-27 14:37:09.000000000 +0400
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: search_users.php,v 1.28.2.1 2011/01/10 13:11:50 ferz Exp $
++ * @version    $Id: search_users.php,v 1.28.2.3 2011/04/27 10:37:09 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -48,6 +48,7 @@
+ if ( !defined('XCART_SESSION_START') ) { header("Location: ../"); die("Access denied"); }
+ 
+ $where = array();
++$inner_joins = array();
+ 
+ if (!empty($data['usertype'])) {
+     // Search by usertype...
+@@ -90,11 +91,6 @@
+         $where[] = "(".implode(" OR ", $condition).")";
+ }
+ 
+-if (!empty($data['phone'])) {
+-    // Search by phone...
+-    $alt_phone = preg_replace("/[- ]/", '', $data['phone']);
+-    $where[] = "($sql_tbl[customers].phone LIKE '%".$data["phone"]."%' OR $sql_tbl[customers].phone LIKE '%$alt_phone%' OR $sql_tbl[customers].fax LIKE '%".$data["phone"]."%' OR $sql_tbl[customers].fax LIKE '%$alt_phone%')";
+-}
+ 
+ if (!empty($data['url'])) {
+     // Search by web site url...
+@@ -107,25 +103,47 @@
+     // Search by address...
+ 
+     if (!empty($data['city']))
+-        $address_condition[] = "$sql_tbl[customers].PREFIX_city LIKE '%".$data["city"]."%'";
++        $address_condition[] = "$sql_tbl[address_book].city LIKE '%".$data["city"]."%'";
+ 
+     if (!empty($data['state']))
+-        $address_condition[] = "$sql_tbl[customers].PREFIX_state='".$data["state"]."'";
++        $address_condition[] = "$sql_tbl[address_book].state='".$data["state"]."'";
+ 
+     if (!empty($data['country']))
+-        $address_condition[] = "$sql_tbl[customers].PREFIX_country='".$data["country"]."'";
++        $address_condition[] = "$sql_tbl[address_book].country='".$data["country"]."'";
++
++    if (!empty($data['zipcode'])) {
++        if ($config['General']['zip4_support'] == 'Y') {
++            $alt_zipcode = preg_replace("/[- ]/", '', $data['zipcode']);
++            $address_condition[] = "(CONCAT($sql_tbl[address_book].zipcode, $sql_tbl[address_book].zip4) LIKE '%".$data["zipcode"]."%' OR CONCAT($sql_tbl[address_book].zipcode, $sql_tbl[address_book].zip4) LIKE '%$alt_zipcode%')";
++        } else {
++            $address_condition[] = "$sql_tbl[address_book].zipcode LIKE '%".$data["zipcode"]."%'";
++        }
++    }        
+ 
+-    if (!empty($data['zipcode']))
+-        $address_condition[] = "$sql_tbl[customers].PREFIX_zipcode LIKE '%".$data["zipcode"]."%'";
++    if (!empty($data['phone'])) {
++        $alt_phone = preg_replace("/[- ]/", '', $data['phone']);
++        $address_condition[] = "($sql_tbl[address_book].phone LIKE '%".$data["phone"]."%' OR $sql_tbl[address_book].phone LIKE '%$alt_phone%' OR $sql_tbl[address_book].fax LIKE '%".$data["phone"]."%' OR $sql_tbl[address_book].fax LIKE '%$alt_phone%')";
++    }
+ 
+     if (!empty($address_condition)) {
+         $address_condition = implode(" AND ", $address_condition);
++        $_where = '';
+ 
+-        if ($data['address_type'] == 'B' || $data['address_type'] == 'Both')
+-            $where[] = preg_replace("/PREFIX_(city|state|country|zipcode)/", "b_\\1", $address_condition);
++        switch ($data['address_type']) {
++            case 'B':
++                $_where = ' AND ' . $address_condition . " AND $sql_tbl[address_book].default_b='Y'";
++                break;
++            case 'S':
++                $_where = ' AND ' . $address_condition . " AND $sql_tbl[address_book].default_s='Y'";
++                break;
++            case 'All':
++                $_where = ' AND ' . $address_condition;
++                break;
++        }
+ 
+-        if ($data['address_type'] == 'S' || $data['address_type'] == 'Both')
+-            $where[] = preg_replace("/PREFIX_(city|state|country|zipcode)/", "s_\\1", $address_condition);
++        $inner_joins['address_book'] = array(
++            'on' => "$sql_tbl[address_book].userid = $sql_tbl[customers].id $_where",
++        );
+     }
+ 
+ }
+@@ -234,6 +252,12 @@
+     $having[] = "cnt <= '".intval($data["orders_max"])."'";
+ }
+ 
++foreach ($inner_joins as $ijname => $ij) {
++    $inner_joins[$ijname]['is_inner'] = true;
++}
++
++$inner_join_condition = func_generate_joins($inner_joins);
++
+ $left_join_condition = " LEFT JOIN $sql_tbl[orders] ON $sql_tbl[customers].id=$sql_tbl[orders].userid ";
+ 
+ $search_condition = empty($where) ? '' : (" WHERE ".implode(" AND ", $where));
+@@ -243,7 +267,7 @@
+ /**
+  * Calculate the number of rows in the search results
+  */
+-$_total_items = db_query("SELECT COUNT($sql_tbl[customers].id), COUNT($sql_tbl[orders].orderid) as cnt FROM $sql_tbl[customers]" . $left_join_condition . $search_condition . $group_condition);
++$_total_items = db_query("SELECT COUNT($sql_tbl[customers].id), COUNT(DISTINCT $sql_tbl[orders].orderid) as cnt FROM $sql_tbl[customers]" . $inner_join_condition . $left_join_condition . $search_condition . $group_condition);
+ 
+ $total_items = db_num_rows($_total_items);
+ db_free_result($_total_items);
+@@ -253,7 +277,7 @@
+ 
+ // Export all found users
+ if (!empty($data['_get_sql_query'])) {
+-    $sql_query = "SELECT $sql_tbl[customers].id, COUNT($sql_tbl[orders].orderid) as cnt FROM $sql_tbl[customers] " . $left_join_condition . $search_condition . $group_condition;
++    $sql_query = "SELECT $sql_tbl[customers].id, COUNT(DISTINCT $sql_tbl[orders].orderid) as cnt FROM $sql_tbl[customers] " . $inner_join_condition .  $left_join_condition . $search_condition . $group_condition;
+     return true;
+ }
+ 
+@@ -273,7 +297,7 @@
+ /**
+  * Perform the SQL query and getting the search results
+  */
+-$users = func_query("SELECT $sql_tbl[customers].*, COUNT($sql_tbl[orders].orderid) as cnt, IFNULL($sql_tbl[memberships_lng].membership, $sql_tbl[memberships].membership) as membership, CASE WHEN $sql_tbl[customers].usertype = 'A' THEN 10 WHEN $sql_tbl[customers].usertype = 'P' THEN 5 WHEN $sql_tbl[customers].usertype = 'B' THEN 2 WHEN $sql_tbl[customers].usertype = 'C' THEN 1 ELSE 0 END AS usertype_cost FROM $sql_tbl[customers] LEFT JOIN $sql_tbl[memberships] ON $sql_tbl[customers].membershipid = $sql_tbl[memberships].membershipid LEFT JOIN $sql_tbl[memberships_lng] ON $sql_tbl[memberships].membershipid = $sql_tbl[memberships_lng].membershipid AND $sql_tbl[memberships_lng].code = '$shop_language'" . $left_join_condition . $search_condition . $group_condition . $sort_string);
++$users = func_query("SELECT $sql_tbl[customers].*, COUNT(DISTINCT $sql_tbl[orders].orderid) as cnt, IFNULL($sql_tbl[memberships_lng].membership, $sql_tbl[memberships].membership) as membership, CASE WHEN $sql_tbl[customers].usertype = 'A' THEN 10 WHEN $sql_tbl[customers].usertype = 'P' THEN 5 WHEN $sql_tbl[customers].usertype = 'B' THEN 2 WHEN $sql_tbl[customers].usertype = 'C' THEN 1 ELSE 0 END AS usertype_cost FROM $sql_tbl[customers] $inner_join_condition LEFT JOIN $sql_tbl[memberships] ON $sql_tbl[customers].membershipid = $sql_tbl[memberships].membershipid LEFT JOIN $sql_tbl[memberships_lng] ON $sql_tbl[memberships].membershipid = $sql_tbl[memberships_lng].membershipid AND $sql_tbl[memberships_lng].code = '$shop_language'" . $left_join_condition . $search_condition . $group_condition . $sort_string);
+ 
+ if (is_array($users)) {
+ 
+@@ -289,7 +313,7 @@
+         if ($v['usertype'] == 'P' && !$single_mode)
+             $users[$k]['products'] = func_query_first_cell("SELECT COUNT(*) FROM $sql_tbl[products] WHERE provider='" . $v['id'] . "'");
+ 
+-        if ($active_modules['XAffiliate'] && $v["usertype"] == "B")
++        if (!empty($active_modules['XAffiliate']) && $v["usertype"] == "B")
+             $users[$k]['plan_id'] = func_query_first_cell("SELECT plan_id FROM $sql_tbl[partner_commissions] WHERE userid = '" . $v['id'] . "'");
+     }
+ }

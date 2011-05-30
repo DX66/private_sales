@@ -1,0 +1,33 @@
+Index: skin/common_files/payments/cc_fdg_connect.tpl
+--- skin/common_files/payments/cc_fdg_connect.tpl	2010-06-08 10:17:41.000000000 +0400
++++ skin/common_files/payments/cc_fdg_connect.tpl	2011-03-10 12:01:03.000000000 +0300
+@@ -1,5 +1,5 @@
+ {*
+-$Id: cc_fdg_connect.tpl,v 1.5 2010/06/08 06:17:41 igoryan Exp $
++$Id: cc_fdg_connect.tpl,v 1.5.2.1 2011/03/10 09:01:03 aim Exp $
+ vim: set ts=2 sw=2 sts=2 et:
+ *}
+ <h1>{$module_data.module_name}</h1>
+@@ -45,10 +45,10 @@
+   {rdelim}
+ 
+   if (region != 'EMEA') {ldelim}
+-    $('#3dsecure option[value=N]').attr('selected', 'selected');
+-    $('#3dsecure').attr('disabled', 'disabled');
++    $('#secure option[value=N]').attr('selected', 'selected');
++    $('#secure').attr('disabled', 'disabled');
+   {rdelim} else {ldelim}
+-    $('#3dsecure').removeAttr('disabled');
++    $('#secure').removeAttr('disabled');
+   {rdelim}
+ 
+ 
+@@ -127,7 +127,7 @@
+ <tr>
+   <td>{$lng.lbl_cc_3dsecure}:</td>
+   <td>
+-    <select name="param08" id="3dsecure">
++    <select name="param08" id="secure">
+       <option value="Y"{if $module_data.param08 eq "Y"} selected="selected"{/if}>{$lng.lbl_enabled}</option>
+       <option value="N"{if $module_data.param08 eq "N"} selected="selected"{/if}>{$lng.lbl_disabled}</option>
+     </select>

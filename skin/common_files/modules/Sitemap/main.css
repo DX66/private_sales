@@ -1,0 +1,28 @@
+/*
+$Id: main.css,v 1.1 2010/06/01 15:22:55 slam Exp $
+vim: set ts=2 sw=2 sts=2 et:
+*/
+.sitemap_products {
+	font-style: italic;
+	font-weight: normal;
+	list-style: none;
+}
+
+.sitemap_categories_sub {
+	font-weight: bold;
+	list-style: none;
+}
+
+.sitemap_manufacturers {
+    font-weight: bold;
+    list-style: none;
+}
+
+.sitemap_section {
+	list-style: none;
+	margin-left: -5px;
+}
+
+.sitemap_item {
+	list-style: none;
+}

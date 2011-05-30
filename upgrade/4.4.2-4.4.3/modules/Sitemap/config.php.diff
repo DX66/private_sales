@@ -1,0 +1,43 @@
+Index: modules/Sitemap/config.php
+--- modules/Sitemap/config.php	2011-01-10 16:12:01.000000000 +0300
++++ modules/Sitemap/config.php	2011-04-22 16:14:17.000000000 +0400
+@@ -34,14 +34,15 @@
+ /**
+  * Module configuration
+  *
+- * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+- * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+- * @license    http://www.x-cart.com/license.php X-Cart license agreement
+  * @category   X-Cart
+- * @package    Modules
++ * @package    X-Cart
+  * @subpackage Sitemap
+- * @version    $Id: config.php,v 1.9.2.1 2011/01/10 13:12:01 ferz Exp $
++ * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
++ * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>. All rights reserved
++ * @license    http://www.x-cart.com/license.php X-Cart license agreement
++ * @version    $Id: config.php,v 1.9.2.2 2011/04/22 12:14:17 aim Exp $
+  * @since      4.4.0
++ * @see        ____file_see____
+  */
+ 
+ if (!defined('XCART_START')) { header('Location: ../../'); die('Access denied');}
+@@ -75,4 +76,18 @@
+         'src_func'          => 'sitemap_process_page'
+     );
+ }
++
++$_module_dir  = $xcart_dir . XC_DS . 'modules' . XC_DS . 'Sitemap';
++/*
++ Load module functions
++*/
++if (!empty($include_func))
++    require_once $_module_dir . XC_DS . 'func.php';
++
++/*
++ Module initialization
++*/
++if (!empty($include_init))
++    include $_module_dir . XC_DS . 'init.php';
++
+ ?>

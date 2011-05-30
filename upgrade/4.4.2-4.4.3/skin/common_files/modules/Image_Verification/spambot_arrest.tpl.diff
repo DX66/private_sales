@@ -1,0 +1,57 @@
+Index: skin/common_files/modules/Image_Verification/spambot_arrest.tpl
+--- skin/common_files/modules/Image_Verification/spambot_arrest.tpl	2010-11-15 14:46:25.000000000 +0300
++++ skin/common_files/modules/Image_Verification/spambot_arrest.tpl	2011-03-09 10:13:04.000000000 +0300
+@@ -1,15 +1,24 @@
+ {*
+-$Id: spambot_arrest.tpl,v 1.5.2.2 2010/11/15 11:46:25 ferz Exp $
++$Id: spambot_arrest.tpl,v 1.5.2.3 2011/03/09 07:13:04 aim Exp $
+ vim: set ts=2 sw=2 sts=2 et:
+ *}
++{*
++IN antibot_name_prefix id mode ...
++*}
+ {if not $id}
+   {assign var="id" value="image"}
+ {/if}
+ 
++{if $antibot_name_prefix ne ''}
++  {assign var="antibot_input_str_name" value="antibot_input_str"|cat:$antibot_name_prefix}
++{else}  
++  {assign var="antibot_input_str_name" value="antibot_input_str"}
++{/if}
++
+ {if $mode eq 'data-table'}
+ <tr class="hidden"><td>
+ {/if}
+-<label for="antibot_input_str" class="data-required hidden">{$lng.lbl_word_verification}</label>
++<label for="{$antibot_input_str_name}" class="data-required hidden">{$lng.lbl_word_verification}</label>
+ {if $mode eq 'data-table'}
+ </td></tr>
+ {/if}
+@@ -28,7 +37,7 @@
+         <div class="valign-middle-adv-lvl2">
+           <div class="valign-middle-adv-lvl3">
+             <span class="star">*</span>
+-            <input type="text" id="antibot_input_str" name="antibot_input_str"{if $antibot_err} class="err"{/if} />
++            <input type="text" id="{$antibot_input_str_name}" name="{$antibot_input_str_name}"{if $antibot_err} class="err"{/if} />
+             {if $button_code}
+               <div>
+                 {$button_code}
+@@ -56,7 +65,7 @@
+     </td>
+     <td class="data-required">*</td>
+     <td class="iv-box">
+-      <input type="text" id="antibot_input_str" name="antibot_input_str"{if $antibot_err} class="err"{/if} />
++      <input type="text" id="{$antibot_input_str_name}" name="{$antibot_input_str_name}"{if $antibot_err} class="err"{/if} />
+       {if $button_code}
+         <div class="button-row">
+           {$button_code}
+@@ -75,7 +84,7 @@
+     {include file="modules/Image_Verification/image_block.tpl"}
+     <div class="iv-input">
+       <span class="star">*</span>
+-      <input type="text" id="antibot_input_str" name="antibot_input_str"{if $antibot_err} class="err"{/if} />
++      <input type="text" id="{$antibot_input_str_name}" name="{$antibot_input_str_name}"{if $antibot_err} class="err"{/if} />
+     </div>
+     <div class="clearing"></div>
+   </div>

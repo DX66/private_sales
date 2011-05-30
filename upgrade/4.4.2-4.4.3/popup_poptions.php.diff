@@ -1,0 +1,22 @@
+Index: popup_poptions.php
+--- popup_poptions.php	2011-01-10 16:11:43.000000000 +0300
++++ popup_poptions.php	2011-03-01 12:26:23.000000000 +0300
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: popup_poptions.php,v 1.37.2.1 2011/01/10 13:11:43 ferz Exp $
++ * @version    $Id: popup_poptions.php,v 1.37.2.2 2011/03/01 09:26:23 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -191,8 +191,7 @@
+         }
+ 
+         // Recalculate cart totals after updating
+-        $products = func_products_in_cart($cart, (!empty($user_account['membershipid']) ? $user_account['membershipid'] : ''));
+-        $cart = func_array_merge($cart, func_calculate($cart, $products, $logged_userid, $current_area, 0));
++        list($cart, $products) = func_generate_products_n_recalculate_cart();
+ 
+     } elseif ($target == 'wishlist') {
+ 

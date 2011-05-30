@@ -1,0 +1,27 @@
+Index: orders.php
+--- orders.php	2011-01-10 16:11:43.000000000 +0300
++++ orders.php	2011-02-02 19:01:14.000000000 +0300
+@@ -40,12 +40,12 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: orders.php,v 1.29.2.1 2011/01/10 13:11:43 ferz Exp $
++ * @version    $Id: orders.php,v 1.29.2.3 2011/02/02 16:01:14 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+ 
+-define('NUMBER_VARS', "posted_data[total_min],posted_data[total_max],posted_data[price_min],posted_data[price_max]");
++define('NUMBER_VARS', "posted_data['total_min'],posted_data['total_max'],posted_data['price_min'],posted_data['price_max']");
+ 
+ require './auth.php';
+ 
+@@ -70,7 +70,7 @@
+ 
+ if (
+     $mode == 'subscriptions'
+-    && $active_modules['Subscriptions']
++    && !empty($active_modules['Subscriptions'])
+ ) {
+ 
+     include $xcart_dir.'/modules/Subscriptions/subscriptions.php';

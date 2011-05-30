@@ -1,0 +1,180 @@
+Index: modules/Google_Checkout/func.php
+--- modules/Google_Checkout/func.php	2011-01-10 16:11:57.000000000 +0300
++++ modules/Google_Checkout/func.php	2011-04-08 13:41:10.000000000 +0400
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: func.php,v 1.29.2.2 2011/01/10 13:11:57 ferz Exp $
++ * @version    $Id: func.php,v 1.29.2.14 2011/04/08 09:41:10 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -187,26 +187,35 @@
+  */
+ function func_gcheckout_get_taxes($cart)
+ {
+-    global $sql_tbl, $single_mode, $config, $cart;
++    global $sql_tbl, $single_mode, $cart;
+     global $user_account;
+ 
+-    $membershipid = $user_account['membershipid'];
++    $membershipid = intval($user_account['membershipid']);
+ 
+     static $_zones_cache = array();
++    static $result_cache = array();
++
++    if (empty($cart['products']) || !is_array($cart['products']))
++        return false;
+ 
+     $products = $cart['products'];
+ 
+-    if (empty($products) || !is_array($products))
+-        return false;
++    $md5_args = md5(serialize(array($products, $membershipid)));
++    if (isset($result_cache[$md5_args])) {
++        return $result_cache[$md5_args];
++    }
+ 
++    $productids = array();
+     foreach ($products as $k => $p) {
+         $productids[$p['productid']] = $p;
+     }
+ 
+     $_product_taxes = func_query_hash("SELECT $sql_tbl[taxes].*, $sql_tbl[product_taxes].productid FROM $sql_tbl[taxes], $sql_tbl[product_taxes], $sql_tbl[products] WHERE $sql_tbl[products].productid=$sql_tbl[product_taxes].productid AND $sql_tbl[taxes].taxid=$sql_tbl[product_taxes].taxid AND $sql_tbl[products].free_tax!='Y' AND $sql_tbl[product_taxes].productid IN ('".implode("','", array_keys($productids))."') AND $sql_tbl[taxes].active='Y' ORDER BY $sql_tbl[taxes].priority", "productid");
+ 
+-    if (empty($_product_taxes))
++    if (empty($_product_taxes)) {
++        $result_cache[$md5_args] = false;
+         return false;
++    }        
+ 
+     $taxes = array();
+     $have_tax_rates = false;
+@@ -243,14 +252,16 @@
+ 
+                 $_zone = array();
+                 $_zones = array();
++                
++                $zone_cache_key = $rates[$i]['zoneid'];
+ 
+-                if (isset($_zones_cache[$rates[$i]['zoneid']])) {
++                if (isset($_zones_cache[$zone_cache_key])) {
+                     // Get zone details from cache
+-                    $_zones = $_zones_cache[$rates[$i]['zoneid']];
++                    $_zones = $_zones_cache[$zone_cache_key];
+                 }
+                 else {
+                     // Gather zone details for tax rate
+-                    $_zones_result = func_query("SELECT $sql_tbl[zone_element].* FROM $sql_tbl[zone_element] WHERE zoneid='{$rates[$i]['zoneid']}'");
++                    $_zones_result = func_query("SELECT $sql_tbl[zone_element].* FROM $sql_tbl[zone_element] WHERE zoneid='$zone_cache_key'");
+ 
+                     if (!empty($_zones_result))
+                         foreach ($_zones_result as $_current_zone)
+@@ -282,7 +293,7 @@
+                             $_zones[$k]['zone_rating'] += $zone_element_rating[$_zone_type] * count($_zone_arr);
+                     }
+ 
+-                    $_zones_cache[$_rate['zoneid']] = $_zones;
++                    $_zones_cache[$zone_cache_key] = $_zones;
+ 
+                 }
+ 
+@@ -290,8 +301,8 @@
+                 $_tmp_rate = $rates[$i];
+ 
+                 foreach ($_zones as $_zone) {
+-                    $_tmp_rate['zone'] = $_zone['zone'];
+-                    $_tmp_rate['zone_rating'] = $_zone['zone_rating'];
++                    $_tmp_rate['zone'] = @$_zone['zone'];
++                    $_tmp_rate['zone_rating'] = @$_zone['zone_rating'];
+                     $taxes[$_taxes[0]['tax_name']]['rates'][] = $_tmp_rate;
+                 }
+ 
+@@ -301,8 +312,10 @@
+         }
+     }
+ 
+-    if (!$have_tax_rates)
++    if (!$have_tax_rates) {
++        $result_cache[$md5_args] = false;
+         return false;
++    }        
+ 
+     if (!$single_mode) {
+         $taxes_pro = array();
+@@ -316,6 +329,7 @@
+         $taxes = $taxes_pro;
+     }
+ 
++    $result_cache[$md5_args] = $taxes;
+     return $taxes;
+ 
+ }
+@@ -497,4 +511,66 @@
+     }
+ }
+ 
++function func_gcheckout_wait_for_orders_from_callback($skey, $current_module = 'Google_Checkout', $wait_time=3)
++{
++    global $gcheckout_jump_counter, $current_location, $smarty;
++    
++    x_session_register('gcheckout_jump_counter', 0);
++
++    if (++$gcheckout_jump_counter < 10) {
++        // There are no orders found
++        $smarty->assign('time', $wait_time);
++
++        if ($current_module == 'Google_Checkout')
++            $smarty->assign('url', $current_location."/payment/ps_gcheckout_return.php?mode=continue&amp;skey=$skey");
++        else            
++            $smarty->assign('url', $current_location."/payment/ps_amazon.php?mode=continue&amp;skey=$skey");
++
++        x_session_save();
++        func_display('modules/Google_Checkout/waiting.tpl', $smarty);
++        exit;
++    }   
++    $gcheckout_jump_counter = 0;
++
++    return true;
++}
++
++/**
++ * Check if Google Checkout can be used
++ */
++function func_is_gcheckout_enabled()
++{
++    global $gcheckout_enabled;
++    return isset($gcheckout_enabled) ? $gcheckout_enabled : false;
++}
++
++/**
++ * Attention! Must be called from global scope
++ */
++function func_gcheckout_restore_session_n_global($skey)
++{
++    global $sql_tbl, $user_account, $products;
++
++    $sessid = func_query_first_cell("SELECT sessionid FROM $sql_tbl[cc_pp3_data] WHERE ref = '$skey'");
++
++    x_session_id($sessid);
++    x_session_register('login');#nolint
++    x_session_register('login_type');#nolint
++    x_session_register('logged_userid');#nolint
++    x_session_register('cart');#nolint
++    x_session_register('user_tmp', array());#nolint
++    x_session_register('current_carrier', 'UPS');#nolint
++
++    // Do not initialize session vars from global. Use session values
++    global $login, $login_type, $logged_userid, $cart, $user_tmp, $current_carrier;
++   
++    if (!empty($logged_userid)) {
++        $user_account['membershipid'] = func_query_first_cell("SELECT membershipid FROM $sql_tbl[customers] WHERE id='$logged_userid'");
++    }
++
++    $products = func_products_in_cart($cart, (!empty($user_account['membershipid']) ? $user_account['membershipid'] : ''));
++
++    return !empty($cart);
++}
++
+ ?>

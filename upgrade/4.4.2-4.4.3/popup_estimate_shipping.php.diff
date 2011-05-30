@@ -1,0 +1,61 @@
+Index: popup_estimate_shipping.php
+--- popup_estimate_shipping.php	2011-01-10 16:11:43.000000000 +0300
++++ popup_estimate_shipping.php	2011-02-08 12:10:59.000000000 +0300
+@@ -40,14 +40,15 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: popup_estimate_shipping.php,v 1.8.2.2 2011/01/10 13:11:43 ferz Exp $
++ * @version    $Id: popup_estimate_shipping.php,v 1.8.2.3 2011/02/08 09:10:59 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+ 
+ require './auth.php';
+ 
+-x_session_register('anonymous_userinfo', array());
++x_load('user');
++$_anonymous_userinfo = func_get_anonymous_userinfo();
+ 
+ /**
+  * Update data
+@@ -58,20 +59,20 @@
+ ) {
+ 
+     if (
+-        !isset($anonymous_userinfo['address']['S'])
+-        && isset($anonymous_userinfo['address']['B'])
++        !isset($_anonymous_userinfo['address']['S'])
++        && isset($_anonymous_userinfo['address']['B'])
+     ) {
+         // Means ship to billing address was previously selected
+-        $anonymous_userinfo['address']['B'] = func_array_merge($anonymous_userinfo['address']['B'], $_POST['change_userinfo']);
++        $_anonymous_userinfo['address']['B'] = func_array_merge($_anonymous_userinfo['address']['B'], $_POST['change_userinfo']);
+ 
+     } else {
+     
+         // Otherwise update shipping address only
+-        $anonymous_userinfo['address']['S'] = func_array_merge($anonymous_userinfo['address']['S'], $_POST['change_userinfo']);
++        $_anonymous_userinfo['address']['S'] = isset($_anonymous_userinfo['address']['S']) ? $_anonymous_userinfo['address']['S'] : array();
++        $_anonymous_userinfo['address']['S'] = func_array_merge($_anonymous_userinfo['address']['S'], $_POST['change_userinfo']);
+ 
+     }
+-
+-    x_session_save();
++    func_set_anonymous_userinfo($_anonymous_userinfo);
+ 
+     func_reload_parent_window();
+ }
+@@ -84,9 +85,9 @@
+ 
+ $smarty->assign('shipping_estimate_fields', $shipping_estimate_fields);
+ 
+-$address = (isset($anonymous_userinfo['address']['S']))
+-    ? $anonymous_userinfo['address']['S']
+-    : $anonymous_userinfo['address']['B'];
++$address = (isset($_anonymous_userinfo['address']['S']))
++    ? $_anonymous_userinfo['address']['S']
++    : $_anonymous_userinfo['address']['B'];
+ 
+ $smarty->assign('address',       $address);
+ $smarty->assign('template_name', 'customer/main/estimate_shipping.tpl');

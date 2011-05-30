@@ -1,0 +1,81 @@
+Index: payment/cc_ogone.php
+--- payment/cc_ogone.php	2011-01-10 16:12:06.000000000 +0300
++++ payment/cc_ogone.php	2011-02-04 13:00:08.000000000 +0300
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: cc_ogone.php,v 1.27.2.1 2011/01/10 13:12:06 ferz Exp $
++ * @version    $Id: cc_ogone.php,v 1.27.2.2 2011/02/04 10:00:08 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -49,8 +49,6 @@
+ 
+ x_load('http');
+ 
+-require($xcart_dir.'/payment/sha1.php');
+-
+ $errerr = array(
+     '00000000' => "Automatic Address and CVC check successful ",
+     '00000001' => "Automatic CVC check successful (address not checked) ",
+@@ -461,30 +459,41 @@
+ $pp_userid = $module_params['param07'];
+ $_orderids = join("-",$secure_oid);
+ 
+-$post = '';
++func_pm_load('cc_ogone_common'); // Define Func_ogone_generate_signature function
++
++$post = array();
+ 
+-$post[] = "PSPID=".$pp_merch;
++$post[] = 'PSPID='.$pp_merch;
++$post[] = 'USERID='.$pp_userid;
++$post[] = 'PSWD='.$pp_pass;
++$post[] = 'orderID='.$pp_shift.$_orderids;
++$post[] = 'amount='.(100*$cart['total_cost']);
++$post[] = 'currency='.$pp_curr;
++$post[] = 'CN='.$userinfo['card_name'];
++$post[] = 'CARDNO='.$userinfo['card_number'];
++$post[] = 'ED='.substr($userinfo['card_expire'],0,2).'/'.substr($userinfo['card_expire'],2,2);
++$post[] = 'CVC='.$userinfo['card_cvv2'];
++$post[] = 'Ecom_Payment_Card_Verification='.$userinfo['card_cvv2'];
++$post[] = 'EMAIL='.$userinfo['email'];
++$post[] = 'Owneraddress='.$userinfo['b_address'];
++$post[] = 'OwnerZip='.$userinfo['b_zipcode'];
++$post[] = 'Withroot=yes';
++$post[] = 'REMOTE_ADDR='.func_get_valid_ip($REMOTE_ADDR);
++$post[] = 'Operation=SAL';
+ 
+-if (!empty($pp_userid))
+-    $post[] = "USERID=".$pp_userid;
++// Generate SHAsignature based on previous defined $post var
++$post[] = 'SHASign=' . func_ogone_generate_signature($post, 'simple_array', $pp_secret);
+ 
+-$post[] = "PSWD=".$pp_pass;
+-$post[] = "orderID=".$pp_shift.$_orderids;
+-$post[] = "amount=".(100*$cart['total_cost']);
+-$post[] = "currency=".$pp_curr;
+-$post[] = "CN=".$userinfo['card_name'];
+-$post[] = "CARDNO=".$userinfo['card_number'];
+-$post[] = "ED=".substr($userinfo['card_expire'],0,2).'/'.substr($userinfo['card_expire'],2,2);
+-$post[] = "Ecom_Payment_Card_Verification=".$userinfo['card_cvv2'];
+-$post[] = "EMAIL=".$userinfo['email'];
+-$post[] = "Owneraddress=".$userinfo['b_address'];
+-$post[] = "OwnerZip=".$userinfo['b_zipcode'];
+-$post[] = "Withroot=yes";
+-$post[] = "REMOTE_ADDR=".func_get_valid_ip($REMOTE_ADDR);
+-$post[] = "SHASign=".sha1($pp_shift.$_orderids.(100*$cart['total_cost']).$pp_curr.$userinfo['card_number'].$pp_merch.$pp_secret);
++if (defined('OGONE_DEBUG')) {
++    func_pp_debug_log('ogone', 'I', $post);
++}
+ 
+ list($a,$ret) = func_https_request('POST', $pp_test, $post);
+ 
++if (defined('OGONE_DEBUG')) {
++    func_pp_debug_log('ogone', 'R', $ret);
++}
++
+ preg_match("/[^NC]STATUS=\"(.+)\"/U",$ret,$a);
+ 
+ $bill_output['billmes'] = (empty($staerr[$a[1]]) ? "Status code: ".$a[1] : $staerr[$a[1]]);

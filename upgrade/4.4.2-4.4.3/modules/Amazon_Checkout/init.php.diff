@@ -1,0 +1,60 @@
+Index: modules/Amazon_Checkout/init.php
+--- modules/Amazon_Checkout/init.php	2011-01-10 16:11:55.000000000 +0300
++++ modules/Amazon_Checkout/init.php	2011-05-04 18:25:38.000000000 +0400
+@@ -38,30 +38,24 @@
+  * @package    X-Cart
+  * @subpackage Modules
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+- * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
++ * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>. All rights reserved
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: init.php,v 1.7.2.1 2011/01/10 13:11:55 ferz Exp $
++ * @version    $Id: init.php,v 1.7.2.6 2011/05/04 14:25:38 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+ 
+-if ( !defined('XCART_SESSION_START') ) { header("Location: ../"); die("Access denied"); }
++if ( !defined('XCART_SESSION_START') ) { header("Location: ../../"); die("Access denied"); }
+ 
+ if (defined('QUICK_START'))
+     return;
+ 
+-$config['Amazon_Checkout']['amazon_mid'] = trim($config['Amazon_Checkout']['amazon_mid']);
+-
+-$amazon_enabled = (!empty($config['Amazon_Checkout']['amazon_mid']));
+-
+-$smarty->assign('amazon_enabled', $amazon_enabled);
+-
+ // URL for sending HTTPS requests
+ $amazon_host = ($config['Amazon_Checkout']['amazon_test_mode'] == 'Y') ? "payments-sandbox.amazon.com" : "payments.amazon.com";
+ 
+ $smarty->assign('amazon_host', $amazon_host);
+ 
+-if (AREA_TYPE != 'C')
++if (func_constant('AREA_TYPE') != 'C')
+     return;
+ 
+ if (!$amazon_enabled) {
+@@ -71,4 +65,21 @@
+     return;
+ }
+ 
++// define('ACHECKOUT_DEBUG', 1); // write all logs to xcart/var/log
++
++# define('ACHECKOUT_DEBUG', 'test@email.com'); // send general log
++# to the e-mail address 'test@email.com'; note that in this case the logs of received data and of XML code sent to Amazon are not kept or sent.
++
++$acheckout_log_detailed_data = false;
++if (defined('ACHECKOUT_DEBUG')) {
++    // Logging enabled
++    if (ACHECKOUT_DEBUG == 1)
++        $acheckout_log_detailed_data = true;
++
++    $acheckout_global_log = '';
++    $acheckout_global_xml_log = '';
++
++    register_shutdown_function('func_acheckout_save_log');
++}
++
+ ?>

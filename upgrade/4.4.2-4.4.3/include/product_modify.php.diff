@@ -1,0 +1,47 @@
+Index: include/product_modify.php
+--- include/product_modify.php	2011-01-10 16:11:50.000000000 +0300
++++ include/product_modify.php	2011-02-03 14:39:17.000000000 +0300
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: product_modify.php,v 1.251.2.5 2011/01/10 13:11:50 ferz Exp $
++ * @version    $Id: product_modify.php,v 1.251.2.7 2011/02/03 11:39:17 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -207,7 +207,10 @@
+ /**
+  * Define the current section
+  */
+-if (!in_array($section, $avail_sections)) {
++if (
++    empty($section)
++    || !in_array($section, $avail_sections)
++) {
+     $section = 'main';
+ }
+ 
+@@ -765,7 +768,7 @@
+             }
+ 
+             // Mark product as configurable
+-            if ($active_modules['Product_Configurator'] && $is_pconf)
++            if (!empty($active_modules['Product_Configurator']) && $is_pconf)
+                 db_query("UPDATE $sql_tbl[products] SET product_type='C' WHERE productid='$productid'");
+ 
+             $status = 'created';
+@@ -1145,11 +1148,11 @@
+             }
+         }
+ 
+-        if ($active_modules['Special_Offers']) {
++        if (!empty($active_modules['Special_Offers'])) {
+             include $xcart_dir.'/modules/Special_Offers/product_modify.php';
+         }
+ 
+-        if ($active_modules['Recommended_Products']) {
++        if (!empty($active_modules['Recommended_Products'])) {
+             func_refresh_product_rnd_keys($productid);
+         }
+ 

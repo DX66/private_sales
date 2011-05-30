@@ -1,0 +1,1 @@
+71b74b7b3a2b33905d000fab75c508aaa:4:{s:21:"lbl_friends_wish_list";s:23:"Wunschliste der Freunde";s:17:"lbl_gift_registry";s:13:"Gift registry";s:22:"lbl_subscriptions_info";s:11:"Abonnements";s:13:"lbl_wish_list";s:11:"Wunschliste";}

@@ -1,0 +1,21 @@
+Index: modules/Stop_List/func.php
+--- modules/Stop_List/func.php	2011-01-10 16:12:02.000000000 +0300
++++ modules/Stop_List/func.php	2011-02-07 18:34:46.000000000 +0300
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: func.php,v 1.27.2.1 2011/01/10 13:12:02 ferz Exp $
++ * @version    $Id: func.php,v 1.27.2.2 2011/02/07 15:34:46 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -49,7 +49,7 @@
+ 
+ function func_is_allowed_trans()
+ {
+-    global $sql_tbl, $REMOTE_ADDR, $PROXY_IP, $config, $cart, $active_modules, $HTTP_VIA, $session_failed_transaction;
++    global $sql_tbl, $REMOTE_ADDR, $PROXY_IP, $config, $cart, $active_modules, $HTTP_VIA, $session_failed_transaction, $add_to_cart_time;
+ 
+     if (
+         empty($REMOTE_ADDR)

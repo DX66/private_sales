@@ -1,0 +1,21 @@
+Index: include/export.php
+--- include/export.php	2011-01-10 16:11:48.000000000 +0300
++++ include/export.php	2011-03-14 12:03:41.000000000 +0300
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: export.php,v 1.74.2.3 2011/01/10 13:11:48 ferz Exp $
++ * @version    $Id: export.php,v 1.74.2.4 2011/03/14 09:03:41 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -287,7 +287,7 @@
+     if (empty($export_data['prefix'])) {
+ 
+         // Start log file writing...
+-        $current_date = date("d-M-Y H:i:s", mktime() + $config['Appearance']['timezone_offset']);
++        $current_date = date("d-M-Y H:i:s", XC_TIME + $config['Appearance']['timezone_offset']);
+         $message =<<<OUT
+ Date: $current_date
+ Launched by: $login

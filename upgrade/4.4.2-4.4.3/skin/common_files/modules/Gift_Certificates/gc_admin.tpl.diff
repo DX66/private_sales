@@ -1,0 +1,19 @@
+Index: skin/common_files/modules/Gift_Certificates/gc_admin.tpl
+--- skin/common_files/modules/Gift_Certificates/gc_admin.tpl	2010-12-15 12:44:40.000000000 +0300
++++ skin/common_files/modules/Gift_Certificates/gc_admin.tpl	2011-01-20 11:03:45.000000000 +0300
+@@ -1,5 +1,5 @@
+ {*
+-$Id: gc_admin.tpl,v 1.5.2.1 2010/12/15 09:44:40 aim Exp $
++$Id: gc_admin.tpl,v 1.5.2.2 2011/01/20 08:03:45 aim Exp $
+ vim: set ts=2 sw=2 sts=2 et:
+ *}
+ {if $smarty.get.mode eq "add_gc" or ($smarty.get.mode eq "modify_gc" and $gc_readonly ne "Y")}
+@@ -174,7 +174,7 @@
+ {currency value=$giftcerts[gc_num].debit}/{currency value=$giftcerts[gc_num].amount}
+   </td>
+   <td align="center" nowrap="nowrap">
+-{if $giftcerts[gc_num].orderid and $giftcerts[gc_num].userid}<a href="user_modify.php?user={$giftcerts[gc_num].userid}&amp;usertype={$giftcerts[gc_num].usertype}">{$giftcerts[gc_num].purchaser|truncate:"30":"...":true}</a>{else}{$giftcerts[gc_num].purchaser|truncate:"30":"...":true}{/if}<br />
++{if $giftcerts[gc_num].orderid and $giftcerts[gc_num].userid}<a href="{$catalogs.admin}/user_modify.php?user={$giftcerts[gc_num].userid}&amp;usertype={$giftcerts[gc_num].usertype}">{$giftcerts[gc_num].purchaser|truncate:"30":"...":true}</a>{else}{$giftcerts[gc_num].purchaser|truncate:"30":"...":true}{/if}<br />
+ <font class="SmallText">{$giftcerts[gc_num].add_date|date_format:$config.Appearance.datetime_format}</font>
+   </td>
+ </tr>

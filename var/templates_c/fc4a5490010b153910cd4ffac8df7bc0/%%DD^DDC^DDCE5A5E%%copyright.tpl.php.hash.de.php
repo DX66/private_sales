@@ -1,0 +1,1 @@
+c86a2a1ee6b75623f24e22956751b238a:1:{s:13:"lbl_copyright";s:9:"Copyright";}

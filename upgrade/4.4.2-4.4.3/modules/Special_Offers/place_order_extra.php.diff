@@ -1,0 +1,21 @@
+Index: modules/Special_Offers/place_order_extra.php
+--- modules/Special_Offers/place_order_extra.php	2011-01-10 16:12:02.000000000 +0300
++++ modules/Special_Offers/place_order_extra.php	2011-02-08 12:54:58.000000000 +0300
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: place_order_extra.php,v 1.19.2.2 2011/01/10 13:12:02 ferz Exp $
++ * @version    $Id: place_order_extra.php,v 1.19.2.3 2011/02/08 09:54:58 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -49,7 +49,7 @@
+ 
+ if (
+     $current_order['blocked_points'] > 0
+-    && $userinfo['id'] > 0
++    && @$userinfo['id'] > 0
+ ) {
+ 
+     $bonus = func_get_customer_bonus($userinfo['id']);

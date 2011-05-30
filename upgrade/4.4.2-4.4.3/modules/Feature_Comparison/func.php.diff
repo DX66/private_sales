@@ -1,0 +1,21 @@
+Index: modules/Feature_Comparison/func.php
+--- modules/Feature_Comparison/func.php	2011-01-10 16:11:56.000000000 +0300
++++ modules/Feature_Comparison/func.php	2011-02-03 14:39:18.000000000 +0300
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: func.php,v 1.28.2.2 2011/01/10 13:11:56 ferz Exp $
++ * @version    $Id: func.php,v 1.28.2.3 2011/02/03 11:39:18 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -61,6 +61,8 @@
+     $lng_tables = " LEFT JOIN $sql_tbl[feature_classes_lng] ON $sql_tbl[feature_classes].fclassid = $sql_tbl[feature_classes_lng].fclassid AND $sql_tbl[feature_classes_lng].code = '$shop_language'";
+     if ($current_area == 'C') {
+         $where = " AND $sql_tbl[feature_classes].avail = 'Y'";
++    } else {
++        $where = '';
+     }
+ 
+     // Get class

@@ -1,0 +1,1026 @@
+Index: include/func/func.cart.php
+--- include/func/func.cart.php	2011-01-10 16:11:51.000000000 +0300
++++ include/func/func.cart.php	2011-04-14 12:45:16.000000000 +0400
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (C) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>. All rights reserved
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: func.cart.php,v 1.126.2.8 2011/01/10 13:11:51 ferz Exp $
++ * @version    $Id: func.cart.php,v 1.126.2.43 2011/04/14 08:45:16 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -100,7 +100,6 @@
+ function func_get_customer_zones_avail ($user = 0, $provider = 0, $address_type = 'S')
+ {
+     global $sql_tbl, $config, $single_mode;
+-    global $anonymous_userinfo;
+ 
+     static $z_flags = array (
+         'C' => 0x01,
+@@ -133,12 +132,13 @@
+ 
+     $zones = array();
+ 
++    $_anonymous_userinfo = func_get_anonymous_userinfo();
+     if (is_array($user)) {
+ 
+         $customer_info = $user;
+ 
+     } elseif (
+-        !empty($anonymous_userinfo)
++        !empty($_anonymous_userinfo)
+         || !empty($user)
+     ) {
+ 
+@@ -432,7 +432,7 @@
+ 
+     if (!empty($active_modules['Special_Offers'])) {
+ 
+-        x_session_register('customer_unused_offers');
++        x_session_register('customer_unused_offers');#nolint
+ 
+         global $customer_unused_offers, $special_offers_max_cartid;
+ 
+@@ -462,7 +462,8 @@
+ 
+         $key = 0;
+ 
+-        $return ['products'] = array ();
++        $return['products'] = array ();
++        $return['total_cost'] = 0;
+ 
+         // Define common fields which will be sump up
+         // for each product/giftcert
+@@ -947,7 +948,7 @@
+  */
+ function func_calculate_discounts($membershipid, $products, $discount_coupon = '', $provider = '')
+ {
+-    global $sql_tbl, $config, $active_modules, $single_mode, $global_store;
++    global $sql_tbl, $config, $active_modules, $single_mode, $global_store, $shop_language;
+ 
+     // Prepare provider condition for discounts gathering
+ 
+@@ -1052,7 +1053,7 @@
+ 
+         } else { // if (!empty($global_store['discounts']))
+ 
+-            $max_discount_str =
++            $max_discount_str = '' .
+ "IF ($sql_tbl[discounts].discount_type='absolute', $sql_tbl[discounts].discount, ('$avail_discount_total' * $sql_tbl[discounts].discount / 100)) as max_discount ";
+ 
+             $discount_info = func_query_first("SELECT $sql_tbl[discounts].*, $max_discount_str FROM $sql_tbl[discounts] LEFT JOIN $sql_tbl[discount_memberships] ON $sql_tbl[discounts].discountid = $sql_tbl[discount_memberships].discountid WHERE minprice<='$avail_discount_total' $provider_condition AND ($sql_tbl[discount_memberships].membershipid IS NULL OR $sql_tbl[discount_memberships].membershipid = '$membershipid') ORDER BY max_discount DESC");
+@@ -1095,8 +1096,9 @@
+                 $_taxes
+             );
+ 
+-            // $products and $discount are extracted from the array $updated
+-
++            /*
++            $products= ?,$discount= ?,$discount_orig= ?,$coupon_discount_orig= ? are extracted from the array $updated
++            */
+             extract($updated);
+ 
+             unset($updated);
+@@ -1265,21 +1267,15 @@
+ 
+                 // Apply coupon to category (and subcategories)
+ 
+-                $category_ids[] = $discount_coupon_data['categoryid'];
++                $category_ids = array($discount_coupon_data['categoryid']);
+ 
+                 if ($discount_coupon_data['recursive'] == 'Y') {
+ 
+-                    
+-                    $root_cat = func_category_get_position($discount_coupon_data['categoryid']);
+-                    if (!empty($root_cat)) {
+-                        $tmp = db_query("SELECT categoryid FROM $sql_tbl[categories] WHERE $sql_tbl[categories].lpos BETWEEN " . $root_cat['lpos'] . ' AND ' .  $root_cat['rpos']);
+-                    }
+-
+-                    while($row = db_fetch_array($tmp)) {
+-
+-                        $category_ids[] = $row['categoryid'];
+-
+-                    }
++                    $category_ids = func_data_cache_get("get_categories_tree", array($discount_coupon_data['categoryid'], true, $shop_language, $membershipid));
++                    if (is_array($category_ids))
++                        $category_ids = array_keys($category_ids);
++                    else
++                        $category_ids = array($discount_coupon_data['categoryid']);
+ 
+                 }
+ 
+@@ -1287,6 +1283,7 @@
+ 
+                     // Check if absolute discount does not exceeds total
+ 
++                    $sum_discount = 0;
+                     foreach ($products as $k => $product) {
+ 
+                         if (@$product['deleted']) continue; // for Advanced_Order_Management module
+@@ -1559,7 +1556,7 @@
+                 !empty($active_modules['Special_Offers'])
+                 && isset($product['sp_use_certain_free_ship'])
+                 && $product['sp_use_certain_free_ship']
+-                && !$product['free_shipping_ids'][$shipping_id]
++                && empty($product['free_shipping_ids'][$shipping_id])
+             ) {
+                 $product['free_shipping'] = 'N';
+             }
+@@ -1673,7 +1670,7 @@
+ 
+         if ($product['free_tax'] != 'Y') {
+ 
+-            $products[$k]['taxes'] = $product_taxes = func_get_product_taxes($products[$k], $customer_info['id'], true);
++            $products[$k]['taxes'] = $product_taxes = func_get_product_taxes($products[$k], @$customer_info['id'], true);
+ 
+             if ($config['Taxes']['display_taxed_order_totals'] == 'Y') {
+ 
+@@ -1706,7 +1703,7 @@
+ 
+                     foreach ($product_taxes as $tax_name => $v) {
+ 
+-                        if ($v['skip']) continue;
++                        if (!empty($v['skip'])) continue;
+ 
+                         if (!isset($taxes['taxes'][$tax_name])) {
+ 
+@@ -1742,20 +1739,25 @@
+ 
+                         }
+ 
+-                        $formula_data[$tax_name] = $tax_value;
+-
++                        settype($tax_result[$index], 'float');
+                         $tax_result[$index] += $tax_value;
+ 
+                         if (empty($formula_data['SH'])) {
+ 
++                            settype($taxes['taxes'][$tax_name]['tax_cost_no_shipping'], 'float');
+                             $_tmp_taxes[$tax_name]['tax_cost_no_shipping'] = $tax_value;
+                             $taxes['taxes'][$tax_name]['tax_cost_no_shipping'] += $tax_value;
+ 
+                         }
+ 
++                        $formula_data[$tax_name] = $tax_value;
+                         if ($index == 2) {
+-
+-                            $taxes['taxes'][$tax_name]['tax_cost_shipping'] = $tax_value - $_tmp_taxes[$tax_name]['tax_cost_no_shipping'];
++                            if ($product['free_shipping'] == 'Y') {
++                                $taxes['taxes'][$tax_name]['tax_cost_shipping'] = 0;
++                                $formula_data[$tax_name] = $taxes['taxes'][$tax_name]['tax_cost_no_shipping'];
++                            } else {
++                                $taxes['taxes'][$tax_name]['tax_cost_shipping'] = $tax_value - $_tmp_taxes[$tax_name]['tax_cost_no_shipping'];
++                            }    
+ 
+                         }
+ 
+@@ -1934,13 +1936,17 @@
+ 
+         // Apply discounts to the products
+ 
+-        $discounts_ret = func_calculate_discounts($customer_info['membershipid'], $products, $discount_coupon, $provider_for);
+-
+-        // Extract returned variables to global variables set:
+-        // $discount, $coupon_discount, $discount_coupon, $products
++        $discounts_ret = func_calculate_discounts(@$customer_info['membershipid'], $products, $discount_coupon, $provider_for);
+ 
++        /* 
++         Extract returned variables to global variables set:
++         $coupon_type= ?,$discount= ?,$coupon_discount= ?,$discount_coupon= ?,$products= ?,$discount_coupon_data= ?
++         $coupon_discount_orig= ?, $discount_orig= ?
++        */ 
+         extract($discounts_ret);
+         unset($discounts_ret);
++    } else {
++        $coupon_discount = 0;
+     }
+ 
+     // Initial definitions
+@@ -2127,7 +2133,7 @@
+     if (
+         $calculate_enable_flag
+         && !(
+-            $customer_info['tax_exempt'] == 'Y'
++            @$customer_info['tax_exempt'] == 'Y'
+             && (
+                 $config['Taxes']['enable_user_tax_exemption'] == 'Y'
+                 || defined('XAOM')
+@@ -2451,14 +2457,19 @@
+ /**
+  * This function calculates the payment method surcharge
+  */
+-function func_payment_method_surcharge ($total, $paymentid)
++function func_payment_method_surcharge($total, $paymentid)
+ {
+-    global $sql_tbl;
+-
+-    $surcharge = 0;
++    global $sql_tbl, $user_account;
+ 
+-    if (!empty($total))
++    $payment_methods = check_payment_methods(@$user_account['membershipid']);
++    if (
++        !empty($payment_methods[$paymentid])
++        && $payment_methods[$paymentid]['surcharge'] != 0
++    ) {
+         $surcharge = func_query_first_cell("SELECT IF (surcharge_type='$', surcharge, surcharge * $total / 100) as surcharge FROM $sql_tbl[payment_methods] WHERE paymentid='$paymentid' AND payment_script!='payment_giftcert.php'");
++    } else {
++        $surcharge = 0;
++    }
+ 
+     return $surcharge;
+ }
+@@ -2484,6 +2495,7 @@
+ {
+     global $active_modules, $sql_tbl, $config, $xcart_dir;
+     global $logged_userid, $store_language;
++    static $results_cache = array();
+ 
+     x_load('image');
+     $products = array();
+@@ -2491,6 +2503,14 @@
+     if (empty($scratch_products))
+         return $products;
+ 
++    settype($membershipid, 'int');
++    settype($persistent_products, 'bool');
++    $md5_args = md5(serialize(array($scratch_products, $membershipid, $persistent_products)));
++
++    if (isset($results_cache[$md5_args])) {
++        return $results_cache[$md5_args];
++    }
++
+     $pids = array();
+ 
+     foreach ($scratch_products as $product_data) {
+@@ -2935,13 +2955,14 @@
+ 
+     }
+ 
++    $results_cache[$md5_args] = $products;
+     return $products;
+ }
+ 
+ /**
+  * This function generates the unique cartid number
+  */
+-function func_generate_cartid($cart_products)
++function func_generate_cartid()
+ {
+     global $cart;
+ 
+@@ -3021,7 +3042,7 @@
+     // test: all total amount should not change
+ 
+     $current_amount         = func_get_cart_products_amount($cart['products']);
+-    $validated_products     = func_products_in_cart($cart, $userinfo['membershipid']);
++    $validated_products     = func_products_in_cart($cart, @$userinfo['membershipid']);
+     $validated_amount         = func_get_cart_products_amount($validated_products);
+ 
+     $is_valid = ($current_amount == $validated_amount);
+@@ -3036,11 +3057,30 @@
+ {
+     global $sql_tbl, $config, $cart, $shop_language, $active_modules;
+ 
+-    x_load('tests');
++    static $result = array();
++
++    $has_esd = func_esd_in_cart($cart);
++
++    $is_zero_total_cost = func_cart_is_zero_total_cost($cart);
++    $skip_payments_test = func_is_ajax_request();
++    $giftcerts = isset($cart['giftcerts']) ? $cart['giftcerts'] : '';
++    settype($membershipid, 'int');
++
++    $md5_args = md5(serialize(array(
++        $membershipid,
++        $skip_payments_test,
++        $giftcerts,
++        $has_esd,
++        $is_zero_total_cost,
++        $shop_language
++    )));
++
++    if (isset($result[$md5_args])) {
++        return $result[$md5_args];
++    }
+ 
+     $condition = (
+-            isset($cart['giftcerts'])
+-            && !empty($cart['giftcerts'])
++            !empty($giftcerts)
+             && 'Y' !== $config['Gift_Certificates']['allow_use_gc_for_buying_gc']
+         )
+         ? ' AND pm.paymentid != \'14\''
+@@ -3059,54 +3099,76 @@
+         . $condition . " ORDER BY pm.orderby"
+     );
+ 
+-    $payment_methods = test_payment_methods($payment_methods, true);
++    if (!$skip_payments_test) {
++        x_load('tests');
++        $payment_methods = test_payment_methods($payment_methods, true);
++    }        
+ 
++    // Remove online payments and add offline method
++    $is_online_removed = false;
+     if (
+-        !empty($active_modules['Egoods'])
+-        && (
+-            $config['Egoods']['user_preauth_for_esd'] == 'Y'
+-            || $config['Egoods']['egoods_manual_cc_processing'] == "Y"
+-        )
+-        && isset($cart['products'])
+-        && !empty($cart['products'])
++        $has_esd
++        && func_egoods_use_offline_payments(@$cart['products'])
+     ) {
++        list($is_online_removed, $payment_methods) = func_egoods_remove_online_payments($payment_methods);
++    }        
+ 
+-        $has_esd = func_esd_in_cart($cart);
++    if (
++        !$is_online_removed
++        && $is_zero_total_cost
++    ) {
++        list($is_online_removed, $payment_methods) = func_cart_remove_online_payments($payment_methods);        
++    }
+ 
+-        if (
+-            $has_esd
+-            && !empty($payment_methods)
+-            && is_array($payment_methods)
+-        ) {
++    if (
++        $is_online_removed
++        && empty($payment_methods)
++    ) {
++        $_set_surcharge_zero = $is_zero_total_cost;
++        $payment_methods = func_cart_add_offline_payment($condition, $_set_surcharge_zero);
++    }    
++
++    // Disable X-Cart CC form for direct post payment methods
++    if (!empty($payment_methods)) 
++    foreach ($payment_methods as $k=>$pm) {
++        if (func_is_direct_post_payment_method($pm))
++            $payment_methods[$k]['payment_template'] = '';
++    }
+ 
+-            foreach ($payment_methods as $k => $p) {
++    $result[$md5_args] = $payment_methods;
++    return $payment_methods;
++}
+ 
+-                if (
+-                    $p['processor']
+-                    && (
+-                        $config['Egoods']['egoods_manual_cc_processing'] == "Y"
+-                        || (
+-                            $config['Egoods']['user_preauth_for_esd'] == 'Y'
+-                            && (
+-                                $p['has_preauth'] != 'Y'
+-                                || $p['use_preauth'] != 'Y'
+-                            )
+-                        )
+-                    )
+-                ) {
++/**
++ * Check if payment with $paymentid can be used
++ */
++function func_is_valid_payment_method($paymentid)
++{
++    global $user_account;
+ 
+-                    unset($payment_methods[$k]);
++    settype($paymentid, 'int');
++    $membershipid = isset($user_account['membershipid']) ? $user_account['membershipid'] : 0;
+ 
+-                }
++    /*
++     * Do not validate paymentid for AJAX queris to avoid time delay
++     */
++    if (func_is_ajax_request())
++        return true;
+ 
+-            }
++    if (empty($paymentid))        
++        return false;
+ 
+-            $payment_methods = array_values($payment_methods);
+-        }
++    $payment_methods = check_payment_methods($membershipid);
++
++    if (empty($payment_methods))
++        return false;
+ 
++    foreach ($payment_methods as $payment) {
++        if ($payment['paymentid'] == $paymentid)
++            return true;
+     }
+ 
+-    return $payment_methods;
++    return false;
+ }
+ 
+ /**
+@@ -3137,7 +3199,7 @@
+ 
+         $key = $p['productid'] . $po . $p['free_price'];
+ 
+-        if ($p['free_amount'] > 0) {
++        if (@$p['free_amount'] > 0) {
+             // for X-SpecialOffers
+             $key .= '-fa1';
+         }
+@@ -3193,9 +3255,8 @@
+         'changed'      => 0,
+     );
+ 
+-    // Extracts to: $productid, $amount, $product_options, $price, $wishlistid
+-
+-    extract($product_data);
++    // Extracts to: $productid, $amount, $product_options, $price, $wishlistid, $is_free_product(from special_offer_module)
++    extract($product_data);//$productid= ?, $price= ?
+ 
+     $added_product = func_select_product(
+         $productid,
+@@ -3387,7 +3448,7 @@
+                 $free_price = abs(doubleval($price));
+             }
+ 
+-            $cartid = func_generate_cartid($cart['products']);
++            $cartid = func_generate_cartid();
+ 
+             if (empty($cart['products'])) {
+ 
+@@ -3397,7 +3458,7 @@
+ 
+             $cart['products'][] = array(
+                 'cartid'         => $cartid,
+-                'productid'     => $productid,
++                'productid'     => $productid, #nolint come from above extract($product_data);
+                 'amount'         => $amount,
+                 'options'         => $product_options,
+                 'free_price'     => @price_format(@$free_price),
+@@ -3414,9 +3475,12 @@
+                 include $xcart_dir.'/modules/Product_Configurator/pconf_customer_cart.php';
+             }
+ 
+-            if ($active_modules['Special_Offers']) {
++            if (
++                !empty($active_modules['Special_Offers'])
++                && isset($is_free_product)
++            ) {
+ 
+-                $cart['products'][count($cart['products']) - 1]['is_free_product'] = $is_free_product;
++                $cart['products'][count($cart['products']) - 1]['is_free_product'] = $is_free_product;#nolint
+ 
+             }
+         }
+@@ -3469,7 +3533,7 @@
+ 
+     }
+ 
+-    if ($active_modules['Special_Offers']) {
++    if (!empty($active_modules['Special_Offers'])) {
+ 
+         $cart['sp_deleted_products'][$productid] = true;
+ 
+@@ -3598,6 +3662,7 @@
+ 
+                     if (!isset($hash[$variantid])) {
+                         $hash[$variantid]['avail'] = func_get_options_amount($cart['products'][$productindex]['options'], $cart['products'][$productindex]['productid']);
++                        $hash[$variantid]['old'] = $hash[$variantid]['new'] = 0;
+                     }
+ 
+                     $hash[$variantid]['old']   += $cart['products'][$productindex]['amount'];
+@@ -3703,7 +3768,7 @@
+         if ($cart['products'][$productindex]['amount'] < 0)
+             $cart['products'][$productindex]['amount'] = 0;
+ 
+-        if ($active_modules['Special_Offers']) {
++        if (!empty($active_modules['Special_Offers'])) {
+ 
+             $cart['sp_deleted_products'][$cart['products'][$productindex]['productid']] = true;
+ 
+@@ -3977,4 +4042,519 @@
+     return true;
+ }
+ 
++/*
++ * Try to get paymentid from POST GET or $cart['paymentid']
++ */
++function func_cart_get_paymentid($cart, $checkout_module='')
++{
++    global $paymentid, $user_account;
++
++    $return_paymentid = 0;
++    
++    // Firstly use global paymentid
++    if (
++        empty($return_paymentid)
++        && !empty($paymentid)
++    ) {
++        $return_paymentid = $paymentid;
++    }        
++
++    // Secondly Use session paymentid from $cart['paymentid'] for One_Page_Checkout
++    if (
++        empty($return_paymentid)
++        && !empty($cart['paymentid'])
++        && $checkout_module === 'One_Page_Checkout'
++    ) {
++        $return_paymentid = $cart['paymentid'];
++    }
++
++    // Thirdly use first paymentid from payment_methods for One_Page_Checkout
++    if (
++        empty($return_paymentid) 
++        && $checkout_module === 'One_Page_Checkout'
++    ) {
++
++        $payment_methods = check_payment_methods(@$user_account['membershipid']);
++
++        if (
++            !empty($payment_methods)
++            && empty($cart['paymentid'])
++        ) {
++            $paypal_expressid = func_cart_get_paypal_express_id();
++
++            foreach ($payment_methods as $payment) {
++                if (
++                    $payment['paymentid'] != $paypal_expressid
++                    && $payment['is_cod'] != 'Y'
++                ) {
++                    $return_paymentid = $payment['paymentid'];
++                    break;
++                }
++            }
++
++            if (empty($return_paymentid)) {
++                $return_paymentid = $payment_methods[0]['paymentid'];
++            }
++        }
++    } 
++
++    // Check the paymentid
++    if (func_is_valid_payment_method($return_paymentid))
++        return $return_paymentid;
++    else        
++        return 0;
++}
++
++/*
++ * Set paymentid in cart session var
++ */
++function func_cart_set_paymentid($cart, $paymentid)
++{
++    $func_is_cart_empty = func_is_cart_empty($cart);
++
++    if ($func_is_cart_empty)
++        return $cart;
++
++    if (!func_is_valid_payment_method($paymentid)) {
++        $paymentid = 0;
++    }   
++
++    $old_paymentid = @$cart['paymentid'];
++
++    $cart['paymentid'] = $paymentid;
++    $cart['is_payment_changed'] = ($old_paymentid !== $paymentid);
++    return $cart;
++}
++
++/*
++ * Get paymentid for paypal_express if it enabled
++ */
++function func_cart_get_paypal_express_id()
++{
++    global $sql_tbl;
++
++    static $paypal_express_enabled;
++
++    if (isset($paypal_express_enabled))
++        return $paypal_express_enabled;
++
++    $paypal_express_enabled = func_query_first_cell("SELECT $sql_tbl[payment_methods].paymentid FROM $sql_tbl[ccprocessors], $sql_tbl[payment_methods] WHERE $sql_tbl[ccprocessors].processor='ps_paypal_pro.php' AND $sql_tbl[ccprocessors].paymentid=$sql_tbl[payment_methods].paymentid AND $sql_tbl[payment_methods].active='Y' ORDER BY $sql_tbl[payment_methods].protocol DESC");
++    return $paypal_express_enabled;
++}
++
++/*
++ * Check if payment method is realtime
++ */
++function func_is_online_payment_method($payment)
++{
++    settype($payment, 'array');
++    return !empty($payment['processor_file']);
++}
++
++/**
++ * Check if total cost is zero 
++ */
++function func_cart_is_zero_total_cost($cart)
++{
++    return !empty($cart) && isset($cart['total_cost']) && $cart['total_cost'] == 0;
++}
++
++/**
++ * Remove online payment methods
++ */
++function func_cart_remove_online_payments($payment_methods)
++{
++    $is_online_pm_removed = false;
++
++    if (empty($payment_methods))
++        return array($is_online_pm_removed, $payment_methods);
++
++    foreach ($payment_methods as $k => $p) {
++
++        if (func_is_online_payment_method($p)) {
++            unset($payment_methods[$k]);
++            $is_online_pm_removed = true;
++        }
++    }
++
++    $payment_methods = array_values($payment_methods);
++
++    return array($is_online_pm_removed, $payment_methods);
++}
++
++/**
++ * Force add first offline method(for ex, paymentid=1) to payments list if all online are disabled and egoods_manual_cc_processing/user_preauth_for_esd is 'Y'
++ * or cart[total_cost] == 0
++ */
++function func_cart_add_offline_payment($condition='', $set_surcharge_zero=false)
++{
++    global $sql_tbl, $shop_language, $config;
++
++    $force_offline_paymentid = intval($config['Egoods']['force_offline_paymentid']);
++    if (empty($force_offline_paymentid))
++        return array();
++
++    $payment_methods = func_query(
++        "SELECT pm.*, '' AS module_name, '' AS processor, '' AS type, pm.payment_method AS payment_method_orig,"
++        . " IFNULL(l1.value, pm.payment_method) AS payment_method, IFNULL(l2.value, pm.payment_details) AS payment_details,"
++        . " '' AS has_preauth, '' AS use_preauth, '' AS background, '' AS disable_ccinfo"
++        . " FROM $sql_tbl[payment_methods] AS pm"
++        . " LEFT JOIN $sql_tbl[languages_alt] AS l1 ON l1.name = CONCAT('payment_method_', pm.paymentid) AND l1.code = '$shop_language'"
++        . " LEFT JOIN $sql_tbl[languages_alt] AS l2 ON l2.name = CONCAT('payment_details_', pm.paymentid) AND l2.code = '$shop_language'"
++        . " WHERE pm.processor_file = '' AND pm.paymentid='$force_offline_paymentid'"
++        . $condition
++    );
++
++    if (!empty($payment_methods)) {
++        $payment_methods[0]['active'] = 'Y';
++
++        if ($set_surcharge_zero) {
++            $payment_methods[0]['surcharge'] = '0.00';
++            $payment_methods[0]['surcharge_type'] = '$';
++        }            
++    }        
++    
++    return $payment_methods;
++} 
++
++/**
++ * Check if payment methods list was changed after some customer action
++ * Presume that IN $payment_methods is defined before last Func_calculate
++ */
++function func_cart_is_payment_methods_list_changed($payment_methods, $run_func_calculate = '')
++{
++    global $user_account, $cart, $current_area, $logged_userid;
++
++    if (!empty($run_func_calculate)) {
++        // Recalculate cart to obtain cart['total_cost']
++        list($cart, $products) = func_generate_products_n_recalculate_cart();
++    }
++
++    settype($payment_methods, 'array');
++    $_new_payment_methods = check_payment_methods(@$user_account['membershipid']);
++    settype($_new_payment_methods, 'array');
++
++    return count($payment_methods) != count($_new_payment_methods);
++}
++
++/*
++ * Recalculate shippings and check session shippingid regarding possible methods
++ */
++function func_cart_get_shippingid($cart, $userinfo='')
++{
++    global $intershipper_recalc;
++
++    if (empty($userinfo)) {
++        x_load('user');
++        $userinfo = func_userinfo_from_scratch(array(), 'userinfo_for_cart');
++    }        
++
++    $intershipper_recalc = 'Y';
++
++    x_load('shipping');
++    $shippings = func_get_shipping_methods_list($cart, $cart['products'], $userinfo);
++
++    if (is_array($shippings)) {
++
++        $found = false;
++        $shippingid = $cart['shippingid'];
++
++        for ($i = 0; $i < count($shippings); $i++) {
++            if ($shippingid == $shippings[$i]['shippingid']) {
++                $found = true;
++                break;
++            }
++        }
++
++        if (!$found) {
++            $shippingid = $shippings[0]['shippingid'];
++        }
++
++    } else {
++
++        $shippingid = 0;
++
++    }
++
++    return $shippingid;
++}
++
++/*
++ * Set shippingid in cart session var. Cannot be used from functions where $cart declated as "global $cart"
++ */    
++function func_cart_set_shippingid($cart, $shippingid)
++{
++    $func_is_cart_empty = func_is_cart_empty($cart);
++
++    if ($func_is_cart_empty)
++        return $cart;
++
++    $cart['shippingid'] = $shippingid; 
++    return $cart;
++}
++
++/**
++ * Fully recalculate cart and update $products list
++ */
++function func_generate_products_n_recalculate_cart($paymentid = 0) {
++    global $intershipper_recalc, $user_account, $logged_userid, $current_area;
++    global $cart;
++
++    x_session_register('cart');
++    x_session_register('intershipper_recalc');
++
++    $intershipper_recalc = 'Y';
++
++    // Recalculate cart totals after new item added
++    $products     = func_products_in_cart(
++        $cart,
++        (!empty($user_account['membershipid'])
++            ? $user_account['membershipid']
++            : ''
++        )
++    );
++
++    $cart         = func_array_merge(
++        $cart,
++        func_calculate(
++            $cart,
++            $products,
++            $logged_userid,
++            $current_area,
++            (!empty($paymentid) ? intval($paymentid) : 0)
++        )
++    );
++    
++    $cart = func_cart_set_flag('need_recalculate', null);
++    return array($cart, $products);
++}
++
++/**
++* Set boolean flag for cart
++*/
++function func_cart_set_flag($flag, $value)
++{
++    global $cart;
++    $possible_flags = array('need_recalculate' => '');
++
++    if (empty($cart))
++        x_session_register('cart');
++
++    if (!isset($possible_flags[$flag]))        
++        return $cart;
++
++    if (func_is_cart_empty($cart))        
++        return $cart;
++
++    if (is_null($value)) {
++        unset($cart[$flag]);
++    } else {
++        $cart[$flag] = $value;
++    }
++
++    return $cart;
++}
++
++/**
++* Get boolean flag from cart
++*/
++function func_cart_get_flag($flag){
++    global $cart;
++
++    if (empty($cart))
++        x_session_register('cart');
++
++    if (isset($cart[$flag]))
++        return $cart[$flag];
++    else 
++        return null;
++}
++/**
++ * Check if minicart content should be updated
++ */
++function func_is_minicart_update_needed()
++{
++    $need_recalculate = func_cart_get_flag('need_recalculate');
++    return !empty($need_recalculate);
++}
++
++/**
++ * Check if the payment is processed using direct post
++ * of the cc data to a payment gateway
++ * (web-based method with ccinfo form enabled)
++*/
++function func_is_direct_post_payment_method($payment_data)
++{
++    return (
++        !empty($payment_data['processor']) 
++        && @$payment_data['background'] == 'N' 
++        && @$payment_data['disable_ccinfo'] == 'N'
++    );
++}
++
++/**
++ * Generate some unique key and save it in DB. Used for Start Amazon/Google Checkout checkout request
++ */
++function func_generate_n_save_uniqueid($err_lbl='txt_gcheckout_impossible_error', $max_attempts=10)
++{
++    global $XCARTSESSID, $sql_tbl;
++
++    $_index = 0;
++    while (true) {
++        $_index++;
++        $unique_id = md5(uniqid(rand()));
++        @db_query("INSERT INTO $sql_tbl[cc_pp3_data] (ref,sessionid,trstat) VALUES ('$unique_id','".$XCARTSESSID."','GO|')");
++        if (db_affected_rows() > 0)
++            break;
++        if ($_index > $max_attempts) // Impossible error: just to avoid the potential infinite loop
++            die(func_get_langvar_by_name($err_lbl, '', false, true));
++    }
++
++    return $unique_id;
++}
++
++/**
++ * Generate international product description based on product_descr and product options. Used for payments
++ */
++function func_payment_product_description($product, $limit=0, $language='')
++{
++    global $shop_language, $sql_tbl;
++
++    if (empty($language))
++        $language = $shop_language;
++
++    $_descr = '';
++
++    if (!empty($product['product_options']) && is_array($product['product_options'])) {
++        $_descr_arr = array();
++        foreach ($product['product_options'] as $k=>$v) {
++            $_descr_arr[] = "$v[class]: $v[option_name]";
++        }
++        $_descr = "(" . implode('; ', $_descr_arr) . ")";
++    }
++
++    $_descr .= " " . strip_tags(func_query_first_cell("SELECT IF($sql_tbl[products_lng].descr != '', $sql_tbl[products_lng].descr, $sql_tbl[products].descr) AS descr FROM $sql_tbl[products] LEFT JOIN $sql_tbl[products_lng] ON $sql_tbl[products].productid = $sql_tbl[products_lng].productid AND $sql_tbl[products_lng].code = '".$shop_language."' WHERE $sql_tbl[products].productid='$product[productid]'"));
++
++    if (
++        !empty($limit)
++        && strlen($_descr) > $limit
++    ) {
++        $_descr = substr($_descr, 0, $limit);
++    }
++
++    return $_descr;
++} 
++
++/**
++ * Check if shipping is needed fo the cart
++ */
++function func_cart_is_need_shipping($cart, $products, $userinfo, $check_free_ship_coupon = 'yes')
++{
++    global $active_modules, $config;
++
++    $need_shipping = false;
++
++    if (
++        $config['Shipping']['enable_shipping'] == 'Y'
++        && is_array($products)
++        && (
++            !empty($userinfo)
++            || $config['General']['apply_default_country'] == 'Y'
++            || $config['Shipping']['enable_all_shippings'] == 'Y'
++        )
++    ) {
++        foreach ($products as $pKey => $product) {
++
++            if (
++                !empty($product["distribution"])
++                || (
++                    (
++                        $product['free_shipping'] == 'Y'
++                        || @$product['free_shipping_used']
++                    )
++                    && $config['Shipping']['do_not_require_shipping'] == 'Y'
++                )
++            ) {
++                continue;
++            }
++
++            // Check if all products in the cart have shipping freight
++
++            if (
++                $config['Shipping']['replace_shipping_with_freight'] == 'Y'
++                && $product['shipping_freight'] > 0
++            ) {
++                continue;
++            }
++
++            $need_shipping = true;
++
++            break;
++
++        }
++
++    }
++
++    // Process discount coupons
++    if (
++        !empty($active_modules['Discount_Coupons'])
++        && isset($cart['coupon_type'])
++        && $cart['coupon_type'] == 'free_ship'
++        && $config['Shipping']['do_not_require_shipping'] == 'Y'
++        && $need_shipping
++        && $check_free_ship_coupon === 'yes'
++    ) {
++        $need_shipping = false;
++    }
++
++    return $need_shipping;
++}
++
++/**
++ * Lock cart for change
++ */
++function func_cart_lock($by_process, $run_x_session_save = '')
++{
++    global $cart_locked_by_process;
++
++    $cart_locked_by_process = $by_process;
++    x_session_register('cart_locked_by_process');
++
++    if (!empty($run_x_session_save)) {
++        x_session_save('cart_locked_by_process');
++    }
++
++    return true;
++}
++
++/**
++ * Release cart for all operations
++ */
++function func_cart_unlock($run_x_session_save = '')
++{
++    global $cart_locked_by_process;
++
++    $cart_locked_by_process = false;
++    x_session_register('cart_locked_by_process');
++
++    if (!empty($run_x_session_save)) {
++        x_session_save('cart_locked_by_process');
++    }
++
++    return true;
++}
++
++/**
++ * Get lock status for cart
++ */
++function func_cart_is_locked()
++{
++    global $cart_locked_by_process;
++
++    if (!isset($cart_locked_by_process))
++        x_session_register('cart_locked_by_process');
++
++    return $cart_locked_by_process;
++}
++
+ ?>

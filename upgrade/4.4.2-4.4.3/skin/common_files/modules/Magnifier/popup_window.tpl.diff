@@ -1,0 +1,18 @@
+Index: skin/common_files/modules/Magnifier/popup_window.tpl
+--- skin/common_files/modules/Magnifier/popup_window.tpl	2010-06-16 11:00:15.000000000 +0400
++++ skin/common_files/modules/Magnifier/popup_window.tpl	2011-03-04 17:03:26.000000000 +0300
+@@ -1,5 +1,5 @@
+ {*
+-$Id: popup_window.tpl,v 1.2 2010/06/16 07:00:15 igoryan Exp $
++$Id: popup_window.tpl,v 1.2.2.1 2011/03/04 14:03:26 aim Exp $
+ vim: set ts=2 sw=2 sts=2 et:
+ *}
+ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+@@ -19,6 +19,6 @@
+ {load_defer_code type="js"}
+ </head>
+ <body>
+-  {include file="modules/Magnifier/product_magnifier.tpl productid=$productid imageid=$imageid}
++  {include file="modules/Magnifier/product_magnifier.tpl" productid=$productid imageid=$imageid}
+ </body>
+ </html>

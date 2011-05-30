@@ -1,0 +1,19 @@
+Index: skin/common_files/meta.tpl
+--- skin/common_files/meta.tpl	2010-10-27 14:02:13.000000000 +0400
++++ skin/common_files/meta.tpl	2011-03-03 13:53:08.000000000 +0300
+@@ -1,5 +1,5 @@
+ {*
+-$Id: meta.tpl,v 1.14.2.1 2010/10/27 10:02:13 ferz Exp $
++$Id: meta.tpl,v 1.14.2.2 2011/03/03 10:53:08 aim Exp $
+ vim: set ts=2 sw=2 sts=2 et:
+ *}
+ <meta http-equiv="Content-Type" content="text/html; charset={$default_charset|default:"iso-8859-1"}" />
+@@ -76,7 +76,7 @@
+ var md = {$config.Appearance.delay_value|default:10}*1000;
+ {literal}
+ $(document).ready( function() {
+-  $('form').each( function() {
++  $('form').not('.skip-auto-validation').each( function() {
+     applyCheckOnSubmit(this);
+   });
+ 

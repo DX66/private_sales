@@ -1,0 +1,65 @@
+Index: admin/payment_methods.php
+--- admin/payment_methods.php	2011-01-10 16:11:46.000000000 +0300
++++ admin/payment_methods.php	2011-03-03 16:28:13.000000000 +0300
+@@ -41,7 +41,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: payment_methods.php,v 1.67.2.1 2011/01/10 13:11:46 ferz Exp $
++ * @version    $Id: payment_methods.php,v 1.67.2.6 2011/03/03 13:28:13 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -58,7 +58,7 @@
+     'payment'
+ );
+ 
+-if ($active_modules['XPayments_Connector']) {
++if (!empty($active_modules['XPayments_Connector'])) {
+     func_xpay_func_load();
+ }
+ 
+@@ -270,6 +270,16 @@
+ 
+         }
+ 
++    } elseif ($mode == 'change_force_offline_paymentid'){
++        func_array2update(
++            'config',
++            array(
++                'value' => $force_offline_paymentid,
++            ),
++            "name = 'force_offline_paymentid'"
++        );
++        $top_message['content'] = func_get_langvar_by_name('msg_adm_payment_methods_upd');
++        $top_message['anchor'] = 'section_force_offline_paymentid';
+     } else {
+ 
+         if (is_array($posted_data)) {
+@@ -277,6 +287,8 @@
+             $paypal_directid = func_query_first_cell("SELECT $sql_tbl[payment_methods].paymentid FROM $sql_tbl[payment_methods], $sql_tbl[ccprocessors] WHERE $sql_tbl[payment_methods].processor_file='ps_paypal_pro.php' AND $sql_tbl[payment_methods].processor_file=$sql_tbl[ccprocessors].processor AND $sql_tbl[payment_methods].paymentid<>$sql_tbl[ccprocessors].paymentid");
+ 
+             foreach ($posted_data as $k => $v) {
++                settype($v['surcharge'], 'float');
++                settype($v['surcharge_type'], 'string');
+ 
+                 $v['active']     = (!empty($v['active']) ? 'Y' : 'N');
+                 $v['is_cod']     = (!empty($v['is_cod']) ? 'Y' : 'N');
+@@ -323,6 +335,8 @@
+ 
+             func_disable_paypal_methods($config['paypal_solution']);
+ 
++            func_check_force_offline_paymentid_for_cod();
++
+             $top_message['content'] = func_get_langvar_by_name('msg_adm_payment_methods_upd');
+ 
+         } else {
+@@ -570,7 +584,7 @@
+ 
+ $cc_module_files = func_query("select * from $sql_tbl[ccprocessors] where paymentid='0' and processor<>'ps_paypal_pro.php' order by type,module_name");
+ 
+-if ($active_modules['XPayments_Connector']) {
++if (!empty($active_modules['XPayments_Connector'])) {
+ 
+     $cc_module_files = xpc_filter_hidden_processors($cc_module_files);
+ 

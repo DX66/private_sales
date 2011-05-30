@@ -1,0 +1,20 @@
+Index: payment/ebank_nok.php
+--- payment/ebank_nok.php	2011-01-10 16:12:08.000000000 +0300
++++ payment/ebank_nok.php	2011-01-24 16:15:30.000000000 +0300
+@@ -40,14 +40,14 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: ebank_nok.php,v 1.30.2.1 2011/01/10 13:12:08 ferz Exp $
++ * @version    $Id: ebank_nok.php,v 1.30.2.2 2011/01/24 13:15:30 ferz Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+ 
+ require './auth.php';
+ 
+-$Ref = $Ref ? $Ref : $ref;
++$Ref = $merchantref;
+ 
+ if (empty($Ref))
+     exit;

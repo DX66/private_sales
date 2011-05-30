@@ -1,0 +1,1 @@
+59c18089bd01bcb57549aace5f4c586ba:4:{s:21:"lbl_friends_wish_list";s:18:"Friend's Wish list";s:17:"lbl_gift_registry";s:13:"Gift registry";s:13:"lbl_wish_list";s:9:"Wish list";s:22:"lbl_subscriptions_info";s:11:"Abonnements";}

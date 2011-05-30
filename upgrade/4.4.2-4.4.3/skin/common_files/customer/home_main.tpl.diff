@@ -1,0 +1,35 @@
+Index: skin/common_files/customer/home_main.tpl
+--- skin/common_files/customer/home_main.tpl	2010-05-21 12:32:02.000000000 +0400
++++ skin/common_files/customer/home_main.tpl	2011-04-13 13:54:14.000000000 +0400
+@@ -1,5 +1,5 @@
+ {*
+-$Id: home_main.tpl,v 1.1 2010/05/21 08:32:02 joy Exp $
++$Id: home_main.tpl,v 1.1.2.1 2011/04/13 09:54:14 ferz Exp $
+ vim: set ts=2 sw=2 sts=2 et:
+ *}
+ {if $smarty.get.mode eq "subscribed"}
+@@ -106,24 +106,9 @@
+   {elseif $help_section eq "Password_Recovery_error"}
+   {include file="customer/help/Password_Recovery.tpl"}
+ 
+-  {elseif $help_section eq "FAQ"}
+-  {include file="customer/help/FAQ_HTML.tpl"}
+-
+   {elseif $help_section eq "contactus"}
+   {include file="customer/help/contactus.tpl"}
+ 
+-  {elseif $help_section eq "about"}
+-  {include file="customer/help/about.tpl"}
+-
+-  {elseif $help_section eq "business"}
+-  {include file="customer/help/business.tpl"}
+-
+-  {elseif $help_section eq "conditions"}
+-  {include file="customer/help/conditions_customers.tpl"}
+-
+-  {elseif $help_section eq "publicity"}
+-  {include file="customer/help/publicity.tpl"}
+-
+   {else}
+   {include file="customer/help/general.tpl"}
+ 

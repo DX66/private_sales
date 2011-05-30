@@ -1,0 +1,22 @@
+Index: skin/common_files/modules/Detailed_Product_Images/colorbox_image.tpl
+--- skin/common_files/modules/Detailed_Product_Images/colorbox_image.tpl	2010-12-20 10:12:13.000000000 +0300
++++ skin/common_files/modules/Detailed_Product_Images/colorbox_image.tpl	2011-02-22 13:39:03.000000000 +0300
+@@ -1,8 +1,7 @@
+ {*
+-$Id: colorbox_image.tpl,v 1.7.2.3 2010/12/20 07:12:13 aim Exp $
++$Id: colorbox_image.tpl,v 1.7.2.5 2011/02/22 10:39:03 ferz Exp $
+ vim: set ts=2 sw=2 sts=2 et:
+ *}
+-{load_defer file="lib/colorbox/colorbox.css" type="css"}
+ {load_defer file="lib/colorbox/jquery.colorbox-min.js" type="js"}
+ 
+ <script type="text/javascript">
+@@ -72,7 +71,7 @@
+ {if $config.Detailed_Product_Images.det_image_icons_box eq 'Y'}
+   <div class="dpimages-icons-box">
+     {foreach from=$images item=i name=images}
+-      <a href="{$i.image_url|amp}" class="lightbox"{if $config.Detailed_Product_Images.det_image_icons_limit gt 0 and $config.Detailed_Product_Images.det_image_icons_limit gt $smarty.foreach.images.index} style="display:none;"{/if} rel="dpimages" title="{$i.alt|escape}"><img src="{$i.icon_url|amp}" alt="{$i.alt|escape}" width="{$i.icon_image_x}" height="{$i.icon_image_y}" /></a>
++      <a href="{$i.image_url|amp}" class="lightbox"{if $config.Detailed_Product_Images.det_image_icons_limit gt 0 and $config.Detailed_Product_Images.det_image_icons_limit le $smarty.foreach.images.index} style="display:none;"{/if} rel="dpimages" title="{$i.alt|escape}"><img src="{$i.icon_url|amp}" alt="{$i.alt|escape}" width="{$i.icon_image_x}" height="{$i.icon_image_y}" /></a>
+     {/foreach}
+     <div class="clearing"></div>
+   </div>

@@ -1,0 +1,72 @@
+Index: modules/Egoods/func.php
+--- modules/Egoods/func.php	2011-01-10 16:11:56.000000000 +0300
++++ modules/Egoods/func.php	2011-02-17 14:26:22.000000000 +0300
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: func.php,v 1.17.2.1 2011/01/10 13:11:56 ferz Exp $
++ * @version    $Id: func.php,v 1.17.2.2 2011/02/17 11:26:22 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -69,4 +69,59 @@
+     return $key;
+ }
+ 
++function func_egoods_remove_online_payments($payment_methods)
++{
++    global $config, $sql_tbl, $shop_language;
++
++    $is_online_pm_removed = false;
++
++    if (empty($payment_methods))
++        return array($is_online_pm_removed, $payment_methods);
++
++    foreach ($payment_methods as $k => $p) {
++
++        if (
++            func_is_online_payment_method($p)
++            && (
++                $config['Egoods']['egoods_manual_cc_processing'] == "Y"
++                || (
++                    $config['Egoods']['user_preauth_for_esd'] == 'Y'
++                    && (
++                        $p['has_preauth'] != 'Y'
++                        || $p['use_preauth'] != 'Y'
++                    )
++                )
++            )
++        ) {
++            unset($payment_methods[$k]);
++            $is_online_pm_removed = true;
++        }
++    }
++
++    $payment_methods = array_values($payment_methods);
++
++    return array($is_online_pm_removed, $payment_methods);
++}
++
++/**
++* Check if offline payment methods should be used for cart
++*/
++function func_egoods_use_offline_payments($products)
++{
++    global $config;
++
++    if (       
++        !empty($products)
++        && (
++            $config['Egoods']['user_preauth_for_esd'] == 'Y'
++            || $config['Egoods']['egoods_manual_cc_processing'] == "Y"
++        )
++    ) {
++        return true;
++    } else {
++        return false;
++    }
++    
++}
++
+ ?>

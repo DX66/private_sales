@@ -1,0 +1,45 @@
+/* vim: set ts=2 sw=2 sts=2 et: */
+/**
+ * CSS stylesheet for popup content (IE6 override)
+ *  
+ * @category   X-Cart
+ * @package    X-Cart
+ * @subpackage CSS
+ * @author     Ruslan R. Fazlyev <rrf@x-cart.com> 
+ * @version    $Id: main.popup.IE6.css,v 1.2 2010/05/28 12:53:04 igoryan Exp $
+ * @link       http://www.x-cart.com/
+ * @see        ____file_see____
+ */
+
+#page-container {
+  height: 100%;
+  border: 0 none;
+  float: none;
+  position: static;
+}
+
+#page-container2 {
+  float: none;
+  margin: 0;
+  position: static;
+  height: 100%;
+}
+
+#content-container {
+  clear: none;
+  float: none;
+}
+
+#content-container2 {
+  float: none;
+  position: static;
+  right: 0;
+  width: 100%;
+}
+
+#center {
+  float: none;
+  position: static;
+  width: 100%;
+  left: 0;
+}

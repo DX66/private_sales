@@ -1,0 +1,404 @@
+Index: include/func/func.core.php
+--- include/func/func.core.php	2011-01-13 15:56:38.000000000 +0300
++++ include/func/func.core.php	2011-05-04 16:41:33.000000000 +0400
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: func.core.php,v 1.328.2.34 2011/01/13 12:56:38 ferz Exp $
++ * @version    $Id: func.core.php,v 1.328.2.57 2011/05/04 12:41:33 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -72,6 +72,11 @@
+ 
+         $xloaded_modules[$n] = 1;
+ 
++        // Log file which called the x_load function
++        if (func_constant('DEVELOPMENT_MODE')) {
++            $traces = debug_backtrace();
++            $xloaded_modules[$n] = $traces[0]['file'] . ':' . $traces[0]['line'];
++        }
+     }
+ 
+ }
+@@ -172,9 +177,9 @@
+     if (!empty($added)) {
+         $hash = '';
+ 
+-        if (preg_match("/^(.+)#(.+)$/", $location, $match)) {
+-            $location = $match[1];
+-            $hash = $match[2];
++        if (preg_match("/^(.+)#(.+)$/", $location, $match)) {#nolint
++            $location = $match[1];#nolint
++            $hash = $match[2];#nolint
+         }
+ 
+         $location .= (strpos($location, "?") === false ? "?" : "&") . implode("&", $added);
+@@ -723,9 +728,6 @@
+ 
+             foreach ($accounts as $login_) {
+ 
+-                if (!empty($uname) && $uname != $login_)
+-                    continue;
+-
+                 $account = func_query_first("SELECT login, password FROM " . $sql_tbl['customers'] . " WHERE login='" . $login_ . "' AND usertype='" . $usertype . "'");
+ 
+                 if (empty($account) || !is_array($account))
+@@ -894,7 +896,7 @@
+     }
+ 
+     if (
+-        $config['UA']['browser'] == 'MSIE'
++        @$config['UA']['browser'] == 'MSIE'
+         && $config['UA']['version'] < 7
+     ) {
+         $templater->register_outputfilter('func_pngfix');
+@@ -974,11 +976,8 @@
+                 $result = func_webmaster_convert_labels($predefined_vars);
+             }
+ 
+-            $templater->assign_by_ref(
+-                'lng',
+-                func_array_merge($templater->get_template_vars('lng'), $predefined_vars)
+-            );
+-
++            $_all_lng = func_array_merge($templater->get_template_vars('lng'), $predefined_vars);
++            $templater->assign_by_ref('lng', $_all_lng);
+ 
+             $__X_LNG[$shop_language] = isset($__X_LNG[$shop_language])
+                 ? func_array_merge($__X_LNG[$shop_language], $predefined_vars)
+@@ -1007,12 +1006,12 @@
+     if ($config['General']['skip_delete_empty_strings'] != 'Y') 
+         $templater->register_outputfilter('func_postprocess_output');
+ 
+-    if (
+-        $config['SEO']['clean_urls_enabled'] == 'Y'
+-        && defined('AREA_TYPE')
+-        && constant('AREA_TYPE') == 'C'
+-    ) {
+-        $templater->register_outputfilter('func_clean_url_filter_output');
++    if (func_constant('AREA_TYPE') == 'C') {
++        if ($config['SEO']['clean_urls_enabled'] == 'Y')
++            $templater->register_outputfilter('func_clean_url_filter_output');
++
++        if ($config['General']['use_cached_templates'] != 'Y')
++            $templater->register_prefilter('func_tpl_remove_include_cache');
+     }
+ 
+     // Printable version
+@@ -2288,7 +2287,7 @@
+             && (
+                 (
+                     $name === false
+-                    && preg_match("/\.php$/S", $file)
++                    && preg_match("/\.(php|tpl|js|css)$/S", $file)
+                 ) || (
+                     $name !== false
+                     && strpos($file, $name . '.') === 0
+@@ -3216,7 +3215,7 @@
+ 
+ function func_xss_changed($html, $strip = false, $collect_errors = false)
+ {
+-    $new_html = func_clear_from_xss($html, $strip, $collect_errors, $method);
++    $new_html = func_clear_from_xss($html, $strip, $collect_errors);
+ 
+     return $new_html['changed'];
+ }
+@@ -3238,7 +3237,7 @@
+     }
+ 
+     // For 5.0 or greater PHP version use htmlpurifier library
+-    if (version_compare(phpversion(), '5.0.0', '>=')) {
++    if (version_compare(phpversion(), '5.0.5') >= 0) {
+ 
+         $new_html = func_purify_html($html, $strip, $collect_errors);
+ 
+@@ -3330,7 +3329,7 @@
+         "#(" . implode("|", $operators) . ")(\s*)\((.*?)\)#si" => "\\1\\2&#40;\\3&#41;",
+         "#javascript\s*:#i"                         => '',
+         "#Redirect\s+302#i"                         => '',
+-        '#//<![CDATA[#i'                            => '&lt;!--',
++        '#//<!\[CDATA\[#i'                            => '&lt;!--',
+         '#//]]>#i'                                  => '--&gt;',
+     );
+ 
+@@ -3396,7 +3395,7 @@
+ 
+     global $default_charset;
+ 
+-    if (!is_string($str) && !is_numeric($var)) {
++    if (!is_string($str) && !is_numeric($str)) {
+         return '';
+     }
+ 
+@@ -3441,7 +3440,8 @@
+  */
+ function func_convert_amp($str)
+ {
+-    return preg_replace('/&(?!(?:amp|#\d+|#x\d+|euro|copy|pound|curren|cent|yen|reg|trade);)/Ss', '&amp;', $str);
++    // Do not convert html entities like &thetasym; &Omicron; &euro; &#8364; &#8218;
++    return preg_replace('/&(?![a-zA-Z0-9#]{1,8};)/Ss', '&amp;', $str);
+ }
+ 
+ /**
+@@ -4283,7 +4283,15 @@
+ 
+             if ($main == 'catalog') {
+ 
+-                return "home.php?cat=" . $cat . $_page;
++                if ($cat) {
++
++                    return "home.php?cat=" . $cat . $_page;
++
++                } else {
++
++                    return "home.php";
++
++                }
+ 
+             } else {
+ 
+@@ -4295,7 +4303,7 @@
+ 
+         case 'product' :
+             $_product_in_template = $smarty->get_template_vars('product');
+-            return 'product.php' . (isset($_product_in_template['productid']) ? "?productid=" . $smarty->$_product_in_template['productid'] : "");
++            return 'product.php' . (isset($_product_in_template['productid']) ? "?productid=" . $_product_in_template['productid'] : "");
+ 
+         case 'pages' :
+             $_page_in_template = $smarty->get_template_vars('page_data');
+@@ -4588,7 +4596,11 @@
+ 
+     $json = new Services_JSON();
+ 
+-    return $json->encode($data);
++    $res = $json->encode($data);
++    #bt:0106083 Overwrite "Content-type: application/json" sending in Services/Services_JSON/JSON.php
++    header('Content-Type: text/html');
++
++    return $res;
+ }
+ 
+ /**
+@@ -4659,17 +4671,16 @@
+  */
+ function func_get_adv()
+ {
+-    global $sql_tbl;
+-
+-    if (!func_is_evaluation()) {
+-
+-        $do_not_show_adv = func_query_first_cell("SELECT value FROM " . $sql_tbl['config'] . " WHERE name='do_not_show_adv'");
++    global $sql_tbl, $config, $HTTPS;
+ 
+-        if ($do_not_show_adv == 'Y')
+-            return false;
++    if (
++        !func_is_evaluation()
++        && @$config['do_not_show_adv'] == 'Y'
++    ) {
++        return false;
+     }
+ 
+-    $registration_date = intval(func_query_first_cell("SELECT value FROM " . $sql_tbl['config'] . " WHERE name='registration_date'"));
++    $registration_date = intval($config['registration_date']);
+ 
+     if ($registration_date == 0) {
+ 
+@@ -4703,7 +4714,12 @@
+     ) {
+         func_set_event('show_adv');
+ 
+-        return func_get_langvar_by_name('txt_qteam_service_' . rand(1, 4));
++        $content = func_url_get($config['adv_generator_url']);
++
++        if (empty($content))
++            return func_get_langvar_by_name('txt_qteam_service_' . rand(1, 4));
++        else
++            return $content;
+     }
+ 
+     return false;
+@@ -4714,16 +4730,32 @@
+  */
+ function func_check_active_payments()
+ {
+-    global $sql_tbl, $active_modules, $config;
++    global $sql_tbl, $active_modules;
+ 
+     $active_payment_methods = func_query_first_cell("SELECT * FROM " . $sql_tbl['payment_methods'] . " WHERE active='Y'");
+ 
+-    $gc_configured = !empty($config['Google_Checkout']['gcheckout_mid']) && !empty($config['Google_Checkout']['gcheckout_mkey']);
+-
+-    if ($active_payment_methods != '' || ($gc_configured && !empty($active_modules['Google_Checkout'])))
++    $gc_configured = (!empty($active_modules['Google_Checkout']) && func_is_gcheckout_enabled());
++    $ac_configured = (!empty($active_modules['Amazon_Checkout']) && func_is_acheckout_enabled());
++    
++    if (
++        !empty($active_payment_methods)
++        || $gc_configured
++        || $ac_configured
++    ) {
+         return true;
++    } 
++
++    if (
++        empty($active_modules['Google_Checkout'])
++        && empty($active_modules['Amazon_Checkout'])
++    ) {
++        // Google_Checkout-Amazon_Checkout are enabled but are setup incorrectly
++        $lbl = 'lbl_no_active_payment_methods';
++    } else {
++        $lbl = 'lbl_no_active_payment_methods_and_gc_ac';
++    }
+ 
+-    return func_get_langvar_by_name(((!empty($active_modules['Google_Checkout']) && !$gc_configured) ? 'lbl_no_active_payment_methods_and_gc' : 'lbl_no_active_payment_methods'));
++    return func_get_langvar_by_name($lbl);
+ }
+ 
+ /**
+@@ -4932,7 +4964,7 @@
+  */
+ function func_purify_html($html = '', $strip = false, $collect_errors = false)
+ {
+-    global $xcart_dir, $default_charset, $login;
++    global $xcart_dir, $default_charset, $login, $var_dirs;
+ 
+     static $purifier = null;
+ 
+@@ -4944,8 +4976,6 @@
+ 
+         $purifier_config = HTMLPurifier_Config::createDefault();
+ 
+-        $purifier_config->set('Cache.DefinitionImpl', null);
+-
+         if (!empty($default_charset) && strtolower($default_charset) != 'utf-8') {
+ 
+             $purifier_config->set('Core.Encoding', $default_charset);
+@@ -4962,6 +4992,8 @@
+         if (!empty($collect_errors))
+             $purifier_config->set('Core.CollectErrors', true);
+ 
++        $purifier_config->set('Cache.SerializerPath', $var_dirs['cache']); 
++
+         $purifier = new HTMLPurifier($purifier_config);
+ 
+     }
+@@ -5630,7 +5662,7 @@
+             && function_exists($first_transaction['functions']['complete'])
+         ) { 
+ 
+-            $return = call_user_func_array($transaction['functions']['complete'], $transaction['functions']['params_complete']);
++            $return = call_user_func_array($first_transaction['functions']['complete'], $first_transaction['functions']['params_complete']);
+ 
+             $full_return = $full_return && $return;
+ 
+@@ -5673,7 +5705,7 @@
+     }
+ 
+     // Define convert function and params
+-    if (empty($convert_function)) {
++    if (empty($func_convert_function)) {
+ 
+         if (function_exists('iconv')) {
+             $func_convert_function = 'iconv';
+@@ -5735,7 +5767,7 @@
+     $filename = x_log_add('Assertion', debug_backtrace());
+ 
+     if (!empty($filename))
+-        $filename = str_replace($xcart_dir, '', $filename);
++        $filename = str_replace($xcart_dir . '/', '', $filename);
+ 
+     echo "<hr>Assertion Failed:
+         File '$file':Line '$line'<br />
+@@ -5915,4 +5947,89 @@
+ 
+     return $store;
+ }
++
++/**
++ * Check array elements emptiness
++ */
++function func_array_empty($data)
++{
++    if (empty($data))
++        return true;
++
++    if (!is_array($data)) 
++        return empty($data);
++
++    foreach ($data as $v) { 
++        if (is_array($v)) {
++            if (!func_array_empty($v))
++                return false;
++
++        } elseif (!empty($v)) {
++            return false;
++        }
++    }
++
++    return true;
++}
++
++/*
++ * Wrapper for php constant function
++ */
++function func_constant($constant)
++{
++    if (defined($constant))
++        return constant($constant);
++    else       
++        return false;
++}
++
++
++/*
++ * Assign smarty vars from global
++ */
++function func_assign_smarty_vars($check_vars)
++{
++    global $smarty;
++
++    if (!is_array($check_vars))
++        return false;
++
++    $template_vars = $smarty->get_template_vars();    
++    foreach ($check_vars as $global_var) {
++        global $$global_var;
++
++        if (
++            isset($$global_var)
++            && !isset($template_vars[$global_var])
++        ) {
++            $smarty->assign_by_ref($global_var, $$global_var);
++        }
++    }
++
++    return true;
++}
++
++/**
++ * Detect whether a string was ISO-8859-1 compatible or not
++ */
++function func_is_latin1($str)
++{
++    return (preg_match("/^[\\x00-\\xFF]*$/u", $str) === 1);
++}
++
++/**
++ * Get HTTP_RAW_POST_DATA independently on always_populate_raw_post_data setting
++ */
++function func_get_raw_post_data()
++{
++    global $HTTP_RAW_POST_DATA;
++
++    if (!isset($HTTP_RAW_POST_DATA)) {
++        $HTTP_RAW_POST_DATA = file_get_contents("php://input");
++        if (empty($HTTP_RAW_POST_DATA))
++            unset($HTTP_RAW_POST_DATA);
++    }
++
++    return @$HTTP_RAW_POST_DATA;
++}
+ ?>

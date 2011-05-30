@@ -1,0 +1,58 @@
+/*
+$Id: altskin.IE7.css,v 1.1 2010/05/21 08:32:55 joy Exp $
+vim: set ts=2 sw=2 sts=2 et:
+*/
+.line2 label {
+  display: inline-block;
+  vertical-align: middle;
+  padding-bottom: 4px;
+}
+#header .search-top-box {
+  line-height: 26px;
+}
+
+button.button {
+  padding-right: 2px;
+}
+
+.welcome-top {
+  z-index: 2000;
+}
+
+.fancycat-icons-e li ul.fancycat-icons-level-1 li ul {
+  left: 151px;
+}
+.fancycat-icons-e li ul.fancycat-icons-level-3 li ul {
+  left: -164px;
+}
+.fancycat-icons-e li ul li {
+  padding-left: 5px;
+  padding-right: 5px;
+  width: 157px;
+}
+
+.welcome-top .fancy-height-extender {
+  height: 221px;
+}
+.welcome-top ul.fancycat-icons-level-0 {
+  width: 164px;
+}
+.welcome-top .fancycat-icons-e li ul.fancycat-icons-level-1 {
+  left: 153px;
+}
+
+.fancycat-icons-c li a.arrow:link,
+  .fancycat-icons-c li a.arrow:visited,
+  .fancycat-icons-c li a.arrow:hover,
+  .fancycat-icons-c li a.arrow:active
+{
+  top: 3px;
+}
+
+.minicart-box {
+  top: 26px;
+}
+.minicart-box .checkout-popup-link div.buttons-box {
+  top: 25px;
+}
+

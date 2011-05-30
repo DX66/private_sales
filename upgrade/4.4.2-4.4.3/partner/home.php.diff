@@ -1,0 +1,22 @@
+Index: partner/home.php
+--- partner/home.php	2011-01-10 16:12:04.000000000 +0300
++++ partner/home.php	2011-02-09 12:25:35.000000000 +0300
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: home.php,v 1.27.2.1 2011/01/10 13:12:04 ferz Exp $
++ * @version    $Id: home.php,v 1.27.2.2 2011/02/09 09:25:35 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -54,7 +54,8 @@
+ $smarty->assign('mode', $mode);
+ 
+ // Assign the current location line
+-$smarty->assign("location", $location);
++if (isset($location))
++    $smarty->assign("location", $location);
+ 
+ func_display("partner/home.tpl",$smarty);
+ ?>

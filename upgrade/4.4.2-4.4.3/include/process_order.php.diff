@@ -1,0 +1,21 @@
+Index: include/process_order.php
+--- include/process_order.php	2011-01-10 16:11:50.000000000 +0300
++++ include/process_order.php	2011-01-25 12:43:12.000000000 +0300
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: process_order.php,v 1.39.2.2 2011/01/10 13:11:50 ferz Exp $
++ * @version    $Id: process_order.php,v 1.39.2.3 2011/01/25 09:43:12 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -202,7 +202,7 @@
+     $top_message = func_payment_do_get_info($orderid);
+     func_header_location("order.php?orderid=" . $orderid);
+ 
+-} elseif ($mode == 'xpayments' && $orderid && $active_modules['XPayments_Connector']) {
++} elseif ($mode == 'xpayments' && $orderid && !empty($active_modules['XPayments_Connector'])) {
+ 
+     require_once ($xcart_dir . '/modules/XPayments_Connector/admin.php');
+ 

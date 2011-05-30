@@ -1,0 +1,58 @@
+Index: admin/cc_processing.php
+--- admin/cc_processing.php	2011-01-10 16:11:45.000000000 +0300
++++ admin/cc_processing.php	2011-01-25 13:14:16.000000000 +0300
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: cc_processing.php,v 1.107.2.1 2011/01/10 13:11:45 ferz Exp $
++ * @version    $Id: cc_processing.php,v 1.107.2.4 2011/01/25 10:14:16 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -57,11 +57,10 @@
+     'payment'
+ );
+ 
+-if ($active_modules['XPayments_Connector']) {
++if (!empty($active_modules['XPayments_Connector'])) {
+     func_xpay_func_load();
+ }
+ 
+-$cc_script = "cc_processing.php?mode=update&cc_processor=$cc_processor";
+ 
+ x_session_register('recent_payment_methods', array());
+ 
+@@ -295,7 +294,7 @@
+                 if (!empty($_POST['conf_data'][$map_key])) {
+ 
+                     if (
+-                        $active_modules['XPayments_Connector']
++                        !empty($active_modules['XPayments_Connector'])
+                         && isset($_POST['conf_data'][$map_key]['use_xpc'])
+                         && isset($_POST['conf_data'][$map_key]['use_xpc_processor'])
+                     ) {
+@@ -388,12 +387,13 @@
+ 
+     } // if (!empty($cc_processor))
+ 
+-    func_header_location($cc_script);
++    func_header_location("cc_processing.php?mode=update&cc_processor=$cc_processor");
+ }
+ 
+ /**
+  * $cc_processing_module
+  */
++settype($subscribe, 'string'); 
+ if ($mode == 'update') {
+ 
+     require $xcart_dir . '/include/safe_mode.php';
+@@ -473,7 +473,7 @@
+ 
+             $smarty->assign('default_paypal_email', $default_paypal_email);
+ 
+-            if ($active_modules['XPayments_Connector']) {
++            if (!empty($active_modules['XPayments_Connector'])) {
+ 
+                 $xpc_dp_processors = array(
+                     'pro' => false,

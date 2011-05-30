@@ -1,0 +1,1 @@
+b104092de5728c9df7c92394678223c3a:4:{s:6:"lbl_or";s:2:"OR";s:22:"lbl_sp_cart_bonuses_bp";s:28:"<b>{{num}}</b> bonus points!";s:31:"lbl_sp_cart_bonuses_memberships";s:41:"Ability to get a higher membership level:";s:25:"lbl_sp_cart_bonuses_title";s:28:"After checkout you will get:";}

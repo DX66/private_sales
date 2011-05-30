@@ -1,0 +1,135 @@
+Index: modules/Shipping_Label_Generator/func.php
+--- modules/Shipping_Label_Generator/func.php	2011-01-10 16:12:01.000000000 +0300
++++ modules/Shipping_Label_Generator/func.php	2011-02-01 13:51:15.000000000 +0300
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: func.php,v 1.28.2.1 2011/01/10 13:12:01 ferz Exp $
++ * @version    $Id: func.php,v 1.28.2.3 2011/02/01 10:51:15 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -111,95 +111,38 @@
+ {
+     global $sql_tbl;
+ 
+-    $shipping = func_query_first("SELECT * FROM $sql_tbl[shipping] WHERE code = 'USPS' AND shippingid = '".$shippingid."'");
++    settype($shippingid, 'int');
++    $shipping = func_query_first_cell("SELECT shipping FROM $sql_tbl[shipping] WHERE code = 'USPS' AND shippingid = '".$shippingid."'");
+     if (empty($shipping))
+         return false;
+ 
+-    $service_type = false;
+-    switch ($shipping['shipping']) {
+-        case 'USPS Express Mail':
+-        case 'USPS Express Mail P.O.':
+-        case 'USPS Express Mail Flat Rate Envelope':
+-        case 'USPS Express Mail Flat-Rate Envelope':
+-        case 'USPS Express Mail Flat Rate Envelope Hold For Pickup':
+-        case 'USPS Express Mail Flat-Rate Envelope Hold For Pickup':
+-        case 'USPS Express Mail Flat Rate Envelope Sunday/Holiday Guarantee':
+-        case 'USPS Express Mail Flat-Rate Envelope Sunday/Holiday Guarantee':
+-            $service_type = 'ExpressMail';
+-            break;
+-
+-        case 'USPS Express Mail International (EMS)':
+-        case 'USPS Express Mail International (EMS) Flat Rate Envelope':
+-        case 'USPS Express Mail International (EMS) Flat-Rate Envelope':
+-        case 'USPS Express Mail International':
+-        case 'USPS Express Mail International Flat Rate Envelope':
+-        case 'USPS Express Mail International Flat-Rate Envelope':
+-
+-            $service_type = 'ExpressMailIntl';
+-            break;
+-
+-        case 'USPS Priority Mail':
+-        case 'USPS Priority Mail Flat-Rate Box':
+-        case 'USPS Priority Mail Flat-Rate Letter':
+-        case 'USPS Priority Mail Flat-Rate Envelope':
+-        case 'USPS Priority Mail Flat Rate Box':
+-        case 'USPS Priority Mail Flat Rate Letter':
+-        case 'USPS Priority Mail Flat Rate Envelope':
+-            $service_type = 'Priority';
+-            break;
+-
+-        case 'USPS Priority Mail International':
+-        case 'USPS Priority Mail International Flat Rate Box':
+-        case 'USPS Priority Mail International Flat Rate Envelope':
+-        case 'USPS Priority Mail International Flat-Rate Box':
+-        case 'USPS Priority Mail International Flat-Rate Envelope':
+-        case 'USPS Priority Mail International Large Flat-Rate Box':
+-        case 'USPS Priority Mail International Large Flat Rate Box':
+-        case 'USPS Priority Mail International Medium Flat Rate Box':
+-        case 'USPS Priority Mail International Small Flat Rate Box':
+-            $service_type = 'PriorityMailIntl';
+-            break;
+-
+-        case 'USPS First Class':
+-        case 'USPS First-Class Mail':
+-            $service_type = 'First Class';
+-            break;
+-
+-        case 'USPS First-Class Mail International':
+-        case 'USPS First Class Mail International':
+-        case 'USPS First-Class Mail International Letter':
+-        case 'USPS First Class Mail International Letter':
+-        case 'USPS First-Class Mail International Large Envelope':
+-        case 'USPS First Class Mail International Large Envelope':
+-        case 'USPS First-Class Mail International Package':
+-        case 'USPS First Class Mail International Package':
+-        case 'USPS First-Class Mail International Postcard':
+-        case 'USPS First Class Mail International Postcard':
+-            $service_type = 'FirstClassMailIntl';
+-            break;
+-
+-        case 'USPS Parcel Post':
+-        case 'USPS Airmail Parcel Post':
+-        case 'USPS Economy (Surface) Parcel Post':
+-            $service_type = 'Parcel Post';
+-            break;
+-
+-        case 'USPS Media':
+-        case 'USPS Media Mail':
+-            $service_type = 'Media Mail';
+-            break;
+-
+-        case 'USPS Library':
+-        case 'USPS Library Mail':
+-            $service_type = 'Library Mail';
+-            break;
++    $signatures = 
++    array(
++        'USPS Express Mail International' => 'ExpressMailIntl',
++        'USPS Express Mail' => 'ExpressMail',
+ 
+-        default:
+-            $service_type = 'Error';
+-            break;
+-    }
++        'USPS Priority Mail International' => 'PriorityMailIntl',
++        'USPS Priority Mail' => 'Priority',
+ 
+-    return $service_type;
++        'USPS First-Class Mail International' => 'FirstClassMailIntl',
++        'USPS First Class Mail International' => 'FirstClassMailIntl',
++        'USPS First-Class Mail' => 'First Class',
++        'USPS First Class Mail' => 'First Class',
++
++        'Parcel Post' => 'Parcel Post',
++
++        'USPS Media' => 'Media Mail',
++
++        'USPS Library' => 'Library Mail',
++    );
++
++    $shipping = str_replace(array("##R##","##TM##","##SM##"), '', $shipping);
++    foreach ($signatures as $signature => $service_type) {
++        if (strpos($shipping, $signature) !== false)
++            return $service_type;
++    }
++    
++    return 'Error';
+ }
+ 
+ function func_dhl_check_shippingid($shippingid, $dst_country = 'US')

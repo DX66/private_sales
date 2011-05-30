@@ -1,0 +1,1 @@
+a27b5ad5e0ccb450ea00b27f8e89fb5fa:1:{s:19:"lbl_select_language";s:15:"Select language";}

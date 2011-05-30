@@ -1,0 +1,97 @@
+Index: include/orders.php
+--- include/orders.php	2011-01-10 16:11:50.000000000 +0300
++++ include/orders.php	2011-04-08 16:46:28.000000000 +0400
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: orders.php,v 1.126.2.1 2011/01/10 13:11:50 ferz Exp $
++ * @version    $Id: orders.php,v 1.126.2.6 2011/04/08 12:46:28 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -339,8 +339,17 @@
+         $search_condition .= " AND $sql_tbl[orders].total<='".doubleval($data["total_max"])."'";
+ 
+     // Search by payment method
+-    if (!empty($data['paymentid']))
+-        $search_condition .= " AND $sql_tbl[orders].paymentid = '".$data["paymentid"]."'";
++    if (!empty($data['paymentid'])) {
++        if ($data['paymentid'] == 'Google_Checkout_as_payment') {
++            $search_from[] = $sql_tbl['gcheckout_orders']." ON $sql_tbl[gcheckout_orders].orderid=$sql_tbl[orders].orderid ";
++
++        } elseif ($data['paymentid'] == 'Amazon_Checkout_as_payment') {
++            $search_from[] = $sql_tbl['amazon_orders'] . " ON $sql_tbl[amazon_orders].orderid = $sql_tbl[orders].orderid ";
++
++        } else {
++            $search_condition .= " AND $sql_tbl[orders].paymentid = '$data[paymentid]'";
++        }
++    }        
+ 
+     // Search by shipping method
+     if (!empty($data['shipping_method']))
+@@ -531,8 +540,7 @@
+ 
+         // Search for orders with Gift Certificates ordered
+         if (!empty($data['features']['gc_ordered'])) {
+-            $search_from[] = $sql_tbl['giftcerts'];
+-            $search_links[] = "$sql_tbl[orders].orderid=$sql_tbl[giftcerts].orderid";
++            $search_from[] = $sql_tbl['giftcerts'] . " ON $sql_tbl[orders].orderid=$sql_tbl[giftcerts].orderid ";
+         }
+ 
+     }
+@@ -627,14 +635,10 @@
+ 
+     if ($search_in_order_details) {
+ 
+-        $search_from[] = $sql_tbl['order_details'];
+-        $search_links[] = "$sql_tbl[orders].orderid=$sql_tbl[order_details].orderid";
++        $search_from[] = $sql_tbl['order_details'] . " ON $sql_tbl[orders].orderid=$sql_tbl[order_details].orderid ";
+ 
+         if ($search_in_products) {
+-
+-            $search_from[] = $sql_tbl['products'];
+-            $search_links[] = "$sql_tbl[order_details].productid=$sql_tbl[products].productid";
+-
++            $search_from[] = $sql_tbl['products'] . " ON $sql_tbl[order_details].productid=$sql_tbl[products].productid ";
+         }
+ 
+     }
+@@ -644,7 +648,7 @@
+         if (count($search_from) > 1)
+             $search_condition .= " GROUP BY $sql_tbl[orders].orderid";
+ 
+-        $search_from = "FROM (".implode(", ", $search_from).")";
++        $search_from = "FROM ".implode(" INNER JOIN ", $search_from);
+ 
+     }
+ 
+@@ -858,12 +862,25 @@
+ 
+ $smarty->assign('start_date',       $start_date);
+ $smarty->assign('end_date',         $end_date);
+-$smarty->assign('search_prefilled', $search_data['orders']);
++$smarty->assign('search_prefilled', @$search_data['orders']);
+ 
+ $payment_methods = func_query("SELECT $sql_tbl[payment_methods].payment_method, $sql_tbl[payment_methods].paymentid FROM $sql_tbl[payment_methods] INNER JOIN $sql_tbl[orders] ON $sql_tbl[orders].paymentid = $sql_tbl[payment_methods].paymentid GROUP BY $sql_tbl[payment_methods].paymentid ORDER BY $sql_tbl[payment_methods].payment_method");
+ 
+-if (!empty($payment_methods) && !empty($active_modules['Google_Checkout']))
+-    array_unshift($payment_methods, array('payment_method'=>"Google Checkout", 'paymentid' => 0));
++$payment_methods = is_array($payment_methods) ? $payment_methods : array();
++
++if (
++    !empty($active_modules['Google_Checkout'])
++    && func_query_first_cell("SELECT COUNT(*) FROM $sql_tbl[gcheckout_orders]")
++) {
++    array_unshift($payment_methods, array('payment_method'=>"Google Checkout", 'paymentid' => 'Google_Checkout_as_payment'));
++}    
++
++if (
++    !empty($active_modules['Amazon_Checkout'])
++    && func_query_first_cell("SELECT COUNT(*) FROM $sql_tbl[amazon_orders]")
++) {
++    array_unshift($payment_methods, array('payment_method'=>"Amazon Checkout", 'paymentid' => 'Amazon_Checkout_as_payment'));
++}    
+ 
+ $smarty->assign('payment_methods', $payment_methods);
+ 

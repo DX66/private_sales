@@ -1,0 +1,22 @@
+Index: skin/common_files/customer/service_js.tpl
+--- skin/common_files/customer/service_js.tpl	2010-07-29 18:07:40.000000000 +0400
++++ skin/common_files/customer/service_js.tpl	2011-04-29 15:57:51.000000000 +0400
+@@ -1,5 +1,5 @@
+ {*
+-$Id: service_js.tpl,v 1.8 2010/07/29 14:07:40 igoryan Exp $ 
++$Id: service_js.tpl,v 1.8.2.1 2011/04/29 11:57:51 aim Exp $ 
+ vim: set ts=2 sw=2 sts=2 et:
+ *}
+ {capture name=javascript_code}
+@@ -95,4 +95,11 @@
+ 
+ {load_defer file="lib/jquery.cookie.js" type="js"}
+ 
++{if $main eq 'product'}
++  {getvar var=det_images_widget}
++  {if $det_images_widget eq 'cloudzoom'}
++    {load_defer file="lib/cloud_zoom/cloud-zoom.min.js" type="js"}
++  {/if}
++{/if}
++
+ {include file="onload_js.tpl"}

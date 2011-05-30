@@ -1,0 +1,39 @@
+Index: payment/cmpi.php
+--- payment/cmpi.php	2011-01-10 16:12:08.000000000 +0300
++++ payment/cmpi.php	2011-04-18 13:02:58.000000000 +0400
+@@ -41,7 +41,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: cmpi.php,v 1.58.2.1 2011/01/10 13:12:08 ferz Exp $
++ * @version    $Id: cmpi.php,v 1.58.2.3 2011/04/18 09:02:58 ferz Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -58,6 +58,8 @@
+ 
+     }
+ 
++    define('ORDER_PLACEMENT_PROCESS', 1);
++
+     $stand_alone = true;
+ 
+ } else {
+@@ -73,7 +75,8 @@
+     'order',
+     'payment',
+     'xml',
+-    'tests'
++    'tests',
++    'cart'
+ );
+ 
+ x_session_register('cmpi_tid');
+@@ -84,6 +87,7 @@
+ $sql_tbl['currencies']             = 'xcart_currencies';
+ 
+ $timeout = 15;
++$is_egoods = func_esd_in_cart($cart);
+ 
+ // Save script enviroment
+ if (!$stand_alone) {

@@ -1,0 +1,343 @@
+Index: include/func/func.order.php
+--- include/func/func.order.php	2011-01-10 16:11:52.000000000 +0300
++++ include/func/func.order.php	2011-05-04 11:16:14.000000000 +0400
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: func.order.php,v 1.131.2.9 2011/01/10 13:11:52 ferz Exp $
++ * @version    $Id: func.order.php,v 1.131.2.25 2011/05/04 07:16:14 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -353,6 +353,7 @@
+ 
+                     if (in_array($ret['status'], array('A','R','C'))) {
+ 
++                        settype($products[$k]['returns_sum_'.$ret["status"]], 'int');
+                         $products[$k]['returns_sum_'.$ret["status"]] += $ret["amount"];
+                         $products[$k]['returned_to_stock'] += $ret["returned_amount"];
+ 
+@@ -449,14 +450,16 @@
+         // Get info about customer
+         $_userinfo = func_userinfo($userinfo['userid'], 'C', false, false, 'H', false);
+ 
+-    } else {
++    } 
++    
++    if (empty($_userinfo)) {
+ 
+         // Anonymous profile (zero userid)
+-        global $anonymous_userinfo;
+ 
+-        $anonymous_userinfo = $userinfo;
+-        $anonymous_userinfo['address']['S'] = func_create_address($userinfo, 'S');
+-        $anonymous_userinfo['address']['B'] = func_create_address($userinfo, 'B');
++        $_anonymous_userinfo = $userinfo;
++        @$_anonymous_userinfo['address']['S'] = func_create_address($userinfo, 'S');
++        @$_anonymous_userinfo['address']['B'] = func_create_address($userinfo, 'B');
++        func_set_anonymous_userinfo($_anonymous_userinfo);
+ 
+         $_userinfo = func_userinfo(0, 'C', false, false, 'H');
+ 
+@@ -643,7 +646,7 @@
+ 
+                     if (!empty($variant)) {
+ 
+-                        if ($v['force_product_options_txt']) {
++                        if (!empty($v['force_product_options_txt'])) {
+                             // Restore saved data from old variant
+                             $variant['productcode'] = $v['productcode'];
+                         }
+@@ -875,11 +878,13 @@
+ 
+     func_lock('place_order');
+ 
+-    $userinfo['title']   = func_get_title($userinfo['titleid'], $config['default_admin_language']);
+-    $userinfo['b_title'] = func_get_title($userinfo['b_titleid'], $config['default_admin_language']);
+-    $userinfo['s_title'] = func_get_title($userinfo['s_titleid'], $config['default_admin_language']);
++    $userinfo = func_userinfo_from_scratch($userinfo, 'userinfo_for_payment');
++
++    $userinfo['title']   = func_get_title(@$userinfo['titleid'], $config['default_admin_language']);
++    $userinfo['b_title'] = func_get_title(@$userinfo['b_titleid'], $config['default_admin_language']);
++    $userinfo['s_title'] = func_get_title(@$userinfo['s_titleid'], $config['default_admin_language']);
+ 
+-    $check_order = func_query_first("SELECT orderid FROM $sql_tbl[orders] WHERE userid='" . addslashes($userinfo["id"]) . "' AND '".XC_TIME."'-date < '$mintime'");
++    $check_order = func_query_first("SELECT orderid FROM $sql_tbl[orders] WHERE userid='" . addslashes(@$userinfo["id"]) . "' AND '".XC_TIME."'-date < '$mintime'");
+ 
+     if ($check_order) {
+         func_unlock('place_order');
+@@ -979,7 +984,10 @@
+             $extra['dhl_ext_country'] = $dhl_ext_country_store;
+     }
+ 
+-    if (is_array($mailchimp_response)) {
++    if (
++        !empty($active_modules['Mailchimp_Subscription'])
++        && is_array($mailchimp_response)
++    ) {
+ 
+         foreach ($mailchimp_response as $mck => $mcv) {
+ 
+@@ -1016,7 +1024,7 @@
+             $giftcert_discount = $current_order['giftcert_discount'];
+             $giftcert_str = '';
+ 
+-            if ($current_order['applied_giftcerts']) {
++            if (!empty($current_order['applied_giftcerts'])) {
+ 
+                 foreach($current_order['applied_giftcerts'] as $k => $v) {
+ 
+@@ -1048,15 +1056,15 @@
+ 
+         $save_info = $userinfo;
+ 
+-        $userinfo['b_address'] .= "\n".$userinfo['b_address_2'];
+-        $userinfo['s_address'] .= "\n".$userinfo['s_address_2'];
++        $userinfo['b_address'] .= "\n".@$userinfo['b_address_2'];
++        $userinfo['s_address'] .= "\n".@$userinfo['s_address_2'];
+ 
+         // Insert into orders
+ 
+         $insert_data = array (
+-            'userid'            => $userinfo['id'] ? $userinfo['id'] : 0,
+-            'membershipid'      => $userinfo['membershipid'],
+-            'membership'        => addslashes($userinfo['membership']),
++            'userid'            => !empty($userinfo['id']) ? $userinfo['id'] : 0,
++            'membershipid'      => @$userinfo['membershipid'],
++            'membership'        => addslashes(@$userinfo['membership']),
+             'total'             => $current_order['total_cost'],
+             'init_total'        => $current_order['total_cost'],
+             'giftcert_discount' => $giftcert_discount,
+@@ -1079,13 +1087,14 @@
+             'details'           => addslashes(text_crypt($order_details)),
+             'customer_notes'    => $customer_notes,
+             'clickid'           => $partner_clickid,
+-            'language'          => $userinfo['language'],
++            'language'          => @$userinfo['language'],
+             'extra'             => addslashes(serialize($_extra)),
+         );
+ 
+         // Generate access key for anonymous orders
+         if (
+-            !is_numeric($userinfo['id'])
++            empty($userinfo['id'])
++            || !is_numeric($userinfo['id'])
+             || $userinfo['id'] <= 0
+         ) {
+             $insert_data['access_key'] = substr(md5(uniqid(rand())), 0, 16);
+@@ -1256,7 +1265,10 @@
+                 if (!empty($active_modules['Wishlist']))
+                     include $xcart_dir.'/modules/Wishlist/place_order.php';
+ 
+-                if (!empty($active_modules['Recommended_Products'])) {
++                if (
++                    !empty($active_modules['Recommended_Products'])
++                    && !empty($userinfo["id"])
++                ) {
+                     $rec_counter = func_query_first_cell("SELECT COUNT(*) FROM $sql_tbl[stats_customers_products] WHERE productid='$product[productid]' AND userid='" . $userinfo["id"] . "'");
+ 
+                     if (!empty($rec_counter)) {
+@@ -1298,8 +1310,8 @@
+         }
+ 
+         // Provider commission
+-
+-        include $xcart_dir . '/include/provider_commission.php';
++        $current_order['orderid'] = $orderid;
++        func_calculate_provider_commission($products, $current_order);
+ 
+         if (
+             (
+@@ -1446,7 +1458,7 @@
+ 
+             // Notify customer by email
+ 
+-            $to_customer = $userinfo['language']
++            $to_customer = !empty($userinfo['language'])
+                 ? $userinfo['language']
+                 : $config['default_customer_language'];
+ 
+@@ -1580,7 +1592,7 @@
+                     continue;
+ 
+                 if (
+-                    $active_modules['Product_Options']
++                    !empty($active_modules['Product_Options'])
+                     && $product['extra_data']['product_options']
+                 ) {
+ 
+@@ -1638,7 +1650,7 @@
+         } // if ($config['General']['unlimited_products']!="Y")
+ 
+         // Store in the order history
+-        if ($active_modules['Advanced_Order_Management']) {
++        if (!empty($active_modules['Advanced_Order_Management'])) {
+ 
+             $details = array(
+                 'old_status' => '',
+@@ -1657,7 +1669,8 @@
+ 
+     // Save orderids in the session
+     if (
+-        !is_numeric($userinfo['id'])
++        empty($userinfo['id'])
++        || !is_numeric($userinfo['id'])
+         || $userinfo['id'] <= 0
+     ) {
+         global $session_orders;
+@@ -1806,7 +1819,7 @@
+         if (
+             $status != $order['status']
+             && in_array($order['status'], array('D', 'F'))
+-            && in_array($status, array('C','P','Q','I'))
++            && in_array($status, array('C','P','Q','I','B'))
+         ) {
+             func_update_quantity($order_data['products'],false);
+         }
+@@ -2036,7 +2049,7 @@
+ 
+         // Update statistics for sold products
+ 
+-        if ($active_modules['Advanced_Statistics']) {
++        if (!empty($active_modules['Advanced_Statistics'])) {
+             include $xcart_dir.'/modules/Advanced_Statistics/prod_sold.php';
+         }
+ 
+@@ -2136,7 +2149,7 @@
+ function func_decline_order($orderids, $status = 'D', $old_status = 'D')
+ {
+     global $config, $mail_smarty;
+-    global $sql_tbl, $to_customer;
++    global $sql_tbl, $to_customer, $active_modules, $xcart_dir;
+ 
+     if (($status != 'D') && ($status != 'F')) return;
+ 
+@@ -2251,7 +2264,7 @@
+ 
+         }
+ 
+-        if ($active_modules['Special_Offers']) {
++        if (!empty($active_modules['Special_Offers'])) {
+             include $xcart_dir.'/modules/Special_Offers/decline_order.php';
+         }
+ 
+@@ -2678,7 +2691,7 @@
+             $current_area == 'A'
+             || (
+                 $current_area == 'P'
+-                && $active_modules['Simple_Mode']
++                && !empty($active_modules['Simple_Mode'])
+             )
+         ) && (
+             $config['Security']['blowfish_enabled'] == 'Y'
+@@ -3296,7 +3309,7 @@
+ 
+     $new_status = 'P';
+ 
+-    if ($active_modules['XPayments_Connector']) {
++    if (!empty($active_modules['XPayments_Connector'])) {
+ 
+         func_xpay_func_load();
+ 
+@@ -3369,7 +3382,7 @@
+ 
+     $new_status = 'D';
+ 
+-    if ($active_modules['XPayments_Connector']) {
++    if (!empty($active_modules['XPayments_Connector'])) {
+ 
+         func_xpay_func_load();
+ 
+@@ -3427,7 +3440,7 @@
+ 
+     $new_status = $order['order']['charge_info']['refund_avail'] <= $total ? 'D' : false;
+ 
+-    if ($active_modules['XPayments_Connector']) {
++    if (!empty($active_modules['XPayments_Connector'])) {
+ 
+         func_xpay_func_load();
+ 
+@@ -3503,7 +3516,7 @@
+  */
+ function func_order_process_decline($orderids)
+ {
+-    global $sql_tbl;
++    global $sql_tbl, $active_modules;
+ 
+     if (!is_array($orderids)) {
+         $orderids = array($orderids);
+@@ -3513,7 +3526,7 @@
+ 
+     $new_status = 'D';
+ 
+-    if ($active_modules['XPayments_Connector']) {
++    if (!empty($active_modules['XPayments_Connector'])) {
+ 
+         func_xpay_func_load();
+ 
+@@ -3728,4 +3741,64 @@
+     
+     return $intl_tax_name;
+ }
++
++/**
++ * Provider commission calculation
++ * @param   array    $products    
++ * @param   array    $current_order 
++ * @param   int      $commission_force_time optional.    
++ * @param   array    $paid_commissions_details
++ *                    
++ * @return  boolean 
++ */
++function func_calculate_provider_commission($products, $current_order, $commission_force_time=null, $paid_commissions_details=array())
++{
++    global $single_mode, $shop_type, $config;
++
++    if (
++        $single_mode
++        || $shop_type == 'GOLD'
++        || empty($products)
++        || empty($current_order)
++    ) {
++        return false;
++    }
++
++    $orderid = $current_order['orderid'];
++
++    $provider_commission_value = 0;
++
++    foreach ($products as $product) {
++        if ($product['provider'] == $current_order['provider']) {
++            $to_provider = $product['discounted_price'] * $config['General']['providers_commission'] / 100;
++            $provider_commission_value += price_format($to_provider);
++
++            $insert_data = array(
++                'itemid'  => $product['itemid'],
++                'orderid' => $orderid,
++                'userid'  => $current_order['provider'],
++                'product_commission' => price_format($to_provider)
++            );
++            func_array2insert('provider_product_commissions', $insert_data);
++        }
++    }
++
++    if ($provider_commission_value > 0) {
++
++        $insert_data = array(
++            'userid'            => $current_order['provider'],
++            'orderid'           => $orderid,
++            'commissions'       => $provider_commission_value,
++            'paid'              => 'N',
++            'add_date'          => (isset($commission_force_time) ? $commission_force_time : XC_TIME),
++            'paid_commissions'  => @$paid_commissions_details['paid_commissions'],
++            'note'              => @$paid_commissions_details['note']
++        );
++
++        func_array2insert('provider_commissions', $insert_data);
++    }
++
++    return true;
++}
++
+ ?>

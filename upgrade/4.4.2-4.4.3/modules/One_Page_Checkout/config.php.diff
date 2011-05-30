@@ -1,0 +1,34 @@
+Index: modules/One_Page_Checkout/config.php
+--- modules/One_Page_Checkout/config.php	2011-01-10 16:11:59.000000000 +0300
++++ modules/One_Page_Checkout/config.php	2011-04-22 16:14:17.000000000 +0400
+@@ -32,15 +32,15 @@
+ \*****************************************************************************/
+ 
+ /**
+- * Configuration variables for One Page Checkout Module
++ * Module configuration
+  *
+  * @category   X-Cart
+  * @package    X-Cart
+- * @subpackage Lib
++ * @subpackage Modules
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>. All rights reserved
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: config.php,v 1.10.2.2 2011/01/10 13:11:59 ferz Exp $
++ * @version    $Id: config.php,v 1.10.2.3 2011/04/22 12:14:17 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -53,4 +53,11 @@
+ $css_files['One_Page_Checkout'][] = array('suffix' => 'IE6', 'browser' => 'MSIE', 'version' => '6.0');
+ $css_files['One_Page_Checkout'][] = array('suffix' => 'IE7', 'browser' => 'MSIE', 'version' => '7.0');
+ 
++$_module_dir  = $xcart_dir . XC_DS . 'modules' . XC_DS . 'One_Page_Checkout';
++/*
++ Load module functions
++*/
++if (!empty($include_func))
++    require_once $_module_dir . XC_DS . 'func.php';
++
+ ?>

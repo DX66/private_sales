@@ -1,0 +1,1 @@
+e5f40355f32da342e338aff2e501e75ea:2:{s:12:"lbl_checkout";s:15:"Zur Kasse gehen";s:13:"lbl_view_cart";s:17:"Warenkorb ansehen";}

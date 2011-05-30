@@ -1,0 +1,21 @@
+Index: giftreg_manage.php
+--- giftreg_manage.php	2011-01-10 16:11:42.000000000 +0300
++++ giftreg_manage.php	2011-05-03 09:38:33.000000000 +0400
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: giftreg_manage.php,v 1.33.2.1 2011/01/10 13:11:42 ferz Exp $
++ * @version    $Id: giftreg_manage.php,v 1.33.2.2 2011/05/03 05:38:33 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -64,7 +64,7 @@
+ 
+ if (!empty($eventid) && $eventid != 'new') {
+     // Check for valid event id
+-    $valid_event = func_query_first_cell("SELECT COUNT(*) FROM $sql_tbl[giftreg_events] WHERE event_id = '".addslashes($eventid)."' AND userid='$logged_userid'");
++    $valid_event = func_query_first_cell("SELECT COUNT(*) FROM $sql_tbl[giftreg_events] WHERE event_id = '".intval($eventid)."' AND userid='$logged_userid'");
+     if (!$valid_event) {
+         func_403();
+     }

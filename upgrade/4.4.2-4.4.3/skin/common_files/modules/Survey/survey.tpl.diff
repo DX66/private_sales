@@ -1,0 +1,21 @@
+Index: skin/common_files/modules/Survey/survey.tpl
+--- skin/common_files/modules/Survey/survey.tpl	2010-10-21 17:48:31.000000000 +0400
++++ skin/common_files/modules/Survey/survey.tpl	2011-03-09 10:13:04.000000000 +0300
+@@ -1,5 +1,5 @@
+ {*
+-$Id: survey.tpl,v 1.1.2.1 2010/10/21 13:48:31 aim Exp $
++$Id: survey.tpl,v 1.1.2.2 2011/03/09 07:13:04 aim Exp $
+ vim: set ts=2 sw=2 sts=2 et:
+ *}
+ 
+@@ -80,8 +80,8 @@
+ 
+ {if $active_modules.Image_Verification and $show_antibot.on_surveys eq 'Y' and (not $block_image_verification)}
+ {if not $is_menu}
+-  {include file="modules/Image_Verification/spambot_arrest.tpl" mode="simple" id="`$antibot_sections.on_surveys`_`$survey.surveyid`" antibot_err=$antibot_survey_err}
++  {include file="modules/Image_Verification/spambot_arrest.tpl" mode="simple" id="`$antibot_sections.on_surveys`_`$survey.surveyid`" antibot_err=$antibot_survey_err antibot_name_prefix='_survey'}
+ {else}
+-  {include file="modules/Image_Verification/spambot_arrest.tpl" mode="simple_column" id="`$antibot_sections.on_surveys`_`$menu_survey.surveyid`"}
++  {include file="modules/Image_Verification/spambot_arrest.tpl" mode="simple_column" id="`$antibot_sections.on_surveys`_`$menu_survey.surveyid`" antibot_name_prefix='_survey'}
+ {/if}
+ {/if}

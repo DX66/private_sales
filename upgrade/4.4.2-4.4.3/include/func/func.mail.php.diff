@@ -1,0 +1,41 @@
+Index: include/func/func.mail.php
+--- include/func/func.mail.php	2011-01-10 16:11:52.000000000 +0300
++++ include/func/func.mail.php	2011-03-16 14:11:34.000000000 +0300
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: func.mail.php,v 1.40.2.1 2011/01/10 13:11:52 ferz Exp $
++ * @version    $Id: func.mail.php,v 1.40.2.4 2011/03/16 11:11:34 ferz Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -199,7 +199,7 @@
+     }
+ 
+     // Send email data.
+-    if (!$smtp->Data("To:" . $mail_data['to'] . $mail_data['lend'] . "Subject: " . $mail_data['mail_subject'] . $mail_data['lend'] . $mail_data['headers'] . $mail_data['lend'] . $mail_data['mail_message'])) {
++    if (!$smtp->Data("To: " . $mail_data['to'] . $mail_data['lend'] . "Subject: " . $mail_data['mail_subject'] . $mail_data['lend'] . $mail_data['headers'] . $mail_data['lend'] . $mail_data['mail_message'])) {
+         $result['message'] = func_get_smtp_server_error($smtp, 'Email server failed to send email data');
+         $smtp->Close();
+ 
+@@ -588,8 +588,8 @@
+     }
+ 
+     $af = dirname($fn).XC_DS.basename($fn).'.asc';
+-    $message = func_temp_read($af, true);
+-    $config['PGP_output'] = func_temp_read($gfile, true);
++    $message = func_temp_read($af, 'delete_src_file');
++    $config['PGP_output'] = func_temp_read($gfile, 'delete_src_file');
+     @unlink($fn);
+ 
+     return $message;
+@@ -757,7 +757,7 @@
+         }
+ 
+         $tmp = array('name' => basename($v), 'url' => $v, 'data' => $data);
+-        if ($names[$tmp['name']]) {
++        if (!empty($names[$tmp['name']])) {
+             $cnt = 1;
+             $name = $tmp['name'];
+             while ($names[$tmp['name']]) {

@@ -1,0 +1,163 @@
+/*
+$Id: altskin.IE6.css,v 1.1 2010/05/21 08:32:57 joy Exp $
+vim: set ts=2 sw=2 sts=2 et:
+*/
+/* page container */
+html,body {
+  width: 100%;
+  text-align: center;
+}
+#page-container {
+  float: none;
+  border: 0px none;
+	height: 100%;
+  text-align: left;
+}
+#page-container2 {
+  float: none;
+  margin: 0px;
+  width: 780px;
+}
+
+button.button {
+  padding-right: 2px;
+}
+
+#header .image-button {
+  margin-top: 7px;
+}
+
+.welcome-top {
+  z-index: 3000;
+}
+img.welcome {
+  margin-left: 17px;
+}
+
+.line2 label {
+  display: inline-block;
+  vertical-align: middle;
+  padding-top: 5px;
+  padding-bottom: 4px;
+  line-height: normal;
+}
+
+#left-bar .menu-dialog .content {
+  width: 180px;
+}
+#left-bar .menu-fancy-categories-list .content {
+  padding-right: 8px;
+}
+
+.menu-dialog .title-bar {
+  height: 24px;
+  padding-bottom: 0px;
+}
+.menu-dialog .title-bar h2 {
+  height: 10px;
+  display: block;
+}
+.menu-categories-list .title-bar,
+  .menu-fancy-categories-list .title-bar
+{
+  height: 35px;
+}
+
+.products a.product-title:link,
+  .products a.product-title:visited,
+  .products a.product-title:hover,
+  .products a.product-title:active,
+  .products .product-title,
+  .product-details .product-title
+{
+  height: 24px;
+}
+
+.dialog .title {
+  height: 30px;
+  padding-top: 5px;
+}
+.dialog .title h2 {
+  line-height: normal;
+}
+
+.welcome-page .dialog .title,
+  .hl-dialog .title
+{
+  height: 30px;
+  padding-top: 5px;
+}
+.welcome-page .dialog .title h2,
+  .hl-dialog .title h2
+{
+  line-height: normal;
+}
+
+.welcome-page .menu-fancy-categories-list .content {
+  padding-right: 5px;
+}
+
+.fancycat-icons-e li ul.fancycat-icons-level-1 {
+  left: 152px;
+}
+.fancycat-icons-e li ul.fancycat-icons-level-1 li ul {
+  left: 157px;
+}
+.fancycat-icons-e li ul.fancycat-icons-level-3 li ul {
+  left: -164px;
+}
+.fancycat-icons-e li ul li {
+  padding-left: 5px;
+  padding-right: 5px;
+  width: 167px;
+  background: #ffffff none;
+}
+.fancycat-icons-e li ul li.over {
+  background: #ffffff none;
+}
+
+.welcome-top .fancycat-icons-e ul.fancycat-icons-level-0
+{
+  width: 163px;
+}
+.fancycat-icons-e ul li a:link,
+  .fancycat-icons-e ul li a:visited,
+  .fancycat-icons-e ul li a:hover,
+  .fancycat-icons-e ul li a:active
+{
+  width: 153px;
+}
+.welcome-top .fancy-height-extender {
+  height: 217px;
+}
+.welcome-top .fancycat-icons-e li ul,
+  .fancycat-icons-e li ul
+{
+  border: 0px none;
+  background: #f7b8b7 none;
+  padding: 1px;
+}
+.welcome-top .fancycat-icons-e li ul li,
+  .welcome-top .fancycat-icons-e li ul li.over
+{
+  background: #feeee9 none;
+}
+
+.welcome-top .fancycat-icons-c ul.fancycat-icons-level-0 {
+  width: 156px;
+}
+.fancycat-icons-c li a.arrow:link,
+  .fancycat-icons-c li a.arrow:visited,
+  .fancycat-icons-c li a.arrow:hover,
+  .fancycat-icons-c li a.arrow:active
+{
+  top: 3px;
+}
+
+.minicart-box {
+  top: 27px;
+}
+.minicart-box .checkout-popup-link div.buttons-box {
+  top: 25px;
+}
+

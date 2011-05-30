@@ -1,0 +1,42 @@
+<Files "*.tpl">
+Deny from all 
+</Files>
+
+<Files "*.php">
+Deny from all
+</Files>
+
+<Files "*.pl">
+Deny from all 
+</Files>
+
+<Files "*.conf">
+Deny from all
+</Files>
+
+<Files "*.sh">
+Deny from all
+</Files>
+
+<Files "*.lst">
+Deny from all
+</Files>
+
+<Files "*.ini">
+Deny from all
+</Files>
+
+Allow from all
+
+# Speed-Up [[[
+<IfModule mod_expires.c>
+ExpiresActive On
+ExpiresDefault A86400
+ExpiresByType image/x-icon A2419200
+ExpiresByType image/gif A604800
+ExpiresByType image/png A604800
+ExpiresByType image/jpeg A604800
+ExpiresByType application/x-shockwave-flash A604800
+</IfModule>
+# /Speed-Up ]]]
+

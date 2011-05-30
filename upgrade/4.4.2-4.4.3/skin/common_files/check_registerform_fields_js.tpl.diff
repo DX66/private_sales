@@ -1,0 +1,45 @@
+Index: skin/common_files/check_registerform_fields_js.tpl
+--- skin/common_files/check_registerform_fields_js.tpl	2010-10-28 14:07:54.000000000 +0400
++++ skin/common_files/check_registerform_fields_js.tpl	2011-02-24 16:50:32.000000000 +0300
+@@ -1,5 +1,5 @@
+ {*
+-$Id: check_registerform_fields_js.tpl,v 1.7.2.4 2010/10/28 10:07:54 aim Exp $ 
++$Id: check_registerform_fields_js.tpl,v 1.7.2.5 2011/02/24 13:50:32 aim Exp $ 
+ vim: set ts=2 sw=2 sts=2 et:
+ *}
+ <script type="text/javascript">
+@@ -109,12 +109,34 @@
+       {literal}
+     });
+ 
++  // Remove passwords if create_account is unchecked  
++  if (current_area == 'C') {
++    $('#create_account')
++      .bind('click', function(){
++        if (!$(this).is(':checked')) {
++          $('#passwd1').val('');
++          $('#passwd2').val('');
++        }
++      });
++
++    // Do not submit existing_s/new_s checkboxes for hided S address section
++    $('#ship2diff')
++      .bind('click', function(){
++        if (!$(this).is(':checked')) {
++          $('#existing_S').attr('checked', false);
++          $('#new_S').attr('checked', false);
++        }
++      });
++  }    
++
+ {/literal}
+ 
+ {if not $ship2diff}
+ $('#ship2diff_box').hide();
+ {/if}
+ {if not ($reg_error and $userinfo.create_account) and $config.General.enable_anonymous_checkout eq 'Y'}
++$('#passwd1').val('');
++$('#passwd2').val('');
+ $('#create_account_box').hide();
+ {/if}
+ 

@@ -1,0 +1,82 @@
+Index: include/func/func.ajax.php
+--- include/func/func.ajax.php	2011-01-10 16:11:51.000000000 +0300
++++ include/func/func.ajax.php	2011-03-14 17:03:46.000000000 +0300
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: func.ajax.php,v 1.36.2.1 2011/01/10 13:11:51 ferz Exp $
++ * @version    $Id: func.ajax.php,v 1.36.2.6 2011/03/14 14:03:46 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -56,6 +56,7 @@
+     global $search_data, $REQUEST_METHOD, $mode, $current_area, $active_modules, $variant_properties;
+     global $single_mode, $shop_language, $logged_userid, $login, $login_type;
+     global $store_objects_per_page;
++    global $config;
+ 
+     if (!isset($productid))
+         return 1;
+@@ -157,7 +158,7 @@
+ 
+     x_load('tests');
+     if (test_active_bouncer() && ($config['General']['enable_anonymous_checkout'] == 'Y' || !empty($login))) {
+-        $paypal_express_active = func_query_first_cell("SELECT $sql_tbl[payment_methods].paymentid FROM $sql_tbl[ccprocessors], $sql_tbl[payment_methods] WHERE $sql_tbl[ccprocessors].processor='ps_paypal_pro.php' AND $sql_tbl[ccprocessors].paymentid=$sql_tbl[payment_methods].paymentid AND $sql_tbl[payment_methods].active='Y' ORDER BY $sql_tbl[payment_methods].protocol DESC");
++        $paypal_express_active = func_cart_get_paypal_express_id();
+         $smarty->assign('paypal_express_active', $paypal_express_active);
+     }
+ 
+@@ -178,40 +179,42 @@
+ 
+     if (!empty($cart)) {
+ 
++        x_load('cart');
+         // Assign total cost
+-        if (!empty($cart['total_cost'])) {
+-            $minicart['total_cost'] = $cart['display_subtotal'];
++        if (!func_cart_is_zero_total_cost($cart)) {
++            $total_cost = $cart['display_subtotal'];
+         }
+ 
+         // Sum up products items
+         if (
+-            is_array($cart['products'])
+-            && !empty($cart['products'])
++            !empty($cart['products'])
++            && is_array($cart['products'])
+         ) {
+             foreach ($cart['products'] as $p) {
+                 if (
+                     !isset($p['hidden'])
+                     || empty($p['hidden'])
+                 ) {
+-                    $minicart['total_items'] += $p['amount'];
++                    $total_items += $p['amount'];
+                 }
+             }
+         }
+ 
+         // Sum up giftcerts items
+         if (
+-            is_array($cart['giftcerts'])
+-            && !empty($cart['giftcerts'])
++            !empty($cart['giftcerts'])
++            && is_array($cart['giftcerts'])
+         ) {
+             foreach ($cart['giftcerts'] as $g) {
+-                $minicart['total_items'] += $p['amount'];
++                $total_items += $p['amount'];
+             }
+         }
+ 
+     }
+ 
+-    $smarty->assign('minicart_total_cost',  $minicart['total_cost']);
+-    $smarty->assign('minicart_total_items', $minicart['total_items']);
++    $smarty->assign('minicart_total_cost',  $total_cost);
++    $smarty->assign('minicart_total_items', $total_items);
++    $smarty->assign('minicart_total_standalone', true);
+ 
+     return func_ajax_trim_div(func_display('customer/minicart_total.tpl', $smarty, false));
+ }

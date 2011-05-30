@@ -1,0 +1,84 @@
+Index: modules/Magnifier/config.php
+--- modules/Magnifier/config.php	2011-01-10 16:11:58.000000000 +0300
++++ modules/Magnifier/config.php	2011-04-22 16:14:17.000000000 +0400
+@@ -32,20 +32,20 @@
+ \*****************************************************************************/
+ 
+ /**
+- * Configuration script
++ * Module configuration
+  *
+  * @category   X-Cart
+  * @package    X-Cart
+  * @subpackage Modules
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+- * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
++ * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>. All rights reserved
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: config.php,v 1.31.2.1 2011/01/10 13:11:58 ferz Exp $
++ * @version    $Id: config.php,v 1.31.2.2 2011/04/22 12:14:17 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+ 
+-if ( !defined('XCART_START') ) { header("Location: ../../"); die("Access denied"); }
++if ( !defined('XCART_START') ) { header('Location: ../../'); die('Access denied'); }
+ 
+ // Global definitions for Magnifier module
+ /**
+@@ -54,39 +54,6 @@
+  * THE FUNCTIONALITY OF X-MAGNIFIER IN GENERAL
+  */
+ 
+-/**
+- * Read the dir to get the existed skins
+- */
+-function func_get_magnifiers_skins($source)
+-{
+-
+-    $result['existed_skins'] = array();
+-
+-    $magn_skins_dir = @opendir ($source);
+-    if (!$magn_skins_dir)
+-        return;
+-
+-    while ($file = readdir ($magn_skins_dir)) {
+-        if (($file == '.') || ($file == '..'))
+-            continue;
+-
+-        if (@filetype ($source.'/'.$file) == 'dir' && file_exists($source.'/'.$file.'/skin_description.xml')) {
+-            $result['existed_skins'][] = $file;
+-        }
+-    }
+-
+-    closedir($magn_skins_dir);
+-
+-    $result['config_variants'] = '';
+-    if(!empty($result['existed_skins'])) {
+-        foreach ($result['existed_skins'] as $mag_skin) {
+-            $result['config_variants'] .= $mag_skin.":".$mag_skin."\n";
+-        }
+-    }
+-
+-    return $result;
+-}
+-
+ $addons['Magnifier'] = true;
+ 
+ $css_files['Magnifier'][] = array();
+@@ -226,7 +193,14 @@
+ 
+ foreach($required_functions as $function)
+     if (!function_exists($function)) {
+-        func_unset($active_modules, 'Magnifier');
++        unset($active_modules['Magnifier']);
+         return;
+     }
++
++$_module_dir  = $xcart_dir . XC_DS . 'modules' . XC_DS . 'Magnifier';
++/*
++ Load module functions
++*/
++if (!empty($include_func))
++    require_once $_module_dir . XC_DS . 'func.php';
+ ?>

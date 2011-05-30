@@ -1,0 +1,19 @@
+Index: skin/common_files/payments/cc_2conew.tpl
+--- skin/common_files/payments/cc_2conew.tpl	2010-05-21 12:32:51.000000000 +0400
++++ skin/common_files/payments/cc_2conew.tpl	2011-02-10 11:24:10.000000000 +0300
+@@ -1,5 +1,5 @@
+ {*
+-$Id: cc_2conew.tpl,v 1.1 2010/05/21 08:32:51 joy Exp $
++$Id: cc_2conew.tpl,v 1.1.2.2 2011/02/10 08:24:10 aim Exp $
+ vim: set ts=2 sw=2 sts=2 et:
+ *}
+ <h1>2checkout.Com</h1>
+@@ -33,7 +33,7 @@
+ <td>Purchase routine:</td>
+ <td>
+ <select name="param06">
+-<option value="https://www2.2checkout.com/2co/buyer/purchase"{if $module_data.param06 eq "https://www2.2checkout.com/2co/buyer/purchase"} selected="selected"{/if}>Multi-Page Checkout</option>
++<option value="https://www.2checkout.com/checkout/purchase"{if $module_data.param06 eq "https://www.2checkout.com/checkout/purchase"} selected="selected"{/if}>Multi-Page Checkout</option>
+ <option value="https://www.2checkout.com/checkout/spurchase"{if $module_data.param06 eq "https://www.2checkout.com/checkout/spurchase"} selected="selected"{/if}>Single Page Checkout</option>
+ </select>
+ </td>

@@ -1,0 +1,103 @@
+Index: admin/db_backup.php
+--- admin/db_backup.php	2011-01-10 16:11:45.000000000 +0300
++++ admin/db_backup.php	2011-04-14 15:34:35.000000000 +0400
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: db_backup.php,v 1.85.2.2 2011/01/10 13:11:45 ferz Exp $
++ * @version    $Id: db_backup.php,v 1.85.2.7 2011/04/14 11:34:35 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -94,21 +94,24 @@
+     function dumpTableContent($table,$schema,$fd) {
+         global $sql_backup_rows;
+ 
++        $table_comment = "--\n-- Table structure for table `$table`\n--";
+         if ($fd===false) {
++            print "$table_comment\n\n";
+             print "$schema\n\n";
+         }
+         else {
++            fwrite($fd, "$table_comment\n\n");
+             fwrite($fd, "$schema\n\n");
+             echo func_get_langvar_by_name('lbl_dumping_table_n', array('table' => $table),false,true)."<br />\n";
+         }
+-        $rows_cnt=0;
+-        $current_row=0;
++        $rows_cnt = 0;
++        $current_row = 0;
+ 
+         $count = func_query_first_cell("SELECT count(*) FROM ".$table);
+         if ($count < 1)
+             return;
+ 
+-        for ($pos=0; $count > 0; $count -= $sql_backup_rows, $pos += $sql_backup_rows) {
++        for ($pos = 0; $count > 0; $count -= $sql_backup_rows, $pos += $sql_backup_rows) {
+             $local_query = "SELECT * FROM $table LIMIT $pos,$sql_backup_rows";
+             $result = db_query($local_query);
+             if ($result != FALSE) {
+@@ -193,7 +196,7 @@
+         if ($result)
+             return $result;
+ 
+-        $msg .= "Query       : ".$query."\n";
++        $msg = "Query       : ".$query."\n";
+         $msg .= "Error code  : ".mysql_errno()."\n";
+         $msg .= "Description : ".mysql_error();
+ 
+@@ -258,7 +261,7 @@
+     // Perform the backup
+ 
+     $destination = 'browser';
+-    if ($_POST['write_to_file']) {
++    if (!empty($_POST['write_to_file'])) {
+         if ($fd = func_fopen($sqldump_file, 'w', true)) {
+             $destination = 'file';
+         } else {
+@@ -311,7 +314,7 @@
+                 $schema .= " default '".$field['Default']."'";
+             }
+ 
+-            if (isset($field['Extra'])) {
++            if (!empty($field['Extra'])) {
+                 $schema .= ' '.$field['Extra'];
+             }
+ 
+@@ -338,7 +341,7 @@
+                     $index[$kname] = array();
+                 }
+ 
+-                $index[$kname][] = $key['Column_name'];
++                $index[$kname][] = $key['Column_name'] . (!empty($key['Sub_part']) ? "($key[Sub_part])" : "");
+             }
+         }
+ 
+@@ -346,7 +349,7 @@
+             $schema .= ",\n  ".$kname." (".implode(",",$columns).")";
+         }
+ 
+-        $schema .= "\n) TYPE=MyISAM;";
++        $schema .= "\n) ENGINE=MyISAM;";
+ 
+         dumpTableContent($table,$schema,$destination=="file"?$fd:false);
+     }
+@@ -400,7 +403,7 @@
+     x_log_flag('log_database', 'DATABASE', $log_prefix.'Started');
+ 
+     $source_file = 'uploaded';
+-    if ($_POST['local_file']) {
++    if (!empty($_POST['local_file'])) {
+         if ($fd = func_fopen($sqldump_file, 'r', true))
+             $source_file = 'local';
+     }
+@@ -488,7 +491,7 @@
+ 
+ $smarty->assign('upload_max_filesize', func_convert_to_megabyte(func_upload_max_filesize()));
+ 
+-if ($err == 'sql' && !empty($backup_errors)) {
++if (!empty($backup_errors) && @$err == 'sql') {
+     $smarty->assign('backup_errors', $backup_errors);
+     x_session_unregister('backup_errors');
+ }

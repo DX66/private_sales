@@ -1,0 +1,47 @@
+Index: minicart.php
+--- minicart.php	2011-01-10 16:11:43.000000000 +0300
++++ minicart.php	2011-03-01 12:26:23.000000000 +0300
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: minicart.php,v 1.21.2.2 2011/01/10 13:11:43 ferz Exp $
++ * @version    $Id: minicart.php,v 1.21.2.6 2011/03/01 09:26:23 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -54,15 +54,20 @@
+ 
+ if (!empty($cart)) {
+ 
++    x_load('cart');
++    if (func_is_minicart_update_needed()) {
++        list($cart, $products) = func_generate_products_n_recalculate_cart();
++    } 
++
+     // Assign total cost
+-    if (!empty($cart['total_cost'])) {
++    if (!func_cart_is_zero_total_cost($cart)) {
+         $minicart['total_cost'] = $cart['display_subtotal'];
+     }
+ 
+     // Sum up products items
+     if (
+-        is_array($cart['products'])
+-        && !empty($cart['products'])
++        !empty($cart['products'])
++        && is_array($cart['products'])
+     ) {
+         foreach ($cart['products'] as $p) {
+             if (
+@@ -76,8 +81,8 @@
+ 
+     // Sum up giftcerts items
+     if (
+-        is_array($cart['giftcerts'])
+-        && !empty($cart['giftcerts'])
++        !empty($cart['giftcerts'])
++        && is_array($cart['giftcerts'])
+     ) {
+         foreach ($cart['giftcerts'] as $p) {
+             $minicart['total_items'] ++;

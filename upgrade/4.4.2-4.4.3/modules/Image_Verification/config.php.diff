@@ -1,0 +1,29 @@
+Index: modules/Image_Verification/config.php
+--- modules/Image_Verification/config.php	2011-01-10 16:11:58.000000000 +0300
++++ modules/Image_Verification/config.php	2011-04-22 16:14:17.000000000 +0400
+@@ -36,11 +36,11 @@
+  *
+  * @category   X-Cart
+  * @package    X-Cart
+- * @subpackage Lib
++ * @subpackage Modules
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>. All rights reserved
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: config.php,v 1.6.2.1 2011/01/10 13:11:58 ferz Exp $
++ * @version    $Id: config.php,v 1.6.2.2 2011/04/22 12:14:17 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -49,4 +49,11 @@
+ 
+ $css_files['Image_Verification'][] = array();
+ 
++$_module_dir  = $xcart_dir . XC_DS . 'modules' . XC_DS . 'Image_Verification';
++
++/*
++ Module initialization
++*/
++if (!empty($include_init))
++    include $_module_dir . XC_DS . 'init.php';
+ ?>

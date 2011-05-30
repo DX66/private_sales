@@ -1,0 +1,226 @@
+Index: cart.php
+--- cart.php	2011-01-10 16:11:42.000000000 +0300
++++ cart.php	2011-03-23 15:03:16.000000000 +0300
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (C) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>. All rights reserved
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: cart.php,v 1.211.2.2 2011/01/10 13:11:42 ferz Exp $
++ * @version    $Id: cart.php,v 1.211.2.15 2011/03/23 12:03:16 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -59,7 +59,6 @@
+ );
+ 
+ x_session_register('cart');
+-x_session_register('cart_locked');
+ 
+ /**
+  * variables with integer type 
+@@ -211,6 +210,18 @@
+         )
+     );
+ 
++    if (
++        func_is_ajax_request()
++        && func_cart_is_payment_methods_list_changed(@$payment_methods)
++    ) {
++        func_register_ajax_message(
++            'opcUpdateCall',
++            array(
++                'action' => 'paymentMethodListChanged'
++            )
++        );
++    }
++
+     func_header_location('cart.php?mode=checkout' . ($paymentid ? '&paymentid=' . $paymentid : ''));
+ }
+ 
+@@ -242,10 +253,10 @@
+         'productid'       => abs($productid),
+         'amount'          => abs($amount),
+         'product_options' => isset($product_options) ? $product_options : array(),
+-        'price'           => func_convert_number($price),
++        'price'           => isset($price) ? func_convert_number($price) : null,
+     );
+ 
+-    if ($active_modules['Special_Offers']) {
++    if (!empty($active_modules['Special_Offers'])) {
+ 
+         include $xcart_dir . '/modules/Special_Offers/add_to_cart.php';
+ 
+@@ -260,29 +271,10 @@
+         func_header_location($result['redirect_to']);
+     }
+ 
+-    $intershipper_recalc = 'Y';
+-
+     // Recalculate cart totals after new item added
+-    $products     = func_products_in_cart(
+-        $cart,
+-        (!empty($user_account['membershipid'])
+-            ? $user_account['membershipid']
+-            : ''
+-        )
+-    );
+-
+-    $cart         = func_array_merge(
+-        $cart,
+-        func_calculate(
+-            $cart,
+-            $products,
+-            $logged_userid,
+-            $current_area,
+-            0
+-        )
+-    );
++    list($cart, $products) = func_generate_products_n_recalculate_cart();
+ 
+-    if ($active_modules['Special_Offers']) {
++    if (!empty($active_modules['Special_Offers'])) {
+ 
+         include $xcart_dir . '/modules/Special_Offers/add_free_products.php';
+ 
+@@ -324,18 +316,7 @@
+ 
+     } else {
+ 
+-        $products     = func_products_in_cart($cart, $user_account['membershipid']);
+-
+-        $cart         = func_array_merge(
+-            $cart,
+-            func_calculate(
+-                $cart,
+-                $products,
+-                $logged_userid,
+-                $current_area,
+-                0
+-            )
+-        );
++        list($cart, $products) = func_generate_products_n_recalculate_cart(); 
+ 
+         if (!empty($active_modules['SnS_connector']))
+             func_generate_sns_action('AddToCart', $productid);
+@@ -349,7 +330,7 @@
+ 
+             if (
+                 $config['General']['return_to_dynamic_part'] == 'Y'
+-                && $is_hc == 'Y'
++                && !empty($is_submit_from_html_page)
+                 && is_array($tmp)
+                 && (
+                     strpos($tmp['path'], '.html') !== false
+@@ -373,7 +354,7 @@
+ 
+             }
+ 
+-        } else {
++        } elseif(!empty($cat)) {
+ 
+             $return_url = func_get_resource_url('category', $cat, 'page=' . $page);
+ 
+@@ -405,22 +386,8 @@
+         if (!empty($active_modules['SnS_connector']))
+             $is_sns_action['DeleteFromCart'][] = $productid;
+ 
+-        $intershipper_recalc = 'Y';
+-
+         // Recalculate cart totals after updating
+-        $products     = func_products_in_cart($cart, $user_account['membershipid']);
+-
+-        $cart         = func_array_merge(
+-            $cart,
+-            func_calculate(
+-                $cart,
+-                $products,
+-                $logged_userid,
+-                $current_area,
+-                0
+-            )
+-        );
+-
++        list($cart, $products) = func_generate_products_n_recalculate_cart();
+     }
+ 
+     func_register_ajax_message(
+@@ -483,6 +450,7 @@
+         $config['Shipping']['realtime_shipping'] == 'Y'
+         && !empty($active_modules['UPS_OnLine_Tools'])
+         && $config['Shipping']['use_intershipper'] != 'Y'
++        && isset($selected_carrier)
+     ) {
+         $current_carrier = $selected_carrier;
+     }
+@@ -492,7 +460,7 @@
+         && $cart['shippingid'] != $shippingid
+     ) {
+ 
+-        $cart['shippingid'] = $shippingid;
++        $cart = func_cart_set_shippingid($cart, $shippingid);
+ 
+         func_register_ajax_message(
+             'opcUpdateCall',
+@@ -503,12 +471,9 @@
+         );
+     }
+ 
+-    if (
+-        !empty($paymentid)
+-        && $cart['paymentid'] != $paymentid
+-    ) {
++    if (!empty($cart['is_payment_changed'])) {
+ 
+-        $cart['paymentid'] = $paymentid;
++        $cart['is_payment_changed'] = false;
+ 
+         func_register_ajax_message(
+             'opcUpdateCall',
+@@ -525,7 +490,10 @@
+ 
+     }
+ 
+-    if (!empty($paymentid)) {
++    if (
++        !empty($paymentid)
++        && $checkout_module != 'One_Page_Checkout' // Paymentid is stored in cart['paymentid'] for One_Page_Checkout
++    ) {
+ 
+         $url_args[] = 'paymentid=' . $paymentid;
+ 
+@@ -547,13 +515,13 @@
+ 
+ // Prepare the products data
+ 
+-$products = func_products_in_cart($cart, $userinfo['membershipid']);
++$products = func_products_in_cart($cart, @$userinfo['membershipid']);
+ 
+ /**
+  * Apply / unset discount coupon
+  */
+ 
+-if ($active_modules['Discount_Coupons']) {
++if (!empty($active_modules['Discount_Coupons'])) {
+ 
+     include $xcart_dir . '/modules/Discount_Coupons/discount_coupons.php';
+ 
+@@ -580,6 +548,19 @@
+             'action' => 'updateTotals'
+         )
+     );
++
++    if (
++        func_is_ajax_request()
++        && func_cart_is_payment_methods_list_changed(@$payment_methods)
++    ) {
++        func_register_ajax_message(
++            'opcUpdateCall',
++            array(
++                'action' => 'paymentMethodListChanged'
++            )
++        );
++    }
++
+ }
+ 
+ if ($return_url) {

@@ -1,0 +1,1 @@
+afa05c7e6845ec1ae62043b88b05b44aa:1:{s:14:"lbl_categories";s:10:"Kategorien";}

@@ -1,0 +1,52 @@
+Index: payment/cc_eselect_form.php
+--- payment/cc_eselect_form.php	2011-01-10 16:12:06.000000000 +0300
++++ payment/cc_eselect_form.php	2011-03-10 12:31:33.000000000 +0300
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: cc_eselect_form.php,v 1.16.2.2 2011/01/10 13:12:06 ferz Exp $
++ * @version    $Id: cc_eselect_form.php,v 1.16.2.3 2011/03/10 09:31:33 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -97,7 +97,7 @@
+     $post = array(
+         'ps_store_id'               => $module_params['param01'],
+         'hpp_key'                   => $module_params['param02'],
+-        'charge_total'              => number_format($cart['total_cost'], 2),
++        'charge_total'              => number_format($cart['total_cost'], 2, '.', ''),
+         'order_id'                  => $ordr,
+         'cust_id'                   => $login,
+         'email'                     => $userinfo['email'],
+@@ -122,7 +122,7 @@
+         'ship_phone'                => $userinfo['s_phone'],
+         'ship_fax'                  => $userinfo['s_fax'],
+ 
+-        'shipping_cost'             => number_format($cart['shipping_cost'], 2),
++        'shipping_cost'             => number_format($cart['shipping_cost'], 2, '.', ''),
+     );
+ 
+     if ($userinfo["b_firstname"]) $post["bill_first_name"] = $userinfo["b_firstname"];
+@@ -138,8 +138,8 @@
+             $post['id'.$counter]             = $item['productcode'];
+             $post['description'.$counter]    = $item['product'];
+             $post['quantity'.$counter]       = $item['amount'];
+-            $post['price'.$counter]          = number_format($item['price'], 2);
+-            $post['subtotal'.$counter]       = number_format($item['price']*$item['amount'], 2);
++            $post['price'.$counter]          = number_format($item['price'], 2, '.', '');
++            $post['subtotal'.$counter]       = number_format($item['price']*$item['amount'], 2, '.', '');
+ 
+             $counter++;
+         }
+@@ -150,8 +150,8 @@
+             $post['id'.$counter]             = 'GE';
+             $post['description'.$counter]    = "Gift certificate";
+             $post['quantity'.$counter]       = 1;
+-            $post['price'.$counter]          = number_format($item['amount'], 2);
+-            $post['subtotal'.$counter]       = number_format($item['amount'], 2);
++            $post['price'.$counter]          = number_format($item['amount'], 2, '.', '');
++            $post['subtotal'.$counter]       = number_format($item['amount'], 2, '.', '');
+ 
+             $counter++;
+         }

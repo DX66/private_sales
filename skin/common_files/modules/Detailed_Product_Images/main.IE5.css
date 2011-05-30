@@ -1,0 +1,33 @@
+/*
+$Id: main.IE5.css,v 1.1 2010/05/21 08:32:20 joy Exp $
+vim: set ts=2 sw=2 sts=2 et:
+*/
+
+
+/* detailed images on product detailed page */
+.dpimages-list .content {
+  text-align: center;
+  width: auto;
+}
+.dpimages-list .content img {
+  margin: 5px;
+  padding: 0px;
+  border: 0px none;
+}
+.dpimages-list .content img.last {
+  margin: 0px;
+}
+.dpimages-list .content img.selected {
+  border-color: #ae123c;
+}
+.dpimages-list .content img.hover {
+  border-color: #dd2b5c;
+  cursor: pointer;
+}
+.dpimages-list .content img.opened {
+  border-color: #1accee;
+  border-style: dashed;
+}
+.dpimages-list .content img.fade {
+  border-color: #dddd1a;
+}

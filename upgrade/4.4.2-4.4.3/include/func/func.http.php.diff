@@ -1,0 +1,71 @@
+Index: include/func/func.http.php
+--- include/func/func.http.php	2011-01-10 16:11:51.000000000 +0300
++++ include/func/func.http.php	2011-04-15 09:44:14.000000000 +0400
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: func.http.php,v 1.37.2.1 2011/01/10 13:11:51 ferz Exp $
++ * @version    $Id: func.http.php,v 1.37.2.4 2011/04/15 05:44:14 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -103,6 +103,7 @@
+     $cookie = '';
+     $result = '';
+     $header_passed = false;
++    $errno = $errstr = '';
+ 
+     if (!($fp = @fsockopen($request_host, $request_port, $errno, $errstr, $timeout))) {
+         $fp = @fsockopen($proxy_host, $proxy_port, $errno, $errstr, $timeout);
+@@ -185,7 +186,15 @@
+ 
+ function func_http_get_request($host, $post_url, $post_str, $post_cookies=array(), $user = false, $pass = false)
+ {
+-    if (function_exists('curl_init')) {
++    global $config;
++
++    if (
++        (
++            $config['General']['httpsmod'] == "libcurl"
++            || !function_exists('fsockopen')
++        )    
++        && function_exists('curl_init')
++    ) {
+ 
+         $fix_http_url = func_https_fix_url("http://" . $host . $post_url, false);
+ 
+@@ -212,7 +221,15 @@
+ 
+ function func_http_post_request($host, $post_url, $post_str, $cook = '', $user = false, $pass = false)
+ {
+-    if (function_exists('curl_init')) {
++    global $config;
++
++    if (
++        (
++            $config['General']['httpsmod'] == "libcurl"
++            || !function_exists('fsockopen')
++        )    
++        && function_exists('curl_init')
++    ) {
+ 
+         $fix_http_url = func_https_fix_url("http://" . $host . $post_url, false);
+ 
+@@ -239,7 +256,15 @@
+  */
+ function func_http_head_request($host, $post_url, $post_str, $post_cookies=array(), $user = false, $pass = false)
+ {
+-    if (function_exists('curl_init')) {
++    global $config;
++
++    if (
++        (
++            $config['General']['httpsmod'] == "libcurl"
++            || !function_exists('fsockopen')
++        )    
++        && function_exists('curl_init')
++    ) {
+ 
+         $fix_http_url = func_https_fix_url("http://" . $host . $post_url, false);
+ 

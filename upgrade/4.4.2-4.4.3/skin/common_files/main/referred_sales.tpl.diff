@@ -1,0 +1,23 @@
+Index: skin/common_files/main/referred_sales.tpl
+--- skin/common_files/main/referred_sales.tpl	2010-12-15 12:44:40.000000000 +0300
++++ skin/common_files/main/referred_sales.tpl	2011-01-20 11:03:45.000000000 +0300
+@@ -1,5 +1,5 @@
+ {*
+-$Id: referred_sales.tpl,v 1.1.2.1 2010/12/15 09:44:40 aim Exp $
++$Id: referred_sales.tpl,v 1.1.2.2 2011/01/20 08:03:45 aim Exp $
+ vim: set ts=2 sw=2 sts=2 et:
+ *}
+ {include file="page_title.tpl" title=$lng.lbl_referred_sales}
+@@ -126,10 +126,10 @@
+ 
+         <tr{cycle values=', class="TableSubHead"'}>
+           {if $is_admin_user and $search.top ne 'Y'}
+-            <td><a href="user_modify.php?user={$v.id}&amp;usertype=B">{$v.login}</a></td>
++            <td><a href="{$catalogs.admin}/user_modify.php?user={$v.id}&amp;usertype=B">{$v.login}</a></td>
+             <td>
+               {if $v.parent ne ''}
+-                <a href="user_modify.php?user={$v.parent}&amp;usertype=B">{$v.parent_login}</a>
++                <a href="{$catalogs.admin}/user_modify.php?user={$v.parent}&amp;usertype=B">{$v.parent_login}</a>
+               {else}
+                 &nbsp;
+               {/if}

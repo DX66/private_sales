@@ -1,0 +1,80 @@
+/* vim: set ts=2 sw=2 sts=2 et: */
+/**
+ * Detailed product images module CSS stylesheet
+ *  
+ * @category   X-Cart
+ * @package    X-Cart
+ * @subpackage CSS
+ * @author     Ruslan R. Fazlyev <rrf@x-cart.com> 
+ * @version    $Id: main.css,v 1.5 2010/08/04 11:32:48 joy Exp $
+ * @link       http://www.x-cart.com/
+ * @see        ____file_see____
+ */
+
+/* Detailed images on product detailed page */
+.dpimages-list .content {
+  text-align: center;
+}
+
+.dpimages-list .content img {
+  padding: 0 0 10px 0;
+}
+
+.dpimages-list .content img.last {
+  padding: 0;
+}
+
+.dpimages-list .dpimage-container {
+  text-align: center;
+  margin: 3px 0;
+}
+
+/* Product details line */
+div.dpimages-popup-link {
+  margin-top: 33px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.dpimages-popup-link a:link,
+.dpimages-popup-link a:visited,
+.dpimages-popup-link a:hover,
+.dpimages-popup-link a:active
+{
+  text-decoration: underline;
+  padding: 0 0 0 17px;
+  background: transparent url(../../images/zoom_image.gif) no-repeat left 1px;
+  line-height: 13px;
+}
+
+/* Icons box */
+
+.dpimages-icons-box {
+  padding-top: 15px;
+  padding-bottom: 10px;
+  width: 220px;
+}
+
+.dpimages-icons-box a:link,
+.dpimages-icons-box a:visited,
+.dpimages-icons-box a:hover,
+.dpimages-icons-box a:active
+{
+  display: block;
+  outline-style: none;
+  border: 1px solid #fff;
+  float: left;
+}
+
+.dpimages-icons-box a:hover {
+  border: 1px solid #215485;
+}
+
+/* Printable page */
+
+.printable .dpimages-popup-link,
+.printable .dpimages-icons-box
+{
+  display: none;
+}
+

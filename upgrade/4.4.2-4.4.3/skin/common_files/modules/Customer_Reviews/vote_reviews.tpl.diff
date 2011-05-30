@@ -1,0 +1,50 @@
+Index: skin/common_files/modules/Customer_Reviews/vote_reviews.tpl
+--- skin/common_files/modules/Customer_Reviews/vote_reviews.tpl	2010-11-15 14:46:25.000000000 +0300
++++ skin/common_files/modules/Customer_Reviews/vote_reviews.tpl	2011-04-28 17:10:36.000000000 +0400
+@@ -1,5 +1,5 @@
+ {*
+-$Id: vote_reviews.tpl,v 1.2.2.2 2010/11/15 11:46:25 ferz Exp $
++$Id: vote_reviews.tpl,v 1.2.2.6 2011/04/28 13:10:36 aim Exp $
+ vim: set ts=2 sw=2 sts=2 et:
+ *}
+ {if $printable ne 'Y' or $reviews}
+@@ -26,7 +26,7 @@
+           {foreach from=$reviews item=r}
+             <li>
+               {$lng.lbl_author}: <strong>{$r.email|default:$lng.lbl_unknown}</strong><br />
+-              {$r.message|nl2br}
++              {$r.message|nl2br|amp}
+             </li>
+           {/foreach}
+         </ul>
+@@ -55,7 +55,7 @@
+               <td class="data-name"><label for="review_author">{$lng.lbl_your_name}</label>:</td>
+               <td class="data-required">*</td>
+               <td>
+-                <input type="text" size="24" maxlength="128" name="review_author" id="review_author" value="{$review.author|escape}" />
++                <input type="text" size="24" maxlength="128" name="review_author" id="review_author" value="{$review.author|amp}" />
+                 {if $review.author eq "" and $review.error}
+                   <span class="data-required">&lt;&lt;</span>
+                 {/if}
+@@ -66,19 +66,17 @@
+               <td class="data-name"><label for="review_message">{$lng.lbl_your_message}</label>:</td>
+               <td class="data-required">*</td>
+               <td>
+-                <textarea cols="40" rows="4" name="review_message" id="review_message">{$review.message|escape}</textarea>
++                <textarea cols="40" rows="4" name="review_message" id="review_message">{$review.message|amp}</textarea>
+                 {if $review.message eq "" and $review.error}
+                   <span class="data-required">&lt;&lt;</span>
+                 {/if}
+-                <br />
+-                {$lng.lbl_max_review}
+               </td>
+             </tr>
+ 
+             {include file="customer/buttons/button.tpl" button_title=$lng.lbl_add_review type="input" assign="submit_button"}
+ 
+             {if $active_modules.Image_Verification and $show_antibot.on_reviews eq 'Y'}
+-              {include file="modules/Image_Verification/spambot_arrest.tpl" mode="data-table" id=$antibot_sections.on_reviews antibot_err=$review.antibot_err button_code=$submit_button}
++              {include file="modules/Image_Verification/spambot_arrest.tpl" mode="data-table" id=$antibot_sections.on_reviews antibot_err=$review.antibot_err button_code=$submit_button antibot_name_prefix='_on_reviews'}
+             {else}
+             <tr>
+               <td colspan="2">&nbsp;</td>

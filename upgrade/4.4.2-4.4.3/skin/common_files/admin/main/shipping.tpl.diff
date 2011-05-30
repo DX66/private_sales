@@ -1,0 +1,90 @@
+Index: skin/common_files/admin/main/shipping.tpl
+--- skin/common_files/admin/main/shipping.tpl	2011-01-04 18:55:56.000000000 +0300
++++ skin/common_files/admin/main/shipping.tpl	2011-04-08 13:59:18.000000000 +0400
+@@ -1,5 +1,5 @@
+ {*
+-$Id: shipping.tpl,v 1.4.2.1 2011/01/04 15:55:56 aim Exp $
++$Id: shipping.tpl,v 1.4.2.2 2011/04/08 09:59:18 aim Exp $
+ vim: set ts=2 sw=2 sts=2 et:
+ *}
+ {include file="page_title.tpl" title=$lng.lbl_shipping_methods}
+@@ -110,7 +110,9 @@
+   <td>{$lng.lbl_pos}</td>
+   <td>{$lng.lbl_active}</td>
+   <td>{$lng.lbl_cod}</td>
++  {if $active_modules.Amazon_Checkout}
+   <td>{$lng.lbl_amazon_service}</td>
++  {/if}
+ </tr>
+ 
+ {foreach from=$shipping item=s}
+@@ -131,6 +133,7 @@
+   <td align="center"><input type="text" name="data[{$s.shippingid}][orderby]" size="4" value="{$s.orderby}" /></td>
+   <td align="center"><input type="checkbox" name="data[{$s.shippingid}][active]" value="Y"{if $s.active eq "Y"} checked="checked"{/if} /></td>
+   <td align="center"><input type="checkbox" name="data[{$s.shippingid}][is_cod]" value="Y"{if $s.is_cod eq "Y"} checked="checked"{/if} /></td>
++  {if $active_modules.Amazon_Checkout}
+   <td align="center">
+   <select name="data[{$s.shippingid}][amazon_service]">
+     <option value="Standard"{if $s.amazon_service eq "Standard"} selected="selected"{/if}>{$lng.lbl_amazon_standard}</option>
+@@ -139,6 +142,7 @@
+     <option value="TwoDay"{if $s.amazon_service eq "TwoDay"} selected="selected"{/if}>{$lng.lbl_amazon_twoday}</option>
+   </select>
+   </td>
++  {/if}
+   <td><input type="button" value="{$lng.lbl_delete|strip_tags:false|escape}" onclick="self.location='shipping.php?mode=delete&amp;shippingid={$s.shippingid}'" /></td>
+ </tr>
+ {/if}
+@@ -180,6 +184,9 @@
+   <td>{$lng.lbl_pos}</td>
+   <td>{$lng.lbl_active}</td>
+   <td>{$lng.lbl_cod}</td>
++  {if $active_modules.Amazon_Checkout}
++  <td>{$lng.lbl_amazon_service}</td>
++  {/if}
+ </tr>
+ 
+ {foreach from=$shipping item=s}
+@@ -196,6 +203,16 @@
+   <td align="center"><input type="text" name="data[{$s.shippingid}][orderby]" size="4" value="{$s.orderby}" /></td>
+   <td align="center"><input type="checkbox" name="data[{$s.shippingid}][active]" value="Y"{if $s.active eq "Y"} checked="checked"{/if} /></td>
+   <td align="center"><input type="checkbox" name="data[{$s.shippingid}][is_cod]" value="Y"{if $s.is_cod eq "Y"} checked="checked"{/if} /></td>
++  {if $active_modules.Amazon_Checkout}
++  <td align="center">
++  <select name="data[{$s.shippingid}][amazon_service]">
++    <option value="Standard"{if $s.amazon_service eq "Standard"} selected="selected"{/if}>{$lng.lbl_amazon_standard}</option>
++    <option value="Expedited"{if $s.amazon_service eq "Expedited"} selected="selected"{/if}>{$lng.lbl_amazon_expedited}</option>
++    <option value="OneDay"{if $s.amazon_service eq "OneDay"} selected="selected"{/if}>{$lng.lbl_amazon_oneday}</option>
++    <option value="TwoDay"{if $s.amazon_service eq "TwoDay"} selected="selected"{/if}>{$lng.lbl_amazon_twoday}</option>
++  </select>
++  </td>
++  {/if}
+ </tr>
+ 
+ {/if}
+@@ -234,6 +251,9 @@
+   <td>{$lng.lbl_pos}</td>
+   <td>{$lng.lbl_active}</td>
+   <td>{$lng.lbl_cod}</td>
++  {if $active_modules.Amazon_Checkout}
++  <td>{$lng.lbl_amazon_service}</td>
++  {/if}
+ </tr>
+ 
+ {foreach from=$shipping item=s}
+@@ -249,6 +269,16 @@
+   <td align="center"><input type="text" name="data[{$s.shippingid}][orderby]" size="4" value="{$s.orderby}" /></td>
+   <td nowrap="nowrap" align="center"><input type="checkbox" name="data[{$s.shippingid}][active]" value="Y"{if $s.active eq "Y"} checked="checked"{/if} /></td>
+   <td nowrap="nowrap" align="center"><input type="checkbox" name="data[{$s.shippingid}][is_cod]" value="Y"{if $s.is_cod eq "Y"} checked="checked"{/if} /></td>
++  {if $active_modules.Amazon_Checkout}
++  <td align="center">
++  <select name="data[{$s.shippingid}][amazon_service]">
++    <option value="Standard"{if $s.amazon_service eq "Standard"} selected="selected"{/if}>{$lng.lbl_amazon_standard}</option>
++    <option value="Expedited"{if $s.amazon_service eq "Expedited"} selected="selected"{/if}>{$lng.lbl_amazon_expedited}</option>
++    <option value="OneDay"{if $s.amazon_service eq "OneDay"} selected="selected"{/if}>{$lng.lbl_amazon_oneday}</option>
++    <option value="TwoDay"{if $s.amazon_service eq "TwoDay"} selected="selected"{/if}>{$lng.lbl_amazon_twoday}</option>
++  </select>
++  </td>
++  {/if}
+   <td><input type="button" value="{$lng.lbl_delete|strip_tags:false|escape}" onclick="self.location='shipping.php?mode=delete&amp;shippingid={$s.shippingid}'" /></td>
+ </tr>
+ {/if}

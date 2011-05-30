@@ -1,0 +1,7 @@
+<Files "*.php">
+Deny from all
+</Files>
+<Files "*.pl">
+Deny from all
+</Files>
+Allow from all

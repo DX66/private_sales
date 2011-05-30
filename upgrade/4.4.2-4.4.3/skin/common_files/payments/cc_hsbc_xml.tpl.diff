@@ -1,0 +1,27 @@
+Index: skin/common_files/payments/cc_hsbc_xml.tpl
+--- skin/common_files/payments/cc_hsbc_xml.tpl	2010-11-18 11:36:52.000000000 +0300
++++ skin/common_files/payments/cc_hsbc_xml.tpl	2011-03-09 14:21:03.000000000 +0300
+@@ -1,5 +1,5 @@
+ {*
+-$Id: cc_hsbc_xml.tpl,v 1.1.2.1 2010/11/18 08:36:52 ferz Exp $ 
++$Id: cc_hsbc_xml.tpl,v 1.1.2.2 2011/03/09 11:21:03 aim Exp $ 
+ vim: set ts=2 sw=2 sts=2 et:
+ *}
+ <h1>HSBC Secure E-Payment Service (XML)</h1>
+@@ -42,6 +42,16 @@
+ </select>
+ </td>
+ </tr>
++ <tr>
++<td>{$lng.lbl_cc_hsbc_use_fraud_service}:</td>
++<td><select name="param05">
++<option value="N">{$lng.lbl_disabled}</option>
++<option value="Y"{if $module_data.param05 eq "Y"} selected="selected"{/if}>{$lng.lbl_enabled}</option>
++</select>
++<br />
++<font class="SmallText"><b>{$lng.lbl_note}:</b> {$lng.txt_cc_hsbc_fraud_check_note}</font>
++</td>
++</tr>
+ <tr>
+ <td>{$lng.lbl_cc_testlive_mode}:</td>
+ <td>

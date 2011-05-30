@@ -1,0 +1,44 @@
+Index: modules/Products_Map/func.php
+--- modules/Products_Map/func.php	2011-01-10 16:12:01.000000000 +0300
++++ modules/Products_Map/func.php	2011-02-07 18:34:46.000000000 +0300
+@@ -40,7 +40,7 @@
+  * @category   X-Cart
+  * @package    Modules
+  * @subpackage Products Map
+- * @version    $Id: func.php,v 1.8.2.3 2011/01/10 13:12:01 ferz Exp $
++ * @version    $Id: func.php,v 1.8.2.6 2011/02/07 15:34:46 aim Exp $
+  * @since      4.4.0
+  */
+ if (!defined('XCART_START')) { header('Location: ../../'); die('Access denied');}
+@@ -181,6 +181,10 @@
+                 $product['page_url'] = 'product.php?productid=' . $product['productid'];
+             }
+ 
++            $_limit_width = $config['Appearance']['thumbnail_width'];
++            $_limit_height = $config['Appearance']['thumbnail_height'];
++            $product = func_get_product_tmbn_dims($product, $_limit_width, $_limit_height);
++
+             $products[] = $product;
+ 
+             if (
+@@ -188,10 +192,9 @@
+                 && !isset($products_has_fclasses)
+                 && !empty($product['fclassid'])
+             ) {
+-                $products_has_fclasses = true;
++                $smarty->assign('products_has_fclasses', true);
+             }
+ 
+-            $smarty->assign('products_has_fclasses', $products_has_fclasses);
+         }
+ 
+ 
+@@ -334,6 +337,8 @@
+  */
+ function pmap_process_page_callback_pmap($found)
+ {
++    global $hc_state;
++
+     if (!func_is_current_shop($found[2])) {
+ 
+         return $found[1] . $found[2] . '?' . $found[3];

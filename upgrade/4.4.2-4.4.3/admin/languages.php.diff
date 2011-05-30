@@ -1,0 +1,36 @@
+Index: admin/languages.php
+--- admin/languages.php	2011-01-10 16:11:45.000000000 +0300
++++ admin/languages.php	2011-04-29 11:55:04.000000000 +0400
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>. All rights reserved
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: languages.php,v 1.111.2.6 2011/01/10 13:11:45 ferz Exp $
++ * @version    $Id: languages.php,v 1.111.2.7 2011/04/29 07:55:04 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -270,8 +270,21 @@
+ 
+         require $xcart_dir.'/include/safe_mode.php';
+ 
+-        db_query ("DELETE FROM $sql_tbl[languages] WHERE code='$language'");
+-        db_query ("DELETE FROM $sql_tbl[products_lng] WHERE code='$language'");
++        db_query("DELETE FROM $sql_tbl[languages] WHERE code='$language'");
++        db_query("DELETE FROM $sql_tbl[categories_lng] WHERE code='$language'");
++        db_query("DELETE FROM $sql_tbl[class_lng] WHERE code='$language'");
++        db_query("DELETE FROM $sql_tbl[extra_fields_lng] WHERE code='$language'");
++        db_query("DELETE FROM $sql_tbl[feature_classes_lng] WHERE code='$language'");
++        db_query("DELETE FROM $sql_tbl[feature_options_lng] WHERE code='$language'");
++        db_query("DELETE FROM $sql_tbl[feature_variants_lng] WHERE code='$language'");
++        db_query("DELETE FROM $sql_tbl[manufacturers_lng] WHERE code='$language'");
++        db_query("DELETE FROM $sql_tbl[memberships_lng] WHERE code='$language'");
++        db_query("DELETE FROM $sql_tbl[offers_lng] WHERE code='$language'");
++        db_query("DELETE FROM $sql_tbl[product_options_lng] WHERE code='$language'");
++        db_query("DELETE FROM $sql_tbl[products_lng] WHERE code='$language'");
++
++        $smarty->clear_compiled_tpl();
++        $smarty->clear_all_cache();
+ 
+         $lngs = func_query_column("SELECT code FROM $sql_tbl[languages] GROUP BY code");
+         if (!empty($lngs)) {

@@ -1,0 +1,21 @@
+Index: skin/common_files/customer/main/address_box.tpl
+--- skin/common_files/customer/main/address_box.tpl	2011-01-05 16:56:37.000000000 +0300
++++ skin/common_files/customer/main/address_box.tpl	2011-03-01 12:26:24.000000000 +0300
+@@ -1,5 +1,5 @@
+ {*
+-$Id: address_box.tpl,v 1.4.2.1 2011/01/05 13:56:37 aim Exp $ 
++$Id: address_box.tpl,v 1.4.2.3 2011/03/01 09:26:24 aim Exp $ 
+ vim: set ts=2 sw=2 sts=2 et:
+ *}
+ {if $mode eq "select"}
+@@ -42,7 +42,9 @@
+ 
+         <br />
+         <div class="buttons-row buttons-auto-separator">
+-          {include file="customer/buttons/button.tpl" button_title=$lng.lbl_change href="javascript: popupOpen('popup_address.php?id=`$address.id`');" link_href="popup_address.php?id=`$address.id`" target="_blank"}
++          {if not ($checkout_module eq 'One_Page_Checkout' and $for eq 'cart')}
++            {include file="customer/buttons/button.tpl" button_title=$lng.lbl_change href="javascript: popupOpen('popup_address.php?id=`$address.id`');" link_href="popup_address.php?id=`$address.id`" target="_blank"}
++          {/if}
+           {if $address.default_s ne 'Y' and $address.default_b ne 'Y'}
+             {include file="customer/buttons/button.tpl" button_title=$lng.lbl_delete href="javascript: if (confirm('`$lng.txt_are_you_sure`')) self.location = 'address_book.php?mode=delete&amp;id=`$address.id`'"}
+           {/if}

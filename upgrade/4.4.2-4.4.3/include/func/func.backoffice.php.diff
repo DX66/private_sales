@@ -1,0 +1,209 @@
+Index: include/func/func.backoffice.php
+--- include/func/func.backoffice.php	2011-01-10 16:11:51.000000000 +0300
++++ include/func/func.backoffice.php	2011-04-22 14:01:46.000000000 +0400
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: func.backoffice.php,v 1.52.2.4 2011/01/10 13:11:51 ferz Exp $
++ * @version    $Id: func.backoffice.php,v 1.52.2.11 2011/04/22 10:01:46 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -133,43 +133,44 @@
+     $paypal_express = func_query_first("SELECT $sql_tbl[payment_methods].paymentid, $sql_tbl[payment_methods].active FROM $sql_tbl[payment_methods], $sql_tbl[ccprocessors] WHERE $sql_tbl[payment_methods].processor_file='ps_paypal_pro.php' AND $sql_tbl[payment_methods].processor_file=$sql_tbl[ccprocessors].processor AND $sql_tbl[payment_methods].paymentid=$sql_tbl[ccprocessors].paymentid");
+     $paypal_standard = func_query_first("SELECT $sql_tbl[payment_methods].paymentid, $sql_tbl[payment_methods].active FROM $sql_tbl[payment_methods], $sql_tbl[ccprocessors] WHERE $sql_tbl[payment_methods].processor_file='ps_paypal.php' AND $sql_tbl[payment_methods].processor_file=$sql_tbl[ccprocessors].processor AND $sql_tbl[payment_methods].paymentid=$sql_tbl[ccprocessors].paymentid");
+ 
+-    $paypal_directid = $paypal_direct['paymentid'];
+-    $paypal_expressid = $paypal_express['paymentid'];
+-    $paypalid = $paypal_standard['paymentid'];
++    $paypal_directid = @$paypal_direct['paymentid'];
++    $paypal_expressid = @$paypal_express['paymentid'];
++    $paypalid = @$paypal_standard['paymentid'];
+ 
+     $disable_methods = array();
+     $enable_methods = array();
+ 
+     switch ($paypal_solution) {
+-    case 'ipn':
+-        $disable_methods = array($paypal_expressid, $paypal_directid);
+-        $enable_methods[] = $paypalid;
+-        break;
+-
+-    case 'pro':
+-    case 'uk':
+-        $disable_methods[] = $paypalid;
+-        $enable_methods = array($paypal_expressid, $paypal_directid);
+-        if (!$enable && $paypal_direct['active'] != 'Y') {
+-            $disable_methods[] = $paypal_expressid;
+-            $disable_methods[] = $paypal_directid;
+-        }
+-        break;
+-
+-    case 'express':
+-        $disable_methods = array($paypalid, $paypal_directid);
+-        $enable_methods[] = $paypal_expressid;
++        case 'ipn':
++            $disable_methods = array($paypal_expressid, $paypal_directid);
++            $enable_methods[] = $paypalid;
++            break;
++
++        case 'pro':
++        case 'uk':
++            $disable_methods[] = $paypalid;
++            $enable_methods = array($paypal_expressid, $paypal_directid);
++            if (!$enable && $paypal_direct['active'] != 'Y') {
++                $disable_methods[] = $paypal_expressid;
++                $disable_methods[] = $paypal_directid;
++            }
++            break;
++
++        case 'express':
++            $disable_methods = array($paypalid, $paypal_directid);
++            $enable_methods[] = $paypal_expressid;
++            break;
+     }
+ 
+-    if (!empty($disable_methods)) {
++    if (!func_array_empty($disable_methods)) {
+         func_array2update('payment_methods', array('active' => 'N'), "paymentid IN ('".implode("','", $disable_methods)."')");
+     }
+ 
+-    if ($enable && !empty($enable_methods)) {
++    if ($enable && !func_array_empty($enable_methods)) {
+         func_array2update('payment_methods', array('active' => 'Y'), "paymentid IN ('".implode("','", $enable_methods)."')");
+     }
+ 
+-    if (in_array($paypal_solution, array('uk', 'pro'))) {
++    if (in_array($paypal_solution, array('uk', 'pro')) && !empty($paypal_expressid)) {
+         $active = func_query_first_cell("SELECT active FROM $sql_tbl[payment_methods] WHERE paymentid = '$paypal_directid'");
+         func_array2update('payment_methods', array('active' => $active), "paymentid = '$paypal_expressid'");
+     }
+@@ -687,8 +688,17 @@
+     )
+         return false;
+ 
+-    $http_location_rest = preg_replace('%http://.*?/%', '/', $http_location);
+-    $https_location_rest = preg_replace('%https://.*?/%', '/', $https_location);
++    $http_location = rtrim($http_location, '/') . '/';
++    $https_location = rtrim($https_location, '/') . '/';
++
++    $http_location = str_replace('http://', '://', $http_location);
++    $https_location = str_replace('https://', '://', $https_location);
++
++    $http_location_rest = preg_replace('%://.*?/%', '/', $http_location);
++    $https_location_rest = preg_replace('%://.*?/%', '/', $https_location);
++
++    $https_location_rest = rtrim($https_location_rest, '/');
++    $http_location_rest = rtrim($http_location_rest, '/');
+ 
+     if ($http_location_rest !== $https_location_rest) {
+         return array(
+@@ -701,6 +711,30 @@
+ }
+ 
+ /*
++* Check if %$module% apache module is enabled. Skip check if apache_get_modules function is not avalaible
++*/
++function func_apache_check_module($module)
++{
++    $res = true;
++    
++    if (function_exists('apache_get_modules')) {
++        $modules = apache_get_modules();
++
++        if (!empty($modules)) {
++            $res = false;
++            foreach ($modules as $k => $m) {
++                if (strpos($m, $module) !== false) {
++                    $res = true;
++                    break;
++                }                
++            }
++        }
++    }
++
++    return $res;
++}
++
++/*
+  * Used on admin/configuration.php POST. Check if admin has changed some option
+  */
+ function func_option_is_changed($category, $name)
+@@ -714,4 +748,76 @@
+ 
+     return $new_value != $config[$category][$name];
+ }
++
++/*
++ * Get all offline payment methods Used as source for force_offline_paymentid config var (sql/xcart_data.sql)
++ */
++function func_get_offline_payment_methods($condition='')
++{
++    global $sql_tbl;
++
++    $methods = func_query_hash("SELECT paymentid, payment_method FROM $sql_tbl[payment_methods] WHERE processor_file='' $condition AND is_cod!='Y'", 'paymentid', false, true);
++
++    if (!empty($methods)) {
++        $methods[0] = '';
++        unset($methods[14]);// Do not use Gift Certificate pm
++        ksort($methods);
++    }
++
++    settype($methods, 'array');
++    return $methods;
++}
++
++/**        
++ * Clear force_offline_paymentid if it is C.O.D.
++ */        
++function func_check_force_offline_paymentid_for_cod()
++{ 
++    global $config, $sql_tbl;
++
++    $force_offline_paymentid = intval($config['Egoods']['force_offline_paymentid']);
++    $is_cod_force_offline_payment = func_query_first_cell("SELECT paymentid FROM $sql_tbl[payment_methods] WHERE paymentid='$force_offline_paymentid' AND is_cod='Y'");
++
++    if (!empty($is_cod_force_offline_payment)) {
++       func_array2update('config', array('value' => '0'), "name='force_offline_paymentid'");
++    }
++
++    return true;
++}
++
++/*
++ Example: Return all active_modules/unset phrases from modules/config.php modules/init.php
++ functest.func_get_phrases_from_files
++*/
++function func_get_phrases_from_files($directory, $files, $phrases)
++{
++    global $xcart_dir;
++
++    $dir = @opendir($xcart_dir . XC_DS . $directory);
++    if (!$dir) return '';
++
++    $result = array();
++    while (($file = readdir($dir)) !== false) {
++        if ($file == '.' || $file == '..') continue;
++
++        $path = $directory.XC_DS.$file;
++
++        if (
++            is_file($xcart_dir . XC_DS .$path)
++            && in_array($file, $files)
++        ) {
++            $content = file_get_contents($xcart_dir . XC_DS .$path);
++            preg_match_all("/.*(?:$phrases).*/m", $content, $arr);
++            $result[$path] = $arr;
++        } elseif(is_dir($xcart_dir . XC_DS .$path)) {
++            $tmp = func_get_phrases_from_files($path, $files, $phrases);
++            if (!func_array_empty($tmp))
++                $result[$path] = $tmp;
++        }
++    }
++    closedir($dir);
++
++    return $result;
++}
++
+ ?>

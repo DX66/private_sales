@@ -1,0 +1,18 @@
+Index: skin/fashion_mosaic_grey/customer/minicart_total.tpl
+--- skin/fashion_mosaic_grey/customer/minicart_total.tpl	2010-12-15 12:44:42.000000000 +0300
++++ skin/fashion_mosaic_grey/customer/minicart_total.tpl	2011-03-14 17:03:47.000000000 +0300
+@@ -1,5 +1,5 @@
+ {*
+-$Id: minicart_total.tpl,v 1.1.2.1 2010/12/15 09:44:42 aim Exp $
++$Id: minicart_total.tpl,v 1.1.2.2 2011/03/14 14:03:47 aim Exp $
+ vim: set ts=2 sw=2 sts=2 et:
+ *}
+ <span class="minicart">
+@@ -19,3 +19,7 @@
+   {/if}
+ {/strip}
+ </span>
++{if $minicart_total_standalone}
++{load_defer_code type="css"}
++{load_defer_code type="js"}
++{/if}

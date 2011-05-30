@@ -1,0 +1,20 @@
+Index: modules/Flyout_Menus/func.php
+--- modules/Flyout_Menus/func.php	2011-01-10 16:11:57.000000000 +0300
++++ modules/Flyout_Menus/func.php	2011-02-07 18:34:45.000000000 +0300
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: func.php,v 1.24.2.2 2011/01/10 13:11:57 ferz Exp $
++ * @version    $Id: func.php,v 1.24.2.3 2011/02/07 15:34:45 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -88,6 +88,7 @@
+ function func_fc_build_categories($tick = 0, $membershipids = false, $languages = false, $display_header = true)
+ {
+     global $sql_tbl, $shop_language, $xcart_dir, $all_languages, $current_area, $smarty, $var_dirs, $config, $fcat_module_path;
++    global $user_account;
+ 
+     $path = $var_dirs['cache'];
+ 

@@ -1,0 +1,18 @@
+Index: skin/common_files/modules/Detailed_Product_Images/widget.tpl
+--- skin/common_files/modules/Detailed_Product_Images/widget.tpl	2010-06-21 15:26:22.000000000 +0400
++++ skin/common_files/modules/Detailed_Product_Images/widget.tpl	2011-04-29 15:57:51.000000000 +0400
+@@ -1,10 +1,11 @@
+ {*
+-$Id: widget.tpl,v 1.1 2010/06/21 11:26:22 joy Exp $
++$Id: widget.tpl,v 1.1.2.2 2011/04/29 11:57:51 aim Exp $
+ vim: set ts=2 sw=2 sts=2 et:
+ *}
+-{if $config.Detailed_Product_Images.det_image_box_plugin eq 'Z'}
++{getvar var=det_images_widget}
++{if $det_images_widget eq 'cloudzoom'}
+ {include file="modules/Detailed_Product_Images/cloudzoom_image.tpl"}
+-{elseif $config.Detailed_Product_Images.det_image_box_plugin eq 'C' and $config.setup_images.D.location neq 'DB'}
++{elseif $det_images_widget eq 'colorbox'}
+ {include file="modules/Detailed_Product_Images/colorbox_image.tpl"}
+ {else}
+ {include file="modules/Detailed_Product_Images/popup_image.tpl"}

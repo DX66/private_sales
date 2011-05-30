@@ -1,0 +1,37 @@
+Index: modules/Advanced_Order_Management/func.edit.php
+--- modules/Advanced_Order_Management/func.edit.php	2011-01-10 16:11:54.000000000 +0300
++++ modules/Advanced_Order_Management/func.edit.php	2011-02-08 15:45:31.000000000 +0300
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: func.edit.php,v 1.37.2.3 2011/01/10 13:11:54 ferz Exp $
++ * @version    $Id: func.edit.php,v 1.37.2.5 2011/02/08 12:45:31 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -265,7 +265,7 @@
+ 
+                 if ($product['stock_update'] == 'Y') {
+                     $amount_orig = (is_array($old_products) && $old_products[$k]['amount']) ? $old_products[$k]['amount'] : 0;
+-                    $amount_ret = ($active_modules['RMA'] && $product['returned_to_stock']) ? $product['returned_to_stock'] : 0;
++                    $amount_ret = (!empty($active_modules['RMA']) && $product['returned_to_stock']) ? $product['returned_to_stock'] : 0;
+                     $amount_change = $amount_orig - $product['amount'] - $amount_ret;
+ 
+                     if ($amount_change) {
+@@ -526,12 +526,13 @@
+         // Get provider paid commisions value
+         db_query("DELETE FROM $sql_tbl[provider_product_commissions] WHERE orderid = '$cart[orderid]'");
+ 
++        $current_order['orderid'] = $orderid;
+         foreach($ps as $k => $products) {
+             $current_order['provider'] = $k;
+             $paid_commissions_details = func_query_first("SELECT paid_commissions, note FROM $sql_tbl[provider_commissions] WHERE orderid = '$orderid' AND userid = '$current_order[provider]'");
+             db_query("DELETE FROM $sql_tbl[provider_commissions] WHERE orderid = '$cart[orderid]' AND userid = '$current_order[provider]'");
+-
+-            include $xcart_dir.'/include/provider_commission.php';
++            // Provider commission
++            func_calculate_provider_commission($products, $current_order, $commission_force_time, $paid_commissions_details);
+         }
+ 
+         $products = $_products;

@@ -1,0 +1,22 @@
+Index: include/templater/templater.php
+--- include/templater/templater.php	2011-01-10 16:11:53.000000000 +0300
++++ include/templater/templater.php	2011-02-15 14:40:42.000000000 +0300
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: templater.php,v 1.29.2.1 2011/01/10 13:11:53 ferz Exp $
++ * @version    $Id: templater.php,v 1.29.2.2 2011/02/15 11:40:42 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -139,6 +139,9 @@
+     function _smarty_include($params) {
+         static $vars;
+ 
++        if (empty($params['smarty_include_tpl_file']))
++            return '';
++
+         if (isset($params['smarty_include_vars']['_include_once']) && $params['smarty_include_vars']['_include_once'] == 1) {
+             if (isset($vars[$params['smarty_include_tpl_file']]))
+                 return '';

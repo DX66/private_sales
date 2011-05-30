@@ -1,0 +1,105 @@
+Index: include/func/func.files.php
+--- include/func/func.files.php	2011-01-10 16:11:51.000000000 +0300
++++ include/func/func.files.php	2011-04-14 15:34:35.000000000 +0400
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: func.files.php,v 1.81.2.5 2011/01/10 13:11:51 ferz Exp $
++ * @version    $Id: func.files.php,v 1.81.2.9 2011/04/14 11:34:35 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -385,43 +385,19 @@
+         return $result[$key];
+ 
+     $data = array('images' => array());
+-    $image_data = array();
+-
+-    if (defined('X_MYSQL40_COMP_MODE')) {
+-
+-        $query = array();
+-        foreach ($ids as $type => $id) {
+-            if (!isset($config['available_images'][$type])) {
+-                unset($ids[$type]);
+-                continue;
+-            }
+-
+-            $query[] = 'SELECT \'' . $type . '\' as image_type, id, image_path, image_x, image_y FROM ' . $sql_tbl['images_' . $type] . ' WHERE id = \'' . $id . '\'';
+-        }
+-
+-        $image_data = func_query_hash(implode(' UNION ', $query), 'image_type', false);
+-
+-    } else {
+-
+-        foreach ($ids as $type => $id) {
+-
+-            if (!isset($config['available_images'][$type])) {
+-
+-                unset($ids[$type]);
+-
+-                continue;
+-
+-            }
+-
+-            $tpm = func_query_first('SELECT id, image_path, image_x, image_y FROM ' . $sql_tbl['images_' . $type] . ' WHERE id = \'' . $id . '\'');
+-
+-            if (!empty($tpm))
+-                $image_data[$type] = $tpm;
+ 
++    $query = array();
++    foreach ($ids as $type => $id) {
++        if (!isset($config['available_images'][$type])) {
++            unset($ids[$type]);
++            continue;
+         }
+ 
++        $query[] = 'SELECT \'' . $type . '\' as image_type, id, image_path, image_x, image_y FROM ' . $sql_tbl['images_' . $type] . ' WHERE id = \'' . $id . '\'';
+     }
+ 
++    $image_data = func_query_hash(implode(' UNION ', $query), 'image_type', false);
++
+     $return_type = '';
+ 
+     foreach ($ids as $type => $id) {
+@@ -465,6 +441,11 @@
+     ) {
+         $return_type = $prefered_image_type;
+     }
++    
++    // thumbnail and product image are not defined for the product
++    if ($return_type === '') {
++        $return_type = $prefered_image_type;
++    }        
+ 
+     if (
+         isset($data['images'][$return_type]['is_default'])
+@@ -481,8 +462,9 @@
+     $data['image_url']  = $data['images'][$return_type]['url'];
+     $data['image_x']    = $data['images'][$return_type]['x'];
+     $data['image_y']    = $data['images'][$return_type]['y'];
+-    $data['image_id']   = $data['images'][$return_type]['id'];
+     $data['image_type'] = $return_type;
++    if (isset($data['images'][$return_type]['id']))
++        $data['image_id']   = $data['images'][$return_type]['id'];
+     
+     $result[$key] = $data;
+ 
+@@ -539,7 +521,7 @@
+ 
+     }
+ 
+-    if ($delete) {
++    if ($delete == 'delete_src_file') {
+ 
+         @unlink($tmpfile);
+ 
+@@ -1276,7 +1258,7 @@
+     }
+ 
+     if ($is_200_ok) {
+-        return (empty($header_name) ? $content : $header_data);
++        return (empty($header_name) ? $content : $header_data ? $header_data : false);
+     }
+ 
+     return false;

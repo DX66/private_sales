@@ -1,0 +1,52 @@
+Index: include/product_clone.php
+--- include/product_clone.php	2011-01-10 16:11:50.000000000 +0300
++++ include/product_clone.php	2011-01-25 12:43:12.000000000 +0300
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: product_clone.php,v 1.67.2.3 2011/01/10 13:11:50 ferz Exp $
++ * @version    $Id: product_clone.php,v 1.67.2.4 2011/01/25 09:43:12 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -64,25 +64,25 @@
+     array('table'=>'product_memberships','key_field'=>'productid')
+ );
+ 
+-if ($active_modules['Subscriptions']) {
++if (!empty($active_modules['Subscriptions'])) {
+     $tables_array[] = array('table'=>'subscriptions','key_field'=>'productid');
+ }
+ 
+-if ($active_modules['Product_Configurator']) {
++if (!empty($active_modules['Product_Configurator'])) {
+     $tables_array[] = array('table'=>'pconf_products_classes','key_field'=>'productid');
+     $tables_array[] = array('table'=>'pconf_wizards','key_field'=>'productid');
+     $tables_array[] = array('table'=>'languages_alt','key_field'=>'name');
+ }
+ 
+-if ($active_modules['Product_Options']) {
++if (!empty($active_modules['Product_Options'])) {
+     $tables_array[] = array('table'=>'product_options_js','key_field'=>'productid');
+ }
+ 
+-if ($active_modules['Extra_Fields']) {
++if (!empty($active_modules['Extra_Fields'])) {
+     $tables_array[] = array('table'=>'extra_field_values','key_field'=>'productid');
+ }
+ 
+-if ($active_modules['Feature_Comparison']) {
++if (!empty($active_modules['Feature_Comparison'])) {
+     $tables_array[] = array('table'=>'product_features','key_field'=>'productid');
+     $tables_array[] = array('table'=>'product_foptions','key_field'=>'productid');
+ }
+@@ -253,7 +253,7 @@
+ 
+             // Copy product options
+ 
+-            if ($active_modules['Product_Options']) {
++            if (!empty($active_modules['Product_Options'])) {
+                 $hash = array();
+                 $classes = func_query("SELECT * FROM $sql_tbl[classes] WHERE productid = '$productid'");
+                 if (!empty($classes)) {

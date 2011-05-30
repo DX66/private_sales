@@ -1,0 +1,494 @@
+/* vim: set ts=2 sw=2 sts=2 et: */
+/**
+ * One page checkout module CSS stylesheet
+ *  
+ * @category   X-Cart
+ * @package    X-Cart
+ * @subpackage CSS
+ * @author     Ruslan R. Fazlyev <rrf@x-cart.com> 
+ * @version    $Id: main.css,v 1.14.2.4 2010/09/24 06:16:20 aim Exp $
+ * @link       http://www.x-cart.com/
+ * @see        ____file_see____
+ */
+
+/**
+ * Alternative styles for common elements 
+ */
+
+div.opc-container .opc-section h2,
+div.opc-container .opc-section h3
+{
+  color: #617683;
+}
+
+div.opc-container label {
+  font-size: 12px;
+  line-height: 18px;
+  vertical-align: middle;
+}
+
+div.opc-container #center-main {
+  text-align: left;
+  width: 960px;
+  margin: 0 auto;
+}
+
+div.opc-container h1 {
+  font-size: 20px;
+}
+
+div.checkout-container h1 {
+  font-size: 32px;
+}
+
+div.checkout-container span.star {
+  padding-left: 5px;
+  color: #3385bf;
+}
+
+.fill-error label {
+  color: #ce0000;
+}
+
+div.opc-section-container div.text-block {
+  margin: 0 10px;
+}
+
+.fill-error .data-value input[type=text],
+.fill-error .data-value input[type=password],
+.fill-error .data-value select,
+.fill-error .data-value textarea
+{
+  border: solid 1px #ce0000;
+  background-color: #ffebeb;
+}
+
+div.error-label {
+  color: #ce0000;
+  font-size: 9px;
+  display: none;
+}
+
+.fill-error div.error-label {
+  display: block;
+}
+
+/**
+ * Container blocks 
+ */
+ul#opc-sections {
+  margin: 0;
+  padding: 0;
+  min-width: 1000px;
+}
+
+ul#opc-sections li.opc-section {
+  text-align: left;
+  float: left;
+  list-style: none;
+  padding: 0;
+  margin: 0 25px 50px 0;
+  border: 0 none;
+  width: 310px;
+  min-height: 400px;
+  width: 30%;
+}
+
+ul#opc-sections li.opc-section h2 {
+  font-weight: normal;
+  font-size: 24px;
+  padding: 7px 0;
+  margin: 0;
+}
+
+ul#opc-sections li.opc-section h3 {
+  font-weight: normal;
+  font-size: 18px;
+  padding: 7px 0;
+  margin: 0;
+  border: 0 none;
+}
+
+ul#opc-sections li.opc-section div {
+  font-size: 12px;
+}
+
+ul#opc-sections li.last {
+  margin-right: 0 !important;
+}
+
+/**
+ * Registration section 
+ */
+div.opc-authbox {
+  margin: 5px 0;
+  padding: 0;
+  font-size: 12px;
+}
+
+div.opc-authbox a {
+  font-size: 12px;
+  font-weight: normal;
+  line-height: 16px;
+}
+
+fieldset.registerform {
+  border: 0 none;
+  padding: 0;
+  margin: 0;
+}
+
+div.opc-section-container {
+  padding: 10px 0;
+  margin: 0;
+  background: #f5f5f5;
+}
+
+div.opc-section-container div.text-block {
+  margin: 0 10px;
+}
+
+div.checkout-container input[type=text],
+div.checkout-container input[type=password],
+div.checkout-container textarea, 
+div.checkout-container select {
+  max-width: 250px;
+  font-size: 12px;
+}
+
+div.checkout-container input[type=text],
+div.checkout-container input[type=password],
+div.checkout-container select {
+  height: 18px;
+}
+
+div.checkout-container textarea {
+  width: 100%;
+}
+
+div.checkout-container select {
+  height: 22px;
+}
+
+fieldset.registerform ul li {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+fieldset.registerform ul {
+  position: relative;
+  padding: 0 15px;
+  margin: 0;
+  background: #f5f5f5;
+}
+
+fieldset.registerform ul.first {
+  padding-top: 15px;
+}
+
+fieldset.registerform ul li {
+  padding-bottom: 10px;
+}
+
+fieldset.registerform ul li.clearing {
+  padding: 0;
+  margin: 0;
+}
+
+fieldset.registerform ul li.fields-group {
+  float: left;
+  margin-right: 10px;
+}
+
+fieldset.registerform ul li.fields-group input[type=text],
+fieldset.registerform ul li.fields-group input[type=password]
+{
+  width: 90px;
+}
+
+fieldset.registerform ul li.single-field {
+  float: none;
+  clear: both;
+}
+
+fieldset.registerform ul li.single-field input[type=text],
+fieldset.registerform ul li.single-field input[type=password]
+{
+  width: 80%;
+}
+
+fieldset.registerform div.oneline {
+  float: left;
+  margin-right: 10px;
+}
+
+li.single-field input.image-button {
+  background: transparent url(../../images/button_go.png) no-repeat left top;
+  height: 21px;
+  width: 23px;
+  margin-bottom: 1px;
+}
+
+
+div.optional-label {
+  margin: 10px 5px;
+  background-color: #fff;
+}
+
+div.optional-label label {
+  font-weight: bold;
+  font-size: 11px;
+  display: block;
+  padding-left: 15px;
+  text-indent: -15px;
+}
+
+div.optional-label label input {
+  margin-right: 5px;
+  width: 13px;
+  height: 13px;
+  padding: 0;
+  vertical-align: bottom;
+  position: relative;
+  top: -2px;
+}
+
+div.address-book-link {
+  height: 35px;
+  background: #ecf3f7;
+  width: 100%;
+  vertical-align: middle;
+  position: relative;
+}
+
+div.address-book-link span.popup-link {
+  margin: 7px;
+  font-size: 11px;
+}
+
+div.address-book-link label {
+  margin: 7px;
+  font-size: 11px;
+  line-height: 16px;
+}
+
+ul#opc-sections li.opc-section div.opc-checkout-profile h3 {
+  padding: 7px;
+}
+
+div.opc-checkout-profile div.address-line {
+  font-size: 12px;
+  padding: 0 7px;
+}
+
+ul#opc-sections li.opc-section div.news-register-item-descr {
+  font-size: 10px;
+  font-style: italic;
+}
+
+/**
+ * Shipping and payment section 
+ */
+.checkout-payments tr td { 
+  padding: 5px; 
+  vertical-align: top; 
+  border-bottom: solid 2px #fff;
+}
+
+.checkout-payments tr td.checkout-payment-name { 
+  width: 100%; 
+  padding-right: 10px;
+  white-space: normal;
+}
+
+.checkout-payments tr td.checkout-payment-name label {
+  font-weight: bold;
+}
+
+.checkout-payments tr td div.checkout-payment-descr {
+  width: 80%;
+}
+
+.checkout-payments tr td.checkout-payment-paypal {
+  width: 100%;
+}
+
+.checkout-payments tr td.checkout-payment-paypal img {
+  border: 0 none;
+}
+
+.checkout-payments tr.payment-details td { 
+  background: #ecf3f7;
+  margin: 0;
+  padding: 10px;
+} 
+
+.checkout-payment-name span.applied-gc {
+  font-weight: normal;
+  color: #01851a;
+}
+
+.checkout-shippings {
+  width: 100%;
+}
+
+.checkout-shippings tr td { 
+  padding: 5px 10px 5px 0; 
+  border-bottom: solid 2px #fff;
+  vertical-align: top;
+  font-size: 11px;
+}
+
+.checkout-shippings tr.last td { 
+  border-bottom: 0 none;
+}  
+
+.checkout-shippings tr td label { 
+  font-size: 11px;
+  line-height: 14px;
+}
+
+.checkout-shippings tr td.shipping-name { 
+  width: 70%;
+}
+
+.checkout-shippings tr td.shipping-cost { 
+  width: 30%;
+  text-align: right;
+}
+
+.opc-payment-options fieldset.registerform ul {
+  background: 0;
+}
+
+/**
+ * Summary section 
+ */
+div.coupon-info a.unset-coupon-link {
+  margin-left: 10px;
+}
+
+div.coupon-info p {
+  font-size: 9px;
+}
+
+div.coupon-info div.progress {
+  background: transparent url(../../images/progress.gif) repeat-x left 10px;
+  height: 20px;
+  margin: 0 15%;
+}
+
+div#couponform {
+  height: 20px;
+}
+
+div.coupon-info input.image-button {
+  background: transparent url(../../images/button_go.png) no-repeat left top;
+  height: 21px;
+  width: 23px;
+  margin-bottom: 1px;
+}
+
+div.cart-totals {
+  margin: 10px 0;
+  padding: 0;
+}
+
+div.cart table.totals {
+  margin: 0 0 0 auto;
+  text-align: right;
+  width: 30%;
+}
+
+table.totals tr td.total,
+table.totals tr td.total-name,
+table.totals tr td.total-value,
+table.totals tr td.total-value-alt,
+table.totals span.total-name
+{
+  font-weight: bold;
+  text-transform: none;
+  padding: 5px 5px 5px 0;
+  font-size: 12px;
+  vertical-align: top;
+}
+
+#opc_summary table.totals {
+  text-align: left;
+  width: 100%;
+}
+
+#opc_summary table.totals tr td.total,
+#opc_summary table.totals tr td.total-name,
+#opc_summary table.totals tr td.total-value,
+#opc_summary table.totals tr td.total-value-alt,
+#opc_summary table.totals span.total-name
+{
+  width: 15%;
+  font-weight: normal;
+}
+
+#opc_summary table.totals tr td.total,
+#opc_summary table.totals tr td.total-name {
+  width: 70%;
+}
+
+table.totals tr td.discounted {
+  color: #01851a;
+}
+
+table.totals tr.total td.total-name {
+  font-size: 22px;
+}
+
+table.totals tr.total td.total-value {
+  font-size: 22px;
+}
+
+table.totals tr.total td.total-value-alt {
+  font-size: 12px;
+  vertical-align: bottom;
+}
+
+table.cart-content tr td {
+  font-size: 10px;
+  font-weight: normal;
+  border-bottom: solid 1px #888;
+  padding: 10px 5px;
+  vertical-align: top;
+}
+
+table.cart-content .cart-content-text {
+  font-weight: normal;
+  color: #2c3e49;
+}
+
+div#order-taxes-box {
+  padding: 10px 5px;
+}
+
+div.checkout-customer-notes,
+div.checkout-partner,
+div.terms_n_conditions
+{
+  padding: 10px 0;
+}
+
+div.terms_n_conditions {
+  text-align: center;
+}
+
+div.terms_n_conditions label {
+  font-size: 13px;
+}
+
+.place-order-button button.inactive {
+  opacity: .3;
+  filter:Alpha(Opacity=30);
+  cursor: default;
+}
+
+div.paypal-express-sel-note {
+  padding: 0 10px;
+}

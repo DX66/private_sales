@@ -1,0 +1,1 @@
+a53415cdb49675b39e806d5452c11a7fa:1:{s:26:"lbl_giftreg_buy_as_present";s:111:"Buy this as a present for the event <a href="giftregs.php?eventid={{eventid}}">{{event_name}}</a> ({{creator}})";}

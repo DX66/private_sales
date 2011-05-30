@@ -1,0 +1,21 @@
+Index: include/templater/plugins/function.fancycat_get_cache.php
+--- include/templater/plugins/function.fancycat_get_cache.php	2011-01-10 16:11:53.000000000 +0300
++++ include/templater/plugins/function.fancycat_get_cache.php	2011-01-25 12:43:12.000000000 +0300
+@@ -44,7 +44,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: function.fancycat_get_cache.php,v 1.14.2.1 2011/01/10 13:11:53 ferz Exp $
++ * @version    $Id: function.fancycat_get_cache.php,v 1.14.2.2 2011/01/25 09:43:12 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -55,7 +55,7 @@
+ {
+     global $active_modules;
+ 
+-    if (!$active_modules['Flyout_Menus'])
++    if (empty($active_modules['Flyout_Menus']))
+         return '';
+ 
+     if (!func_fc_has_cache())

@@ -1,0 +1,1 @@
+aa7da9a87e37cb1e66eb1b6d9a938f9da:4:{s:8:"lbl_news";s:11:"Nachrichten";s:17:"lbl_previous_news";s:18:"Vorige Neuigkeiten";s:13:"lbl_subscribe";s:11:"Abonnieren!";s:21:"txt_no_news_available";s:36:"Keine Nachrichten verfügbar zur Zeit";}

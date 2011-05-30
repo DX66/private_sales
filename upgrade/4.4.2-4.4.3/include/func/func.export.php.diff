@@ -1,0 +1,30 @@
+Index: include/func/func.export.php
+--- include/func/func.export.php	2011-01-10 16:11:51.000000000 +0300
++++ include/func/func.export.php	2011-02-07 18:34:45.000000000 +0300
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: func.export.php,v 1.28.2.1 2011/01/10 13:11:51 ferz Exp $
++ * @version    $Id: func.export.php,v 1.28.2.2 2011/02/07 15:34:45 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -173,7 +173,7 @@
+  */
+ function func_export_define($data, $parent = '')
+ {
+-    global$_export_define_hash;
++    static $_export_define_hash;
+ 
+     if (empty($data))
+         return false;
+@@ -751,7 +751,7 @@
+         // Detect file extension
+         $ftype = 'gif';
+         if (empty($v['filename']) && !empty($v['image_type'])) {
+-            if (preg_match("/\/(.+)$S/", $v['image_type'], $match))
++            if (preg_match('/\/(.+)$S/', $v['image_type'], $match))
+                 $ftype = $match[1];
+         }
+         if(preg_match("/^(.+)\.([^\.]*)$/S", $v['filename'], $match) && !empty($v['filename'])) {

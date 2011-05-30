@@ -1,0 +1,21 @@
+Index: admin/stats_search.php
+--- admin/stats_search.php	2011-01-10 16:11:47.000000000 +0300
++++ admin/stats_search.php	2011-04-28 14:55:29.000000000 +0400
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: stats_search.php,v 1.23.2.1 2011/01/10 13:11:47 ferz Exp $
++ * @version    $Id: stats_search.php,v 1.23.2.2 2011/04/28 10:55:29 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -69,7 +69,7 @@
+ }
+ 
+ $objects_per_page = 30;
+-$total_items = func_query_first_cell("SELECT COUNT(*) FROM $sql_tbl[stats_search] as ss WHERE $date_condition");
++$total_items = func_query_first_cell("SELECT COUNT(ss.date) FROM $sql_tbl[stats_search] as ss WHERE $date_condition");
+ include $xcart_dir.'/include/navigation.php';
+ 
+ $statistics = func_query("SELECT * FROM $sql_tbl[stats_search] as ss WHERE $date_condition ORDER BY date DESC LIMIT $first_page, $objects_per_page");

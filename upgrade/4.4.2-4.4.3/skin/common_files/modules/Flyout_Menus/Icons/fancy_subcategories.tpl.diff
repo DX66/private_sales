@@ -1,0 +1,19 @@
+Index: skin/common_files/modules/Flyout_Menus/Icons/fancy_subcategories.tpl
+--- skin/common_files/modules/Flyout_Menus/Icons/fancy_subcategories.tpl	2010-06-08 14:17:47.000000000 +0400
++++ skin/common_files/modules/Flyout_Menus/Icons/fancy_subcategories.tpl	2011-04-29 15:57:51.000000000 +0400
+@@ -1,5 +1,5 @@
+ {*
+-$Id: fancy_subcategories.tpl,v 1.2 2010/06/08 10:17:47 igoryan Exp $
++$Id: fancy_subcategories.tpl,v 1.2.2.2 2011/04/29 11:57:51 aim Exp $
+ vim: set ts=2 sw=2 sts=2 et:
+ *}
+ <ul class="fancycat-icons-level-{$level}">
+@@ -7,7 +7,7 @@
+   {assign var="loop_name" value="subcat`$parentid`"}
+   {foreach from=$categories_menu_list item=c key=catid name=$loop_name}
+ 
+-    <li{interline name=$loop_name} style="z-index: {$smarty.foreach.$loop_name.total|dec:$smarty.foreach.$loop_name.iteration|inc:1|inc:100};">
++    <li{interline name=$loop_name} style="z-index: {$smarty.foreach.$loop_name.total|dec:$smarty.foreach.$loop_name.iteration|inc:1|inc:1001};">
+       {strip}
+       <a href="home.php?cat={$catid}" class="{if $config.Flyout_Menus.icons_icons_in_categories gte $level+1}icon-link{/if}{if $config.Flyout_Menus.icons_disable_subcat_triangle eq 'Y' and $c.subcategory_count gt 0} sub-link{/if}{if $config.Flyout_Menus.icons_empty_category_vis eq 'Y' and not $c.childs and not $c.product_count} empty-link{/if}{if $config.Flyout_Menus.icons_nowrap_category ne 'Y'} nowrap-link{/if}">
+         {if $config.Flyout_Menus.icons_icons_in_categories gte $level+1 and $c.is_icon}

@@ -1,0 +1,155 @@
+Index: modules/Google_Checkout/gcheckout_callback.php
+--- modules/Google_Checkout/gcheckout_callback.php	2011-01-10 16:11:58.000000000 +0300
++++ modules/Google_Checkout/gcheckout_callback.php	2011-04-07 17:48:31.000000000 +0400
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: gcheckout_callback.php,v 1.34.2.4 2011/01/10 13:11:58 ferz Exp $
++ * @version    $Id: gcheckout_callback.php,v 1.34.2.17 2011/04/07 13:48:31 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -84,6 +84,7 @@
+ }
+ 
+ // Check if no data passed
++$HTTP_RAW_POST_DATA = func_get_raw_post_data();
+ if (empty($HTTP_RAW_POST_DATA)) {
+     x_log_flag('log_payment_processing_errors', 'PAYMENTS', "Google checkout payment module: Script called with no data passed to it.", true);
+     exit;
+@@ -149,22 +150,8 @@
+ 
+     $skey = func_array_path($parsed, $type."/SHOPPING-CART/MERCHANT-PRIVATE-DATA/MERCHANT-NOTE/0/#");
+ 
+-    // Restore the session
+-    $sessid = func_query_first_cell("SELECT sessionid FROM $sql_tbl[cc_pp3_data] WHERE ref = '$skey'");
+-
+-    x_session_id($sessid);
+-    x_session_register('login');
+-    x_session_register('logged_userid');
+-    x_session_register('cart');
+-    x_session_register('user_tmp', array());
+-    x_session_register('current_carrier', 'UPS');
+-
+-    if (!empty($logged_userid)) {
+-        $user_account['membershipid'] = func_query_first_cell("SELECT membershipid FROM $sql_tbl[customers] WHERE id='$logged_userid'");
+-    }
+-
+-    $products = func_products_in_cart($cart, (!empty($user_account['membershipid']) ? $user_account['membershipid'] : ''));
+-
++    // Restore global and session vars ($login, $logged_userid, $cart, $user_tmp, $current_carrier, $user_account, $products)
++    func_gcheckout_restore_session_n_global($skey);
+     func_gcheckout_debug("\t+ skey: $skey");
+ 
+     // Get addresses, shipping methods and coupon codes from XML request
+@@ -485,6 +472,7 @@
+         return;
+     }
+ 
++    // As orderid is PRIMARY key then use fake orderid to lock gcheckout_orders for this $goid
+     func_array2insert(
+         'gcheckout_orders',
+         array(
+@@ -527,7 +515,7 @@
+         x_session_register('user_tmp');
+         x_session_register('current_carrier', 'UPS');
+ 
+-        x_load('cart','crypt','user','order');
++        x_load('cart','crypt','order');
+ 
+         if (!empty($logged_userid)) {
+             $user_account['membershipid'] = func_query_first_cell("SELECT membershipid FROM $sql_tbl[customers] WHERE id='$logged_userid'");
+@@ -555,7 +543,7 @@
+         $profile_values['address']['B']['state']        = func_array_path($parsed, $type."/BUYER-BILLING-ADDRESS/REGION/0/#");
+         $profile_values['address']['B']['country']      = func_array_path($parsed, $type."/BUYER-BILLING-ADDRESS/COUNTRY-CODE/0/#");
+         $profile_values['address']['B']['zipcode']      = func_array_path($parsed, $type."/BUYER-BILLING-ADDRESS/POSTAL-CODE/0/#");
+-        $profile_values['address']['B']['phone']        = func_array_path($parsed, $type."/BUYER-SHIPPING-ADDRESS/PHONE/0/#");
++        $profile_values['address']['B']['phone']        = func_array_path($parsed, $type."/BUYER-BILLING-ADDRESS/PHONE/0/#");
+         $profile_values['address']['B']['fax']          = func_array_path($parsed, $type."/BUYER-BILLING-ADDRESS/FAX/0/#");
+ 
+         $profile_values['address']['S'] = array();
+@@ -590,8 +578,7 @@
+             // Fill anonymous profile
+             $profile_values['usertype'] = 'C';
+ 
+-            x_session_register('anonymous_userinfo', array());
+-            $anonymous_userinfo = func_array_merge($profile_values, $ship_to_details);
++            func_set_anonymous_userinfo($profile_values);
+ 
+             func_gcheckout_debug("\t+ Anonymous profile created");
+ 
+@@ -599,24 +586,21 @@
+ 
+             // Update the existing user profile
+             $query_data = $profile_values;
+-            func_unset($query_data, 'address');
+ 
+-            $cart['used_s_address'] = $profile_values['address']['S'];
+-            $cart['used_b_address'] = $profile_values['address']['B'];
++            $cart = func_set_cart_address($cart, 'S', $profile_values['address']['S']);
++            $cart = func_set_cart_address($cart, 'B', $profile_values['address']['B']);
+ 
+-            func_unset($query_data, 'address', 'email');
++            func_unset($query_data, 'address', 'email', 'phone', 'fax');
+             func_array2update('customers', $query_data, "id = '$logged_userid' AND usertype = 'C'");
+             
+             func_gcheckout_debug("\t+ Customer profile updated - login: '$login'");
+ 
+-            x_load('user');
+-
+             // Fill address book
+             if (func_is_address_book_empty($logged_userid)) {
+                 foreach ($profile_values['address'] as $addr_type => $val) {
+                     $val['address'] = $val['address'] . "\n" . $val['address_2'];
+                     func_unset($val, 'address_2');
+-                    $val['default_' . strtolower($a_type)] = 'Y';
++                    $val['default_' . strtolower($addr_type)] = 'Y';
+                     func_save_address($logged_userid, 0, $val);
+             
+                     func_gcheckout_debug("\t+ New address has been is added to $login\'s address book");
+@@ -625,11 +609,8 @@
+         }
+ 
+         // Update current user info to place it into the order
+-        $userinfo = $cart['userinfo'] = func_array_merge($cart['userinfo'], $profile_values);
+-        if (!empty($login)) {
+-            $userinfo['login'] = $login;
+-            $userinfo['id'] = $logged_userid;
+-        }
++        $cart['userinfo'] = func_array_merge($cart['userinfo'], $profile_values);
++        $userinfo = $cart['userinfo'] = func_userinfo_from_scratch($cart['userinfo'], 'userinfo_for_payment');
+ 
+         // Get shipping from Google order
+         $shipping_name = func_array_path($parsed,
+@@ -693,8 +674,9 @@
+             // Question: which from them need to be subscribed?
+ 
+             $_emails = $profile_values['email'];
+-            if ($_emails != $ship_to_details['email'])
+-                $_emails .= ', ' . $ship_to_details['email'];
++            $_shipping_emails = func_array_path($parsed, $type."/BUYER-SHIPPING-ADDRESS/EMAIL/0/#");
++            if ($_emails != $_shipping_emails)
++                $_emails .= ', ' . $_shipping_emails;
+             func_gcheckout_debug("\t+ Customer subscribed to newsletter: '$_emails'");
+ 
+         }
+@@ -726,16 +708,15 @@
+ 
+         x_session_register('secure_oid');
+         x_session_register('secure_oid_cost');
+-        x_session_register('cart_locked');
+         x_session_register ('partner');
+         x_session_register ('partner_clickid');
+         x_session_register ('adv_campaignid');
+ 
+         $orderids = func_place_order("Google Checkout" . ($config['Google_Checkout']['gcheckout_test_mode'] == 'Y' ? ' (in test mode)' : ''), "Q", $order_details, '', '', $extra);
+ 
+-        func_gcheckout_debug("\t+ Order placed: $orderids (" . implode(',',$orderids) . ")");
++        func_gcheckout_debug("\t+ Order placed: orderids (" . implode(',',$orderids) . ")");
+ 
+-        $cart_locked = false;
++        func_cart_unlock();
+ 
+         if (empty($orderids)) {
+             x_log_flag('log_payment_processing_errors', 'PAYMENTS', "Google checkout payment module: Order has not been created in X-Cart as products in cart are expired.", true);

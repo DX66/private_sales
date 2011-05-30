@@ -1,0 +1,266 @@
+/* vim: set ts=2 sw=2 sts=2 et: */
+/**
+ * X-Product configurator module CSS stylesheet
+ *  
+ * @category   X-Cart
+ * @package    X-Cart
+ * @subpackage CSS
+ * @author     Ruslan R. Fazlyev <rrf@x-cart.com> 
+ * @version    $Id: main.css,v 1.3 2010/06/17 10:24:41 igoryan Exp $
+ * @link       http://www.x-cart.com/
+ * @see        ____file_see____
+ */
+
+.pconf-cart-list {
+  margin-bottom: 30px;
+}
+
+.pconf-cart-list table td {
+  margin: 0;
+  vertical-align: top;
+}
+
+.pconf-cart-list table td.pconf-cart-subproduct {
+  padding-left: 10px;
+  padding-right: 80px;
+}
+
+.pconf-cart-list table td.pconf-price-modifier {
+  white-space: nowrap;
+  text-align: right;
+  color: #b51a00;
+}
+
+.pconf-cart-list table td.pconf-price {
+  white-space: nowrap;
+  text-align: right;
+  padding-right: 10px;
+}
+
+.pconf-negative-price {
+  color: #b51800;
+}
+
+.pconf-cart-list .subhead-row {
+  background: #f1f1f1 none;
+}
+
+.pconf-cart-list tr.pconf-cart-total td {
+  border-top: 1px solid #dddddd;
+}
+
+.pconf-cart-list tr.pconf-cart-total td.pconf-cart-total-name {
+  padding-left: 20px;
+}
+
+.pconf-cart-list .button-row {
+  margin: 0;
+  padding-top: 15px;
+}
+
+/**
+ * Configuration wizard: Step page
+ */
+.pconf-product-configure .pconf-step-title {
+  font-weight: bold;
+  font-size: 12px;
+  margin: 0;
+  padding: 0;
+}
+
+.pconf-product-configure .pconf-step-descr {
+  margin: 0;
+  padding: 15px 0 0 0;
+}
+
+.pconf-slot-configure {
+  margin: 0;
+  padding: 45px 0 0 0;
+}
+
+.pconf-slot-configure-first {
+  padding-top: 25px;
+}
+
+.pconf-slot-header {
+  position: relative;
+  vertical-align: top;
+  height: 35px;
+  background-color: #efebef;
+  margin-bottom: 10px;
+}
+
+.pconf-slot-configure .pconf-slot-title {
+  left: 15px;
+  top: 10px;
+  font-weight: bold;
+  position: absolute;
+  margin-top: 0;
+}
+
+.pconf-slot-configure .pconf-slot-actions {
+  margin: 0;
+  padding: 0;
+  width: 40%;
+  right: 15px;
+  top: 10px;
+  position: absolute;
+}
+
+.pconf-slot-configure .pconf-slot-actions .buttons-row-right {
+  padding: 0;
+  margin: 0;
+}
+
+.pconf-slot-configure .pconf-slot-actions .buttons-row-right a {
+  line-height: 14px;
+}
+
+.pconf-slot-configure .pconf-slot-descr {
+  margin: 0;
+  padding: 0 0 10px 0;
+}
+
+.pconf-slot-configure .pconf-slot-required {
+  font-weight: normal;
+  color: #b51a00;
+}
+
+.pconf-slot-product .image {
+  text-align: center;
+  vertical-align: top;
+  white-space: nowrap;
+}
+
+.pconf-slot-product-details {
+  vertical-align: top;
+  padding-left: 20px;
+}
+
+.pconf-slot-product-details a.product-title {
+  color: #043fa0;
+  font-size: 12px;
+}
+
+.pconf-price-row {
+  padding: 5px 20px 5px 0;
+  font-size: 11px;
+}
+
+.pconf-price-row .price {
+  font-weight: bold;
+}
+
+.pconf-price-row .price-value {
+  font-weight: bold;
+  color: #b51a00;
+}
+
+/**
+ * Configuration wizard: Products list
+ */
+.pconf-rules tr td {
+  padding: 2px;
+  vertical-align: top;
+}
+
+.pconf-rules .pconf-rules-or {
+  display: block;
+}
+
+/**
+ * Configuration summary
+ */
+.pconf-product-summary table.product-properties {
+  padding-top: 10px;
+  width: auto;
+}
+
+.pconf-product-summary table tr td {
+  white-space: nowrap;
+  padding: 5px 15px 5px 0;
+}
+
+.pconf-product-summary table tr td.property-name {
+  font-weight: bold;
+}
+
+p.pconf-summary {
+  font-weight: bold;
+  padding-bottom: 15px;
+}
+
+.pconf-summary-step {
+  position: relative;
+  vertical-align: top;
+  border: 1px solid #c5d0e1;
+  padding: 0;
+  margin: 0 0 15px 0;
+}
+
+.pconf-summary-step .pconf-step-title {
+  height: 26px;
+  background: #e2e8f0 none;
+  border: 0 none;
+  border-bottom: 1px solid #c5d0e1;
+  position: relative;
+  vertical-align: middle;
+  line-height: 25px;
+  padding: 0 50px 0 10px;
+  position: relative;
+  margin: 0;
+}
+
+.pconf-summary-step .pconf-step-title .button-row {
+  margin: 0;
+  position: absolute;
+  top: 2px;
+  right: 10px;
+}
+
+.pconf-summary-slots {
+  padding-top: 15px;
+}
+
+.pconf-summary-slots .pconf-slot-image,
+.pconf-summary-slots .pconf-slot-details
+{
+  padding: 0 0 38px 0;
+}
+
+.pconf-summary-slots .pconf-slot-image {
+  text-align: center;
+  width: 90px;
+}
+
+.pconf-summary-slots .pconf-slot-title {
+  font-weight: bold;
+}
+
+.pconf-summary-slots a.pconf-slot-product:link,
+.pconf-summary-slots a.pconf-slot-product:visited,
+.pconf-summary-slots a.pconf-slot-product:hover,
+.pconf-summary-slots a.pconf-slot-product:active
+{
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+.pconf-summary-slots .pconf-slot-price {
+  margin: 10px 0 0 0;
+  padding: 0;
+}
+
+.pconf-summary-slots .pconf-slot-taxes {
+  padding-left: 40px;
+}
+
+.pconf-summary-total {
+  font-size: 12px;
+  height: 40px;
+  vertical-align: middle;
+}
+
+.pconf-cart-list-checkout {
+  margin: 6px 6px 6px 20px;
+}

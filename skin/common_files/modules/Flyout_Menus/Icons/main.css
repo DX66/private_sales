@@ -1,0 +1,247 @@
+/* vim: set ts=2 sw=2 sts=2 et: */
+/**
+ * Flyout menus module CSS stylesheet
+ *  
+ * @category   X-Cart
+ * @package    X-Cart
+ * @subpackage CSS
+ * @author     Ruslan R. Fazlyev <rrf@x-cart.com> 
+ * @version    $Id: main.css,v 1.3 2010/07/22 09:41:43 igoryan Exp $
+ * @link       http://www.x-cart.com/
+ * @see        ____file_see____
+ */
+
+/**
+ * Layout 
+ */
+.menu-fancy-categories-list .content {
+  overflow: visible;
+  padding-top: 5px;
+  padding-left: 5px;
+  padding-right: 6px;
+}
+
+.fancycat-icons-e ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  width: 137px;
+}
+
+.fancycat-icons-e ul li {
+  float: left;
+  position: relative;
+  width: 100%;
+  padding: 2px 0;
+  background: white none;
+}
+
+.fancycat-icons-e li ul {
+  display: none;
+  position: absolute;
+  top: 4px;
+  left: 126px;
+  background: white none;
+  border: 1px solid #b1c6d7;
+  margin: 0;
+  padding: 5px 6px 5px 5px;
+}
+
+.fancycat-icons-e li:hover,
+.fancycat-icons-e li.over
+{
+  background-color: #e4e7ed;
+}
+
+.fancycat-icons-e li:hover ul,
+.fancycat-icons-e li.over ul
+{
+  display: block;
+}
+
+.fancycat-icons-e li iframe {
+  position: absolute;
+  padding: 0;
+  border: 0 none;
+  margin: 0;
+  left: 0;
+  top: 0;
+  display: none;
+}
+
+.fancycat-icons-e li iframe.over {
+  display: block;
+}
+
+/**
+ * Multi-level support 
+ */
+.fancycat-icons-e li:hover ul ul, .fancycat-icons-e li.over ul ul,
+.fancycat-icons-e li:hover ul ul ul, .fancycat-icons-e li.over ul ul ul,
+.fancycat-icons-e li:hover ul ul ul ul, .fancycat-icons-e li.over ul ul ul ul,
+.fancycat-icons-e li:hover ul ul ul ul ul, .fancycat-icons-e li.over ul ul ul ul ul,
+.fancycat-icons-e li:hover ul ul ul ul ul ul, .fancycat-icons-e li.over ul ul ul ul ul ul,
+.fancycat-icons-e li:hover ul ul ul ul ul ul ul, .fancycat-icons-e li.over ul ul ul ul ul ul ul,
+.fancycat-icons-e li:hover ul ul ul ul ul ul ul ul, .fancycat-icons-e li.over ul ul ul ul ul ul ul ul,
+.fancycat-icons-e li:hover ul ul ul ul ul ul ul ul ul, .fancycat-icons-e li.over ul ul ul ul ul ul ul ul ul,
+.fancycat-icons-e li:hover ul ul ul ul ul ul ul ul ul ul, .fancycat-icons-e li.over ul ul ul ul ul ul ul ul ul ul,
+.fancycat-icons-e li:hover ul ul ul ul ul ul ul ul ul ul ul, .fancycat-icons-e li.over ul ul ul ul ul ul ul ul ul ul ul
+{
+  display: none;
+}
+
+.fancycat-icons-e li li:hover ul, .fancycat-icons-e li li.over ul,
+.fancycat-icons-e li li li:hover ul, .fancycat-icons-e li li li.over ul,
+.fancycat-icons-e li li li li:hover ul, .fancycat-icons-e li li li li.over ul,
+.fancycat-icons-e li li li li li:hover ul, .fancycat-icons-e li li li li li.over ul,
+.fancycat-icons-e li li li li li li:hover ul, .fancycat-icons-e li li li li li li.over ul,
+.fancycat-icons-e li li li li li li li:hover ul, .fancycat-icons-e li li li li li li li.over ul,
+.fancycat-icons-e li li li li li li li li:hover ul, .fancycat-icons-e li li li li li li li li.over ul,
+.fancycat-icons-e li li li li li li li li li:hover ul, .fancycat-icons-e li li li li li li li li li.over ul,
+.fancycat-icons-e li li li li li li li li li li:hover ul, .fancycat-icons-e li li li li li li li li li li.over ul,
+.fancycat-icons-e li li li li li li li li li li li:hover ul, .fancycat-icons-e li li li li li li li li li li li.over ul
+{
+  display: block;
+}
+
+/**
+ * Visual scheme 
+ */
+.fancycat-icons-e ul li a:link,
+.fancycat-icons-e ul li a:visited,
+.fancycat-icons-e ul li a:hover,
+.fancycat-icons-e ul li a:active
+{
+  display: block;
+  position: relative;
+  font-size: 12px;
+  color: #300;
+  text-decoration: none;
+  line-height: 16px;
+  vertical-align: middle;
+  background: transparent none;
+  padding: 0 25px 0 10px;
+  margin-left: 10px !important;
+  overflow: hidden;
+}
+
+.fancycat-icons-e a.icon-link:link,
+.fancycat-icons-e a.icon-link:visited,
+.fancycat-icons-e a.icon-link:hover,
+.fancycat-icons-e a.icon-link:active
+{
+  padding-left: 26px;
+}
+
+.fancycat-icons-e a.sub-link:link,
+.fancycat-icons-e a.sub-link:visited,
+.fancycat-icons-e a.sub-link:hover,
+.fancycat-icons-e a.sub-link:active
+{
+  background: transparent url(tree_subdir_plus.gif) no-repeat 97% 4px;
+}
+
+.fancycat-icons-e a.empty-link:link,
+.fancycat-icons-e a.empty-link:visited,
+.fancycat-icons-e a.empty-link:hover,
+.fancycat-icons-e a.empty-link:active
+{
+  color: #a3b1c7;
+}
+
+.fancycat-icons-e a.nowrap-link:link,
+.fancycat-icons-e a.nowrap-link:visited,
+.fancycat-icons-e a.nowrap-link:hover,
+.fancycat-icons-e a.nowrap-link:active
+{
+  white-space: nowrap;
+}
+
+.fancycat-icons-e img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 0;
+  margin: 0;
+}
+
+/**
+ * Tree-like expanding
+ */
+.fancycat-page-subskin-c #center-main {
+  margin-left: 207px;
+}
+
+.fancycat-page-subskin-c #left-bar {
+  width: 180px;
+}
+
+.fancycat-icons-c {
+  padding-top: 5px;
+  padding-left: 8px;
+  overflow: hidden;
+}
+
+.fancycat-icons-c ul {
+  list-style: none;
+  padding: 0;
+}
+
+.fancycat-icons-c ul li {
+  padding: 4px 0px 7px 19px;
+  position: relative;
+}
+
+.fancycat-icons-c ul.fancycat-icons-level-1 li {
+  padding-bottom: 3px;
+}
+
+.fancycat-icons-c ul li ul {
+  margin-top: 3px;
+}
+
+.fancycat-icons-c li.closed ul {
+  display: none;
+}
+
+.fancycat-icons-c ul li a:link,
+.fancycat-icons-c ul li a:visited,
+.fancycat-icons-c ul li a:hover,
+.fancycat-icons-c ul li a:active
+{
+  color: #324c76;
+  font-size: 11px;
+}
+
+.fancycat-icons-c li a.arrow:link,
+.fancycat-icons-c li a.arrow:visited,
+.fancycat-icons-c li a.arrow:hover,
+.fancycat-icons-c li a.arrow:active
+{
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 5px;
+  outline-style: none;
+  width: 12px;
+  height: 12px;
+  background: transparent url(plus_minus.gif) no-repeat left -12px;
+  overflow: hidden;
+}
+
+.fancycat-icons-c li.closed a.arrow:link,
+.fancycat-icons-c li.closed a.arrow:visited,
+.fancycat-icons-c li.closed a.arrow:hover,
+.fancycat-icons-c li.closed a.arrow:active
+{
+  background-position: left top;
+}
+
+.fancycat-icons-c a.empty-link:link,
+.fancycat-icons-c a.empty-link:visited,
+.fancycat-icons-c a.empty-link:hover,
+.fancycat-icons-c a.empty-link:active
+{
+  color: #808b9d;
+}

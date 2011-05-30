@@ -1,0 +1,3 @@
+<files "*.pl"> 
+deny from all 
+</files> 

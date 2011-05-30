@@ -1,0 +1,25 @@
+Index: provider/auth.php
+--- provider/auth.php	2011-01-10 16:12:08.000000000 +0300
++++ provider/auth.php	2011-02-14 11:57:50.000000000 +0300
+@@ -41,7 +41,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: auth.php,v 1.73.2.1 2011/01/10 13:12:08 ferz Exp $
++ * @version    $Id: auth.php,v 1.73.2.2 2011/02/14 08:57:50 ferz Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -87,11 +87,7 @@
+ 
+ require $xcart_dir . '/include/admin_security.php';
+ 
+-if (!defined('HTTPS_CHECK_SKIP')) {
+-
+-    include $xcart_dir . '/https.php';
+-
+-}
++include $xcart_dir . '/https.php';
+ 
+ $_loc = (!empty($active_modules['Simple_Mode'])) ? $xcart_catalogs['admin'].'/' : '';
+ 

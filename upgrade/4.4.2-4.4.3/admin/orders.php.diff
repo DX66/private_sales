@@ -1,0 +1,18 @@
+Index: admin/orders.php
+--- admin/orders.php	2011-01-10 16:11:46.000000000 +0300
++++ admin/orders.php	2011-02-02 19:01:14.000000000 +0300
+@@ -40,12 +40,12 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: orders.php,v 1.47.2.1 2011/01/10 13:11:46 ferz Exp $
++ * @version    $Id: orders.php,v 1.47.2.2 2011/02/02 16:01:14 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+ 
+-define('NUMBER_VARS', "posted_data[total_min],posted_data[total_max],posted_data[price_min],posted_data[price_max]");
++define('NUMBER_VARS', "posted_data['total_min'],posted_data['total_max'],posted_data['price_min'],posted_data['price_max']");
+ 
+ require './auth.php';
+ 

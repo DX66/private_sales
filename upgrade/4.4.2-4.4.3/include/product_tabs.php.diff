@@ -1,0 +1,66 @@
+Index: include/product_tabs.php
+--- include/product_tabs.php	2011-01-10 16:11:50.000000000 +0300
++++ include/product_tabs.php	2011-01-25 12:43:12.000000000 +0300
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>. All rights reserved
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: product_tabs.php,v 1.10.2.1 2011/01/10 13:11:50 ferz Exp $
++ * @version    $Id: product_tabs.php,v 1.10.2.2 2011/01/25 09:43:12 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -53,7 +53,7 @@
+ 
+ $product_tabs = array();
+ 
+-if ($active_modules['Magnifier'] && $config['Magnifier']['magnifier_image_popup'] != 'Y' && !empty($zoomer_images)) {
++if (!empty($active_modules['Magnifier']) && $config['Magnifier']['magnifier_image_popup'] != 'Y' && !empty($zoomer_images)) {
+     $product_tabs[] = array(
+         'title'  => func_get_langvar_by_name('lbl_x_magnifier'),
+         'tpl'    => 'modules/Magnifier/product_magnifier.tpl',
+@@ -61,7 +61,7 @@
+     );
+ }
+ 
+-if ($active_modules['Special_Offers'] && !empty($offers)) {
++if (!empty($active_modules['Special_Offers']) && !empty($offers)) {
+     $product_tabs[] = array(
+         'title'  => func_get_langvar_by_name('lbl_special_offers'),
+         'tpl'    => 'modules/Special_Offers/customer/product_offers_short_list.tpl',
+@@ -77,7 +77,7 @@
+     );
+ }
+ 
+-if ($active_modules['Detailed_Product_Images'] && $config['Detailed_Product_Images']['det_image_popup'] != 'Y' && !empty($images)) {
++if (!empty($active_modules['Detailed_Product_Images']) && $config['Detailed_Product_Images']['det_image_popup'] != 'Y' && !empty($images)) {
+     $product_tabs[] = array(
+         'title'  => func_get_langvar_by_name('lbl_detailed_images'),
+         'tpl'    => 'modules/Detailed_Product_Images/product_images.tpl',
+@@ -85,7 +85,7 @@
+     );
+ }
+ 
+-if ($active_modules['Upselling_Products'] && !empty($product_links)) {
++if (!empty($active_modules['Upselling_Products']) && !empty($product_links)) {
+     $product_tabs[] = array(
+         'title'  => func_get_langvar_by_name('lbl_related_products'),
+         'tpl'    => 'modules/Upselling_Products/related_products.tpl',
+@@ -93,7 +93,7 @@
+     );
+ }
+ 
+-if ($active_modules['Recommended_Products'] && !empty($recommends)) {
++if (!empty($active_modules['Recommended_Products']) && !empty($recommends)) {
+     $product_tabs[] = array(
+         'title'  => func_get_langvar_by_name('txt_recommends_comment'),
+         'tpl'    => 'modules/Recommended_Products/recommends.tpl',
+@@ -102,7 +102,7 @@
+ }
+ 
+ if (
+-    $active_modules['Customer_Reviews']
++    !empty($active_modules['Customer_Reviews'])
+     && (
+         $config['Customer_Reviews']['customer_reviews'] == 'Y'
+         || $config['Customer_Reviews']['customer_voting'] == 'Y'

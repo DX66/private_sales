@@ -1,0 +1,250 @@
+Index: shipping/mod_USPS.php
+--- shipping/mod_USPS.php	2011-01-10 16:12:10.000000000 +0300
++++ shipping/mod_USPS.php	2011-04-18 10:53:08.000000000 +0400
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: mod_USPS.php,v 1.80.2.5 2011/01/10 13:12:10 ferz Exp $
++ * @version    $Id: mod_USPS.php,v 1.80.2.11 2011/04/18 06:53:08 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -84,22 +84,27 @@
+     $machinable = $params['param02'];
+     $container_express = $params['param03'];
+     $container_priority = $params['param04'];
++    $container_intl = $params['param10'];
+     $first_class_mail_type = empty($params['param05']) ? 'LETTER' : $params['param05'];
+ 
+     $specified_dims = array();
+ 
+-    list($specified_dims['length'], $specified_dims['width'], $specified_dims['height'], $specified_dims['girth']) = explode(':', $params["param06"]);
++    if (!empty($params["param06"])) {
++        list($specified_dims['length'], $specified_dims['width'], $specified_dims['height'], $specified_dims['girth']) = explode(':', $params["param06"]);
+ 
+-    foreach($specified_dims as $k => $v) {
+-        if($v>0)
+-            $specified_dims[$k] = doubleval($v);
+-        else
+-            unset($specified_dims[$k]);
++        foreach($specified_dims as $k => $v) {
++            if ($v > 0)
++                $specified_dims[$k] = doubleval($v);
++            else
++                unset($specified_dims[$k]);
++        }
+     }
+ 
+     $value_of_content = intval($params['param07']);
+-    $container_express = (empty($container_express) || 'None' === $container_express) ? '' : '<Container>' . $container_express . '</Container>';
+-    $container_priority = (empty($container_priority) || 'None' === $container_priority) ? '' : '<Container>' . $container_priority . '</Container>';
++    $container_express = (empty($container_express) || 'None' === $container_express) ? '<Container/>' : '<Container>' . $container_express . '</Container>';
++    $container_priority = (empty($container_priority) || 'None' === $container_priority) ? '<Container/>' : '<Container>' . $container_priority . '</Container>';
++    $container_intl = (empty($container_intl) || 'None' === $container_intl) ? '<Container>RECTANGULAR</Container>' : '<Container>' . $container_intl . '</Container>';
++
+ 
+     $userinfo['s_country'] = func_USPS_country_normalize($userinfo['s_country']);
+     $orig_address['country'] = func_USPS_country_normalize($orig_address['country']);
+@@ -116,6 +121,7 @@
+ 
+     $ZO = $orig_address['zipcode'];
+     $ZD = $userinfo['s_zipcode'];
++    $origin_zip_intl = func_check_zip($ZO, 'US', false) ? "<OriginZip>$ZO</OriginZip>" : "";
+ 
+     $package_limits = func_get_package_limits_USPS($intl_use);
+ 
+@@ -125,7 +131,7 @@
+     // The items are related to one provider only
+     $provider = $items[0]['provider'];
+ 
+-    // Pass info about packages to func_place_order, using ship_packages_uniq variable
++    // Pass info about packages to Func_place_order, using ship_packages_uniq variable
+     x_session_register('ship_packages_uniq');
+     $ship_packages_uniq[$provider . 'USPS'] = $previous_pack = array();
+     $previous_pack_limit_key = '';
+@@ -174,26 +180,36 @@
+                 $dim_xml .= "<Length>".func_units_convert(func_dim_in_centimeters($pack['length']), 'cm', 'in', 1)."</Length>";
+                 $dim_xml .= "<Height>".func_units_convert(func_dim_in_centimeters($pack['height']), 'cm', 'in', 1)."</Height>";
+ 
+-                $dim_girth_xml = '';
+-                if($specified_dims['girth']>0 && $params['param04']=="NonRectangular")
+-                    $dim_girth_xml = "<Girth>".func_units_convert(func_dim_in_centimeters($specified_dims['girth']), 'cm', 'in', 1)."</Girth>";
++                $dim_girth_xml = "<Girth>".func_units_convert(func_dim_in_centimeters(@$specified_dims['girth']), 'cm', 'in', 1)."</Girth>";
+ 
+                 if ($intl_use) {
+-                    $value_of_content_xml = ($value_of_content > 0) ? "<ValueOfContents>$value_of_content</ValueOfContents>" : '';
++                    $value_of_content_xml = ($value_of_content > 0) ? "<ValueOfContents>$value_of_content</ValueOfContents>" : '<ValueOfContents/>';
+                     $query=<<<EOT
+-<IntlRateRequest USERID="$USPS_username">
++<IntlRateV2Request USERID="$USPS_username">
++<Revision>2</Revision>
+ <Package ID="0">
+ <Pounds>$pounds</Pounds>
+ <Ounces>$ounces</Ounces>
+ <MailType>$mailtype</MailType>
++<GXG>
++	<POBoxFlag>N</POBoxFlag>
++	<GiftFlag>N</GiftFlag>
++</GXG>
+ $value_of_content_xml
+ <Country>$dst_country</Country>
++$container_intl
++<Size>$package_size</Size>
++$dim_xml
++$dim_girth_xml
++$origin_zip_intl
++<CommercialFlag>Y</CommercialFlag>
+ </Package>
+-</IntlRateRequest>
++</IntlRateV2Request>
+ EOT;
+                 } elseif ($is_first_class) {
+                     $query = <<<EOT
+-<RateV3Request USERID="$USPS_username">
++<RateV4Request USERID="$USPS_username">
++    <Revision>2</Revision>
+     <Package ID="0">
+         <Service>FIRST CLASS</Service>
+         <FirstClassMailType>$first_class_mail_type</FirstClassMailType>
+@@ -201,17 +217,18 @@
+         <ZipDestination>$ZD</ZipDestination>
+         <Pounds>$pounds</Pounds>
+         <Ounces>$ounces</Ounces>
+-        <Container>None</Container>
++        <Container></Container>
+         <Size>$package_size</Size>
+         $dim_xml
+         $dim_girth_xml
+         <Machinable>$machinable</Machinable>
+     </Package>
+-</RateV3Request>
++</RateV4Request>
+ EOT;
+                 } else {
+                     $query =<<<EOT
+-<RateV3Request USERID="$USPS_username">
++<RateV4Request USERID="$USPS_username">
++    <Revision>2</Revision>
+     <Package ID="0">
+         <Service>EXPRESS</Service>
+         <ZipOrigination>$ZO</ZipOrigination>
+@@ -220,6 +237,8 @@
+         <Ounces>$ounces</Ounces>
+         $container_express
+         <Size>$package_size</Size>
++        $dim_xml
++        $dim_girth_xml
+         <Machinable>$machinable</Machinable>
+     </Package>
+     <Package ID="2">
+@@ -239,18 +258,22 @@
+         <ZipDestination>$ZD</ZipDestination>
+         <Pounds>$pounds</Pounds>
+         <Ounces>$ounces</Ounces>
+-        <Container>None</Container>
++        <Container></Container>
+         <Size>$package_size</Size>
++        $dim_xml
++        $dim_girth_xml
+         <Machinable>$machinable</Machinable>
+     </Package>
+     <Package ID="4">
+-        <Service>BPM</Service>
++        <Service>PRIORITY HFP COMMERCIAL</Service>
+         <ZipOrigination>$ZO</ZipOrigination>
+         <ZipDestination>$ZD</ZipDestination>
+         <Pounds>$pounds</Pounds>
+         <Ounces>$ounces</Ounces>
+-        <Container>None</Container>
++        <Container></Container>
+         <Size>$package_size</Size>
++        $dim_xml
++        $dim_girth_xml
+     </Package>
+     <Package ID="5">
+         <Service>LIBRARY</Service>
+@@ -258,8 +281,10 @@
+         <ZipDestination>$ZD</ZipDestination>
+         <Pounds>$pounds</Pounds>
+         <Ounces>$ounces</Ounces>
+-        <Container>None</Container>
++        <Container></Container>
+         <Size>$package_size</Size>
++        $dim_xml
++        $dim_girth_xml
+     </Package>
+     <Package ID="6">
+         <Service>MEDIA</Service>
+@@ -267,8 +292,10 @@
+         <ZipDestination>$ZD</ZipDestination>
+         <Pounds>$pounds</Pounds>
+         <Ounces>$ounces</Ounces>
+-        <Container>None</Container>
++        <Container></Container>
+         <Size>$package_size</Size>
++        $dim_xml
++        $dim_girth_xml
+     </Package>
+     <Package ID="7">
+         <Service>EXPRESS HFP</Service>
+@@ -278,6 +305,8 @@
+         <Ounces>$ounces</Ounces>
+         $container_express
+         <Size>$package_size</Size>
++        $dim_xml
++        $dim_girth_xml
+         <Machinable>$machinable</Machinable>
+     </Package>
+     <Package ID="8">
+@@ -288,9 +317,11 @@
+         <Ounces>$ounces</Ounces>
+         $container_express
+         <Size>$package_size</Size>
++        $dim_xml
++        $dim_girth_xml
+         <Machinable>$machinable</Machinable>
+     </Package>
+-</RateV3Request>
++</RateV4Request>
+ EOT;
+                 }
+ 
+@@ -309,7 +340,7 @@
+                     $use_usps_call = false;
+                 }
+ 
+-                $rate_api = ($intl_use) ? 'IntlRate' : 'RateV3';
++                $rate_api = ($intl_use) ? 'IntlRateV2' : 'RateV4';
+ 
+                 if ($use_usps_call) {
+ 
+@@ -425,10 +456,7 @@
+     } // foreach $package_limits
+ 
+     if (
+-        (
+-            substr($cart['delivery'], 0, 4) == 'USPS'
+-            || substr($cart['shipping'], 0, 4) == 'USPS'
+-        )
++        substr($cart['delivery'], 0, 4) == 'USPS'
+         && is_array($rates)
+         && !empty($active_modules['Shipping_Label_Generator'])
+     ) {
+@@ -719,7 +747,15 @@
+         );
+ 
+     $params = func_query_first("SELECT param08, param06, param04, param01 FROM $sql_tbl[shipping_options] WHERE carrier='USPS'");
+-    list($dim['length'], $dim['width'], $dim['height'], $dim['girth']) = explode(':', $params['param06']);
++    if (!empty($params['param06']))
++        list($dim['length'], $dim['width'], $dim['height'], $dim['girth']) = explode(':', $params['param06']);
++    else
++        $dim = array(
++            'length' => 0, 
++            'width' => 0, 
++            'height' => 0, 
++            'girth' => 0
++        );
+ 
+     // Convert user-defined dimensions to inches
+     foreach($dim as $k=>$v)

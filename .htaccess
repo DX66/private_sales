@@ -1,0 +1,19 @@
+DirectoryIndex home.php index.php index.html index.htm
+
+# If you would like X-Cart to show informative message for errors caused 
+# by opening of missing/deleted files (HTTP Error 404), please uncomment
+# the line below.
+# ErrorDocument 404 /404.php
+
+# NOTE: If you installed X-Cart into a subfolder (for example, to /store folder, so
+# it is available at http://www.example.com/store/home.php), you need to specify
+# full relative path to the 404.php script, for example, as follows:
+# ErrorDocument 404 /store/404.php
+
+# Show default error document for 404 errors caused by opening of image/media files.
+<Files ~ "\.(gif|jpe?g|png|js|css|swf|ico)$">
+	ErrorDocument 404 default
+</Files>
+
+ErrorDocument 401 default
+

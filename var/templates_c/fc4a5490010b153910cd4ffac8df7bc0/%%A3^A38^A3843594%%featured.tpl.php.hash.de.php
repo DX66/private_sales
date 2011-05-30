@@ -1,0 +1,1 @@
+8ba6d8f8cbbd92b4a76dd8f437370a3da:1:{s:21:"lbl_featured_products";s:17:"Aktuelle Angebote";}

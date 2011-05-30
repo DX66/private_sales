@@ -1,0 +1,217 @@
+Index: init.php
+--- init.php	2011-01-13 17:18:56.000000000 +0300
++++ init.php	2011-05-04 18:28:26.000000000 +0400
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: init.php,v 1.179.2.14 2011/01/10 13:11:43 ferz Exp $
++ * @version    $Id: init.php,v 1.179.2.21 2011/05/03 08:31:30 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -101,10 +101,7 @@
+ 
+ require_once $xcart_dir . '/config.php';
+ 
+-if (
+-    file_exists($xcart_dir . '/config.local.php')
+-    && is_readable($xcart_dir . '/config.local.php')
+-) {
++if (is_readable($xcart_dir . '/config.local.php')) {
+     include_once $xcart_dir . '/config.local.php';
+ }
+ 
+@@ -144,7 +141,7 @@
+ 
+     $install_script = $xcart_dir . XC_DS . 'install.php';
+ 
+-    $install_script = (file_exists($install_script) && is_readable($install_script))
++    $install_script = (is_readable($install_script))
+         ? func_get_xcart_home() . '/install.php'
+         : false;
+ 
+@@ -297,9 +294,12 @@
+ /**
+  * Redefine error_reporting option
+  */
+-if (defined('X_PHP530_COMPAT')) {
++if (
++    defined('X_PHP530_COMPAT')
++    && $x_error_reporting != -1
++) {
+ 
+-    $x_error_reporting = $x_error_reporting & !(E_DEPRECATED | E_USER_DEPRECATED);
++    $x_error_reporting = $x_error_reporting & ~(E_DEPRECATED | E_USER_DEPRECATED);
+ 
+ }
+ 
+@@ -597,15 +597,18 @@
+ /**
+  * Include data cache functionality
+  */
++$_mysql_version = preg_match("/^(\d+\.\d+\.\d+)/", mysql_get_server_info(), $match); 
++if ($_mysql_version) {
++    define('X_MYSQL_VERSION', $match[1]);
++}
++
+ include_once($xcart_dir . '/include/data_cache.php');
+ 
+ $sql_vars = func_data_cache_get('sql_vars');
+ 
+ $sql_max_allowed_packet = intval($sql_vars['max_allowed_packet']);
+ 
+-if (preg_match("/^(\d+\.\d+\.\d+)/", mysql_get_server_info(), $match)) {
+-
+-    define('X_MYSQL_VERSION', $match[1]);
++if ($_mysql_version) {
+ 
+     if (version_compare(X_MYSQL_VERSION, '5.0.0') >= 0)
+         db_query("SET sql_mode = 'MYSQL40'");
+@@ -618,10 +621,8 @@
+ 
+     if (version_compare(X_MYSQL_VERSION, '4.1.0') >= 0)
+         define('X_MYSQL41_COMP_MODE', true);
+-
+-    if (version_compare(X_MYSQL_VERSION, '4.0.0') >= 0)
+-        define('X_MYSQL40_COMP_MODE', true);
+ }
++unset($_mysql_version);
+ 
+ if (is_numeric($sql_vars['lower_case_table_names'])) {
+     define('X_MYSQL_LOWER_CASE_TABLE_NAMES', intval($sql_vars['lower_case_table_names']));
+@@ -985,19 +986,18 @@
+ 
+     $smarty->assign ('card_types', $config['card_types']);
+ 
+-    // Include webmaster mode
+-    if (
+-        file_exists($xcart_dir . '/include/webmaster.php')
+-        && is_readable($xcart_dir . '/include/webmaster.php')
+-    ) {
+-        include_once $xcart_dir . '/include/webmaster.php';
+-    }
++    if (!defined('XCART_EXT_ENV')) {
++        // Include webmaster mode
++        if (is_readable($xcart_dir . '/include/webmaster.php')) {
++            include_once $xcart_dir . '/include/webmaster.php';
++        }
+ 
+-    if(
+-        $config['General']['enable_debug_console'] == 'Y'
+-        || $editor_mode == 'editor'
+-    ) {
+-        $smarty->debugging = true;
++        if(
++            $config['General']['enable_debug_console'] == 'Y'
++            || $editor_mode == 'editor'
++        ) {
++            $smarty->debugging = true;
++        }
+     }
+ 
+     // IP addresses
+@@ -1015,8 +1015,8 @@
+ 
+     // Adaptives section
+     if (
+-        file_exists($xcart_dir . '/include/adaptives.php')
+-        && is_readable($xcart_dir . '/include/adaptives.php')
++        is_readable($xcart_dir . '/include/adaptives.php')
++        && !defined('XCART_EXT_ENV')
+     ) {
+         include_once $xcart_dir . '/include/adaptives.php';
+     }
+@@ -1067,9 +1067,7 @@
+ 
+     x_session_register('flc_forced', false);
+ 
+-    if (isset($force_flc)) {
+-        $flc_forced = true;
+-    }
++    $flc_forced = isset($force_flc);
+ 
+     $checkout_module = empty($config['General']['checkout_module']) || $flc_forced
+         ? 'Fast_Lane_Checkout'
+@@ -1081,29 +1079,24 @@
+ }
+ 
+ if ($active_modules) {
++    // Load functions for module (run include "modules/<module_name>/func.php")
++    $include_func = true;
+ 
+-    foreach ($active_modules as $active_module => $tmp) {
++    // Init modules (run include "modules/<module_name>/init.php")
++    $include_init = true; 
++
++    $_active_modules = $active_modules;
++    foreach ($_active_modules as $active_module => $tmp) {
+ 
+         $_module_dir  = $xcart_dir . XC_DS . 'modules' . XC_DS . $active_module;
+         $_config_file = $_module_dir . XC_DS . 'config.php';
+-        $_func_file   = $_module_dir . XC_DS . 'func.php';
+ 
+-        if (
+-            file_exists($_config_file)
+-            && is_readable($_config_file)
+-        ) {
++        if (is_readable($_config_file)) {
+             include $_config_file;
+         }
+ 
+-        if (
+-            file_exists($_func_file)
+-            && is_readable($_func_file)
+-        ) {
+-            include $_func_file;
+-        }
+-
+     }
+-
++    unset($include_func, $include_init, $_active_modules);
+ }
+ 
+ $smarty->assign_by_ref('active_modules', $active_modules);
+@@ -1143,6 +1136,9 @@
+ if (empty($config['User_Profiles']['register_fields']))
+     $config['User_Profiles']['register_fields'] = serialize(array());
+ 
++if (empty($config['User_Profiles']['address_book_fields']))
++    $config['User_Profiles']['address_book_fields'] = serialize(array());
++
+ $config['Appearance']['ui_date_format'] = func_get_ui_date_format();
+ 
+ $smarty->assign('single_mode', $single_mode);
+@@ -1192,23 +1188,6 @@
+ }
+ 
+ /**
+- * Init modules
+- */
+-if (is_array($active_modules)) {
+-    $_active_modules = $active_modules;
+-
+-    foreach ($_active_modules as $__k => $__v) {
+-
+-        if (file_exists($xcart_dir . '/modules/' . $__k . '/init.php')) {
+-
+-            include $xcart_dir . '/modules/' . $__k . '/init.php';
+-
+-        }
+-    }
+-    unset($_active_modules);
+-}
+-
+-/**
+  * Session-based cron
+  */
+ if (!defined('QUICK_START') && defined('NEW_SESSION')) {
+@@ -1269,7 +1248,7 @@
+ /**
+  * Initialize character set of database. Used in func_translit function
+  */
+-$config['db_charset'] = defined('X_MYSQL40_COMP_MODE') ? $sql_vars['character_set_client'] : $sql_vars['character_set'];
++$config['db_charset'] = $sql_vars['character_set_client'];
+ unset($sql_vars);
+ 
+ // Define name of the auth field depending on login setting: email or username

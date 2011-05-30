@@ -1,0 +1,98 @@
+Index: modules/Special_Offers/func.php
+--- modules/Special_Offers/func.php	2011-01-10 16:12:02.000000000 +0300
++++ modules/Special_Offers/func.php	2011-04-11 15:22:49.000000000 +0400
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (C) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>. All rights reserved
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: func.php,v 1.115.2.10 2011/01/10 13:12:02 ferz Exp $
++ * @version    $Id: func.php,v 1.115.2.14 2011/04/11 11:22:49 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -263,7 +263,7 @@
+ 
+             if ($bonus['bonus_type'] == 'D') {
+ 
+-                $excl_product_set = func_query("SELECT $sql_tbl[products].productid FROM $sql_tbl[products] LEFT JOIN $sql_tbl[offer_product_params] ON $sql_tbl[offer_product_params].productid = $sql_tbl[products].productid WHERE $sql_tbl[products].provider = '".$provider."' AND $sql_tbl[offer_product_params].sp_discount_avail != 'Y'");
++                $excl_product_set = func_query("SELECT $sql_tbl[products].productid, $sql_tbl[products].productcode FROM $sql_tbl[products] LEFT JOIN $sql_tbl[offer_product_params] ON $sql_tbl[offer_product_params].productid = $sql_tbl[products].productid WHERE $sql_tbl[products].provider = '".$provider."' AND $sql_tbl[offer_product_params].sp_discount_avail != 'Y'");
+ 
+                 $excl_set_id = func_query_first_cell("SELECT setid FROM $sql_tbl[offer_product_sets] WHERE offerid = '".$offer["offerid"]."' AND set_type = 'B' AND cb_id = '".$bonus["bonusid"]."' AND cb_type = 'D' AND avail = 'Y' AND appl_type = 'E'");
+ 
+@@ -1379,9 +1379,10 @@
+ 
+         $productid = $product['productid'];
+         $apply = array (
+-            'free_shipping'            => false,
+-            'discount'                => empty($conditional_products) ? 0 : array(),
+-            'discount_bonus_idx'    => array(),
++            'free_shipping'      => false,
++            'discount'           => empty($conditional_products) ? 0 : array(),
++            'taxed_discount'     => empty($conditional_products) ? 0 : array(),
++            'discount_bonus_idx' => array(),
+         );
+ 
+         foreach ($offers as $ko=>$offer) {
+@@ -1430,7 +1431,7 @@
+                             $limit = price_format($bonus['amount_max']);
+                         }
+                         else {
+-                            $discount = price_format($bonus['amount_min']);
++                            $taxed_discount = $discount = price_format($bonus['amount_min']);
+                             $limit = price_format($product['price'] * $bonus['amount_max'] / 100.00);
+                         }
+                         if ($discount > $limit && $limit !== '0.00') {
+@@ -1712,29 +1713,34 @@
+     $sub_cond = array();
+     foreach ($list as $c) {
+         $pos = func_category_get_position($c);
+-        $sub_cond[] = $pos['lpos'] . " BETWEEN c2.lpos AND c2.rpos";
++        if (!empty($pos))
++            $sub_cond[] = $pos['lpos'] . " BETWEEN c2.lpos AND c2.rpos";
+     }
+ 
+     $sub_cond = implode(' OR ', $sub_cond);
+ 
+-    $query = "SELECT DISTINCT $sql_tbl[offers].offerid
+-                FROM
+-                    $sql_tbl[categories] c1,
+-                    $sql_tbl[offers]
+-                    INNER JOIN $items_tbl ON 
+-                        $sql_tbl[offers].offerid=$items_tbl.offerid AND $items_tbl.avail = 'Y',
+-                    $item_params_tbl
+-                LEFT JOIN $sql_tbl[categories] c2 ON $item_params_tbl.param_id = c2.categoryid
+-                WHERE
+-                    $items_tbl_link AND
+-                    $item_params_tbl.param_type='C' AND (
+-                        $item_params_tbl.param_id IN ('$list_str') AND
+-                        $item_params_tbl.param_id=c1.categoryid OR
+-                        $item_params_tbl.param_arg='Y' AND $sub_cond
+-                    
+-                    )";
+-    
+-    $offers = func_get_column('offerid', $query);
++    if (!empty($sub_cond)) {
++        $query = "SELECT DISTINCT $sql_tbl[offers].offerid
++                    FROM
++                        $sql_tbl[categories] c1,
++                        $sql_tbl[offers]
++                        INNER JOIN $items_tbl ON 
++                            $sql_tbl[offers].offerid=$items_tbl.offerid AND $items_tbl.avail = 'Y',
++                        $item_params_tbl
++                    LEFT JOIN $sql_tbl[categories] c2 ON $item_params_tbl.param_id = c2.categoryid
++                    WHERE
++                        $items_tbl_link AND
++                        $item_params_tbl.param_type='C' AND (
++                            $item_params_tbl.param_id IN ('$list_str') AND
++                            $item_params_tbl.param_id=c1.categoryid OR
++                            $item_params_tbl.param_arg='Y' AND $sub_cond
++                        
++                        )";
++        
++        $offers = func_get_column('offerid', $query);
++    } else {
++        $offers = array();
++    }
+ 
+     $results_cache[$md5_args] = $offers;
+     return $offers;

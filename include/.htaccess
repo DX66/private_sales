@@ -1,0 +1,17 @@
+<Files login.php>
+Allow from all
+</Files>
+
+<Files version.php>
+Allow from all
+</Files>
+
+<Files sns_embedded_collector_urls.php>
+Allow from all
+</Files>
+
+<Files sns_module_version.php>
+Allow from all
+</Files>
+
+Deny from all

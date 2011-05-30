@@ -1,0 +1,10 @@
+Index: skin/common_files/modules/HTML_Editor/editors/ckeditor/config.js
+--- skin/common_files/modules/HTML_Editor/editors/ckeditor/config.js	2010-06-18 11:52:02.000000000 +0400
++++ skin/common_files/modules/HTML_Editor/editors/ckeditor/config.js	2011-05-03 10:55:30.000000000 +0400
+@@ -1,5 +1,5 @@
+ ﻿/*
+-Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
++Copyright (c) 2003-2011, CKSource - Frederico Knabben. All rights reserved.
+ For licensing, see LICENSE.html or http://ckeditor.com/license
+ */
+ 

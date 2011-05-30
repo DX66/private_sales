@@ -1,0 +1,33 @@
+Index: provider/zones.php
+--- provider/zones.php	2011-01-10 16:12:09.000000000 +0300
++++ provider/zones.php	2011-03-03 16:27:04.000000000 +0300
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: zones.php,v 1.41.2.1 2011/01/10 13:12:09 ferz Exp $
++ * @version    $Id: zones.php,v 1.41.2.2 2011/03/03 13:27:04 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -129,7 +129,7 @@
+ 
+             $zone_countries = explode(";", $zone_countries_store);
+             $zone_states = explode(";", $zone_states_store);
+-            $zone_counties = explode(";", $zone_counties_store);
++            $zone_counties = @explode(";", $zone_counties_store);
+ 
+             if ($zone_states) {
+                 foreach($zone_states as $v) {
+@@ -231,8 +231,10 @@
+     if (!empty($zoneid))
+         $zone = func_query_first("SELECT * FROM $sql_tbl[zones] WHERE zoneid='$zoneid' $provider_condition");
+ 
+-    if (empty($zone))
++    if (empty($zone)) {
++        $zone = '';
+         $mode = 'add';
++    }        
+ 
+     // Countries in this zone and rest
+ 

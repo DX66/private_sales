@@ -1,0 +1,32 @@
+Index: featured_products.php
+--- featured_products.php	2011-01-10 16:11:42.000000000 +0300
++++ featured_products.php	2011-02-04 19:38:14.000000000 +0300
+@@ -41,7 +41,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: featured_products.php,v 1.44.2.1 2011/01/10 13:11:42 ferz Exp $
++ * @version    $Id: featured_products.php,v 1.44.2.3 2011/02/04 16:38:14 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -54,7 +54,8 @@
+ 
+ $user_account['membershipid'] = max(0, intval($user_account['membershipid']));
+ 
+-$old_search_data = @$search_data['products'];
++if (isset($search_data['products']))
++    $old_search_data = $search_data['products'];
+ 
+ if (!empty($mode)) {
+ 
+@@ -81,7 +82,8 @@
+ 
+ include $xcart_dir . '/include/search.php';
+ 
+-$search_data['products'] = $old_search_data;
++if (isset($old_search_data))
++    $search_data['products'] = $old_search_data;
+ 
+ if (isset($old_mode)) {
+ 

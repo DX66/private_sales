@@ -1,0 +1,211 @@
+/**
+ * vim: set ts=2 sw=2 sts=2 et:
+ */
+/**
+ * Gift registry module CSS stylesheet
+ * 
+ * @category   X-Cart
+ * @package    X-Cart
+ * @subpackage CSS
+ * @author     Ruslan R. Fazlyev <rrf@x-cart.com> 
+ * @version    $Id: main.css,v 1.3 2010/07/02 12:04:07 igoryan Exp $
+ * @link       http://www.x-cart.com/
+ * @see        ____file_see____
+ */
+
+/**
+ * Events list
+ */
+.giftreg-event-mark {
+  width: 5px;
+}
+
+.giftreg-event-name {
+  width: 100%;
+}
+
+.giftreg-negative-cell {
+  background: transparent none;
+}
+
+.giftreg-events-list .giftreg-private-status,
+.giftreg-events-list .giftreg-public-status,
+.giftreg-events-list .giftreg-access-denied-status
+{
+  text-align: center;
+}
+
+.giftreg-private-status img {
+  vertical-align: middle;
+	width: 19px;
+  height: 19px;
+  background: transparent url(../../images/private.gif) no-repeat left top;
+}
+
+.giftreg-public-status img {
+  vertical-align: middle;
+  width: 19px;
+  height: 19px;
+  background: transparent url(../../images/public.gif) no-repeat left top;
+}
+
+.giftreg-access-denied-status img {
+  vertical-align: middle;
+  width: 19px;
+  height: 19px;
+  background: transparent url(../../images/access_denied.gif) no-repeat left top;
+}
+
+.giftreg-event-information {
+  width: 60%;
+}
+
+.giftreg-creator-name {
+  width: 25%;
+  white-space: nowrap;
+  font-weight: bold;
+}
+
+.giftreg-products-count {
+  width: 15%;
+  white-space: nowrap;
+  text-align: right;
+}
+
+.giftreg-events-list a:link,
+.giftreg-events-list a:visited,
+.giftreg-events-list a:hover,
+.giftreg-events-list a:active
+{
+  font-weight: bold;
+}
+
+.giftreg-event-center {
+  text-align: center;
+}
+
+.giftreg-events-counter {
+  padding-left: 5px;
+}
+
+.giftreg-event-date {
+  white-space: nowrap;
+}
+
+.giftreg-event-information {
+  width: 60%;
+}
+
+.giftreg-creator-name {
+  width: 25%;
+  white-space: nowrap;
+  font-weight: bold;
+}
+
+.giftreg-products-count {
+  width: 15%;
+  white-space: nowrap;
+  text-align: right;
+}
+
+/**
+ * Event modify menu
+ */
+.giftreg-menu {
+  margin: 0 0 15px 0;
+  padding: 0;
+}
+
+.giftreg-menu p {
+  font-weight: bold;
+  padding: 0;
+  margin: 0;
+}
+
+.giftreg-menu hr {
+  margin: 5px 0;
+}
+
+.giftreg-menu ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.giftreg-menu ul li {
+  padding: 3px 0;
+  margin: 0 0 0 15px;
+  width: 45%;
+  position: relative;
+  float: left;
+}
+
+.giftreg-menu ul li.giftreg-menu-hl-item {
+  list-style-type: disc;
+}
+
+.giftreg-menu ul li.giftreg-menu-hl-item a:link,
+.giftreg-menu ul li.giftreg-menu-hl-item a:visited,
+.giftreg-menu ul li.giftreg-menu-hl-item a:hover,
+.giftreg-menu ul li.giftreg-menu-hl-item a:active
+{
+  font-weight: bold;
+}
+
+/**
+ * Event modify : guestbook
+ */
+.giftreg-gb-hl {
+  background-color: #ffc;
+}
+
+/**
+ * Event modify : recipients list
+ */
+.giftreg-recipient-status {
+  width: 100%;
+}
+
+/**
+ * Wishlist selector
+ */
+select.giftreg-selector {
+  width: 140px;
+  vertical-align: middle;
+  height: 20px;
+}
+
+/**
+ * Add to... button layer
+ */
+.giftreg-add-form-container {
+  position: relative;
+  vertical-align: top;
+  white-space: nowrap;
+}
+
+.giftreg-add-form-label {
+  margin-bottom: 5px;
+}
+
+.giftreg-add-form {
+  position: relative;
+}
+
+/**
+ * Cart events
+ */
+.products .event-info {
+  padding: 15px 0;
+}
+.cart-content .event-info {
+  padding: 3px 0 0 5px;
+  font-size: 10px;
+  font-style: italic;
+}
+
+.order-invoice .event-details {
+  padding-top: 3px;
+  font-size: 10px;
+  font-style: italic;
+}

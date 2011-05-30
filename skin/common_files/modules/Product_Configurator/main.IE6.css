@@ -1,0 +1,12 @@
+/*
+$Id: main.IE6.css,v 1.1 2010/05/21 08:32:46 joy Exp $
+vim: set ts=2 sw=2 sts=2 et:
+*/
+.pconf-summary-step {
+  margin-left: 42px;
+}
+.pconf-summary-step .pconf-step-title {
+  vertical-align: top;
+  margin-left: -3px;
+}
+

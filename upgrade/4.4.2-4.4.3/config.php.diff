@@ -1,0 +1,34 @@
+Index: config.php
+--- config.php	2011-01-10 16:11:42.000000000 +0300
++++ config.php	2011-04-25 14:28:08.000000000 +0400
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: config.php,v 1.448.2.7 2011/01/10 13:11:42 ferz Exp $
++ * @version    $Id: config.php,v 1.448.2.9 2011/04/25 10:28:08 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -378,6 +378,7 @@
+  * Enable this directive if you are a developer changing X-Cart source
+ code.
+  * This directive enables function assertion http://php.net/assert
++ * This directive enables all php warnings/notices
+  * This directive should be disabled in production.
+ */
+ define('DEVELOPMENT_MODE', false);
+@@ -391,6 +392,13 @@
+     $x_error_reporting = 0;
+ }
+ 
++if (
++    defined('DEVELOPMENT_MODE')
++    && constant('DEVELOPMENT_MODE')
++) {
++    $x_error_reporting = -1;
++}
++
+ /**
+  * Demo mode - protects the pages essential for the functioning of X-Cart
+  * from potentially harmful modifications

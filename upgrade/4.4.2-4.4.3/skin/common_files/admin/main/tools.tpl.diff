@@ -1,0 +1,19 @@
+Index: skin/common_files/admin/main/tools.tpl
+--- skin/common_files/admin/main/tools.tpl	2010-11-30 17:39:45.000000000 +0300
++++ skin/common_files/admin/main/tools.tpl	2011-01-20 11:03:45.000000000 +0300
+@@ -1,5 +1,5 @@
+ {*
+-$Id: tools.tpl,v 1.6.2.1 2010/11/30 14:39:45 aim Exp $
++$Id: tools.tpl,v 1.6.2.2 2011/01/20 08:03:45 aim Exp $
+ vim: set ts=2 sw=2 sts=2 et:
+ *}
+ {include file="page_title.tpl" title=$lng.lbl_maintenance}
+@@ -195,7 +195,7 @@
+     <li>{include file="main/visiblebox_link.tpl" no_use_class="Y" mark=$email title=$email extra=' width="100%"'}</li>
+       <ul class="accounts-list" style="display: none" id="box{$email}">
+       {foreach from=$users item=u}
+-        <li{if $u.usertype ne "C"} class="req"{/if}><a href="user_modify.php?user={$u.id}&usertype={$u.usertype}">{$u.firstname} {$u.lastname} ({$u.login})</a> <i>{$usertypes[$u.usertype]}</i></li>
++        <li{if $u.usertype ne "C"} class="req"{/if}><a href="{$catalogs.admin}/user_modify.php?user={$u.id}&usertype={$u.usertype}">{$u.firstname} {$u.lastname} ({$u.login})</a> <i>{$usertypes[$u.usertype]}</i></li>
+       {/foreach}
+       </ul>
+     </li>

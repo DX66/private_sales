@@ -1,0 +1,21 @@
+Index: admin/affiliates.php
+--- admin/affiliates.php	2011-01-10 16:11:44.000000000 +0300
++++ admin/affiliates.php	2011-01-25 12:43:10.000000000 +0300
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: affiliates.php,v 1.25.2.1 2011/01/10 13:11:44 ferz Exp $
++ * @version    $Id: affiliates.php,v 1.25.2.2 2011/01/25 09:43:10 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -48,7 +48,7 @@
+ require './auth.php';
+ require $xcart_dir.'/include/security.php';
+ 
+-if(!$active_modules['XAffiliate'])
++if (empty($active_modules['XAffiliate']))
+     func_403(26);
+ 
+ $location[] = array(func_get_langvar_by_name('lbl_affiliates_tree'), '');

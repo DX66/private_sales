@@ -1,0 +1,48 @@
+Index: skin/common_files/modules/One_Page_Checkout/profile/address_fields.tpl
+--- skin/common_files/modules/One_Page_Checkout/profile/address_fields.tpl	2010-10-25 17:32:41.000000000 +0400
++++ skin/common_files/modules/One_Page_Checkout/profile/address_fields.tpl	2011-04-18 11:42:06.000000000 +0400
+@@ -1,5 +1,5 @@
+ {*
+-$Id: address_fields.tpl,v 1.2.2.4 2010/10/25 13:32:41 aim Exp $
++$Id: address_fields.tpl,v 1.2.2.6 2011/04/18 07:42:06 aim Exp $
+ vim: set ts=2 sw=2 sts=2 et:
+ *}
+ {if $type eq 'S'}
+@@ -7,7 +7,7 @@
+ {/if}
+ 
+ {if $login ne ''}
+-  {include file="modules/One_Page_Checkout/profile/address_book_link.tpl" type=$type save_new=true addressid=`$address.id`}
++  {include file="modules/One_Page_Checkout/profile/address_book_link.tpl" type=$type change_mode='Y' addressid=`$address.id`}
+   <input type="hidden" id="{$id_prefix}id" name="{$name_prefix}[id]" size="32" maxlength="32" value="{$address.id|escape}" />
+ {/if}
+ 
+@@ -16,18 +16,8 @@
+ {foreach from=$default_fields item=f key=fname}
+ 
+   {if $f.avail eq 'Y'}
+-    {assign var=is_last value=false}
+-    {if $fname eq 'zipcode' or $fname eq 'phone' or $fname eq 'title' or $fname eq 'firstname' or $fname eq 'lastname'}
+-      {assign var=liclass value="fields-group"}
+-      {if $fname eq 'lastname' or $fname eq 'phone'}
+-        {assign var=liclass value="fields-group last"}
+-        {assign var=is_last value=true}
+-      {/if}
+-    {else}
+-      {assign var=liclass value="single-field"}
+-    {/if}
+     {assign var=label_for value="`$id_prefix``$fname`"}
+-
++    {getvar var=liclass func=func_tpl_get_user_field_cssclass current_field=$fname default_fields=$default_fields}
+     <li class="{$liclass}">
+ 
+       {capture name=regfield}
+@@ -72,7 +62,7 @@
+ 
+     </li>
+ 
+-    {if $is_last}
++    {if $liclass eq 'fields-group last'}
+       <li class="clearing"></li>
+     {/if}
+ 

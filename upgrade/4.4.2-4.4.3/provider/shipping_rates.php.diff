@@ -1,0 +1,54 @@
+Index: provider/shipping_rates.php
+--- provider/shipping_rates.php	2011-01-10 16:12:09.000000000 +0300
++++ provider/shipping_rates.php	2011-03-03 16:27:04.000000000 +0300
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: shipping_rates.php,v 1.68.2.1 2011/01/10 13:12:09 ferz Exp $
++ * @version    $Id: shipping_rates.php,v 1.68.2.2 2011/03/03 13:27:04 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -61,15 +61,14 @@
+ // Shipping rates - D (defined rates)
+ // Shipping markups - R (for realtime methods only)
+ 
+-if ($type != 'R') {
+-    $type = 'D';
+-    $location[] = array(func_get_langvar_by_name('lbl_shipping_charges'), '');
+-}
+-else {
++if (@$type == 'R') {
+     if ($config['Shipping']['realtime_shipping'] != 'Y')
+         func_header_location("error_message.php?realtime_shipping_disabled");
+ 
+     $location[] = array(func_get_langvar_by_name('lbl_shipping_markups'), '');
++} else {
++    $type = 'D';
++    $location[] = array(func_get_langvar_by_name('lbl_shipping_charges'), '');
+ }
+ 
+ $type_condition        = " AND type = '".$type."'";
+@@ -183,8 +182,8 @@
+     func_header_location("shipping_rates.php?zoneid=$zoneid&shippingid=$shippingid&type=$type");
+ }
+ 
+-$zone_condition = ($zoneid!=""?"and $sql_tbl[shipping_rates].zoneid='$zoneid'":"");
+-$method_condition = ($shippingid!=""?"and $sql_tbl[shipping_rates].shippingid='$shippingid'":"");
++$zone_condition = (!empty($zoneid) ? "and $sql_tbl[shipping_rates].zoneid='$zoneid'" : "");
++$method_condition = (!empty($shippingid) ? "and $sql_tbl[shipping_rates].shippingid='$shippingid'" : "");
+ 
+ $realtime_condition = ($config['Shipping']['realtime_shipping']=="Y"?"and $sql_tbl[shipping].code=''":"");
+ 
+@@ -243,8 +242,8 @@
+ $smarty->assign('shipping_rates_avail', (is_array($shipping_rates) ? count($shipping_rates) : 0));
+ $smarty->assign('zones_list', $zones_list);
+ $smarty->assign('type', $type);
+-$smarty->assign('zoneid', $zoneid);
+-$smarty->assign('shippingid', $shippingid);
++$smarty->assign('zoneid', @$zoneid);
++$smarty->assign('shippingid', @$shippingid);
+ $smarty->assign('maxvalue', $maxvalue);
+ 
+ $smarty->assign('main','shipping_rates');

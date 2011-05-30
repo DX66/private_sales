@@ -1,0 +1,18 @@
+Index: skin/common_files/modules/One_Page_Checkout/summary/cart_totals.tpl
+--- skin/common_files/modules/One_Page_Checkout/summary/cart_totals.tpl	2010-12-15 14:57:05.000000000 +0300
++++ skin/common_files/modules/One_Page_Checkout/summary/cart_totals.tpl	2011-04-07 14:32:19.000000000 +0400
+@@ -1,5 +1,5 @@
+ {*
+-$Id: cart_totals.tpl,v 1.5.2.6 2010/12/15 11:57:05 aim Exp $
++$Id: cart_totals.tpl,v 1.5.2.7 2011/04/07 10:32:19 aim Exp $
+ vim: set ts=2 sw=2 sts=2 et:
+ *}
+ <div class="cart-totals" id="opc_totals">
+@@ -168,3 +168,7 @@
+   <hr />
+ 
+ </div>
++{if $cart_totals_standalone}
++{load_defer_code type="css"}
++{load_defer_code type="js"}
++{/if}

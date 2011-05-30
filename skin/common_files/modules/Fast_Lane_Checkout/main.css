@@ -1,0 +1,298 @@
+/* vim: set ts=2 sw=2 sts=2 et: */
+/**
+ * Fast Lane Checkout module CSS stylesheet
+ * 
+ * @category   X-Cart
+ * @package    X-Cart
+ * @subpackage CSS
+ * @author     Ruslan R. Fazlyev <rrf@x-cart.com> 
+ * @version    $Id: main.css,v 1.4 2010/06/28 08:00:14 igoryan Exp $
+ * @link       http: //www.x-cart.com/
+ * @see        ____file_see____
+ */
+
+/**
+ * Checkout page: user profile
+ */
+.flc-left-dialog {
+  width: 49%;
+  float: left;
+  height: 260px;
+}
+
+.flc-right-dialog {
+  margin-left: 50%;
+  height: 260px;
+}
+
+.flc-ext-left-dialog,
+.flc-ext-right-dialog
+{
+  height: 380px;
+}
+
+.flc-right-dialog .content {
+  vertical-align: middle;
+  text-align: center;
+  line-height: 184px;
+}
+
+.flc-ext-right-dialog .content {
+  line-height: 314px;
+}
+
+.flc-login-text {
+  font-size: 12px;
+  font-weight: 700;
+  margin: auto 0;
+}
+
+.flc-login-text a:link,
+.flc-login-text a:visited,
+.flc-login-text a:hover,
+.flc-login-text a:active
+{
+  text-decoration: underline;
+}
+
+.flc-left-dialog input {
+  width: 180px;
+}
+
+/**
+ * Checkout page: shipping & payment methods
+ */
+.flc-checkout-container {
+  vertical-align: top;
+  padding-bottom: 30px;
+  width: 100%;
+  clear: both;
+}
+
+.flc-checkout-container .flc-address {
+  vertical-align: top;
+  width: 30%;
+  float: left;
+  overflow: hidden;
+}
+
+.flc-checkout-container .flc-checkout-options {
+  margin-left: 32%;
+  vertical-align: top;
+}
+
+.checkout-payments tr td {
+  padding: 5px;
+  vertical-align: top;
+}
+
+.checkout-payments tr td.checkout-payment-name {
+  width: 20%;
+  white-space: nowrap;
+  padding-right: 10px;
+}
+
+.checkout-payments tr td.checkout-payment-name label {
+  font-weight: 700;
+}
+
+.checkout-payments tr td.checkout-payment-descr {
+  width: 80%;
+}
+
+.checkout-payments tr td.checkout-payment-paypal {
+  width: 100%;
+}
+
+.checkout-payments tr td.checkout-payment-paypal img {
+  border: 0 none;
+}
+
+.checkout-shippings label {
+  position: relative;
+  display: block;
+  padding: 2px;
+  height: 18px;
+  line-height: 18px;
+  vertical-align: middle;
+}
+
+.checkout-shippings label input {
+  vertical-align: middle;
+}
+
+.checkout-shippings label span {
+  padding-left: 3px;
+}
+
+.checkout-shippings label.highlight {
+  background: #eee none;
+}
+
+/**
+ * Checkout page: tabs
+ */
+div.flc-tabs-container {
+  position: relative;
+  text-align: right;
+  height: 60px;
+}
+
+div.flc-tabs {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+ul.flc-progress-bar {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+ul.flc-progress-bar li {
+  float: left;
+  height: 60px;
+  width: 150px;
+  padding: 0;
+  margin: 0;
+  text-align: center;
+}
+
+div.flc-tab-cart-line {
+  vertical-align: top;
+  text-align: center;
+  height: 30px;
+}
+
+div.flc-tab-cart-line img {
+  width: 18px;
+  height: 13px;
+  text-align: center;
+  background: transparent url(../../images/cart_checkout.gif) no-repeat left top;
+}
+
+div.flc-tab-marks-line {
+  padding: 0;
+  height: 10px;
+  vertical-align: top;
+}
+
+.flc-tab-marks-line div {
+  width: 100%;
+  height: 6px;
+  position: relative;
+}
+
+.flc-tab-marks-line img {
+  position: absolute;
+  background: #a6b1c1 none;
+}
+
+.flc-tab-marks-line .flc-tab-line-img1 {
+  top: 0;
+  right: 50%;
+  left: 0;
+  width: 50%;
+  height: 2px;
+}
+
+.flc-tab-marks-line .flc-tab-line-img2 {
+  top: 0;
+  right: 0;
+  left: 50%;
+  width: 50%;
+  height: 2px;
+}
+
+.flc-tab-marks-line .flc-tab-line-img3 {
+  top: 2px;
+  right: 50%;
+  width: 2px;
+  height: 4px;
+}
+
+.flc-tab-marks-line .flc-tab-first .flc-tab-line-img1 {
+  width: 2px;
+  left: auto;
+}
+
+.flc-tab-marks-line .flc-tab-last .flc-tab-line-img2 {
+  background: #FFF none;
+}
+
+.flc-tab-marks-line .flc-tab-line-full .flc-tab-line-img1,
+.flc-tab-marks-line .flc-tab-line-full .flc-tab-line-img2,
+.flc-tab-marks-line .flc-tab-line-full .flc-tab-line-img3,
+.flc-tab-marks-line .flc-tab-line-half .flc-tab-line-img1,
+.flc-tab-marks-line .flc-tab-line-half .flc-tab-line-img3
+{
+  background: #ff8600 none;
+}
+
+div.flc-tab-links {
+  font-weight: 700;
+  text-align: center;
+  padding: 0 5px;
+}
+
+.flc-tab-links a:link,
+.flc-tab-links a:visited,
+.flc-tab-links a:hover,
+.flc-tab-links a:active
+{
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+/**
+ * Checkout: last step
+ */
+.flc-checkout-products {
+  padding-bottom: 30px;
+}
+
+.flc-checkout-box-info {
+  padding: 0 0 30px 20px;
+  text-align: center;
+  padding: 0 5px;
+}
+
+.flc-tab-links a:link,
+.flc-tab-links a:visited,
+.flc-tab-links a:hover,
+.flc-tab-links a:active
+{
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+.flc-checkout-products {
+  padding-bottom: 30px;
+}
+
+.flc-checkout-box-info {
+  padding: 0 0 30px 20px;
+  text-align: left;
+}
+
+.flc-checkout-address-left {
+  width: 48%;
+  float: left;
+  vertical-align: top;
+  padding-bottom: 15px;
+}
+
+.flc-checkout-address-right {
+  vertical-align: top;
+  margin-left: 50%;
+  padding-bottom: 15px;
+}
+
+table.flc-checkout-address tr td {
+  padding: 2px;
+}
+
+.flc-payment-options {
+  padding-bottom: 15px;
+}

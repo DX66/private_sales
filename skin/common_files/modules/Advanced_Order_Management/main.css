@@ -1,0 +1,70 @@
+/* vim: set ts=2 sw=2 sts=2 et: */
+/**
+ * Advanced Order Management module CSS stylesheet
+ *  
+ * @category   X-Cart
+ * @package    X-Cart
+ * @subpackage CSS
+ * @author     Ruslan R. Fazlyev <rrf@x-cart.com> 
+ * @version    $Id: main.css,v 1.2 2010/05/31 06:08:28 igoryan Exp $
+ * @link       http://www.x-cart.com/
+ * @see        ____file_see____
+ */
+
+#history-box {
+  padding: 5px;
+  border: solid 1px #ccc;
+	font-size: 10px;
+}
+
+#history-box ul {
+  padding-left: 20px;
+  margin: 0px;
+	
+}
+
+#history-box li {
+  padding: 0;
+  margin: 0;
+  font-size: 10px;
+}
+
+#history-box .subhead {
+  color: #000;
+  font-size: 10px;
+  font-weight: bold;
+  padding-top: 3px;
+  margin: 0;
+}
+
+#history-box .subhead-comment {
+  color: #000;
+  font-size: 10px;
+  font-weight: normal;
+  padding: 3px 0;
+  margin: 0;
+}
+
+#history-box .subhead-note {
+  color: #848a94;
+  padding: 3px 0;
+  font-size: 10px;
+}
+
+#history-box .section-subhead {
+  color: #b51a00;
+  font-size: 10px;
+  font-weight: normal;
+  padding: 3px 0;
+  margin: 0;
+}
+
+#history-box p {
+  font-size: 10px;
+  padding: 0;
+  margin: 0;
+}
+
+#history-box .status {
+  color: #848a94;
+}

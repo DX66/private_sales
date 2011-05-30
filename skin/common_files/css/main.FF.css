@@ -1,0 +1,41 @@
+/* vim: set ts=2 sw=2 sts=2 et: */
+/**
+ * General CSS stylesheet (overrides for Firefox)
+ *  
+ * @category   X-Cart
+ * @package    X-Cart
+ * @subpackage CSS
+ * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+ * @version    $Id: main.FF.css,v 1.3 2010/06/24 11:41:09 igoryan Exp $
+ * @link       http://www.x-cart.com/
+ * @see        ____file_see____
+ */
+
+button.button {
+  margin-right: -3px;
+  margin-left: -3px;
+}
+
+div.button {
+  margin-top: 1px;
+}
+
+.login-buttons div.button {
+  margin-top: 2px;
+}
+
+button.simple-button {
+  margin-top: 2px;
+}
+
+.ajax-minicart img.minicart-button {
+  margin-top: 1px;
+  margin-bottom: 5px;
+}
+
+button.do-add2cart-wait .button-left,
+button.do-add2cart-success .button-left,
+button.do-add2cart-error .button-left
+{
+  margin-top: -2px !important;
+}

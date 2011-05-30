@@ -1,0 +1,69 @@
+Index: popup_address.php
+--- popup_address.php	2011-01-10 16:11:43.000000000 +0300
++++ popup_address.php	2011-03-01 12:26:23.000000000 +0300
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>. All rights reserved
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: popup_address.php,v 1.22.2.2 2011/01/10 13:11:43 ferz Exp $
++ * @version    $Id: popup_address.php,v 1.22.2.5 2011/03/01 09:26:23 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -53,7 +53,7 @@
+ if (
+     $REQUEST_METHOD == 'POST'
+     && !empty($active_modules['UPS_OnLine_Tools'])
+-    && $av_suggest
++    && !empty($av_suggest)
+ ) {
+ 
+     // Shipping Address Validation by UPS OnLine Tools module
+@@ -131,7 +131,7 @@
+     if ($mode == 'select' && !empty($for) && !empty($id)) {
+         if ($for == 'cart') {
+             x_session_register('cart');
+-            $cart['used_' . strtolower($type) . '_address'] = $id;
++            $cart = func_set_cart_address($cart, $type, $id);
+             $res = true;
+         }
+ 
+@@ -184,6 +184,9 @@
+ 
+     if ($res) {
+ 
++        x_load('cart');
++        func_cart_set_flag('need_recalculate', true);
++
+         if ($mode != 'select') {
+             $top_message = array(
+                 'type'    => 'I',
+@@ -274,13 +277,12 @@
+     if (
+         $for == 'cart'
+     ) {
+-        x_session_register('cart');
+-        $_prefix = 'used_' . strtolower($type) . '_address';
++        $_cart_address = func_get_cart_address($type);
+         if (
+-            isset($cart[$_prefix])
+-            && is_numeric($cart[$_prefix])
++            !empty($_cart_address)
++            && is_numeric($_cart_address)
+         ) {
+-            $smarty->assign('current', $cart[$_prefix]);
++            $smarty->assign('current', $_cart_address);
+         }
+     }
+ 
+@@ -293,8 +295,8 @@
+ // Assign smarty variables
+ $smarty->assign('mode',     $mode);
+ $smarty->assign('for',      $for);
+-$smarty->assign('type',     $type);
+-$smarty->assign('return',   $return);
++$smarty->assign('type',     @$type);
++$smarty->assign('return',   @$return);
+ 
+ $smarty->assign('av_error', $av_error);
+ 

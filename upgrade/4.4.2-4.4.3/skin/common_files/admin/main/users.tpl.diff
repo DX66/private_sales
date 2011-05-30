@@ -1,0 +1,77 @@
+Index: skin/common_files/admin/main/users.tpl
+--- skin/common_files/admin/main/users.tpl	2010-07-19 16:05:57.000000000 +0400
++++ skin/common_files/admin/main/users.tpl	2011-04-27 14:37:10.000000000 +0400
+@@ -1,5 +1,5 @@
+ {*
+-$Id: users.tpl,v 1.6 2010/07/19 12:05:57 igoryan Exp $
++$Id: users.tpl,v 1.6.2.1 2011/04/27 10:37:10 aim Exp $
+ vim: set ts=2 sw=2 sts=2 et:
+ *}
+ {include file="page_title.tpl" title=$lng.lbl_users_management}
+@@ -85,7 +85,7 @@
+ function managedate(type, status) {
+ 
+   if (type == 'address')
+-    var fields = new Array('posted_data[city]','posted_data[state]','posted_data[country]','posted_data[zipcode]');
++    var fields = new Array('posted_data[city]','posted_data[state]','posted_data[country]','posted_data[zipcode]', 'posted_data[phone]');
+   else if (type == 'date')
+     var fields = new Array('f_start_date', 'f_end_date');
+   else if (type == 'date_type') {
+@@ -93,8 +93,13 @@
+     status = !(status != 0);
+   
+     for (var i = 0; i < document.searchform.elements.length; i++)
+-      if (document.searchform.elements[i].name == 'posted_data[date_period]')
+-        document.searchform.elements[i].disabled = status;
++      if (document.searchform.elements[i].name == 'posted_data[date_period]') {
++        if (status) {
++          $('[name="posted_data[date_period]"]').attr("disabled", true).addClass( 'ui-state-disabled' );
++        } else {
++          $('[name="posted_data[date_period]"]').attr("disabled", false).removeClass( 'ui-state-disabled' );
++        }
++      }
+   
+     disable_dates = false;
+     
+@@ -109,7 +114,11 @@
+   }
+   
+   for (var i in fields) {
+-    document.searchform.elements[fields[i]].disabled = status;
++    if (status) {
++      $('[name="' + fields[i] + '"]').attr("disabled", true).addClass( 'ui-state-disabled' );
++    } else {
++      $('[name="' + fields[i] + '"]').attr("disabled", false).removeClass( 'ui-state-disabled' );
++    }
+   }
+ }
+ {/literal}
+@@ -218,8 +227,8 @@
+   <td width="5"><input type="radio" id="address_type_S" name="posted_data[address_type]" value="S"{if $search_prefilled.address_type eq "S"} checked="checked"{/if} onclick="javascript:managedate('address',false)" /></td>
+   <td class="OptionLabel"><label for="address_type_S">{$lng.lbl_shipping}</label></td>
+ 
+-  <td width="5"><input type="radio" id="address_type_both" name="posted_data[address_type]" value="Both"{if $search_prefilled.address_type eq "Both"} checked="checked"{/if} onclick="javascript:managedate('address',false)" /></td>
+-  <td class="OptionLabel"><label for="address_type_both">{$lng.lbl_both}</label></td>
++  <td width="5"><input type="radio" id="address_type_all" name="posted_data[address_type]" value="All"{if $search_prefilled.address_type eq "All"} checked="checked"{/if} onclick="javascript:managedate('address',false)" /></td>
++  <td class="OptionLabel"><label for="address_type_all">{$lng.lbl_all}</label></td>
+ </tr>
+ </table>
+   </td>
+@@ -299,7 +308,7 @@
+ 
+   <td width="5"><input type="checkbox" id="posted_data_auto_suspended" name="posted_data[auto_suspended]" value="Y"{if $search_prefilled.auto_suspended ne ""} checked="checked"{/if} onclick="javascript:managedate('date_type')" /></td>
+   <td class="OptionLabel" width="100%">
+-    {include file="main/tooltip_js.tpl" text=$lng.txt_help_auto_suspended title=$lng.lbl_suspended_automatically}
++    {include file="main/tooltip_js.tpl" title=$lng.lbl_suspended_automatically text=$lng.txt_help_auto_suspended type=label idfor="posted_data_auto_suspended"}
+   </td>
+ </tr>
+ </table>
+@@ -464,7 +473,7 @@
+   {/if}
+  
+   <tr{interline name=users class=TableSubHead}>
+-    <td width="5"><input type="checkbox" name="user[{$u.id}]"{if $u.id eq $logged_userid} disabled="disabled"{/if} /></td>
++    <td width="5"><input type="checkbox" name="user[{$u.id}]"{if $u.id eq $logged_userid} disabled="disabled" class='ui-state-disabled'{/if} /></td>
+     <td>
+       <a href="{if $u.id eq $logged_userid}register.php?mode=update{else}user_modify.php?user={$u.id|escape:"url"}&amp;usertype={$u.usertype}{$pagestr|amp}{/if}" title="{$lng.lbl_modify_profile|escape}"><font class="ItemsList">{$uname}</font></a>
+       {if $uname ne $u.email}

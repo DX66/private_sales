@@ -1,0 +1,29 @@
+/*
+$Id: altskin.IE7.css,v 1.2 2010/08/04 06:54:14 igoryan Exp $
+vim: set ts=2 sw=2 sts=2 et:
+*/
+.fancycat-icons-e li ul li {
+  width: 249px;
+}
+.product-details .details {
+  padding-bottom: 10px; /* IE 8 fix bug */
+}
+.cart-container,
+  .cart-block
+{
+  z-index: 1000;
+}
+.products-table .button-row button.cart-button {
+  float: left;
+}
+
+.minicart-box .checkout-popup-link div.buttons-box {
+  top: 19px;
+}
+
+.menu-dialog .login-text ul { 
+  padding-top: 0;
+}
+.menu-dialog .login-text ul li {
+  float: left;
+}

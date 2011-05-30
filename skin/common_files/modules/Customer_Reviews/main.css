@@ -1,0 +1,130 @@
+/* vim: set ts=2 sw=2 sts=2 et: */
+/**
+ * Customer Reviews module CSS stylesheet
+ *  
+ * @category   X-Cart
+ * @package    X-Cart
+ * @subpackage CSS
+ * @author     Ruslan R. Fazlyev <rrf@x-cart.com> 
+ * @version    $Id: main.css,v 1.3 2010/07/27 11:49:37 igoryan Exp $
+ * @link       http://www.x-cart.com/
+ * @see        ____file_see____
+ */
+
+/**
+ * Customer reviews module 
+ */
+.creviews-rating-box {
+  margin-top: 5px;
+  padding-bottom: 7px;
+}
+
+.creviews-vote-bar ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  overflow: visible;
+}
+
+.creviews-vote-bar li ul {
+  position: absolute;
+  top: 0;
+  left: 22px;
+}
+
+.creviews-vote-bar li {
+  margin: 0;
+  padding: 0;
+  overflow: visible;
+  position: relative;
+  width: 22px;
+  height: 20px;
+}
+
+.creviews-vote-bar a,
+.creviews-vote-bar span,
+.creviews-vote-bar a img,
+.creviews-vote-bar span img
+{
+  display: block;
+  margin: 0;
+  width: 22px;
+  height: 20px;
+  overflow: hidden;
+  background: transparent url(../../images/stars.png) no-repeat 1px top;
+}
+
+.creviews-vote-bar span.full,
+.creviews-vote-bar span img
+{
+  background-position: 1px -20px;
+}
+
+.allow-add-rate a {
+  background-position: 1px -40px;
+}
+
+.allow-add-rate a.full,
+.allow-add-rate a img
+{
+  background-position: 1px -60px;
+}
+
+.allow-add-rate li:hover > a,
+.allow-add-rate li:hover > a.full
+{
+  background-position: 1px -80px;
+}
+
+.allow-add-rate li:hover > a img {
+  display: none;
+}
+
+.creviews-rating-box .progress {
+  display: block;
+  background: transparent url(../../images/progress.gif) repeat-x left 5px;
+  height: 20px;
+}
+
+.creviews-rating-box.message span {
+  display: block;
+  padding-top: 5px;
+  font-size: 11px;
+  font-weight: bold;
+}
+
+.creviews-rating {
+  font-size: 10px;
+  color: #8a8a8a;
+}
+
+ul.creviews-reviews-list {
+  list-style: none;
+  margin: 0 0 35px 0;
+  padding: 0;
+  width: 100%;
+}
+
+ul.creviews-reviews-list li {
+  margin: 0;
+  padding: 12px 0;
+}
+
+div.creviews-reviews-list {
+  text-align: center;
+  padding: 12px 0 25px 0;
+}
+
+.creviews-reviews-title {
+  font-weight: bold;
+  white-space: nowrap;
+  font-size: 12px;
+}
+
+.creviews-reviews-add table td {
+  padding: 2px;
+}
+
+.printable .creviews-rating-box {
+  display: none;
+}

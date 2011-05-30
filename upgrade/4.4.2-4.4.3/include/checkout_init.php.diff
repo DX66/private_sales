@@ -1,0 +1,155 @@
+Index: include/checkout_init.php
+--- include/checkout_init.php	2011-01-10 16:11:48.000000000 +0300
++++ include/checkout_init.php	2011-04-07 17:14:25.000000000 +0400
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>. All rights reserved
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: checkout_init.php,v 1.37.2.2 2011/01/10 13:11:48 ferz Exp $
++ * @version    $Id: checkout_init.php,v 1.37.2.11 2011/04/07 13:14:25 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -132,6 +132,13 @@
+  */
+ $payment_methods = array();
+ 
++$paypal_express_enabled = func_cart_get_paypal_express_id();
++/*
++ * Get paymentid based on cart[paymentid]/$paymentid
++ */
++$paymentid = func_cart_get_paymentid($cart, $checkout_module);
++$cart = func_cart_set_paymentid($cart, $paymentid);
++
+ if (!$func_is_cart_empty) {
+ 
+     $payment_methods = check_payment_methods(@$user_account['membershipid']);
+@@ -139,14 +146,15 @@
+     if (empty($payment_methods))
+         $smarty->assign('std_checkout_disabled', 'Y');
+ 
+-    $paypal_express_enabled = func_query_first_cell("SELECT $sql_tbl[payment_methods].paymentid FROM $sql_tbl[ccprocessors], $sql_tbl[payment_methods] WHERE $sql_tbl[ccprocessors].processor='ps_paypal_pro.php' AND $sql_tbl[ccprocessors].paymentid=$sql_tbl[payment_methods].paymentid AND $sql_tbl[payment_methods].active='Y'");
+ 
+     if (
+         $checkout_module == 'One_Page_Checkout'
+         && $paypal_express_enabled
+-        && $_GET['mode'] == 'express_cancel'
++        && @$_GET['mode'] == 'express_cancel'
+     ) {
+-        $cart['paymentid'] = 0;
++        $_new_methodid = ($paypal_express_enabled != $paymentid) ? $paymentid : 0;
++        $cart = func_cart_set_paymentid($cart, $_new_methodid);
++        $paymentid = $_new_methodid;
+     }
+ }
+ 
+@@ -168,11 +176,15 @@
+         $checkout_step_modifier['anonymous'] = 1;
+     }
+ 
+-    if (empty($payment_methods)) {
++    if (
++        empty($payment_methods)
++        && !in_array($checkout_module, array('Google_Checkout', 'Amazon_Checkout'))
++    ) {
+ 
+         if (
+-            !$paypal_express_enabled
++            empty($paypal_express_enabled)
+             && empty($active_modules['Google_Checkout'])
++            && empty($active_modules['Amazon_Checkout'])
+         ) {
+             $top_message['content'] = func_get_langvar_by_name('txt_no_payment_methods');
+             $top_message['type']    = 'E';
+@@ -252,8 +264,9 @@
+ /**
+  * User cannot operate with cart while processing order on Google Checkout
+  */
++$_cart_locked = func_cart_is_locked(); 
+ if (
+-    $cart_locked
++    !empty($_cart_locked)
+     && !(
+         $mode == 'add2wl'
+         || $mode == 'wishlist'
+@@ -261,19 +274,27 @@
+ ) {
+     $_ref = func_query_first_cell("SELECT ref FROM $sql_tbl[cc_pp3_data] WHERE sessionid='$XCARTSESSID'");
+ 
+-    $msg = "Customer returned to the store before Google checkout completed processing the payment transaction. ReferenceID: '$_ref'; sessionid: '$XCARTSESSID'. Transaction declined by the store.";
++    $msg = "Customer returned to the store before Google/Amazon checkout completed processing the payment transaction. ReferenceID: '$_ref'; sessionid: '$XCARTSESSID'. Transaction declined by the store.";
+ 
+     x_log_flag('log_payment_processing_errors', 'PAYMENTS', $msg, true);
+ 
+-    if (!empty($active_modules['Google_Checkout'])) {
+-
++    if (
++        !empty($active_modules['Google_Checkout'])
++        && $_cart_locked == 'by_Google_Checkout'
++    ) {
+         func_gcheckout_debug('\t+ [Error] ' . $msg);
++    }
+ 
++    if (
++        !empty($active_modules['Amazon_Checkout'])
++        && $_cart_locked == 'by_Amazon_Checkout'
++    ) {
++        db_query("DELETE FROM $sql_tbl[amazon_data] WHERE sessionid='$XCARTSESSID'");
++        func_acheckout_debug('\t+ [Error] ' . $msg);
+     }
+ 
+     db_query("DELETE FROM $sql_tbl[cc_pp3_data] WHERE sessionid='$XCARTSESSID'");
+-
+-    $cart_locked = false;
++    func_cart_unlock();
+ }
+ 
+ /**
+@@ -290,10 +311,11 @@
+     && !empty($userinfo)
+     && $mode == 'checkout'
+     && (
+-        $userinfo['status'] != 'A'
+-        || $is_anonymous
++        $is_anonymous
++        || $userinfo['status'] != 'A'
+     )
+     && !isset($edit_profile)
++    && !in_array($checkout_module, array('Google_Checkout', 'Amazon_Checkout'))
+ ) {
+ 
+     if (
+@@ -491,8 +513,6 @@
+ 
+ $intershipper_recalc = 'Y';
+ 
+-$paypal_expressid = '';
+-
+ if (!empty($payment_cc_fields)) {
+ 
+     $userinfo = func_array_merge($userinfo, $payment_cc_fields);
+@@ -515,19 +535,15 @@
+         $config['General']['enable_anonymous_checkout'] == 'Y'
+         || !empty($login)
+     )
+-    && $paypal_expressid == $paymentid
++    && !empty($paypal_express_enabled)
++    && $paypal_express_enabled != $paymentid
+ ) {
+-
+-    $paypal_express_active = func_query_first_cell("SELECT $sql_tbl[payment_methods].paymentid FROM $sql_tbl[ccprocessors], $sql_tbl[payment_methods] WHERE $sql_tbl[ccprocessors].processor='ps_paypal_pro.php' AND $sql_tbl[ccprocessors].paymentid=$sql_tbl[payment_methods].paymentid AND $sql_tbl[payment_methods].active='Y' ORDER BY $sql_tbl[payment_methods].protocol DESC");
+-
+-    $smarty->assign('paypal_express_active', $paypal_express_active);
++    if (func_is_valid_payment_method($paypal_express_enabled))
++        $smarty->assign('paypal_express_active', $paypal_express_enabled);
+ 
+     x_session_unregister('paypal_begin_express');
+ 
+-    if (
+-        !empty($paypal_express_active)
+-        && $config['paypal_solution'] == 'uk'
+-    ) {
++    if ($config['paypal_solution'] == 'uk') {
+         $smarty->assign('force_uk_ccinfo', true);
+     }
+ 

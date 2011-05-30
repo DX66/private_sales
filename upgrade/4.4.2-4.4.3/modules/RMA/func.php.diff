@@ -1,0 +1,32 @@
+Index: modules/RMA/func.php
+--- modules/RMA/func.php	2011-01-10 16:12:01.000000000 +0300
++++ modules/RMA/func.php	2011-02-07 18:34:46.000000000 +0300
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: func.php,v 1.34.2.2 2011/01/10 13:12:01 ferz Exp $
++ * @version    $Id: func.php,v 1.34.2.3 2011/02/07 15:34:46 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -127,6 +127,7 @@
+     }
+ 
+     $return['order'] = $tmp['order'];
++    $return['userinfo'] = $tmp['userinfo'];
+ 
+     foreach ($tmp['products'] as $v) {
+ 
+@@ -167,8 +168,10 @@
+ 
+     $return = func_return_data($returnid);
+ 
++    $userinfo = $return['userinfo'];
++
+     $mail_smarty->assign('return', $return);
+-    $mail_smarty->assign('userinfo', $return['order']);
++    $mail_smarty->assign('userinfo', $userinfo);
+ 
+     $mail_smarty->assign('reasons', func_get_rma_reasons());
+     $mail_smarty->assign('actions', func_get_rma_actions());

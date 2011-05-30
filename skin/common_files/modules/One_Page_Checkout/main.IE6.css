@@ -1,0 +1,20 @@
+/* vim: set ts=2 sw=2 sts=2 et: */
+/**
+ * $Id: main.IE6.css,v 1.1.2.2 2010/08/27 09:17:56 igoryan Exp $ 
+ */
+fieldset.registerform ul {
+  display: inline-block;
+  overflow: hidden;
+}
+
+fieldset.registerform ul li {
+  padding-bottom: 5px;
+}
+
+div.optional-label {
+  height: 20px;
+}
+
+div.optional-label label input {
+  top: 0;
+}

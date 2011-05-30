@@ -1,0 +1,122 @@
+Index: modules/One_Page_Checkout/checkout.php
+--- modules/One_Page_Checkout/checkout.php	2011-01-10 16:11:59.000000000 +0300
++++ modules/One_Page_Checkout/checkout.php	2011-03-07 11:09:44.000000000 +0300
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>. All rights reserved
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: checkout.php,v 1.22.2.3 2011/01/10 13:11:59 ferz Exp $
++ * @version    $Id: checkout.php,v 1.22.2.8 2011/03/07 08:09:44 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -51,38 +51,18 @@
+ 
+ $smarty->assign('allow_popup_login', empty($login_antibot_on));
+ 
+-$paypal_expressid = func_query_first_cell("SELECT $sql_tbl[payment_methods].paymentid FROM $sql_tbl[payment_methods], $sql_tbl[ccprocessors] WHERE $sql_tbl[payment_methods].processor_file='ps_paypal_pro.php' AND $sql_tbl[payment_methods].processor_file=$sql_tbl[ccprocessors].processor AND $sql_tbl[payment_methods].paymentid=$sql_tbl[ccprocessors].paymentid AND $sql_tbl[payment_methods].active='Y'");
++$paypal_expressid = func_cart_get_paypal_express_id();
+ 
+-if (
+-    !empty($payment_methods)
+-    && (
+-        !isset($cart['paymentid'])
+-        || empty($cart['paymentid'])
+-    )
+-) {
+-
+-    $_pm = $payment_methods[0]['paymentid'];
+-
+-    if (
+-        empty($paypal_expressid)
+-        || $payment_methods[0]['paymentid'] != $paypal_expressid
+-        || count($payment_methods) == 1
+-    ) {
+-
+-        $cart['paymentid'] = $payment_methods[0]['paymentid'];
+-
+-    } else {
+-        
+-        $cart['paymentid'] = $payment_methods[1]['paymentid'];
+-    
+-    }
+-    
++$paymentid = func_cart_get_paymentid($cart, $checkout_module);
++if (!func_is_valid_payment_method($paymentid)) {
++    $cart = func_cart_set_paymentid($cart, 0);
++    $top_message['content'] = func_get_langvar_by_name('err_payment_cc_not_available');
++    $top_message['type']    = 'E';
++    func_header_location('cart.php');
++} else {
++    $cart = func_cart_set_paymentid($cart, $paymentid);
+ }
+ 
+-$paymentid = (isset($paymentid) && !empty($paymentid))
+-    ? $paymentid
+-    : $cart['paymentid'];
+-
+ if (
+     !empty($paypal_expressid)
+     && $paypal_expressid == $paymentid
+@@ -122,29 +102,6 @@
+  * Prepare checkout details
+  */
+ 
+-// Check if paymentid isn't fake
+-$is_egoods = $config['Egoods']['egoods_manual_cc_processing'] == 'Y'
+-    ? func_esd_in_cart($cart)
+-    : false;
+-
+-$membershipid = $user_account['membershipid'];
+-
+-$is_valid_paymentid = func_query_first_cell("SELECT COUNT(*) FROM $sql_tbl[payment_methods] LEFT JOIN $sql_tbl[pmethod_memberships] ON $sql_tbl[pmethod_memberships].paymentid = $sql_tbl[payment_methods].paymentid WHERE $sql_tbl[payment_methods].paymentid='$paymentid'" . (($is_egoods && $paymentid == 1) ? '' : " AND $sql_tbl[payment_methods].active='Y'") . " AND ($sql_tbl[pmethod_memberships].membershipid IS NULL OR $sql_tbl[pmethod_memberships].membershipid = '$membershipid')");
+-
+-if (!$is_valid_paymentid) {
+-    // To avoid circularity when $paymentid is not avalaible bt:#0095143
+-    $cart['paymentid'] = '';
+-    func_header_location('cart.php?mode=checkout&err=paymentid');
+-}
+-
+-
+-if (
+-    !isset($cart['paymentid'])
+-    || $cart['paymentid'] != $paymentid
+-) {
+-    $cart['paymentid'] = $paymentid;
+-    $payment_changed = true;
+-}
+ 
+ if (!empty($payment_cc_fields)) {
+     $userinfo = func_array_merge($userinfo, $payment_cc_fields);
+@@ -155,6 +112,7 @@
+ }
+ 
+ if (!empty($payment_methods)) {
++    x_load('paypal');
+ 
+     foreach ($payment_methods as $k => $payment_data) {
+ 
+@@ -166,21 +124,8 @@
+         }
+ 
+         if ($payment_data['processor_file'] == 'ps_paypal_pro.php') {
+-
+-            $_cc_data = func_query_first("SELECT * FROM $sql_tbl[ccprocessors] WHERE processor='ps_paypal_pro.php'");
+-            func_unset($_cc_data, "paymentid", "processor");
+-            $payment_data = func_array_merge($payment_data, $_cc_data);
+-            $is_emulated_paypal = false;
+-
+-            if ($active_modules['XPayments_Connector']) {
+-                func_xpay_func_load();
+-                $is_emulated_paypal = xpc_is_emulated_paypal($paymentid);
+-                if ($is_emulated_paypal) {
+-                    $payment_cc_data = xpc_get_module_params($paymentid);
+-                    $payment_data['payment_template'] = false;
+-                }
+-            }
+-
++            // Adjust cc_data and payment template for paypal
++            list($payment_data) = func_paypal_adjust_payment_data($payment_data, 'One_Page_Checkout');
+         }
+ 
+         $payment_methods[$k] = $payment_data;

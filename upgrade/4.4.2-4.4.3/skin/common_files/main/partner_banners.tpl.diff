@@ -1,0 +1,42 @@
+Index: skin/common_files/main/partner_banners.tpl
+--- skin/common_files/main/partner_banners.tpl	2010-09-27 14:09:26.000000000 +0400
++++ skin/common_files/main/partner_banners.tpl	2011-04-11 16:22:35.000000000 +0400
+@@ -1,5 +1,5 @@
+ {*
+-$Id: partner_banners.tpl,v 1.3.2.1 2010/09/27 10:09:26 igoryan Exp $
++$Id: partner_banners.tpl,v 1.3.2.3 2011/04/11 12:22:35 ferz Exp $
+ vim: set ts=2 sw=2 sts=2 et:
+ *}
+ {include file="page_title.tpl" title=$lng.lbl_banners_management}
+@@ -86,7 +86,7 @@
+         <a href="partner_banners.php?bannerid={$v.bannerid}&amp;get=1" target="_blank">{$lng.lbl_get_banner_html_code}</a>
+         {if $v.userid gt 0 and $usertype ne 'B'}
+         &nbsp;&nbsp;&nbsp;
+-        {$lng.lbl_created_by}&nbsp;<a href="user_modify.php?user={$v.userid|escape:"url"}&amp;usertype=B">{$v.user} ({$lng.lbl_id} #{$v.userid})</a>
++        {$lng.lbl_created_by}&nbsp;<a href="{$catalogs.admin}/user_modify.php?user={$v.userid|escape:"url"}&amp;usertype=B">{$v.user} ({$lng.lbl_id} #{$v.userid})</a>
+         {/if}
+         <br />
+         <table cellspacing="1" cellpadding="0" class="banner-box">
+@@ -135,14 +135,18 @@
+           {/if}
+ 
+           {if $banner.userid eq 0}
+-            {include file="main/banner_html_code.tpl" partner='PARTNER'}
+-            <br />
+-            {$lng.txt_replace_with_real_login}
++            {if $current_partner}
++              {include file="main/banner_html_code.tpl" partner=$current_partner}
++            {else}
++              {include file="main/banner_html_code.tpl" partner='PARTNER'}
++              <br />
++              {$lng.txt_replace_with_real_login}
++            {/if}  
+           {else}
+             {include file="main/banner_html_code.tpl" partner=$banner.userid}
+             {if $usertype ne 'B'}
+               <br />
+-              {$lng.lbl_created_by}&nbsp;<a href="user_modify.php?user={$banner.userid}&amp;usertype=B">{$banner.user} ({$lng.lbl_id} #{$banner.userid})</a>
++              {$lng.lbl_created_by}&nbsp;<a href="{$catalogs.admin}/user_modify.php?user={$banner.userid}&amp;usertype=B">{$banner.user} ({$lng.lbl_id} #{$banner.userid})</a>
+             {/if}
+           {/if}
+ 

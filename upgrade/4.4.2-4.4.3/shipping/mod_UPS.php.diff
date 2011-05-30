@@ -1,0 +1,66 @@
+Index: shipping/mod_UPS.php
+--- shipping/mod_UPS.php	2011-01-10 16:12:10.000000000 +0300
++++ shipping/mod_UPS.php	2011-01-28 15:12:20.000000000 +0300
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: mod_UPS.php,v 1.79.2.1 2011/01/10 13:12:10 ferz Exp $
++ * @version    $Id: mod_UPS.php,v 1.79.2.3 2011/01/28 12:12:20 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -109,6 +109,8 @@
+     $params = func_query_first ("SELECT * FROM $sql_tbl[shipping_options] WHERE carrier='UPS'");
+ 
+     $ups_parameters = unserialize($params['param00']);
++    $ups_parameters['weight'] = isset($ups_parameters['weight']) ? $ups_parameters['weight'] : 0;
++    $ups_parameters['use_maximum_dimensions'] = isset($ups_parameters['use_maximum_dimensions']) ? $ups_parameters['use_maximum_dimensions'] : 'N';
+ 
+     if (!is_array($ups_parameters)) {
+         $ups_parameters = $ups_parameters_default;
+@@ -210,8 +212,10 @@
+     else
+         $residental_flag="";
+ 
+-    if (count($srvopts)>0)
+-        $shipment_options_xml .= "\t\t<ShipmentServiceOptions>\n".join('', $srvopts)."\t\t</ShipmentServiceOptions>";
++    $shipment_options_xml = $negotiated_rates_xml = '';
++
++    if (count($srvopts) > 0)
++        $shipment_options_xml = "\t\t<ShipmentServiceOptions>\n".join('', $srvopts)."\t\t</ShipmentServiceOptions>";
+ 
+     if (!empty($ups_parameters['negotiated_rates'])) {
+         $negotiated_rates_xml =<<<EOT
+@@ -253,10 +257,11 @@
+ 
+         $package_limits = $specified_dims;
+ 
+-        if($ups_parameters['weight']>0)
++        if ($ups_parameters['weight'] > 0) {
+             $package_limits['weight'] = ($custom_package_wunit == 'LBS' ?
+                 $ups_parameters['weight'] :
+                 func_units_convert($ups_parameters['weight'], 'kg', 'lbs', 2)); // lbs
++        }                
+ 
+     } else {
+ 
+@@ -291,7 +296,7 @@
+ 
+         foreach ($packages as $package) {
+ 
+-            if($ups_parameters['use_maximum_dimensions']=="Y")
++            if($ups_parameters['use_maximum_dimensions'] == "Y")
+                 $package = func_array_merge($package, $specified_dims);
+ 
+             $pkgopt = array();
+@@ -580,7 +585,8 @@
+             $RatedShipmentWarning .= $data."<br />";
+     }
+ 
+-    if (count($mod_UPS_tags)>=4) {
++    $is_general_rate = $is_negotiated_rate = false;
++    if (count($mod_UPS_tags) >= 4) {
+         if ($mod_UPS_tags[2]=="SERVICE" && $mod_UPS_tags[3]=="CODE") {
+             $mod_UPS_service=$data;
+         }

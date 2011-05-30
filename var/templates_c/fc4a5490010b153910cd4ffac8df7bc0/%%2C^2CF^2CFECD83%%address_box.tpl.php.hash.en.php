@@ -1,0 +1,1 @@
+690d3a367a795b3bbf2bacaf81502a85a:7:{s:19:"lbl_add_new_address";s:15:"Add new address";s:19:"lbl_billing_address";s:15:"Billing address";s:32:"lbl_billing_and_shipping_address";s:28:"Billing and Shipping address";s:10:"lbl_change";s:6:"Change";s:10:"lbl_delete";s:6:"Delete";s:20:"lbl_shipping_address";s:16:"Shipping address";s:16:"txt_are_you_sure";s:13:"Are you sure?";}

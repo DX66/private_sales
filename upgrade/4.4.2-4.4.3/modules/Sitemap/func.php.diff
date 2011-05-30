@@ -1,0 +1,52 @@
+Index: modules/Sitemap/func.php
+--- modules/Sitemap/func.php	2011-01-10 16:12:02.000000000 +0300
++++ modules/Sitemap/func.php	2011-02-08 17:19:33.000000000 +0300
+@@ -40,7 +40,7 @@
+  * @category   X-Cart
+  * @package    Modules
+  * @subpackage Sitemap
+- * @version    $Id: func.php,v 1.8.2.1 2011/01/10 13:12:02 ferz Exp $
++ * @version    $Id: func.php,v 1.8.2.2 2011/02/08 14:19:33 aim Exp $
+  * @since      4.4.0
+  */
+ if (!defined('XCART_START')) { header('Location: ../../'); die('Access denied');}
+@@ -168,6 +168,7 @@
+ function sitemap_get_categories_query($count = false, $code = null, $start = null, $end = null, $root_only = false, $parentid = 0)
+ {
+     global $sql_tbl, $config;
++    $l_join = $limit = '';
+ 
+     $select[] = "$sql_tbl[categories].categoryid AS id";
+     
+@@ -317,6 +318,7 @@
+ function sitemap_get_products_query($count = false, $code = null, $start = null, $end = null, $for = null, $id = null)
+ {
+     global $sql_tbl, $config;
++    $l_join = $limit = '';
+ 
+     $select[] = "$sql_tbl[products].productid AS id";
+ 
+@@ -431,6 +433,7 @@
+ function sitemap_get_manufacturers_query($count = false, $code = null, $start = null, $end = null)
+ {
+     global $sql_tbl, $config;
++    $l_join = $limit = '';
+ 
+     $select[]    = "$sql_tbl[manufacturers].manufacturerid as id";
+     $from[]      = "$sql_tbl[manufacturers]";
+@@ -517,6 +520,7 @@
+ function sitemap_get_pages_query($count = false, $code = null, $start = null,  $end = null)
+ {
+     global $sql_tbl, $config;
++    $l_join = $limit = '';
+ 
+     $select[]   = "$sql_tbl[pages].pageid as id";
+     $select[]   = "$sql_tbl[pages].title as name";
+@@ -600,6 +604,7 @@
+ function sitemap_get_extra_query($count = false, $code = null, $start = null, $end = null)
+ {
+     global $sql_tbl, $config;
++    $l_join = $limit = '';
+ 
+     $select[]   = "$sql_tbl[sitemap_extra].name as name";
+     $select[]   = "$sql_tbl[sitemap_extra].url as url";

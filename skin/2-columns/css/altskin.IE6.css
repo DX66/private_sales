@@ -1,0 +1,17 @@
+/*
+$Id: altskin.IE6.css,v 1.1 2010/05/21 08:31:51 joy Exp $
+vim: set ts=2 sw=2 sts=2 et:
+*/
+
+.fancycat-icons-e ul li a:link,
+  .fancycat-icons-e ul li a:visited,
+  .fancycat-icons-e ul li a:hover,
+  .fancycat-icons-e ul li a:active
+{
+  width: 185px;
+}
+.fancycat-icons-e li ul,
+  .fancycat-icons-e li ul.fancycat-icons-level-1 li ul
+{
+  left: 179;
+}

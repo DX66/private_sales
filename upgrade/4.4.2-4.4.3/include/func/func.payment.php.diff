@@ -1,0 +1,187 @@
+Index: include/func/func.payment.php
+--- include/func/func.payment.php	2011-01-10 16:11:52.000000000 +0300
++++ include/func/func.payment.php	2011-02-07 18:34:45.000000000 +0300
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (C) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>. All rights reserved
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: func.payment.php,v 1.68.2.2 2011/01/10 13:11:52 ferz Exp $
++ * @version    $Id: func.payment.php,v 1.68.2.5 2011/02/07 15:34:45 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -102,7 +102,7 @@
+             $list[] = 'ps_paypal.php';
+ 
+             // PayPal Direct payment emulation
+-            if ($active_modules['XPayments_Connector']) {
++            if (!empty($active_modules['XPayments_Connector'])) {
+                 func_xpay_func_load();
+ 
+                 $pro_proc = xpc_get_paypal_dp_processor('pro');
+@@ -232,7 +232,6 @@
+     $smarty->assign('request_url', $url);
+     $smarty->assign('method', $method);
+     $smarty->assign('fields', $fields);
+-    $smarty->assign('cc_tpl', $cc_tpl);
+     $smarty->assign('payment', $name);
+     $smarty->assign('cc_current_year', intval(strftime('%Y')));
+ 
+@@ -432,7 +431,7 @@
+         $ids = func_query_column("SELECT paymentid FROM $sql_tbl[payment_methods] WHERE processor_file = '$processor_file'");
+         $processor = func_query_first_cell("SELECT processor FROM $sql_tbl[ccprocessors] WHERE paymentid IN ('" . implode("','", $ids) . "')");
+ 
+-        if ($active_modules['XPayments_Connector']) {
++        if (!empty($active_modules['XPayments_Connector'])) {
+             func_xpay_func_load();
+ 
+             if (xpc_is_emulated_paypal($paymentid)) {
+@@ -442,7 +441,7 @@
+ 
+     } elseif ($processor_file == 'cc_xpc.php') {
+ 
+-        if (!$active_modules['XPayments_Connector']) {
++        if (empty($active_modules['XPayments_Connector'])) {
+             return false;
+         }
+ 
+@@ -473,17 +472,18 @@
+ {
+     global $sql_tbl, $active_modules;
+ 
+-    if (strpos($processor_file, 'ps_paypal') === 0) {
++    $processor_file = func_query_first_cell("SELECT processor_file FROM $sql_tbl[payment_methods] WHERE paymentid = '" . $paymentid . "'");
++
++    if (strpos($processor_file, 'ps_paypal') !== false) {
+         x_load('paypal');
+     }
+ 
+-    $processor_file = func_query_first_cell("SELECT processor_file FROM $sql_tbl[payment_methods] WHERE paymentid = '" . $paymentid . "'");
+     if ($processor_file == 'ps_paypal_pro.php') {
+ 
+         $ids = func_query_column("SELECT paymentid FROM $sql_tbl[payment_methods] WHERE processor_file = '$processor_file'");
+         $processor = func_query_first_cell("SELECT processor FROM $sql_tbl[ccprocessors] WHERE paymentid IN ('" . implode("','", $ids) . "')");
+ 
+-        if ($active_modules['XPayments_Connector']) {
++        if (!empty($active_modules['XPayments_Connector'])) {
+             func_xpay_func_load();
+ 
+             if (xpc_is_emulated_paypal($paymentid)) {
+@@ -493,7 +493,7 @@
+ 
+     } elseif ($processor_file == 'cc_xpc.php') {
+ 
+-        if (!$active_modules['XPayments_Connector']) {
++        if (empty($active_modules['XPayments_Connector'])) {
+             return false;
+         }
+ 
+@@ -528,7 +528,7 @@
+     $processor = false;
+     if ($processor_file == 'ps_paypal_pro.php') {
+ 
+-        if ($active_modules['XPayments_Connector']) {
++        if (!empty($active_modules['XPayments_Connector'])) {
+             func_xpay_func_load();
+ 
+             if (xpc_is_emulated_paypal($paymentid)) {
+@@ -538,7 +538,7 @@
+ 
+     } elseif ($processor_file == 'cc_xpc.php') {
+ 
+-        if (!$active_modules['XPayments_Connector']) {
++        if (empty($active_modules['XPayments_Connector'])) {
+             return false;
+         }
+ 
+@@ -574,7 +574,7 @@
+     $func_name = false;
+     if ($processor_file == 'ps_paypal_pro.php') {
+ 
+-        if ($active_modules['XPayments_Connector']) {
++        if (!empty($active_modules['XPayments_Connector'])) {
+             func_xpay_func_load();
+ 
+             if (xpc_is_emulated_paypal($paymentid)) {
+@@ -584,7 +584,7 @@
+ 
+     } elseif ($processor_file == 'cc_xpc.php') {
+ 
+-        if ($active_modules['XPayments_Connector']) {
++        if (!empty($active_modules['XPayments_Connector'])) {
+             func_xpay_func_load();
+             $func_name = 'xpc_get_refund_mode';
+         }
+@@ -612,7 +612,7 @@
+ 
+     $processor_file = func_query_first_cell("SELECT processor_file FROM $sql_tbl[payment_methods] WHERE paymentid = '" . $paymentid . "'");
+ 
+-    if (strpos($processor_file, 'ps_paypal') === 0) {
++    if (strpos($processor_file, 'ps_paypal') !== false) {
+         x_load('paypal');
+     }
+ 
+@@ -620,7 +620,7 @@
+         $ids = func_query_column("SELECT paymentid FROM $sql_tbl[payment_methods] WHERE processor_file = '$processor_file'");
+         $processor = func_query_first_cell("SELECT processor FROM $sql_tbl[ccprocessors] WHERE paymentid IN ('" . implode("','", $ids) . "')");
+ 
+-        if ($active_modules['XPayments_Connector']) {
++        if (!empty($active_modules['XPayments_Connector'])) {
+             func_xpay_func_load();
+ 
+             if (xpc_is_emulated_paypal($paymentid)) {
+@@ -630,7 +630,7 @@
+ 
+     } elseif ($processor_file == 'cc_xpc.php') {
+ 
+-        if (!$active_modules['XPayments_Connector']) {
++        if (empty($active_modules['XPayments_Connector'])) {
+             return false;
+         }
+ 
+@@ -671,7 +671,7 @@
+         $ids = func_query_column("SELECT paymentid FROM $sql_tbl[payment_methods] WHERE processor_file = '$processor_file'");
+         $processor = func_query_first_cell("SELECT processor FROM $sql_tbl[ccprocessors] WHERE paymentid IN ('" . implode("','", $ids) . "')");
+ 
+-        if ($active_modules['XPayments_Connector']) {
++        if (!empty($active_modules['XPayments_Connector'])) {
+             func_xpay_func_load();
+ 
+             if (xpc_is_emulated_paypal($paymentid)) {
+@@ -681,7 +681,7 @@
+ 
+     } elseif ($processor_file == 'cc_xpc.php') {
+ 
+-        if (!$active_modules['XPayments_Connector']) {
++        if (empty($active_modules['XPayments_Connector'])) {
+             return false;
+         }
+ 
+@@ -722,7 +722,7 @@
+         $ids = func_query_column("SELECT paymentid FROM $sql_tbl[payment_methods] WHERE processor_file = '$processor_file'");
+         $processor = func_query_first_cell("SELECT processor FROM $sql_tbl[ccprocessors] WHERE paymentid IN ('" . implode("','", $ids) . "')");
+ 
+-        if ($active_modules['XPayments_Connector']) {
++        if (!empty($active_modules['XPayments_Connector'])) {
+             func_xpay_func_load();
+ 
+             if (xpc_is_emulated_paypal($paymentid)) {
+@@ -732,7 +732,7 @@
+ 
+     } elseif ($processor_file == 'cc_xpc.php') {
+ 
+-        if (!$active_modules['XPayments_Connector']) {
++        if (empty($active_modules['XPayments_Connector'])) {
+             return false;
+         }
+ 
+@@ -1448,6 +1448,9 @@
+         case 'F':
+             $log_msg = 'Inline frame params:';
+             break;
++        case 'B':
++            $log_msg = 'User returned back to store:';
++            break;
+         default:
+             $log_msg = 'Request data:';
+     }

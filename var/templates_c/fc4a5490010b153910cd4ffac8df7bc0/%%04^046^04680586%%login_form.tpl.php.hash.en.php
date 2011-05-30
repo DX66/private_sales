@@ -1,0 +1,1 @@
+cfbfa1676a1a0833a91f8ae2e34d96f8a:5:{s:18:"lbl_authentication";s:14:"Authentication";s:12:"lbl_password";s:8:"Password";s:20:"lbl_recover_password";s:16:"Forgot password?";s:17:"lbl_remember_me_q";s:12:"Remember me?";s:15:"msg_err_antibot";s:86:"The characters you typed do not match the characters in the picture. Please try again.";}

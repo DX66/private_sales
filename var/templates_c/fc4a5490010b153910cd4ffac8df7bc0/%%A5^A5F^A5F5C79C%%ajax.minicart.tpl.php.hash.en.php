@@ -1,0 +1,1 @@
+5d672557b048b28caf866e01fee049a7a:2:{s:9:"lbl_error";s:5:"Error";s:23:"txt_minicart_total_note";s:152:"Order subtotal does not cover discounts and extra costs like shipping charges, etc. The final cost of the order will be calculated at the checkout page.";}

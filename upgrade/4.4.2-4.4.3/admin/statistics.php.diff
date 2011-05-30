@@ -1,0 +1,49 @@
+Index: admin/statistics.php
+--- admin/statistics.php	2011-01-10 16:11:47.000000000 +0300
++++ admin/statistics.php	2011-04-28 14:50:27.000000000 +0400
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: statistics.php,v 1.61.2.1 2011/01/10 13:11:47 ferz Exp $
++ * @version    $Id: statistics.php,v 1.61.2.4 2011/04/28 10:50:27 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -132,21 +132,24 @@
+     $statistics['subcategories'] = func_query_first_cell("SELECT count(categoryid) FROM $sql_tbl[categories] WHERE parentid!='0'");
+     $statistics['orders'] = func_query_first_cell("SELECT count(orderid) FROM $sql_tbl[orders]");
+ 
+-    $first_login = "first_login+'".$config["Appearance"]["timezone_offset"]."'";
+-    $add_date = "add_date+'".$config["Appearance"]["timezone_offset"]."'";
+-    $date = "date+'".$config["Appearance"]["timezone_offset"]."'";
+-
+-    $statistics['clients_last_month'] = func_query_first_cell("SELECT count(id) FROM $sql_tbl[customers] WHERE usertype='C' AND ($first_login>='$start_date' AND $first_login<='$end_date')");
+-    $statistics['providers_last_month'] = func_query_first_cell("SELECT count(id) FROM $sql_tbl[customers] WHERE usertype='P' AND ($first_login>='$start_date' AND $first_login<='$end_date')");
+-    $statistics['products_last_month'] = func_query_first_cell("SELECT count(productid) FROM $sql_tbl[products] WHERE ($add_date>='$start_date' AND $add_date<='$end_date')");
+-    $statistics['orders_last_month'] = func_query_first_cell("SELECT count(orderid) FROM $sql_tbl[orders] WHERE ($date>='$start_date' AND $date<='$end_date')");
++    $start_date_off = $start_date - $config["Appearance"]["timezone_offset"];
++    $end_date_off = $end_date - $config["Appearance"]["timezone_offset"];
++
++    $time_login_cond = " first_login>='$start_date_off' AND first_login<='$end_date_off' ";
++    $add_date_cond = " add_date>='$start_date_off' AND add_date<='$end_date_off' ";
++    $date_cond = " date>='$start_date_off' AND date<='$end_date_off' ";
++
++    $statistics['clients_last_month'] = func_query_first_cell("SELECT count(id) FROM $sql_tbl[customers] WHERE usertype='C' AND ($time_login_cond)");
++    $statistics['providers_last_month'] = func_query_first_cell("SELECT count(id) FROM $sql_tbl[customers] WHERE usertype='P' AND ($time_login_cond)");
++    $statistics['products_last_month'] = func_query_first_cell("SELECT count(productid) FROM $sql_tbl[products] WHERE ($add_date_cond)");
++    $statistics['orders_last_month'] = func_query_first_cell("SELECT count(orderid) FROM $sql_tbl[orders] WHERE ($date_cond)");
+ }
+ else {
+-    $ss_date = "ss.date+'".$config["Appearance"]["timezone_offset"]."'";
+-
+-    $date_condition = "($ss_date>='$start_date' AND $ss_date<='$end_date')";
++    $start_date_off = $start_date - $config["Appearance"]["timezone_offset"];
++    $end_date_off = $end_date - $config["Appearance"]["timezone_offset"];
++    $date_condition = "(ss.date>='$start_date_off' AND ss.date<='$start_date_off')";
+ 
+-    if ($mode == 'shop' && $active_modules['Advanced_Statistics']) {
++    if ($mode == 'shop' && !empty($active_modules['Advanced_Statistics'])) {
+         $location[] = array(func_get_langvar_by_name('lbl_shop_statistics'));
+         include $xcart_dir.'/modules/Advanced_Statistics/display_stats.php';
+     }

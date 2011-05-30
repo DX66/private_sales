@@ -1,0 +1,34 @@
+Index: skin/common_files/admin/main/configuration.tpl
+--- skin/common_files/admin/main/configuration.tpl	2010-07-29 11:42:44.000000000 +0400
++++ skin/common_files/admin/main/configuration.tpl	2011-04-01 12:28:38.000000000 +0400
+@@ -1,5 +1,5 @@
+ {*
+-$Id: configuration.tpl,v 1.12 2010/07/29 07:42:44 igoryan Exp $
++$Id: configuration.tpl,v 1.12.2.1 2011/04/01 08:28:38 aim Exp $
+ vim: set ts=2 sw=2 sts=2 et:
+ *}
+ {if $htaccess_warning.$option eq 'Y'}
+@@ -56,13 +56,22 @@
+ 
+ {if $option eq "Google_Checkout"}
+   <div align="right">
+-    {include file="buttons/button.tpl" button_title=$lng.lbl_signup_for_gcheckout href="http://checkout.google.com/sell?promo=sequaliteamsoftware"}<br />
++    {include file="buttons/button.tpl" button_title=$lng.lbl_signup_for_gcheckout href="http://checkout.google.com/sell?promo=sequaliteamsoftware" target="_blank"}<br />
+   </div>
+   {$lng.txt_gcheckout_setup_note|substitute:"callback_url":$gcheckout_callback_url}<br />
+   <br />
+   {include file="modules/Google_Checkout/gcheckout_requirements.tpl"}
+ {/if}
+ 
++{if $option eq "Amazon_Checkout"}
++  {getvar var='amazon_merchant_URL'}
++  <div align="right">
++    {include file="buttons/button.tpl" button_title=$lng.lbl_signup_for_acheckout href="https://payments.amazon.com/sdui/sdui/business/cba#getting-started" target="_blank"}<br />
++  </div>
++  {$lng.txt_acheckout_setup_note|substitute:"callback_url":$amazon_merchant_URL}<br />
++  <br />
++{/if}
++
+ {if $option eq "Image_Verification"}
+   {include file="modules/Image_Verification/spambot_requirements.tpl"}
+ {/if}

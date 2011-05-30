@@ -1,0 +1,42 @@
+Index: admin/general.php
+--- admin/general.php	2011-01-10 16:11:45.000000000 +0300
++++ admin/general.php	2011-03-15 14:59:05.000000000 +0300
+@@ -42,7 +42,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: general.php,v 1.114.2.2 2011/01/10 13:11:45 ferz Exp $
++ * @version    $Id: general.php,v 1.114.2.3 2011/03/15 11:59:05 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -460,12 +460,28 @@
+         'module_name'         => "Google Checkout",
+         'processor'         => 'ps_gcheckout.php',
+         'type'                 => 'P',
+-        'is_down'             => !$gcheckout_enabled,
++        'is_down'             => !func_is_gcheckout_enabled(),
+         'in_testmode'         => $config['Google_Checkout']['gcheckout_test_mode'] == 'Y'
+     );
+ 
+ }
+ 
++if (!empty($active_modules['Amazon_Checkout'])) {
++
++    $payment_methods[] = array(
++        'payment_method'     => "Checkout by Amazon",
++        'payment_script'     => 'ps_amazon.php',
++        'protocol'             => 'https',
++        'active'             => 'Y',
++        'module_name'         => "Amazon Checkout",
++        'processor'         => 'ps_gcheckout.php',
++        'type'                 => 'P',
++        'is_down'             => !func_is_acheckout_enabled(),
++        'in_testmode'         => $config['Amazon_Checkout']['amazon_test_mode'] == 'Y'
++    );
++
++}
++
+ if ($config['active_subscriptions_processor']) {
+ 
+     $active_sb_params = func_query_first("SELECT * FROM $sql_tbl[ccprocessors] WHERE processor='$config[active_subscriptions_processor]'");

@@ -1,0 +1,29 @@
+Index: payment/cc_bean.php
+--- payment/cc_bean.php	2011-01-10 16:12:05.000000000 +0300
++++ payment/cc_bean.php	2011-01-25 18:24:54.000000000 +0300
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: cc_bean.php,v 1.26.2.2 2011/01/10 13:12:05 ferz Exp $
++ * @version    $Id: cc_bean.php,v 1.26.2.3 2011/01/25 15:24:54 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -86,8 +86,16 @@
+ 
+     $post[] = "trnAmount=".$cart['total_cost'];
+ 
++    if (defined('BEANSTREAM_DEBUG')) {
++        func_pp_debug_log('beanstream', 'I', $post);
++    }
++
+     list($a, $return) = func_https_request('POST',"https://www.beanstream.com:443/scripts/process_transaction.asp", $post);
+ 
++    if (defined('BEANSTREAM_DEBUG')) {
++        func_pp_debug_log('beanstream', 'R', $return);
++    }
++
+     $mass = array();
+     parse_str($return, $mass);
+ }

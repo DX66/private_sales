@@ -1,0 +1,110 @@
+/*
+$Id: payment_info.css,v 1.1 2010/05/21 08:32:51 joy Exp $
+vim: set ts=2 sw=2 sts=2 et:
+*/
+
+.xpc-payment-info {
+  margin: 20px;
+}
+
+.xpc-payment-info * {
+  font-size: 12px;
+}
+
+.xpc-payment-info h1 {
+  font-size: 19px;
+  font-weight: normal;
+  color: #3b3b3b;
+}
+
+.xpc-trans-list tr th,
+  .xpc-trans-list tr td
+{
+  padding: 7px 10px;
+}
+
+.xpc-trans-list tr th {
+  background-color: #c0c0c0;
+  color: #000000;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.xpc-trans-list tr.xpc-tran-separator td {
+  padding: 0px;
+  background-color: #ffffff;
+  font-size: 1px;
+  line-height: 1px;
+  height: 1px;
+}
+
+.xpc-trans-list tr.xpc-tran-header td {
+  background-color: #f2f2f2;
+  border-top: 1px solid #c0c0c0;
+  border-bottom: 1px solid #c0c0c0;
+  border-left: 1px solid #c0c0c0;
+  white-space: nowrap;
+}
+
+.xpc-trans-list tr td.xpc-type-cell {
+  font-weight: bold;
+}
+
+.xpc-trans-list tr td.last {
+  border-right: 1px solid #c0c0c0;
+}
+
+.xpc-trans-list tr td.xpc-result-cell {
+  font-weight: bold;
+}
+
+.xpc-trans-list tr td.xpc-result-success {
+  color: #207a00;
+}
+
+.xpc-trans-list tr td.xpc-result-failed {
+  color: #c80000;
+}
+
+.xpc-trans-list tr td.xpc-result-success-with-warning {
+  color: #e67c00;
+}
+
+.xpc-trans-list tr td.xpc-result-pending {
+  color: #414141;
+}
+
+.xpc-trans-list tr td.xpc-total-cell {
+  text-align: right;
+}
+
+.xpc-trans-list tr td.xpc-message-cell {
+  border-left: 1px solid #c0c0c0;
+  border-right: 1px solid #c0c0c0;
+  border-bottom: 1px solid #c0c0c0;
+}
+
+.xpc-trans-list .xpc-tran-data tr td {
+  padding: 3px;
+  font-size: 11px;
+}
+
+.xpc-trans-list .xpc-tran-fields tr td {
+  padding: 3px 0px;
+}
+
+.xpc-trans-list tr td.xpc-tran-key {
+  padding-right: 5px;
+  font-weight: bold;
+}
+
+.xpc-trans-list .xpc-tran-field-name {
+  white-space: nowrap;
+  vertical-align: top;
+}
+
+.xpc-trans-list tr td.xpc-tran-value {
+  padding-right: 25px;
+  vertical-align: top;
+}
+

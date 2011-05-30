@@ -1,0 +1,1 @@
+80de119b0ed50c10d09d807c4ff75d4aa:1:{s:17:"txt_email_invalid";s:40:"Email address is invalid! Please correct";}

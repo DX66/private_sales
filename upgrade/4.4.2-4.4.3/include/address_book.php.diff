@@ -1,0 +1,173 @@
+Index: include/address_book.php
+--- include/address_book.php	2011-01-10 16:11:48.000000000 +0300
++++ include/address_book.php	2011-02-24 16:50:32.000000000 +0300
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>. All rights reserved
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: address_book.php,v 1.18.2.5 2011/01/10 13:11:48 ferz Exp $
++ * @version    $Id: address_book.php,v 1.18.2.8 2011/02/24 13:50:32 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -49,6 +49,8 @@
+ 
+ x_load('user');
+ 
++#IN address_book 
++
+ /**
+  * Update address book during profile edit
+  */
+@@ -58,130 +60,31 @@
+         return;
+     }
+ 
+-    // Prepare an array of addresses to delete
+-    $delete_address = (isset($delete_address) && !empty($delete_address))
+-        ? array_keys($delete_address)
+-        : array();
+-
+     $addr_errors = array();
++    $address_book = func_prepare_address_book_data_for_save($address_book);
+ 
+-    foreach ($address_book as $addrid => $data) {
+-
+-        if (in_array($addrid, $delete_address)) {
++    if (
++        $current_area == 'C'
++        && $main == 'checkout'
++    ) {
++        // Update request from customer area
++        if (!$is_anonymous)
++            $address_book = func_customer_save_address_book_indb($address_book, @$ship2diff, @$existing_address, @$new_address);
++
++        $cart = func_customer_save_address_book_insession($cart, $address_book, @$ship2diff);
++
++    } elseif ($current_area != 'C') {
++        // Update request from admin area
++        if (!empty($delete_address)) {
++            $address_book = func_delete_from_address_book($address_book, $delete_address);
++        }            
++
++        // Update address_book for customer logged_userid
++        list($address_book, $new_addressid) = func_admin_save_address_book($address_book, $logged_userid);
++        // Mark default address(es)
++        func_admin_mark_default_addresses($logged_userid, $new_addressid);
+ 
+-            // Delete address
+-            func_delete_address($addrid);
+-        }
+-        else {
+-
+-            // Add/update address
+-
+-            $save_flag = $current_area != 'C' || !$is_anonymous;
+-
+-            if (
+-                !empty($addrid)
+-                && in_array($addrid, array('B','S'))
+-            ) {
+-
+-                // Store address record during registration at checkout
+-                if ($addrid == 'S' && $ship2diff != 'Y') {
+-                    continue;
+-                }
+-
+-                if ($main == 'checkout') {
+-
+-                    if (!empty($data['address_2'])) {
+-                        $data['address'] .= "\n" . $data['address_2'];
+-                    }
+-                    func_unset($data, 'address_2');
+-
+-                    if ($is_anonymous) {
+-                        $anonymous_userinfo['address'][$addrid] = $data;
+-                    } else {
+-                        $cart['used_' . strtolower($addrid) . '_address'] = func_stripslashes($data);
+-                    }
+-                }
+-
+-                $data['default_' . strtolower($addrid)] = 'Y';
+-                if ($addrid == 'B' && $ship2diff != 'Y') {
+-                    $data['default_s'] = 'Y';
+-                    func_unset($address_book, 'S');
+-                    func_unset($cart, 'used_s_address');
+-                }
+-
+-                if (
+-                    $save_flag
+-                    && $current_area == 'C'
+-                    && $main == 'checkout'
+-                    && $logged_userid > 0
+-                ) {
+-                    if (
+-                        isset($existing_address[$addrid])
+-                        && $existing_address[$addrid] > 0
+-                    ) {
+-                        // Update address book from checkout
+-                        $_res2 = func_save_address($logged_userid, $existing_address[$addrid], $data);
+-                        $save_flag = false;
+-                    }
+-
+-                    if (
+-                        $save_flag 
+-                        && (
+-                            func_is_address_book_empty($logged_userid)
+-                            || isset($new_address[$addrid])
+-                        )
+-                    ) {
+-                        // Add new address book row from checkout
+-                        $_res = func_save_address($logged_userid, 0, $data);
+-                        $cart['used_' . strtolower($addrid) . '_address']['id'] = $_res['addressid'];
+-                    } 
+-
+-                    $save_flag = false;
+-                }
+-            }
+-
+-            if ($save_flag) {
+-                $_res = func_save_address($logged_userid, $addrid, $data);
+-
+-                if (empty($addrid) && $current_area != 'C') {
+-                    $new_addressid = $_res['addressid'];
+-                }
+-            }
+-
+-        }
+-    }
+-    
+-    // Mark default address(es)
+-    if (!empty($logged_userid)) {
+-        foreach (array('B', 'S') as $suffix) {
+-            $fieldname = 'default_' . strtolower($suffix);
+-            if (isset($_POST[$fieldname])) {
+-                $addressid = ($_POST[$fieldname] == 0 && isset($new_addressid))
+-                    ? $new_addressid
+-                    : abs(intval($_POST[$fieldname]));
+-                func_mark_default_address($addressid, $logged_userid, $suffix);
+-            }
+-        }
+     }
+ }
+ 
+-// Process deletion of the address in the storefront
+-if (
+-    $current_area == 'C'
+-    && $mode == 'delete'
+-    && !empty($id)
+-    && func_check_address_owner($logged_userid, $id)
+-) {
+-    $res = func_delete_address($id);
+-
+-    if ($res) {
+-        $top_message = array(
+-            'type'    => 'I',
+-            'content' => func_get_langvar_by_name('txt_address_' . $mode . '_success')
+-        );
+-    }
+-
+-    func_header_location('address_book.php');
+-}
+-
+ ?>

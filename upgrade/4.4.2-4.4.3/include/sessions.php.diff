@@ -1,0 +1,113 @@
+Index: include/sessions.php
+--- include/sessions.php	2011-01-10 16:11:50.000000000 +0300
++++ include/sessions.php	2011-04-22 18:20:59.000000000 +0400
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: sessions.php,v 1.110.2.2 2011/01/10 13:11:50 ferz Exp $
++ * @version    $Id: sessions.php,v 1.110.2.5 2011/04/22 14:20:59 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -144,7 +144,7 @@
+     && constant('USE_SESSION_HISTORY')
+ ) {
+ 
+-    $session_host = $HTTP_HOST;
++    $session_host = empty($HTTP_HOST) ? "" : $HTTP_HOST;
+ 
+     $is_session_exists = !empty($XCARTSESSID) && func_query_first_cell("SELECT COUNT(*) FROM $sql_tbl[sessions_data] WHERE sessid = '$XCARTSESSID'") > 0;
+ 
+@@ -154,7 +154,7 @@
+         if ($session_source == 'C') {
+ 
+             // Remembers xid if a user goes to old host
+-            $remember_xid = func_query_first_cell("SELECT dest_xid FROM $sql_tbl[session_history] WHERE ip = '$REMOTE_ADDR' AND host = '$session_host' AND xid = '$XCARTSESSID'");
++            $remember_xid = func_query_first_cell("SELECT dest_xid FROM $sql_tbl[session_history] WHERE ip = INET_ATON('$REMOTE_ADDR') AND host = '$session_host' AND xid = '$XCARTSESSID'");
+ 
+             if ($remember_xid) {
+ 
+@@ -188,19 +188,11 @@
+     && !empty($HTTP_HOST)
+     && func_is_valid_ip($REMOTE_ADDR)
+ ) {
+-    $old_xid = func_query_first_cell("SELECT xid FROM $sql_tbl[session_history] WHERE ip = '$REMOTE_ADDR' AND host = '$session_host'");
++    $old_xid = func_query_first_cell("SELECT xid FROM $sql_tbl[session_history] WHERE ip = INET_ATON('$REMOTE_ADDR') AND host = '$session_host'");
+ 
+     if (empty($old_xid)) {
+ 
+-        func_array2insert(
+-            'session_history',
+-            array(
+-                'ip'   => $REMOTE_ADDR,
+-                'host' => $session_host,
+-                'xid'  => $XCARTSESSID,
+-            ),
+-            true
+-        );
++        db_query("REPLACE INTO $sql_tbl[session_history] (`ip`, `host`, `xid`) VALUES (INET_ATON('$REMOTE_ADDR'), '$session_host', '$XCARTSESSID')");
+ 
+     } else {
+ 
+@@ -210,7 +202,7 @@
+                 'xid' => $XCARTSESSID,
+                 'dest_xid' => '',
+             ),
+-            "ip = '$REMOTE_ADDR' AND host = '$session_host'"
++            "ip = INET_ATON('$REMOTE_ADDR') AND host = '$session_host'"
+         );
+     }
+ 
+@@ -219,7 +211,7 @@
+         !empty($init_xid)
+         && $init_xid != $XCARTSESSID
+     ) {
+-        db_query("UPDATE $sql_tbl[session_history] SET dest_xid = '$XCARTSESSID' WHERE ip = '$REMOTE_ADDR' AND host != '$session_host' AND (xid = '$init_xid' OR dest_xid = '$init_xid')");
++        db_query("UPDATE $sql_tbl[session_history] SET dest_xid = '$XCARTSESSID' WHERE ip = INET_ATON('$REMOTE_ADDR') AND host != '$session_host' AND (xid = '$init_xid' OR dest_xid = '$init_xid')");
+     }
+ }
+ 
+@@ -503,8 +495,11 @@
+ function x_session_save()
+ {
+     global $XCARTSESSID, $XCART_SESSION_VARS, $XCART_SESSION_UNPACKED_VARS, $sql_tbl;
++    
++    $old_data = func_query_first_cell("SELECT data FROM $sql_tbl[sessions_data] WHERE sessid = '$XCARTSESSID'");
+ 
+-    $old_data = unserialize(func_query_first_cell("SELECT data FROM $sql_tbl[sessions_data] WHERE sessid = '$XCARTSESSID'"));
++    if (!empty($old_data))
++        $old_data = unserialize($old_data);
+ 
+     if (!is_array($old_data))
+         $old_data = array();
+@@ -739,18 +734,8 @@
+     if (!func_is_valid_ip($ip))
+         return false;
+ 
+-    $cnt = intval(func_query_first_cell("SELECT cnt FROM $sql_tbl[session_unknown_sid] WHERE ip = '$ip' AND sessid = '$sessid'")) + 1;
+-
+-    func_array2insert(
+-        'session_unknown_sid',
+-        array(
+-            'ip'     => $ip,
+-            'sessid' => $sessid,
+-            'cnt'    => $cnt,
+-        ),
+-        true
+-    );
+-
++    $cnt = intval(func_query_first_cell("SELECT cnt FROM $sql_tbl[session_unknown_sid] WHERE ip = INET_ATON('$ip') AND sessid = '$sessid'")) + 1;
++    db_query("REPLACE INTO $sql_tbl[session_unknown_sid] (`ip`, `sessid`, `cnt`) VALUES (INET_ATON('$ip'), '$sessid', '$cnt')");
+     if ($cnt > X_SESSION_UNKNOWN_LIMIT)
+         define('X_ERR_UNKNOWN_SESSION_ID', true);
+ 
+@@ -769,7 +754,7 @@
+     if (!func_is_valid_ip($ip))
+         return false;
+ 
+-    db_query("DELETE FROM $sql_tbl[session_unknown_sid] WHERE ip = '$ip'");
++    db_query("DELETE FROM $sql_tbl[session_unknown_sid] WHERE ip = INET_ATON('$ip')");
+ 
+     return true;
+ }

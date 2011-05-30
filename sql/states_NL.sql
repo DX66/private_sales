@@ -1,0 +1,12 @@
+INSERT INTO xcart_states (state, code, country_code) VALUES ('Drenthe','DRE','NL');
+INSERT INTO xcart_states (state, code, country_code) VALUES ('Flevoland','FLE','NL');
+INSERT INTO xcart_states (state, code, country_code) VALUES ('Friesland','FRI','NL');
+INSERT INTO xcart_states (state, code, country_code) VALUES ('Gelderland','GEL','NL');
+INSERT INTO xcart_states (state, code, country_code) VALUES ('Groningen','GRO','NL');
+INSERT INTO xcart_states (state, code, country_code) VALUES ('Limburg','LIM','NL');
+INSERT INTO xcart_states (state, code, country_code) VALUES ('Noord-Brabant','NBR','NL');
+INSERT INTO xcart_states (state, code, country_code) VALUES ('Noord-Holland','NHO','NL');
+INSERT INTO xcart_states (state, code, country_code) VALUES ('Overijssel','OVE','NL');
+INSERT INTO xcart_states (state, code, country_code) VALUES ('Utrecht','UTR','NL');
+INSERT INTO xcart_states (state, code, country_code) VALUES ('Zeeland','ZEE','NL');
+INSERT INTO xcart_states (state, code, country_code) VALUES ('Zuid-Holland','ZHO','NL');

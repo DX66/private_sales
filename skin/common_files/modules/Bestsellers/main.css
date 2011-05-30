@@ -1,0 +1,73 @@
+/* vim: set ts=2 sw=2 sts=2 et: */
+/**
+ * Bestsellers module CSS stylesheet
+ *  
+ * @category   X-Cart
+ * @package    X-Cart
+ * @subpackage CSS
+ * @author     Ruslan R. Fazlyev <rrf@x-cart.com> 
+ * @version    $Id: main.css,v 1.2 2010/05/31 06:08:29 igoryan Exp $
+ * @link       http://www.x-cart.com/
+ * @see        ____file_see____
+ */
+
+/**
+ * Bestsellers menu box
+ */
+.menu-bestsellers img.icon {
+  background: url(../../images/dingbats_categorie.gif) no-repeat;
+}
+
+.menu-bestsellers ul li a:link,
+.menu-bestsellers ul li a:visited,
+.menu-bestsellers ul li a:hover,
+.menu-bestsellers ul li a:active
+{
+  font-weight: normal;
+}
+
+.menu-bestsellers ul {
+  margin-left: 20px;
+  list-style: decimal outside none;
+  font-weight: bold;
+}
+
+.menu-bestsellers ul li,
+.menu-special ul li,
+.menu-help ul li,
+.menu-manufacturers ul li
+{
+  padding: 4px 0;
+}
+
+/**
+ * Bestsellers products list
+ */
+ul.bestsellers-products-item {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+ul.bestsellers-products-item li {
+  list-style: none;
+  padding: 2px;
+}
+
+ul.bestsellers-products-item img {
+  width: 50px;
+  float: left;
+}
+
+.bestsellers-products-item .details {
+  margin-left: 50px;
+  padding-left: 2px;
+}
+
+.bestsellers-products-item a.product-title:link,
+.bestsellers-products-item a.product-title:visited,
+.bestsellers-products-item a.product-title:hover,
+.bestsellers-products-item a.product-title:active
+{
+  font-weight: bold;
+}

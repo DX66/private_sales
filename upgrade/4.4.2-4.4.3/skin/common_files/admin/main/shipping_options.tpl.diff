@@ -1,0 +1,67 @@
+Index: skin/common_files/admin/main/shipping_options.tpl
+--- skin/common_files/admin/main/shipping_options.tpl	2010-05-21 12:32:00.000000000 +0400
++++ skin/common_files/admin/main/shipping_options.tpl	2011-04-25 12:42:23.000000000 +0400
+@@ -1,5 +1,5 @@
+ {*
+-$Id: shipping_options.tpl,v 1.1 2010/05/21 08:32:00 joy Exp $
++$Id: shipping_options.tpl,v 1.1.2.3 2011/04/25 08:42:23 aim Exp $
+ vim: set ts=2 sw=2 sts=2 et:
+ *}
+ {include file="page_title.tpl" title=$lng.lbl_shipping_options}
+@@ -97,7 +97,7 @@
+ </tr>
+ 
+ <tr>
+-  <td class="FormButton">{$lng.lbl_fedex_address_2}:</td>
++  <td class="FormButton">{$lng.lbl_address_2}:</td>
+   <td></td>
+   <td><input type="text" size="35" maxlength="35" name="posted_data[address_2]" value="{$prepared_user_data.address_2|escape}" /></td>
+   <td></td>
+@@ -464,6 +464,16 @@
+ </tr>
+ 
+ <tr>
++  <td><b>{$lng.lbl_usps_container3}:</b></td>
++  <td>
++  <select name="container_intl">
++    <option value="RECTANGULAR"{if $shipping_options.usps.param10 eq "RECTANGULAR"} selected="selected"{/if}>Rectangular</option>
++    <option value="NONRECTANGULAR"{if $shipping_options.usps.param10 eq "NONRECTANGULAR"} selected="selected"{/if}>Non Rectangular</option>
++  </select>
++  </td>
++</tr>
++
++<tr>
+   <td colspan="2"><hr /></td>
+ </tr>
+ 
+@@ -475,9 +485,8 @@
+   <td><b>{$lng.lbl_package_size} {$lng.lbl_package_size_note}:</b></td>
+   <td>
+   <select name="package_size">
+-    <option value="Regular"{if $shipping_options.usps.param01 eq "Regular"} selected="selected"{/if}>Regular (0 &lt; size &lt;= 84)</option>
+-    <option value="Large"{if $shipping_options.usps.param01 eq "Large"} selected="selected"{/if}>Large (84 &lt; size &lt;= 108)</option>
+-    <option value="Oversize"{if $shipping_options.usps.param01 eq "Oversize"} selected="selected"{/if}>Oversize (108 &lt; size &lt;= 130)</option>
++    <option value="REGULAR"{if $shipping_options.usps.param01 eq "REGULAR"} selected="selected"{/if}>Regular (Package dimensions are 12 or less)</option>
++    <option value="LARGE"{if $shipping_options.usps.param01 eq "LARGE"} selected="selected"{/if}>Large (Any package dimension is larger than 12)</option>
+   </select>
+   </td>
+ </tr>
+@@ -509,8 +518,8 @@
+     <option>{$lng.lbl_none}</option>
+     <option value="Flat Rate Envelope"{if $shipping_options.usps.param04 eq "Flat Rate Envelope"} selected="selected"{/if}>Priority Mail Flat Rate Envelope, 12.5 x 9.5</option>
+     <option value="Flat Rate Box"{if $shipping_options.usps.param04 eq "Flat Rate Box"} selected="selected"{/if}>Priority Mail Flat Rate Box, 14" x 12" x 3.5", 11.25" x 8.75" x 6"</option>
+-    <option value="Rectangular"{if $shipping_options.usps.param04 eq "Rectangular"} selected="selected"{/if}>Rectangular (Priority Mail Large)</option>
+-    <option value="NonRectangular"{if $shipping_options.usps.param04 eq "NonRectangular"} selected="selected"{/if}>Non Rectangular (Priority Mail Large)</option>
++    <option value="RECTANGULAR"{if $shipping_options.usps.param04 eq "RECTANGULAR"} selected="selected"{/if}>Rectangular (Priority Mail Large)</option>
++    <option value="NONRECTANGULAR"{if $shipping_options.usps.param04 eq "NONRECTANGULAR"} selected="selected"{/if}>Non Rectangular (Priority Mail Large)</option>
+   </select>
+   </td>
+ </tr>
+@@ -570,6 +579,7 @@
+     <option value="LETTER"{if $shipping_options.usps.param05 eq "LETTER"} selected="selected"{/if}>Letter</option>
+     <option value="FLAT"{if $shipping_options.usps.param05 eq "FLAT"} selected="selected"{/if}>Flat</option>
+     <option value="PARCEL"{if $shipping_options.usps.param05 eq "PARCEL"} selected="selected"{/if}>Parcel</option>
++    <option value="POSTCARD"{if $shipping_options.usps.param05 eq "POSTCARD"} selected="selected"{/if}>PostCard</option>
+   </select>
+   </td>
+ </tr>

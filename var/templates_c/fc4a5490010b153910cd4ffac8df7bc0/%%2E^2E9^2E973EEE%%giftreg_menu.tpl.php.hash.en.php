@@ -1,0 +1,1 @@
+89b1fa47b228cb3cb5c0aba77ac163cfa:1:{s:18:"lbl_giftreg_search";s:17:"Search for events";}

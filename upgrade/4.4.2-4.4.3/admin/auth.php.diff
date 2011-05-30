@@ -1,0 +1,58 @@
+Index: admin/auth.php
+--- admin/auth.php	2011-01-10 16:11:44.000000000 +0300
++++ admin/auth.php	2011-05-04 16:41:32.000000000 +0400
+@@ -41,7 +41,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: auth.php,v 1.85.2.2 2011/01/10 13:11:44 ferz Exp $
++ * @version    $Id: auth.php,v 1.85.2.4 2011/05/04 12:41:32 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -91,12 +91,7 @@
+ $current_area = 'A';
+ 
+ require_once $xcart_dir . '/include/admin_security.php';
+-
+-if (!defined('HTTPS_CHECK_SKIP')) {
+-
+-    include $xcart_dir . '/https.php';
+-
+-}
++include $xcart_dir . '/https.php';
+ 
+ $location = array();
+ $location[] = array(func_get_langvar_by_name('lbl_main_page'), 'home.php');
+@@ -135,23 +130,27 @@
+ 
+ $smarty->assign('need_storefront_link', $has_user_account);
+ 
+-if ($has_user_account) {
++if (
++    $has_user_account
++    && $REQUEST_METHOD == 'GET'
++) {
+ 
+     if (
+         !$shop_evaluation
+         && !empty($_GET['do_not_show_adv'])
+-        && ($_GET['do_not_show_adv'] == 'Y')
+     ) {
++        // Admin clicks on 'Do not show this message next time' link
+         db_query("REPLACE INTO $sql_tbl[config] SET name='do_not_show_adv', value='Y'");
++        $config['do_not_show_adv'] = 'Y';
+     }
+ 
+-    if ($show_adv !== false) {
++    if ($show_adv != 'already_displayed') {
+ 
+         $show_adv = func_get_adv();
+ 
+         $smarty->assign('show_adv', $show_adv);
+ 
+-        $show_adv = false;
++        $show_adv = 'already_displayed';
+ 
+     }
+ 

@@ -1,0 +1,42 @@
+Index: skin/common_files/admin/main/payment_methods.tpl
+--- skin/common_files/admin/main/payment_methods.tpl	2010-09-06 11:50:44.000000000 +0400
++++ skin/common_files/admin/main/payment_methods.tpl	2011-02-18 11:15:06.000000000 +0300
+@@ -1,5 +1,5 @@
+ {*
+-$Id: payment_methods.tpl,v 1.1.2.3 2010/09/06 07:50:44 aim Exp $
++$Id: payment_methods.tpl,v 1.1.2.4 2011/02/18 08:15:06 aim Exp $
+ vim: set ts=2 sw=2 sts=2 et:
+ *}
+ {if not $use_paypal_flow}
+@@ -234,6 +234,31 @@
+     {/if}
+ 
+   </table>
++
++  <br />
++  <br />
++  <a name='section_force_offline_paymentid'></a>
++  {getvar var=offline_payment_methods}
++  {if $offline_payment_methods ne ''}
++  <table cellpadding="2" cellspacing="1" width="100%">
++    <tr>
++      <td nowrap="nowrap"><strong>{$lng.lbl_note_for_zero_cost_orders}</strong></td>
++      <td align="center" width="100%">
++        <select name="force_offline_paymentid" style="width: 100%;">
++          {foreach from=$offline_payment_methods item=v key=k}
++          <option value='{$k}'{if $config.Egoods.force_offline_paymentid eq $k} selected="selected"{/if}>{$v|escape}</option>
++          {/foreach}
++        </select>
++      </td>  
++      <td nowrap="nowrap">{include file="main/tooltip_js.tpl" type="img" id="what_is_force_offline_paymentid" text=$lng.opt_descr_force_offline_paymentid}</td>
++      <td nowrap="nowrap">
++        {include file="buttons/button.tpl" button_title=$lng.lbl_set_val href="javascript: document.pmform.mode.value='change_force_offline_paymentid';document.pmform.submit();"}
++      </td>
++    </tr>  
++  </table>
++
++  {/if}
++
+   </form>
+ 
+ {/capture}

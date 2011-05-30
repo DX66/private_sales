@@ -1,0 +1,1013 @@
+<?php
+/* vim: set ts=4 sw=4 sts=4 et: */
+/*****************************************************************************\
++-----------------------------------------------------------------------------+
+| X-Cart                                                                      |
+| Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>                  |
+| All rights reserved.                                                        |
++-----------------------------------------------------------------------------+
+| PLEASE READ  THE FULL TEXT OF SOFTWARE LICENSE AGREEMENT IN THE "COPYRIGHT" |
+| FILE PROVIDED WITH THIS DISTRIBUTION. THE AGREEMENT TEXT IS ALSO AVAILABLE  |
+| AT THE FOLLOWING URL: http://www.x-cart.com/license.php                     |
+|                                                                             |
+| THIS  AGREEMENT  EXPRESSES  THE  TERMS  AND CONDITIONS ON WHICH YOU MAY USE |
+| THIS SOFTWARE   PROGRAM   AND  ASSOCIATED  DOCUMENTATION   THAT  RUSLAN  R. |
+| FAZLYEV (hereinafter  referred to as "THE AUTHOR") IS FURNISHING  OR MAKING |
+| AVAILABLE TO YOU WITH  THIS  AGREEMENT  (COLLECTIVELY,  THE  "SOFTWARE").   |
+| PLEASE   REVIEW   THE  TERMS  AND   CONDITIONS  OF  THIS  LICENSE AGREEMENT |
+| CAREFULLY   BEFORE   INSTALLING   OR  USING  THE  SOFTWARE.  BY INSTALLING, |
+| COPYING   OR   OTHERWISE   USING   THE   SOFTWARE,  YOU  AND  YOUR  COMPANY |
+| (COLLECTIVELY,  "YOU")  ARE  ACCEPTING  AND AGREEING  TO  THE TERMS OF THIS |
+| LICENSE   AGREEMENT.   IF  YOU    ARE  NOT  WILLING   TO  BE  BOUND BY THIS |
+| AGREEMENT, DO  NOT INSTALL OR USE THE SOFTWARE.  VARIOUS   COPYRIGHTS   AND |
+| OTHER   INTELLECTUAL   PROPERTY   RIGHTS    PROTECT   THE   SOFTWARE.  THIS |
+| AGREEMENT IS A LICENSE AGREEMENT THAT GIVES  YOU  LIMITED  RIGHTS   TO  USE |
+| THE  SOFTWARE   AND  NOT  AN  AGREEMENT  FOR SALE OR FOR  TRANSFER OF TITLE.|
+| THE AUTHOR RETAINS ALL RIGHTS NOT EXPRESSLY GRANTED BY THIS AGREEMENT.      |
+|                                                                             |
+| The Initial Developer of the Original Code is Ruslan R. Fazlyev             |
+| Portions created by Ruslan R. Fazlyev are Copyright (C) 2001-2011           |
+| Ruslan R. Fazlyev. All Rights Reserved.                                     |
++-----------------------------------------------------------------------------+
+\*****************************************************************************/
+
+/**
+ * Checkout by Amazon
+ *
+ * @category   X-Cart
+ * @package    X-Cart
+ * @subpackage Modules
+ * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+ * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+ * @license    http://www.x-cart.com/license.php X-Cart license agreement
+ * @version    $Id: func.php,v 1.7.2.4 2011/04/08 09:59:18 aim Exp $
+ * @link       http://www.x-cart.com/
+ * @see        ____file_see____
+ */
+
+if ( !defined('XCART_SESSION_START') ) { header("Location: ../../"); die("Access denied"); }
+
+require_once ($xcart_dir . '/modules/Google_Checkout/func.php');
+
+function func_acheckout_debug($message, $xml=false)
+{
+    global $acheckout_global_log, $acheckout_global_xml_log;
+    global $acheckout_log_detailed_data;
+
+    if (!defined('ACHECKOUT_DEBUG') || empty($message))
+        return true;
+    
+    if (!$xml) {
+        $acheckout_global_log .= $message . "\n";
+    } elseif ($acheckout_log_detailed_data) {
+        if (func_is_latin1($message)) {
+            $message = preg_replace('/^\s*/m', '', $message);
+            // func_xml_format does not support multibyte encoding
+            $message = func_xml_format($message, 2);
+        }            
+        $acheckout_global_xml_log .= $message . "\n";
+    }        
+    
+    return true;
+}
+
+
+/**
+ * Attention! Must be called from global scope
+ */
+function func_acheckout_restore_session_n_global($skey)
+{
+    global $cart, $sql_tbl;
+
+    $sess_result = func_gcheckout_restore_session_n_global($skey);
+
+    if (empty($sess_result)) {
+        $saved_cart = func_query_first_cell("SELECT cart FROM $sql_tbl[amazon_data] WHERE ref='$skey'");
+        if (!empty($saved_cart)) {
+            $cart = unserialize($saved_cart);
+        }       
+    } 
+
+    return $sess_result;
+}
+
+function func_acheckout_save_log()
+{
+    global $acheckout_global_log, $acheckout_global_xml_log;
+    global $acheckout_log_detailed_data;
+
+    if (!defined('ACHECKOUT_DEBUG'))
+        return true;
+
+    if (!empty($acheckout_global_log)) {
+
+        list($_usec, $_sec) = explode(" ", constant('XCART_START_TIME'));
+        list($_usec2, $_sec2) = explode(" ", microtime());
+
+        $acheckout_global_log .= "\t+ Running time (in seconds): " . (($_usec2 + $_sec2) - ($_usec + $_sec)) . "\n";
+
+        if (ACHECKOUT_DEBUG != 1) {
+            // Preparing for sending to e-mail
+            $emails_array = explode(',', ACHECKOUT_DEBUG);
+            x_log_add('acheckout', $acheckout_global_log, false, 0, $emails_array, true);
+        }
+        else
+            x_log_add('acheckout', $acheckout_global_log);
+    }
+
+    if (!empty($acheckout_global_xml_log)) {
+        x_log_add('acheckout_xml', $acheckout_global_xml_log);
+    }
+
+    return true;
+}
+
+function func_acheckout_wait_for_orders_from_callback($skey, $wait_time=4)
+{
+    return func_gcheckout_wait_for_orders_from_callback($skey, 'Amazon_Checkout', $wait_time);
+}
+
+function func_amazon_detect_state($state, $country)
+{
+    global $sql_tbl;
+    $state = strtolower(trim($state));
+    if ($s_code = func_query_first_cell("SELECT code FROM $sql_tbl[states] WHERE (LOWER(state)='$state' OR LOWER(code)='$state') AND country_code='$country'")) {
+        return $s_code;
+    } else {
+        return 'Other';
+    }
+}
+
+function func_amazon_encode($str, $limit=0)
+{
+    $str =  func_google_encode($str);
+
+    if (!empty($limit)) {
+        if (function_exists('mb_substr'))
+            $str = mb_substr($str, 0, $limit, 'UTF-8');    
+        else
+            $str = substr($str, 0, $limit);
+    }
+
+    return $str;
+}
+
+function func_amazon_encode_cart($cart)
+{
+    global $config;
+
+    $return = 'order:'.base64_encode($cart);
+    if (!empty($config['Amazon_Checkout']['amazon_secret_key'])) {
+        $signature = func_amazon_sign($cart);
+        $return = 'type:merchant-signed-order/aws-accesskey/1;'.$return.';signature:'.$signature.';aws-access-key-id:'.$config['Amazon_Checkout']['amazon_access_key'];
+    } else {
+        $return = 'type:unsigned-order;'.$return;
+    }
+
+    return $return;
+}
+
+function func_amazon_get_choosen_shipping3($cart, $products, $shipping_name, $amazon_shipping)
+{
+    // Get the shipping methods list with rates
+    $_allowed_shipping_methods = func_get_shipping_methods_list($cart, $products, $cart['userinfo']);
+    
+    // Generate the full list of shipping methods for current address
+    $shipping = array();
+    if (!empty($_allowed_shipping_methods)) {
+        foreach ($_allowed_shipping_methods as $_ship_method) {
+            if (func_insert_trademark($_ship_method['shipping'], 'use_alt') == $shipping_name) {
+                $shipping['shippingid'] = $_ship_method['shippingid'];
+                $shipping['shipping'] = $_ship_method['shipping'];
+                $shipping['rate'] = $_ship_method['rate'];
+                break;
+            }
+        }
+    }
+    
+    // Reserve way to resolve shipping 
+    if (empty($shipping)) {
+        $shipping = $cart['amazon_shippings'][$amazon_shipping];
+    }
+
+    return $shipping;
+}
+
+/**
+ * Generate URL for the 'Merchant URL' field on the 'Checkout Pipeline Settings'->sellercentral.amazon.com
+ */
+function func_amazon_get_merchant_URL()
+{
+    global $https_location;
+
+    return $https_location . '/payment/ps_amazon.php';
+}
+
+function func_amazon_get_order_details3($parsed, $amazon_products, $amazon_oid, $type = 'NEWORDERNOTIFICATION')
+{
+    $order_details = '';
+    $order_details .= "AmazonOrderId: $amazon_oid\n\n";
+    $order_details .= "OrderChannel: ".func_array_path($parsed, "$type/PROCESSEDORDER/ORDERCHANNEL/0/#")."\n\n";
+
+    $order_details .= "Ordered products:\n\n";
+    $a_total = 0;
+    $a_total_shipping = 0;
+    foreach ($amazon_products as $_prd) {
+        $order_details .= "SKU: $_prd[productcode]\n";
+        $order_details .= "AmazonOrderItemCode: ".func_array_path($_prd['raw_data'],"AMAZONORDERITEMCODE/0/#")."\n";
+        $order_details .= "CartId: ".func_array_path($_prd['raw_data'],"CARTID/0/#")."\n";
+        $order_details .= "\n";
+    }
+
+    return $order_details;
+}
+
+function func_amazon_get_taxes12($cart)
+{
+    return func_gcheckout_get_taxes($cart);
+}
+
+function func_amazon_get_totals3($parsed, $amazon_products, $amazon_oid, $type = 'NEWORDERNOTIFICATION')
+{
+    $a_total = 0;
+    $a_total_shipping = 0;
+    foreach ($amazon_products as $_prd) {
+        $charges = func_array_path($_prd['raw_data'],"ITEMCHARGES/COMPONENT");
+        $p_total = 0;
+        $p_total_shipping = 0;
+        foreach ($charges as $charge) {
+            $_type = func_array_path($charge,"TYPE/0/#");
+            $_charge = func_array_path($charge,"CHARGE/AMOUNT/0/#");
+            if ($_type != 'PrincipalPromo' && $_type != 'ShippingPromo') {
+                $p_total += $_charge;
+            } else {
+                $p_total -= $_charge;
+            }
+
+            if ($_type == 'Shipping')
+                $p_total_shipping += $_charge;
+        }
+        $a_total += $p_total;
+        $a_total_shipping += $p_total_shipping;
+    }
+
+    return array('shipping_cost'=>$a_total_shipping, 'total_cost'=>$a_total);
+}
+
+function func_amazon_get_shipping_methods12($cart)
+{
+    global $single_mode, $config, $user_account;
+    static $result_cache = array();
+
+    $md5_args = md5(serialize(array(
+        $cart, $user_account,
+        $config['Shipping'],
+        $config['General'],
+    )));
+
+    if (isset($result_cache[$md5_args])) {
+        return $result_cache[$md5_args];
+    }
+
+    // Option adjustment to avoid empty($userinfo) checking
+    // $userinfo will be provided by Amazon in callback
+    $config['Shipping']['enable_all_shippings'] = 'Y';
+    $userinfo = $cart['userinfo'];
+    $products = func_products_in_cart($cart, (!empty($user_account['membershipid']) ? $user_account['membershipid'] : ''));
+
+    $_need_shipping = func_cart_is_need_shipping($cart, $products, $userinfo, 'dont_check_free_ship_coupons');
+
+    if (empty($_need_shipping)) {
+        $result_cache[$md5_args] = false;
+        return false;
+    }        
+
+    if (!$single_mode)
+        $number_of_providers = count(func_get_products_providers($products));
+    else
+        $number_of_providers = 1;
+
+    // Some options require adjustment
+    $config['Shipping']['enable_all_shippings'] = 'N';
+
+    // Emulate the 'apply_default_country' option enabled
+    $config['General']['apply_default_country'] = 'Y';
+    $config['General']['default_country'] = $userinfo['b_country'];
+    $config['General']['default_zipcode'] = $userinfo['b_zipcode'];
+    $config['General']['default_state'] = $userinfo['b_state'];
+    $config['General']['default_city'] = $userinfo['b_city'];
+
+    $intershipper_recalc = 'Y';
+
+    x_load('shipping');
+    // Get list of all shipping methods that are potentially available for customers
+    $shipping_methods = func_get_shipping_methods_list($cart, $products, $userinfo);
+
+    $result_cache[$md5_args] = $shipping_methods;
+    return $shipping_methods;
+}
+
+function func_amazon_handle_cancel($skey)
+{
+    global $xcart_catalogs, $sql_tbl;
+
+    func_cart_unlock();
+
+    if (func_is_acheckout_enabled()) {
+        func_acheckout_debug("\t+ Customer canceled Amazon Checkout transaction");
+        func_acheckout_debug("\t+ skey: $skey");
+    }        
+
+    if (!empty($skey)) {
+        db_query("DELETE FROM $sql_tbl[cc_pp3_data] WHERE ref='$skey'");
+        db_query("DELETE FROM $sql_tbl[amazon_data] WHERE ref='$skey'");
+    } 
+
+    func_header_location($xcart_catalogs['customer']."/cart.php");
+}
+
+function func_amazon_handle_return($skey)
+{
+    global $config, $active_modules, $sql_tbl, $xcart_catalogs;
+    global $cart, $current_location;
+
+    // Customer returned back to X-Cart
+    func_acheckout_debug("\t+ Customer returned back to the shop");
+    func_acheckout_debug("\t+ skey: $skey");
+
+    if (!empty($skey)) {
+        $ret = func_query_first("SELECT * FROM $sql_tbl[cc_pp3_data] WHERE ref='$skey'");
+
+        $order_status = $ret['param2'];
+        $_orderids = $ret['param3'];
+
+        if ((empty($order_status) || empty($_orderids))) {
+            // There are no orders found, try to wait them
+            func_acheckout_wait_for_orders_from_callback($skey);
+        }
+
+        x_session_register('cart');
+
+        db_query("DELETE FROM $sql_tbl[cc_pp3_data] WHERE ref='$skey'");
+        db_query("DELETE FROM $sql_tbl[amazon_data] WHERE ref='$skey'");
+
+        func_cart_unlock();
+
+        if (empty($order_status) || $order_status == 'F') {
+            $bill_error = "error_ccprocessor_error";
+            $reason = "&bill_message=".urlencode($ret['param4']);
+            $redirect_url = $current_location.DIR_CUSTOMER."/error_message.php?error=".$bill_error.$reason;
+        }
+        else {
+            $cart = '';
+            $redirect_url = $xcart_catalogs['customer']."/cart.php?mode=order_message&orderids=$_orderids";
+
+            if (!empty($active_modules['SnS_connector']))
+                func_generate_sns_action('CartChanged');
+
+        }
+
+        func_acheckout_debug("\t+ Redirect to: $redirect_url");
+
+        func_header_location($redirect_url);
+
+    } else {
+        func_header_location($xcart_catalogs['customer']."/cart.php");
+    }       
+
+    return true;
+}
+
+function func_amazon_header_exit($code)
+{
+    global $_SERVER;
+    $codes = array(500 => 'Internal Server Error', 403 => 'Forbidden', 503 => 'Service Unavailable');
+    @header("$_SERVER[SERVER_PROTOCOL] $code ".$codes[$code]);
+    exit;
+}
+
+function func_amazon_is_response_error($parsed, $cart, $type = 'ORDERCALCULATIONSREQUEST')
+{
+    $need_shipping = func_array_path($parsed, $type.'/ORDERCALCULATIONCALLBACKS/CALCULATESHIPPINGRATES/0/#') === 'true';
+
+    if ($need_shipping) {
+        $amazon_shipping_methods = func_amazon_get_shipping_methods12($cart);
+        if (empty($amazon_shipping_methods)) {
+            func_acheckout_debug("\t+ INVALID_SHIPPING_ADDRESS-No shipping methods available for this address.");
+            $xml = <<<OUT
+            <Error>
+                <Code>INVALID_SHIPPING_ADDRESS</Code>
+                <Message>No shipping methods available for this address.</Message>
+            </Error>
+OUT;
+            return $xml;
+        }
+    }
+
+    return false;
+}
+
+function func_amazon_is_validated_callback()
+{
+    $check_sign = func_amazon_sign($_POST['UUID'].$_POST['Timestamp']);
+
+    return $check_sign == $_POST['Signature'];
+}
+
+function func_amazon_customer_info($_addr)
+{
+    $customer_info['s_country'] = $customer_info['b_country'] = $_addr['COUNTRYCODE'][0]['#'];
+    $customer_info['s_address'] = $customer_info['b_address'] = @$_addr['ADDRESSFIELDONE'][0]['#']."\n".@$_addr['ADDRESSFIELDTWO'][0]['#'];
+    $customer_info['s_city'] = $customer_info['b_city'] = $_addr['CITY'][0]['#'];
+    $customer_info['s_state'] = $customer_info['b_state'] = func_amazon_detect_state($_addr['STATE'][0]['#'], $customer_info['s_country']);
+    $customer_info['s_zipcode'] = $customer_info['b_zipcode'] = $_addr['POSTALCODE'][0]['#'];
+    
+    $log_addr = implode(",", array_unique($customer_info));
+    $log_addr = str_replace("\n","", $log_addr);
+    func_acheckout_debug("\t+ Parsed address: $log_addr");
+
+    $customer_info['address'] = array();
+    $customer_info['address']['B']['country'] = $customer_info['b_country'];
+    $customer_info['address']['B']['address'] = $customer_info['b_address'];
+    $customer_info['address']['B']['city'] = $customer_info['b_city'];
+    $customer_info['address']['B']['state'] = $customer_info['b_state'];
+    $customer_info['address']['B']['zipcode'] = $customer_info['b_zipcode'];
+
+    if (!empty($_addr['NAME'][0]['#']))
+        list($customer_info['address']['B']['firstname'], $customer_info['address']['B']['lastname']) = explode(' ', $_addr['NAME'][0]['#']);
+
+    $customer_info['address']['S'] = $customer_info['address']['B'];
+    return $customer_info;
+}
+
+function func_amazon_post_response($data, $name)
+{
+    global $config;
+
+    $return = $name.'='.rawurlencode($data);
+    if (!empty($config['Amazon_Checkout']['amazon_secret_key'])) {
+        $return .= '&Signature='.rawurlencode(func_amazon_sign($data));
+        $return .= '&aws-access-key-id='.rawurlencode($config['Amazon_Checkout']['amazon_access_key']);
+    }
+
+    echo $return;
+
+    return true;
+}
+
+// This function creates base64 encoded HMAC_SHA1 signature
+function func_amazon_sign($data)
+{
+    global $config;
+    $return = base64_encode(hmac_sha1($data, $config['Amazon_Checkout']['amazon_secret_key']));
+    return $return;
+}
+
+
+function func_amazon_submit_encoded_cart($encoded_cart)
+{
+    global $smarty, $amazon_host, $config;
+
+    // Lock cart for all operations
+    func_cart_lock('by_Amazon_Checkout');
+
+    echo func_display('modules/Amazon_Checkout/waiting.tpl', $smarty, false);
+    $fields = array("order-input" => $encoded_cart);
+    func_create_payment_form("https://$amazon_host/checkout/".$config['Amazon_Checkout']['amazon_mid'], $fields, "Checkout by Amazon");
+    return true;
+}
+
+function func_amazon_xml12_ShippingMethods($cart)
+{
+    global $config;
+
+    $shipping_methods = func_amazon_get_shipping_methods12($cart);
+
+    $shipping_xml = '';
+    if (!empty($shipping_methods)) {
+        func_acheckout_debug("\t+ Shipping methods: " . count($shipping_methods) . " are allowed");
+
+        foreach ($shipping_methods as $_ship_method) {
+
+            $_ship_method['shipping'] = func_amazon_encode(func_insert_trademark($_ship_method['shipping'], 'use_alt'));
+
+            $ShipmentBased_rate = func_hash2xml(array(
+                'Amount' => $_ship_method['rate'],
+                'CurrencyCode' => $config['Amazon_Checkout']['amazon_currency']
+            ));
+            
+            $shipping_xml .= <<<OUT
+            <ShippingMethod>
+                <ShippingMethodId>$_ship_method[shippingid]</ShippingMethodId>
+                <ServiceLevel>$_ship_method[amazon_service]</ServiceLevel>
+                <Rate><ShipmentBased>$ShipmentBased_rate</ShipmentBased></Rate>
+                <IncludedRegions>
+                    <PredefinedRegion>WorldAll</PredefinedRegion>
+                </IncludedRegions>
+                <DisplayableShippingLabel>$_ship_method[shipping]</DisplayableShippingLabel>
+            </ShippingMethod>
+OUT;
+        }
+
+        $shipping_xml = "<ShippingMethods>$shipping_xml</ShippingMethods>";
+    } else {
+        func_acheckout_debug("\t+ Shipping list is empty");
+    }
+
+    return $shipping_xml;
+}
+
+function func_amazon_xml1_CancelUrl($unique_id)
+{
+    global $current_location;
+
+    return "<CancelUrl>$current_location/payment/ps_amazon.php?mode=cancel&#x26;skey=$unique_id</CancelUrl>";
+}
+
+function func_amazon_xml1_Cart_Items($cart)
+{
+    $items = array();
+    $items = func_array_merge($items, func_amazon_xml1_Cart_Items_products($cart));
+    $items = func_array_merge($items, func_amazon_xml1_Cart_Items_giftcerts($cart));
+    if (!empty($items))
+        $xml = "<Items>".implode("", $items)."</Items>";
+    else 
+        $xml = '';
+
+    return $xml;            
+}
+
+function func_amazon_xml1_Cart_Items_products($cart)
+{
+    global $config, $shop_language, $user_account;
+
+    $products = func_products_in_cart($cart, (!empty($user_account['membershipid']) ? $user_account['membershipid'] : ''));
+
+    if (empty($products)) {
+        func_acheckout_debug("\t+ products array is empty");
+        return array(); 
+    } else {
+        func_acheckout_debug("\t+ " . count($products) . " products sending");
+    }       
+
+    x_load('clean_urls');
+
+    $items = array();
+    // Generate products list
+    foreach ($products as $product) {
+        $Description    = func_payment_product_description($product);
+        $Description    = func_amazon_encode($Description, 255);
+
+        $URL = htmlspecialchars(func_get_resource_url("product", $product['productid']));
+
+        $image_ids = array('P' => $product['productid'] , 'T' => $product['productid']);
+        $image_data = func_get_image_url_by_types($image_ids, 'P');
+        $Image_URL = htmlspecialchars($image_data['image_url']);
+
+        $items[] = 
+            "<Item>".
+                "<SKU>".$product['productcode'] . '|' . $product['cartid']."</SKU>".
+                "<MerchantId>{$config['Amazon_Checkout']['amazon_mid']}</MerchantId>".
+                "<Title>".func_amazon_encode($product['product'], 100)."</Title>".
+                "<Description>$Description</Description>".
+                "<Price>".
+                    "<Amount>{$product['display_price']}</Amount>".
+                    "<CurrencyCode>{$config['Amazon_Checkout']['amazon_currency']}</CurrencyCode>".
+                "</Price>".
+                "<Quantity>$product[amount]</Quantity>".
+                "<Weight>".func_amazon_xml1_Item_Weight($product['weight'])."</Weight>".
+                "<URL>$URL</URL>".
+                "<Images><Image><URL>$Image_URL</URL></Image></Images>".
+                "<ItemCustomData><ProductType>product</ProductType></ItemCustomData>".
+            "</Item>";
+    }
+
+    return $items;
+}
+
+function func_amazon_xml1_Cart_Items_giftcerts($cart)
+{
+    global $config;
+
+    if (empty($cart['giftcerts']))
+        return array(); 
+
+    func_acheckout_debug("\t+ " . count($cart['giftcerts']) . " giftcerts sending");
+
+    foreach ($cart['giftcerts'] as $gcindex => $_giftcert) {
+
+        $_descr = func_amazon_encode(func_get_langvar_by_name('lbl_recipient', '', false, true) . ': ' . $_giftcert['recipient'], 255);
+        $_title = func_amazon_encode(func_get_langvar_by_name('lbl_gift_certificate', '', false, true), 100);
+        $SKU = md5(implode($_giftcert)) . '|' . $gcindex . 'gc';
+
+        $items[] = <<<ITEM
+            <Item>
+                <SKU>$SKU</SKU>
+                <MerchantId>{$config['Amazon_Checkout']['amazon_mid']}</MerchantId>
+                <Title>$_title</Title>
+                <Description>$_descr</Description>
+                <Price>
+                    <Amount>{$_giftcert['amount']}</Amount>
+                    <CurrencyCode>{$config['Amazon_Checkout']['amazon_currency']}</CurrencyCode>
+                </Price>
+                <Quantity>1</Quantity>
+                <ItemCustomData><ProductType>giftcert</ProductType></ItemCustomData>
+            </Item>
+ITEM;
+    }
+
+    return $items;
+}
+
+function func_amazon_xml1_CartCustomData($unique_id)
+{
+    $xml = <<<CUSTOM_DATA
+    <CartCustomData>
+        <Ref>$unique_id</Ref>
+    </CartCustomData>
+CUSTOM_DATA;
+
+    return $xml;
+}
+
+function func_amazon_xml1_Item_Weight($product_weight)
+{
+    $Weight = '';
+    if (!empty($product_weight)) {
+        $Weight = array(
+            'Amount' => func_units_convert(func_weight_in_grams($product_weight), "g", "lbs", 2),
+            'Unit' => 'lb'
+        );
+        $Weight = func_hash2xml($Weight);
+    }
+
+    return $Weight;
+}
+
+function func_amazon_xml1_Order($cart, $userinfo)
+{
+    global $login, $logged_userid;
+
+    $unique_id = func_generate_n_save_uniqueid('txt_acheckout_impossible_error');
+
+    func_acheckout_debug("\t+ skey: $unique_id");
+    func_acheckout_debug("\t+ login: $login, logged_userid: $logged_userid");
+
+    settype($cart['userinfo'], 'array');
+    $cart['userinfo'] = func_array_merge($cart['userinfo'], $userinfo);
+    $ShippingMethods            = func_amazon_xml12_ShippingMethods($cart);
+    $ReturnUrl                  = func_amazon_xml1_ReturnUrl($unique_id);
+    $CancelUrl                  = func_amazon_xml1_CancelUrl($unique_id);
+
+    $OrderCalculationCallbacks  = func_amazon_xml1_OrderCalculationCallbacks($cart, $unique_id);
+
+    // Cart
+    $Cart_Items = func_amazon_xml1_Cart_Items($cart);
+    $CartCustomData = func_amazon_xml1_CartCustomData($unique_id);
+
+    $xml = <<<OUT
+    <?xml version="1.0" encoding="UTF-8"?>
+    <Order xmlns="http://payments.amazon.com/checkout/2009-05-15/">
+        <Cart>
+            $Cart_Items
+            $CartCustomData
+        </Cart>
+        $ShippingMethods
+        $ReturnUrl
+        $CancelUrl
+        $OrderCalculationCallbacks
+        <DisablePromotionCode>true</DisablePromotionCode>
+    </Order>
+OUT;
+    
+    $xml = trim($xml);
+    return $xml;
+}
+
+function func_amazon_xml1_ReturnUrl($unique_id)
+{
+    global $current_location;
+
+    return "<ReturnUrl>$current_location/payment/ps_amazon.php?mode=continue&#x26;skey=$unique_id</ReturnUrl>";
+}
+
+function func_amazon_xml1_OrderCalculationCallbacks($cart, $unique_id)
+{
+    global $config, $https_location, $http_location, $user_account;
+
+    if (func_constant('DISABLE_AMAZON_CALLBACKS'))
+        return '';
+
+    // Option adjustment to avoid empty($userinfo) checking
+    // $userinfo will be provided by Amazon in callback
+    $config['Shipping']['enable_all_shippings'] = 'Y';
+    $products = func_products_in_cart($cart, (!empty($user_account['membershipid']) ? $user_account['membershipid'] : ''));
+
+    $need_shipping = func_cart_is_need_shipping($cart, $products, $cart['userinfo'], 'dont_check_free_ship_coupons');
+
+    $_taxes = func_amazon_get_taxes12($cart);
+    $need_tax = !empty($_taxes);
+
+    $need_promotions = ($cart['display_subtotal'] > $cart['display_discounted_subtotal']);
+
+    $script_location = ($config['Amazon_Checkout']['amazon_test_mode'] == 'N' ? $https_location : $http_location);
+
+    $OrderCalculationCallbacks = array(
+        'CalculateTaxRates' =>  $need_tax ? 'true' : 'false',
+        'CalculatePromotions' => $need_promotions ? 'true' : 'false',
+        'CalculateShippingRates' => $need_shipping ? 'true' : 'false',
+        'OrderCallbackEndpoint' => "$script_location/payment/ps_amazon.php?skey=$unique_id",
+        'ProcessOrderOnCallbackFailure' => func_constant('DEVELOPMENT_MODE') ? 'false' : true
+    );
+    $OrderCalculationCallbacks = func_hash2xml($OrderCalculationCallbacks);
+
+    $requested_sections = '';
+    if ($need_tax)
+        $requested_sections .= '|CalculateTaxRates';
+
+    if ($need_promotions)        
+        $requested_sections .= '|CalculatePromotions';
+
+    if ($need_shipping)
+        $requested_sections .= '|CalculateShippingRates';
+
+    func_acheckout_debug("\t+ Callbacks $requested_sections| are requested");
+
+    $xml = "<OrderCalculationCallbacks>$OrderCalculationCallbacks</OrderCalculationCallbacks>";
+
+    return $xml;
+}
+
+function func_amazon_xml2_Address($parsed, $type = 'ORDERCALCULATIONSREQUEST')
+{
+    $_address_id = func_array_path($parsed, "$type/CALLBACKORDERS/CALLBACKORDER/ADDRESS/ADDRESSID/0/#");
+    $xml = "<AddressId>$_address_id</AddressId>";
+    return $xml;
+}
+
+function func_amazon_xml2_CallbackOrderItems($parsed, $cart, $type = 'ORDERCALCULATIONSREQUEST')
+{
+    global $user_account;
+
+    $requested_items = func_array_path($parsed, "$type/CALLBACKORDERCART/CALLBACKORDERCARTITEMS/CALLBACKORDERCARTITEM");
+
+    if (empty($requested_items)) {
+        func_amazon_header_exit(403);
+    }
+
+    $CallbackOrderItems = array();
+    $ShippingMethodIds = func_amazon_xml2_CallbackOrderItem_ShippingMethodIds($cart);
+    $products = func_products_in_cart($cart, (!empty($user_account['membershipid']) ? $user_account['membershipid'] : ''));
+
+    settype($cart['giftcerts'], 'array');
+    settype($products, 'array');
+
+    foreach ($requested_items as $_k => $_v) {
+        $_v = $_v['#'];
+
+        $_itemid = func_array_path($_v,"CALLBACKORDERITEMID/0/#");
+        $ProductType = func_array_path($_v,"ITEM/ITEMCUSTOMDATA/PRODUCTTYPE/0/#");
+        
+        list($_sku, $_cartid) = explode("|", func_array_path($_v,"ITEM/SKU/0/#"));
+        if ($ProductType == 'product') {
+            foreach ($products as $k => $product) {
+                if ($product['cartid'] == $_cartid) {
+                    $item['CallbackOrderItemId'] = $_itemid;
+                    $CallbackOrderItems[] = <<<OUT
+                        <CallbackOrderItem>
+                            <CallbackOrderItemId>$_itemid</CallbackOrderItemId>
+                            $ShippingMethodIds
+                        </CallbackOrderItem>
+OUT;
+                    break;
+                }   
+            }  
+        } elseif ($ProductType == 'giftcert') {
+            $gcindex = intval($_cartid);
+            foreach ($cart['giftcerts'] as $k => $giftcert) {
+                if ($k == $gcindex) {
+                    $item['CallbackOrderItemId'] = $_itemid;
+                    
+                    $CallbackOrderItems[] = <<<OUT
+                        <CallbackOrderItem>
+                            <CallbackOrderItemId>$_itemid</CallbackOrderItemId>
+                            $ShippingMethodIds
+                        </CallbackOrderItem>
+OUT;
+                    break;
+                }   
+            }  
+        }
+    }  
+
+    return implode("", $CallbackOrderItems);
+}
+
+function func_amazon_xml2_CallbackOrderItem_ShippingMethodIds($cart)
+{
+    $amazon_shipping_methods = func_amazon_get_shipping_methods12($cart);
+
+    if (empty($amazon_shipping_methods))
+        return '';
+
+    // Enable shipping methods for each product
+    $ids = array();
+    foreach ($amazon_shipping_methods as $sv) {
+        $ids[] = "<ShippingMethodId>{$sv['shippingid']}</ShippingMethodId>";
+    }  
+
+    return "<ShippingMethodIds>".implode("", $ids)."</ShippingMethodIds>";
+}
+
+function func_amazon_xml2_CartTaxAmounts($cart)
+{
+    global $config;
+
+    $amazon_shipping_methods = func_amazon_get_shipping_methods12($cart);
+
+    if (empty($amazon_shipping_methods))
+        return '';
+
+    $tax_amounts = $log = array();
+    foreach ($amazon_shipping_methods as $sv) {
+        $log[] = " shippingid{$sv['shippingid']}-{$sv['tax_cost']} ";
+        $tax_amounts[] = <<<OUT
+            <CartTaxAmount>
+                <ShippingMethodId>{$sv['shippingid']}</ShippingMethodId>
+                <TaxAmount>
+                        <Amount>{$sv['tax_cost']}</Amount>
+                        <CurrencyCode>{$config['Amazon_Checkout']['amazon_currency']}</CurrencyCode>
+                </TaxAmount>
+            </CartTaxAmount>
+OUT;
+    }  
+    func_acheckout_debug("\t+ Taxes per shippings:" . implode(",", $log));
+    return "<CartTaxAmounts>".implode("", $tax_amounts)."</CartTaxAmounts>";
+}
+
+function func_amazon_xml2_OrderCalculationsResponse($parsed, $type = 'ORDERCALCULATIONSREQUEST')
+{
+    global $sql_tbl, $login, $logged_userid, $cart, $user_tmp, $current_carrier, $user_account, $config;
+
+    // Get addresses, shipping methods and coupon codes from XML request
+    $customer_info = func_amazon_customer_info(func_array_path($parsed, "$type/CALLBACKORDERS/CALLBACKORDER/ADDRESS/0/#"));
+    $customer_info['membershipid'] = intval(@$user_account['membershipid']);
+    $customer_info['usertype'] = 'C';
+
+    if (!empty($logged_userid))
+        $customer_info['id'] = $logged_userid;
+        
+    settype($cart['userinfo'], 'array');
+    $cart['userinfo'] = func_array_merge($cart['userinfo'], $customer_info);
+    $Promotions = $CartPromotionId = $CartTaxAmounts = $log_sending = '';
+
+    // ShippingMethods section
+    $ShippingMethods = func_amazon_xml12_ShippingMethods($cart);
+    
+    // CartTaxAmounts section
+    $need_tax = func_array_path($parsed, $type.'/ORDERCALCULATIONCALLBACKS/CALCULATETAXRATES/0/#') === 'true';
+    if ($need_tax) {
+        $CartTaxAmounts = func_amazon_xml2_CartTaxAmounts($cart);
+        $log_sending .= '|CartTaxAmounts';
+    } 
+
+    // Promotions section
+    $need_promotions = func_array_path($parsed, $type.'/ORDERCALCULATIONCALLBACKS/CALCULATEPROMOTIONS/0/#') === 'true';
+    if ($need_promotions) {
+        $Promotions = func_amazon_xml2_Promotions($cart);
+        $log_sending .= '|Promotions';
+        $CartPromotionId = '<CartPromotionId>total_discount_id</CartPromotionId>';
+    }        
+
+    if (!empty($ShippingMethods)) {
+        $log_sending .= '|ShippingMethods';
+    }
+
+    func_acheckout_debug("\t+ $log_sending| sections sending");
+
+    $Response = func_amazon_xml2_Response($parsed, $cart);
+    $xml = <<<OUT
+    <?xml version="1.0" encoding="UTF-8"?>
+    <OrderCalculationsResponse xmlns="http://payments.amazon.com/checkout/2009-05-15/">
+        <Response>$Response</Response>
+        $Promotions
+        $ShippingMethods
+        $CartPromotionId
+        $CartTaxAmounts
+    </OrderCalculationsResponse>
+OUT;
+    
+    $xml = trim($xml);
+    return $xml;
+}
+
+function func_amazon_xml2_Promotions($cart)
+{
+    global $config; 
+
+    $discount = abs($cart['display_subtotal'] - $cart['display_discounted_subtotal']);
+
+    $xml = <<<DATA
+    <Promotions>
+        <Promotion>
+            <PromotionId>total_discount_id</PromotionId>
+            <Description>Total cart discount</Description>
+            <Benefit>
+                <FixedAmountDiscount>
+                    <Amount>$discount</Amount>
+                    <CurrencyCode>{$config['Amazon_Checkout']['amazon_currency']}</CurrencyCode>
+                </FixedAmountDiscount>
+            </Benefit>
+        </Promotion>
+    </Promotions>
+DATA;
+
+    return $xml;
+}
+
+function func_amazon_xml2_Response($parsed, $cart)
+{
+    if ($xml_error = func_amazon_is_response_error($parsed, $cart))
+        return $xml_error;
+
+    $xml = ''.
+    '<CallbackOrders>'. 
+        '<CallbackOrder>'. 
+            '<Address>'.func_amazon_xml2_Address($parsed).'</Address>'.
+            '<CallbackOrderItems>'.func_amazon_xml2_CallbackOrderItems($parsed, $cart).'</CallbackOrderItems>'.
+        '</CallbackOrder>'.
+    '</CallbackOrders>';
+
+    return $xml;
+}
+
+/**
+ * This function checks if Amazon Checkout button must be enabled or disabled
+ */
+function func_is_acheckout_button_enabled()
+{
+    global $cart;
+
+    if (func_cart_is_zero_total_cost($cart))
+        return false;
+
+    return func_is_acheckout_enabled();
+}
+
+/**
+ * Check if Amazon Checkout can be used 
+ */
+function func_is_acheckout_enabled()                                                                                          
+{
+    global $amazon_enabled;
+    return isset($amazon_enabled) ? $amazon_enabled : false;
+} 
+
+if (!function_exists('hmac_sha1')) {
+    function hmac_sha1($data, $key) {
+        $blocksize = 64;
+
+        if (strlen($key) > $blocksize) {
+            $key = pack('H*', sha1($key));
+        }
+
+        $key = str_pad($key, $blocksize, chr(0x00));
+        $ipad = str_repeat(chr(0x36), $blocksize);
+        $opad = str_repeat(chr(0x5c), $blocksize);
+        $hmac = pack('H*', sha1(($key^$opad).pack('H*', sha1(($key^$ipad).$data))));
+
+        return $hmac;
+    }
+
+}
+
+function func_amazon_log_raw_post_get_data()
+{
+    global $var_dirs, $acheckout_log_detailed_data, $PROXY_IP, $CLIENT_IP;
+
+    $postdata = func_get_raw_post_data();
+
+    if (defined('ACHECKOUT_DEBUG') && $acheckout_log_detailed_data) {
+        // Save received data to the unique log file
+        $filename = $var_dirs['log'] . "/acheckout-" . date("Ymd-His") . "-" . uniqid(rand()) . '.log.php';
+        if ($fd = @fopen($filename, "a+")) {
+    
+            $str[] = "PROXY_IP: $PROXY_IP";
+            $str[] = "CLIENT_IP: $CLIENT_IP";
+    
+            ob_start();
+            echo "\n_GET:\n";
+            print_r($_GET);
+            echo "\n_POST:\n";
+            print_r($_POST);
+            echo "\nHTTP_RAW_POST_DATA:\n";
+            print_r($postdata);
+            $str[] = ob_get_contents();
+            ob_end_clean(); 
+            fwrite($fd, "<?php die(); ?>\n\n" . implode("\n\n", $str));
+            fclose($fd);
+            func_chmod_file($filename);
+        }
+    }
+}
+?>

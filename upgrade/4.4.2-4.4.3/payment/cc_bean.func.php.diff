@@ -1,0 +1,43 @@
+Index: payment/cc_bean.func.php
+--- payment/cc_bean.func.php	2011-01-10 16:12:05.000000000 +0300
++++ payment/cc_bean.func.php	2011-03-01 12:56:31.000000000 +0300
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: cc_bean.func.php,v 1.17.2.1 2011/01/10 13:12:05 ferz Exp $
++ * @version    $Id: cc_bean.func.php,v 1.17.2.2 2011/03/01 09:56:31 ferz Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -58,6 +58,7 @@
+         "merchant_id=".$module_params['param01'],
+         "trnCardOwner=".urlencode($userinfo['card_name']),
+         "trnCardNumber=".$userinfo['card_number'],
++        "trnCardCvd=".$userinfo['card_cvv2'],
+         "trnExpMonth=".substr($userinfo['card_expire'],0,2),
+         "trnExpYear=".substr($userinfo['card_expire'],2,2),
+         "trnOrderNumber=".$module_params['param04'].join("-", $secure_oid).'VBV',
+@@ -121,12 +122,19 @@
+ function func_cc_bean_validate()
+ {
+ 
+-    $post = array();
++    $data = array();
++
+     if (!empty($_GET) && is_array($_GET)) {
+         foreach($_GET as $k => $v)
+-            $post[] = $k."=".$v;
++            $data[] = $k."=".$v;
++    }
++
++    if (!empty($_POST) && is_array($_POST)) {
++        foreach($_POST as $k => $v)
++            $data[] = $k."=".$v;
+     }
+-    list($a, $return) = func_https_request('POST', "https://www.beanstream.com:443/scripts/process_transaction_auth.asp", $post);
++
++    list($a, $return) = func_https_request('POST', "https://www.beanstream.com:443/scripts/process_transaction_auth.asp", $data);
+ 
+     $res = array();
+     parse_str($return, $res);

@@ -1,0 +1,331 @@
+Index: include/register.php
+--- include/register.php	2011-01-10 16:11:50.000000000 +0300
++++ include/register.php	2011-03-01 12:26:23.000000000 +0300
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: register.php,v 1.359.2.19 2011/01/10 13:11:50 ferz Exp $
++ * @version    $Id: register.php,v 1.359.2.32 2011/03/01 09:26:23 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -78,7 +78,7 @@
+ if (
+     $REQUEST_METHOD == 'POST'
+     && !empty($active_modules['UPS_OnLine_Tools'])
+-    && $av_suggest
++    && !empty($av_suggest)
+ ) {
+ 
+     // Shipping Address Validation by UPS OnLine Tools module
+@@ -201,6 +201,8 @@
+         )
+     );
+ 
++$_anonymous_userinfo = func_get_anonymous_userinfo();
++
+ if (
+     $REQUEST_METHOD == 'POST'
+     && isset($_POST['usertype'])
+@@ -227,7 +229,7 @@
+             : $uname;
+     }
+ 
+-    $uname = trim($uname);
++    $uname = isset($uname) ? trim($uname) : '';
+ 
+     // Adjust mode for anonymous customers
+     if (
+@@ -335,7 +337,11 @@
+                 'zipcode',
+             );
+ 
+-            $_tmp = is_array($cart['used_s_address']) ? $cart['used_s_address'] : $old_userinfo['address']['S'];
++            $_used_s_address = func_get_cart_address('s');
++
++            $_tmp = @is_array($_used_s_address) 
++                ? $_used_s_address 
++                : $old_userinfo['address']['S'];
+             $shipping_checksum_init = func_generate_checksum($_tmp, $shipping_checksum_fields);
+         }
+ 
+@@ -378,7 +384,7 @@
+ 
+     if (
+         !empty($login)
+-        || !empty($anonymous_userinfo)
++        || !empty($_anonymous_userinfo)
+         || in_array($current_area, array('A'))
+         || (
+             $current_area == 'B'
+@@ -525,7 +531,7 @@
+             if (
+                 $current_area == 'C'
+                 && $addrid == 'S'
+-                && !$ship2diff
++                && empty($ship2diff)
+             ) {
+                 continue;
+             }
+@@ -568,7 +574,10 @@
+ 
+         $cur_subs = array();
+ 
+-        if (!empty($old_userinfo)) {
++        if (
++            !empty($old_userinfo)
++            && isset($old_userinfo["email"])
++        ) {
+ 
+             $tmp = func_query("SELECT DISTINCT($sql_tbl[newslist_subscription].listid) FROM $sql_tbl[newslist_subscription], $sql_tbl[newslists] WHERE $sql_tbl[newslist_subscription].email='".addslashes($old_userinfo["email"])."' AND $sql_tbl[newslist_subscription].listid=$sql_tbl[newslists].listid AND $sql_tbl[newslists].lngcode='$shop_language'");
+ 
+@@ -587,7 +596,9 @@
+         }
+ 
+         $subs_keys = array();
+-        if (is_array($subscription)) $subs_keys = array_keys($subscription);
++        if (@is_array($subscription)) {
++            $subs_keys = array_keys($subscription);
++        }            
+ 
+         $delid = array_diff($cur_subs,$subs_keys);
+         $insid = array_diff($subs_keys,$cur_subs,$ext_subs);
+@@ -723,7 +734,7 @@
+ 
+             if (
+                 $config['Taxes']['allow_user_modify_tax_number'] == 'Y'
+-                || !$existing_user
++                || empty($existing_user)
+                 || func_query_first_cell("SELECT tax_exempt FROM $sql_tbl[customers] WHERE id='$logged_userid'") != "Y"
+             ) {
+                 // Existing customer cannot edit 'tax_number' if
+@@ -737,7 +748,7 @@
+ 
+             // Administrator can edit 'tax_number' and 'tax_exempt'
+ 
+-            $profile_values['tax_number']             = $tax_number;
++            $profile_values['tax_number']             = @$tax_number;
+             $profile_values['tax_exempt']             = (@$tax_exempt == 'Y' ? 'Y' : 'N');
+             $profile_values['trusted_provider']     = ($login_type == 'P' && empty($active_modules["Simple_Mode"])) ? $trusted_provider : 'Y';
+         }
+@@ -767,11 +778,13 @@
+              * Store anonymous profile in session
+              */
+ 
+-            x_session_register('anonymous_userinfo', array());
+-            $anonymous_userinfo = $profile_values;
+-            $anonymous_userinfo['additional_fields'] = $additional_fields;
+-            $anonymous_userinfo['additional_values'] = $additional_values;
+-            $anonymous_userinfo['usertype'] = empty($usertype) ? 'C' : $usertype;
++            $_anonymous_userinfo = $profile_values;
++            $_anonymous_userinfo['additional_fields'] = $additional_fields;
++
++            if (isset($additional_values))
++                $_anonymous_userinfo['additional_values'] = $additional_values;
++
++            func_set_anonymous_userinfo($_anonymous_userinfo, 'run_x_sesssion_save');
+ 
+         } elseif ($mode == 'update') {
+ 
+@@ -822,7 +835,7 @@
+ 
+             db_query("DELETE FROM $sql_tbl[register_field_values] WHERE userid = '$logged_userid'");
+ 
+-            if ($additional_values) {
++            if (!empty($additional_values)) {
+                 foreach ($additional_values as $k => $v) {
+                     func_array2insert(
+                         'register_field_values',
+@@ -1016,7 +1029,8 @@
+ 
+             func_call_event('user.register.aftersave', $newuserid);
+ 
+-            $saved_userinfo = $anonymous_userinfo = array();
++            $saved_userinfo = array();
++            func_set_anonymous_userinfo(array());
+ 
+             if (in_array($usertype, array('A', 'P'))) {
+                 x_log_flag(
+@@ -1392,52 +1406,14 @@
+         && !empty($cart)
+     ) {
+ 
+-        x_load('shipping');
+-
+-        $shippings = func_get_shipping_methods_list($cart, $cart['products'], $userinfo);
+-
+-        if (is_array($shippings)) {
+-
+-            $found = false;
+-            $shippingid = $cart['shippingid'];
+-
+-            for ($i = 0; $i < count($shippings); $i++) {
+-                if ($shippingid == $shippings[$i]['shippingid']) {
+-                    $found = true;
+-                    break;
+-                }
+-            }
+-
+-            if (!$found) {
+-                $shippingid = $shippings[0]['shippingid'];
+-            }
+-
+-        } else {
+-
+-            $shippingid = 0;
+-
+-        }
+-
+-        $cart['shippingid'] = $shippingid;
+-
+-        $products = func_products_in_cart(
+-            $cart,
+-            (!empty($userinfo['membershipid']) ? $userinfo['membershipid'] : 0)
+-        );
+-
+-        $cart = func_array_merge(
+-            $cart,
+-            func_calculate(
+-                $cart,
+-                $products,
+-                $logged_userid,
+-                'C',
+-                (!empty($paymentid) ? intval($paymentid) : 0)
+-            )
+-        );
++        $userinfo = func_userinfo($logged_userid, $login_type, $allow_pwd_modify, false, $fields_area);
++        $shippingid = func_cart_get_shippingid($cart, $userinfo);
++        $cart = func_cart_set_shippingid($cart, $shippingid);
++        
++        list($cart, $products) = func_generate_products_n_recalculate_cart(@$paymentid);
+ 
+         // And again, because shippingid is not saved after func_calculate
+-        $cart['shippingid'] = $shippingid;
++        $cart = func_cart_set_shippingid($cart, $shippingid);
+ 
+     } elseif (
+         $current_area == 'B'
+@@ -1460,7 +1436,7 @@
+         && $main == 'checkout'
+     ) {
+ 
+-        $_tmp = $address_book[$ship2diff ? 'S' : 'B'];
++        $_tmp = $address_book[!empty($ship2diff) ? 'S' : 'B'];
+ 
+         $shipping_checksum = func_generate_checksum($_tmp, $shipping_checksum_fields);
+ 
+@@ -1470,7 +1446,7 @@
+                 'action'    => 'profileUpdate',
+                 'status'    => empty($reg_error) ? 1 : 0,
+                 'error'     => $reg_error,
+-                'av_error'  => $av_error ? 1 : 0,
++                'av_error'  => !empty($av_error) ? 1 : 0,
+                 'content'   => $top_message['content'],
+                 'new_user'  => $new_user_flag ? 1 : 0,
+                 's_changed' => $shipping_checksum != $shipping_checksum_init ? 1 : 0
+@@ -1569,7 +1545,7 @@
+ 
+ if (
+     !empty($active_modules['Special_Offers'])
+-    && $usertype == 'C'
++    && @$usertype == 'C'
+     && (
+         defined('USER_MODIFY')
+         || defined('USER_ADD')
+@@ -1637,7 +1613,7 @@
+ 
+     if ($main == 'checkout') {
+ 
+-        func_adjust_customer_address($cart, $userinfo);
++        list($cart, $userinfo) = func_adjust_customer_address($cart, $userinfo);
+ 
+     }
+ 
+@@ -1686,47 +1662,26 @@
+ 
+         if (
+             !empty($userinfo['address'])
+-            && is_array($userinfo['address']['B'])
++            && @is_array($userinfo['address']['B'])
+             && is_array($userinfo['address']['S'])
+         ) {
+ 
+-            $b_address = $userinfo['address']['B'];
+-            $s_address = $userinfo['address']['S'];
++            $ship2diff = func_is_adresses_different($userinfo['address']['B'], $userinfo['address']['S'], $fields_area);
+ 
+-            $addr_intersect = array_intersect_assoc($b_address, $s_address);
++            $b_display_states = func_is_display_states(addslashes($userinfo['address']['B']['country']));
+ 
+-            if (
+-                empty($userinfo['address']['S'])
+-                || count($b_address) != count($s_address)
+-                || count($b_address) != count($addr_intersect)
+-            ) {
+-               $ship2diff = true;
+-            }
++            $s_display_states = (!$ship2diff)
++                ? $b_display_states :
++                func_is_display_states(addslashes($userinfo['address']['S']['country']));
+ 
+-            if (
+-                !$ship2diff
+-                && $address_fields['zipcode']['avail'] == 'Y'
+-                && !empty($s_address['zipcode'])
+-                && !empty($s_address['country'])
+-            ) {
+-                $ship2diff = !func_check_zip($s_address['zipcode'], $s_address['country'], false);
+-            }
++            $userinfo['address']['B']['display_states'] = $b_display_states;
++            $userinfo['address']['S']['display_states'] = $s_display_states;
+         }
+ 
+         $smarty->assign('address_fields', $address_fields);
+         if (!empty($address_book)) {
+             $smarty->assign('address_book', $address_book);
+         }
+-
+-        $b_display_states = func_is_display_states(addslashes($b_address['country']));
+-
+-        $s_display_states = (!$ship2diff)
+-            ? $b_display_states :
+-            func_is_display_states(addslashes($s_address['country']));
+-
+-        $userinfo['address']['B']['display_states'] = $b_display_states;
+-        $userinfo['address']['S']['display_states'] = $s_display_states;
+-
+     }
+ 
+     $smarty->assign('userinfo', $userinfo);
+@@ -1737,12 +1692,14 @@
+     ) {
+         if (empty($saved_userinfo[$user])) {
+ 
+-            $tmp = func_query("SELECT listid FROM $sql_tbl[newslist_subscription] WHERE email='" . addslashes($userinfo['email']) . "'");
++            if (isset($userinfo['email'])) {
++                $tmp = func_query("SELECT listid FROM $sql_tbl[newslist_subscription] WHERE email='" . addslashes($userinfo['email']) . "'");
+ 
+-            if (is_array($tmp)) {
+-                $subscription = array();
+-                foreach ($tmp as $v) {
+-                    $subscription[$v['listid']] = true;
++                if (is_array($tmp)) {
++                    $subscription = array();
++                    foreach ($tmp as $v) {
++                        $subscription[$v['listid']] = true;
++                    }
+                 }
+             }
+ 
+@@ -1878,7 +1835,9 @@
+ $smarty->assign('default_fields',    $default_fields);
+ $smarty->assign('additional_fields', $additional_fields);
+ $smarty->assign('is_areas',          $is_areas);
+-$smarty->assign('av_error',          $av_error);
++
++if (!empty($av_error))
++    $smarty->assign('av_error',          $av_error);
+ 
+ $m_usertype = empty($_GET['usertype'])
+     ? $current_area

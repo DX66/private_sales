@@ -1,0 +1,160 @@
+Index: modules/Google_Checkout/checkout.php
+--- modules/Google_Checkout/checkout.php	2011-01-10 16:11:57.000000000 +0300
++++ modules/Google_Checkout/checkout.php	2011-04-06 16:29:30.000000000 +0400
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: checkout.php,v 1.11.2.2 2011/01/10 13:11:57 ferz Exp $
++ * @version    $Id: checkout.php,v 1.11.2.12 2011/04/06 12:29:30 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -49,8 +49,6 @@
+ 
+ set_time_limit(86400);
+ 
+-x_session_register('cart_locked');
+-
+ define('ALL_CARRIERS', 1);
+ 
+ if (defined('CHECKOUT_STARTED')) {
+@@ -59,16 +57,7 @@
+     if ($func_is_cart_empty)
+         return;
+ 
+-    $_index = 0;
+-    while (true) {
+-        $_index++;
+-        $unique_id = md5(uniqid(rand()));
+-        @db_query("INSERT INTO $sql_tbl[cc_pp3_data] (ref,sessionid,trstat) VALUES ('$unique_id','".$XCARTSESSID."','GO|')");
+-        if (db_affected_rows() > 0)
+-            break;
+-        if ($_index > 10) // Impossible error: just to avoid the potential infinite loop
+-            die(func_get_langvar_by_name('txt_gcheckout_impossible_error', '', false, true));
+-    }
++    $unique_id = func_generate_n_save_uniqueid('txt_gcheckout_impossible_error');
+ 
+     // Get the available taxes list
+ 
+@@ -215,24 +204,8 @@
+ 
+         foreach ($cart['products'] as $_product) {
+ 
+-            $_descr = '';
+-
+-            if (!empty($_product['product_options']) && is_array($_product['product_options'])) {
+-                $_descr_arr = array();
+-                foreach ($_product['product_options'] as $k=>$v) {
+-                    $_descr_arr[] = "$v[class]: $v[option_name]";
+-                }
+-                $_descr = "(" . implode('; ', $_descr_arr) . ")";
+-            }
+-
+-            $_descr .= " " . strip_tags(func_query_first_cell("SELECT IF($sql_tbl[products_lng].descr != '', $sql_tbl[products_lng].descr, $sql_tbl[products].descr) AS descr FROM $sql_tbl[products] LEFT JOIN $sql_tbl[products_lng] ON $sql_tbl[products].productid = $sql_tbl[products_lng].productid AND $sql_tbl[products_lng].code = '".$shop_language."' WHERE $sql_tbl[products].productid='$_product[productid]'"));
+-
+-            $length = 160;
+-            if (strlen($_descr) > $length) {
+-                $_descr = substr($_descr, 0, $length);
+-            }
+-
+             $_title = func_google_encode($_product['product']);
++            $_descr = func_payment_product_description($_product, 255, $shop_language);
+             $_descr = func_google_encode($_descr);
+ 
+             if (!empty($_product['taxes'])) {
+@@ -322,25 +295,17 @@
+ 
+     $shipping_xml = '';
+ 
+-    $_need_shipping = false;
+-
+-    if ($config['Shipping']['enable_shipping'] == 'Y') {
+-        foreach ($cart['products'] as $_prd) {
+-            if ($active_modules['Egoods'] && $_prd['distribution'] != '')
+-                continue;
+-            if ($_prd['free_shipping'] == 'Y' && $config['Shipping']['do_not_require_shipping'] == 'Y')
+-                continue;
+-            $_need_shipping = true;
+-            break;
+-        }
+-    }
+-
+     if (!$single_mode)
+         $number_of_providers = count(func_get_products_providers($cart['products']));
+     else
+         $number_of_providers = 1;
+ 
+-    $default_shipping_rate = price_format($config['Google_Checkout']['gcheckout_default_shipping_cost']) * $number_of_providers;
++    $default_shipping_rate = price_format($config['Google_Checkout']['gcheckout_default_shipping_cost'] * $number_of_providers);
++
++    // Option adjustment to avoid empty($userinfo) checking
++    // $userinfo will be provided by Google in callback
++    $config['Shipping']['enable_all_shippings'] = 'Y';
++    $_need_shipping = func_cart_is_need_shipping($cart, $cart['products'], $userinfo, 'dont_check_free_ship_coupons');
+ 
+     if ($_need_shipping && $config['Google_Checkout']['gcheckout_use_gc_shipping'] != 'Y') {
+ 
+@@ -349,7 +314,7 @@
+         $config['Shipping']['realtime_shipping'] = 'N';
+ 
+         // Get list of all shipping methods that are potentially available for customers
+-        $shipping_methods = func_get_shipping_methods_list($cart, $cart['products'], $cart['userinfo'], true);
++        $shipping_methods = func_get_shipping_methods_list($cart, $cart['products'], $userinfo, true);
+ 
+         if (!empty($shipping_methods)) {
+ 
+@@ -497,12 +462,11 @@
+         }
+ 
+         // Lock cart for all operations
+-        $cart_locked = true;
++        func_cart_lock('by_Google_Checkout');
+ 
+         // these addresses will be saved in the order
+         x_session_register('gcheckout_saved_ips');
+         $gcheckout_saved_ips = array('ip' => $CLIENT_IP, 'proxy_ip' => $PROXY_IP);
+-        x_session_save();
+ 
+         // Redirect customer to the Google checkout
+         func_header_location($redirect_url);
+@@ -532,7 +496,7 @@
+             echo "\n_POST:\n";
+             print_r($_POST);
+             echo "\nHTTP_RAW_POST_DATA:\n";
+-            print_r($HTTP_RAW_POST_DATA);
++            print_r(func_get_raw_post_data());
+             $str[] = ob_get_contents();
+             ob_end_clean();
+             fwrite($fd, "<?php die(); ?>\n\n" . implode("\n\n", $str));
+@@ -556,24 +520,17 @@
+             $order_status = $ret['param2'];
+             $_orderids = $ret['param3'];
+ 
+-            x_session_register('gcheckout_jump_counter', 0);
+-
+-            if ((empty($order_status) || empty($_orderids)) && ++$gcheckout_jump_counter < 10) {
+-                // There are no orders found
+-                $smarty->assign('time', 3);
+-                $smarty->assign('url', $current_location."/payment/ps_gcheckout_return.php?mode=continue&amp;skey=$skey");
+-                x_session_save();
+-                func_display('modules/Google_Checkout/waiting.tpl', $smarty);
+-                exit;
+-            }
+-
+-            $gcheckout_jump_counter = 0;
++            if ((empty($order_status) || empty($_orderids))) {
++                // There are no orders found, try to wait them
++                func_gcheckout_wait_for_orders_from_callback($skey);
++            } 
+ 
+             x_session_register('cart');
+ 
+             db_query("DELETE FROM $sql_tbl[cc_pp3_data] WHERE ref='$skey'");
+ 
+-            $cart_locked = false;
++            x_load('cart');
++            func_cart_unlock();
+ 
+             if (empty($order_status) || $order_status == 'F') {
+                 $bill_error="error_ccprocessor_error";

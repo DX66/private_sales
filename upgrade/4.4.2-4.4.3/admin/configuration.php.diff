@@ -1,0 +1,123 @@
+Index: admin/configuration.php
+--- admin/configuration.php	2011-01-10 16:11:45.000000000 +0300
++++ admin/configuration.php	2011-03-23 10:12:32.000000000 +0300
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: configuration.php,v 1.161.2.10 2011/01/10 13:11:45 ferz Exp $
++ * @version    $Id: configuration.php,v 1.161.2.19 2011/03/23 07:12:32 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -488,7 +488,7 @@
+                 ),
+             );
+ 
+-            func_header_location('tools.php?regenerate_dpicons=Y&return_url=' . urlencode('configuration.php?option=Appearance'));
++            func_header_location('tools.php?regenerate_dpicons=Y&return_url=' . urlencode('configuration.php?option=Appearance&fc_build_categories=Y'));
+         }
+     }
+ 
+@@ -551,12 +551,6 @@
+ 
+     db_query("UPDATE $sql_tbl[config] SET value = defvalue WHERE TRIM(value) = '' AND name != 'location_state'");
+ 
+-    if (!empty($active_modules['Flyout_Menus'])) {
+-
+-        include $xcart_dir . '/modules/Flyout_Menus/admin_config.php';
+-
+-    }
+-
+     if ($option == 'Security') {
+ 
+         func_pgp_remove_key();
+@@ -568,7 +562,7 @@
+     }
+     
+     $clear_arr = array(
+-        'General' => array('speedup_js', 'speedup_css', 'use_cached_lng_vars', 'skip_delete_empty_strings', 'ajax_add2cart', 'redirect_to_cart', 'skip_check_compile', 'check_main_category_only', 'skip_categories_checking', 'use_simple_product_sort', 'skip_lng_tables_join'),
++        'General' => array('speedup_js', 'speedup_css', 'use_cached_lng_vars', 'skip_delete_empty_strings', 'ajax_add2cart', 'redirect_to_cart', 'skip_check_compile', 'check_main_category_only', 'skip_categories_checking', 'use_simple_product_sort', 'skip_lng_tables_join', 'use_cached_templates'),
+         'Appearance' => array('show_in_stock'),
+         'Wishlist' => array('add2wl_unlogged_user'),
+     );
+@@ -583,6 +577,10 @@
+         }
+     }
+ 
++    if (!empty($active_modules['Flyout_Menus'])) {
++        include $xcart_dir . '/modules/Flyout_Menus/admin_config.php';
++    }
++
+     func_header_location("configuration.php?option=$option");
+ }
+ 
+@@ -607,7 +605,7 @@
+ 
+ if (
+     !empty($active_modules['Google_Checkout'])
+-    && $option == 'Google_Checkout'
++    && in_array($option, array('Google_Checkout', 'Amazon_Checkout'))
+ ) {
+     $check_active_payments = func_check_active_payments();
+ 
+@@ -702,6 +700,12 @@
+     if (file_exists($fn)) {
+         require $fn;
+     }
++} elseif (
++    !empty($active_modules['Flyout_Menus'])
++    && $option == 'Appearance'
++    && @$fc_build_categories == 'Y'
++) {
++    include $xcart_dir . '/modules/Flyout_Menus/admin_config.php';
+ }
+ 
+ if ($option == 'Security') {
+@@ -734,6 +738,14 @@
+ 
+             $vars = $v['variants'];
+ 
++        } elseif (
++            is_string($v['variants'])
++            && function_exists($v['variants'])
++        ) {
++            $_funcname = $v['variants'];
++            $vars = $_funcname();
++            if (!is_array($vars))
++                $configuration[$k]['type'] = 'text';
+         } else {
+ 
+             $vars = func_parse_str(trim($v['variants']), "\n", ":");
+@@ -995,6 +1007,10 @@
+             break;
+     }
+ 
++    if (!isset($configuration[$k])) {
++        continue;
++    }
++
+     if ($v['type'] == 'state') {
+         $found = false;
+ 
+@@ -1108,7 +1124,10 @@
+     $unallowed_dirs = join("|", $unallowed_dirs);
+ 
+     $apache_401_issue = func_get_apache_401_issue();
+-    if ($dirs = func_is_used_ssl_shared_cert($http_location, $https_location)) {
++    if (
++        ($dirs = func_is_used_ssl_shared_cert($http_location, $https_location))
++        && func_apache_check_module('setenv')
++    ) {
+         $_htaccess = <<<SHTACCESS
+             RewriteCond %{HTTPS} on
+             RewriteRule .* - [E=FULL_WEB_DIR:$dirs[https]]
+@@ -1116,7 +1135,7 @@
+             RewriteRule .* - [E=FULL_WEB_DIR:$dirs[http]]
+ 
+             $apache_401_issue
+-            RewriteCond %{REQUEST_URI} !^%{ENV:FULL_WEB_DIR}($unallowed_dirs)/
++            RewriteCond %{REQUEST_URI} !^%{ENV:FULL_WEB_DIR}/($unallowed_dirs)/
+             RewriteCond %{REQUEST_FILENAME} !\.(gif|jpe?g|png|js|css|swf|php|ico)$
+             RewriteCond %{REQUEST_FILENAME} !-f
+             RewriteCond %{REQUEST_FILENAME} !-d

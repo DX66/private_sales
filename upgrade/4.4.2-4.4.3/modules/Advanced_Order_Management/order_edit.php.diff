@@ -1,0 +1,21 @@
+Index: modules/Advanced_Order_Management/order_edit.php
+--- modules/Advanced_Order_Management/order_edit.php	2011-01-10 16:11:54.000000000 +0300
++++ modules/Advanced_Order_Management/order_edit.php	2011-01-25 12:43:12.000000000 +0300
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: order_edit.php,v 1.138.2.1 2011/01/10 13:11:54 ferz Exp $
++ * @version    $Id: order_edit.php,v 1.138.2.2 2011/01/25 09:43:12 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -396,7 +396,7 @@
+ 
+                 $prd['catalog_price'] = $prd['price'];
+ 
+-                if ($active_modules['Product_Options']) {
++                if (!empty($active_modules['Product_Options'])) {
+                     $prd['extra_data']["product_options"] = func_get_default_options($newproductid, 1, $cart_tmp["userinfo"]['membershipid']);
+                     list($variant, $product_options_result) = func_get_product_options_data($newproductid, $prd['extra_data']["product_options"], $cart_tmp["userinfo"]['membershipid']);
+                     $surcharge = 0;

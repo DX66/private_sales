@@ -1,0 +1,71 @@
+Index: include/func/func.xml.php
+--- include/func/func.xml.php	2011-01-10 16:11:52.000000000 +0300
++++ include/func/func.xml.php	2011-03-22 16:28:27.000000000 +0300
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: func.xml.php,v 1.21.2.1 2011/01/10 13:11:52 ferz Exp $
++ * @version    $Id: func.xml.php,v 1.21.2.5 2011/03/22 13:28:27 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -164,7 +164,9 @@
+  */
+ function & func_array_path(&$array, $tag_path, $strict=false)
+ {
+-    if (!is_array($array) || empty($array)) return false;
++
++    $not_found = false;
++    if (!is_array($array) || empty($array)) return $not_found;
+ 
+     if (empty($tag_path)) return $array;
+ 
+@@ -185,7 +187,7 @@
+             }
+             else {
+                 // path is not found
+-                return false;
++                return $not_found;
+             }
+         }
+ 
+@@ -215,7 +217,7 @@
+     if (!empty($parsed)) {
+         foreach ($parsed as $k => $v) {
+             if (is_array($v['#'])) {
+-                $is_str = $is_arr = 0;
++                $is_str = $is_array = 0;
+                 foreach ($v['#'] as $subv) {
+                     if (is_array($subv)) {
+                         $is_array++;
+@@ -278,7 +280,7 @@
+         return '';
+     }
+ 
+-    $xmk = '';
++    $xml = '';
+     foreach($hash as $k => $v) {
+         if (is_array($v)) {
+             $keys = array_keys($v);
+@@ -306,12 +308,18 @@
+ 
+ /**
+  * Format XML string
++ *
++ * @param string $xml           String to format
++ * @param int $start_indent_from Start indent from this row
++ *
++ * @return void
++ * @see    ____func_see____
+  */
+-function func_xml_format($xml)
++function func_xml_format($xml, $start_indent_from = 1)
+ {
+     $xml = preg_replace("/>[ \t\n\r]+</", "><", trim($xml));
+ 
+-    $level = -1;
++    $level = 0 - $start_indent_from;
+     $i = 0;
+     $prev = 0;
+     $path = array();

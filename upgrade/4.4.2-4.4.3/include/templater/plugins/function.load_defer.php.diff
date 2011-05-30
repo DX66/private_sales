@@ -1,0 +1,39 @@
+Index: include/templater/plugins/function.load_defer.php
+--- include/templater/plugins/function.load_defer.php	2011-01-10 16:11:53.000000000 +0300
++++ include/templater/plugins/function.load_defer.php	2011-03-04 17:31:53.000000000 +0300
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: function.load_defer.php,v 1.18.2.8 2011/01/10 13:11:53 ferz Exp $
++ * @version    $Id: function.load_defer.php,v 1.18.2.9 2011/03/04 14:31:53 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -189,6 +189,15 @@
+ 
+     }
+ 
++    static $first_call = true;
++    if (
++        func_constant('DEVELOPMENT_MODE')
++        && $first_call
++    ) {
++        $first_call = false;
++        register_shutdown_function('func_check_load_defer_plugin_integrity');
++    }
++
+     return $result;
+ }
+ 
+@@ -225,4 +234,10 @@
+     return implode("\n", $styles);
+ }
+ 
++function func_check_load_defer_plugin_integrity()
++{
++    global $deferRegistry, $directInfoRegistry;
++
++    assert('empty($deferRegistry) && empty($directInfoRegistry) /*Func_check_load_defer_plugin_integrity <b>It seems load_defer_code call should be added at the end of the page</b>*/');
++}
+ ?>

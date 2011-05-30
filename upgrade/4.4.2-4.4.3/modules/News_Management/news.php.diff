@@ -1,0 +1,30 @@
+Index: modules/News_Management/news.php
+--- modules/News_Management/news.php	2011-01-10 16:11:59.000000000 +0300
++++ modules/News_Management/news.php	2011-01-24 18:36:35.000000000 +0300
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: news.php,v 1.52.2.1 2011/01/10 13:11:59 ferz Exp $
++ * @version    $Id: news.php,v 1.52.2.2 2011/01/24 15:36:35 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -54,7 +54,7 @@
+ if (!in_array($mode, array('create', 'update', 'modify', 'import', 'messages', 'subscribers', 'delete', 'archive', 'unsubscribers')))
+     $mode = '';
+ 
+-$targetlist = is_numeric($targetlist)?intval($targetlist):'';
++settype($targetlist, 'int');
+ 
+ if ($REQUEST_METHOD == 'POST' || ($mode == 'messages' && $action == 'send_continue')) {
+ 
+@@ -356,6 +356,8 @@
+ 
+     $dialog_tools_data['right'][] = array('link' => 'news.php', 'title' => func_get_langvar_by_name('lbl_news_lists'));
+     $dialog_tools_data['right'][] = array('link' => "news.php?mode=create", 'title' => func_get_langvar_by_name('lbl_add_news_list'));
++} else {
++    $dialog_tools_data = array();
+ }
+ 
+ if (!empty($list['listid'])) {

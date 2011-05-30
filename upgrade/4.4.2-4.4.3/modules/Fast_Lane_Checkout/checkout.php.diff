@@ -1,0 +1,113 @@
+Index: modules/Fast_Lane_Checkout/checkout.php
+--- modules/Fast_Lane_Checkout/checkout.php	2011-01-10 16:11:56.000000000 +0300
++++ modules/Fast_Lane_Checkout/checkout.php	2011-03-07 11:09:44.000000000 +0300
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>. All rights reserved
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: checkout.php,v 1.25.2.4 2011/01/10 13:11:56 ferz Exp $
++ * @version    $Id: checkout.php,v 1.25.2.10 2011/03/07 08:09:44 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -57,23 +57,19 @@
+     /**
+      * Prepare the last step of checkout
+      */
++    x_load('cart'); 
++    $paypal_expressid = func_cart_get_paypal_express_id();
+ 
+-    // Check if paymentid isn't fake
+-
+-    $is_egoods = $config['Egoods']['egoods_manual_cc_processing'] == 'Y'
+-        ? func_esd_in_cart($cart)
+-        : false;
+-
+-    $membershipid = $user_account['membershipid'];
+-
+-    $is_valid_paymentid = func_query_first_cell("SELECT COUNT(*) FROM $sql_tbl[payment_methods] LEFT JOIN $sql_tbl[pmethod_memberships] ON $sql_tbl[pmethod_memberships].paymentid = $sql_tbl[payment_methods].paymentid WHERE $sql_tbl[payment_methods].paymentid='$paymentid'" . (($is_egoods && $paymentid == 1) ? '' : " AND $sql_tbl[payment_methods].active='Y'") . " AND ($sql_tbl[pmethod_memberships].membershipid IS NULL OR $sql_tbl[pmethod_memberships].membershipid = '$membershipid')");
+-
+-    if (!$is_valid_paymentid) {
+-        func_header_location('cart.php?mode=checkout&err=paymentid');
++    $paymentid = func_cart_get_paymentid($cart, $checkout_module);
++    if (!func_is_valid_payment_method($paymentid)) {
++        $cart = func_cart_set_paymentid($cart, 0);
++        $top_message['content'] = func_get_langvar_by_name('err_payment_cc_not_available');
++        $top_message['type']    = 'E';
++        func_header_location('cart.php');
++    } else {
++        $cart = func_cart_set_paymentid($cart, $paymentid);
+     }
+ 
+-    $paypal_expressid = func_query_first_cell("SELECT $sql_tbl[payment_methods].paymentid FROM $sql_tbl[payment_methods], $sql_tbl[ccprocessors] WHERE $sql_tbl[payment_methods].processor_file='ps_paypal_pro.php' AND $sql_tbl[payment_methods].processor_file=$sql_tbl[ccprocessors].processor AND $sql_tbl[payment_methods].paymentid=$sql_tbl[ccprocessors].paymentid AND $sql_tbl[payment_methods].active='Y'");
+-
+     if (
+         !empty($paypal_expressid)
+         && $paypal_expressid == $paymentid
+@@ -108,15 +104,6 @@
+     // Show payment details checkout page
+     $payment_cc_data = func_query_first("SELECT * FROM $sql_tbl[ccprocessors] WHERE paymentid='$paymentid'");
+ 
+-    if (
+-        $is_egoods
+-        && $paymentid != 1
+-        && !empty($payment_cc_data)
+-    ) {
+-        $paymentid = 1;
+-        $payment_cc_data = array();
+-    }
+-
+     // Generate payment script URL depending on HTTP/HTTPS settings
+     if (empty($cart['shippingid'])) {
+         $payment_data = func_query_first("SELECT $sql_tbl[payment_methods].*, $sql_tbl[payment_methods].payment_method as payment_method_orig, IFNULL(l1.value, $sql_tbl[payment_methods].payment_method) as payment_method, IFNULL(l2.value, $sql_tbl[payment_methods].payment_details) as payment_details FROM $sql_tbl[payment_methods] LEFT JOIN $sql_tbl[languages_alt] as l1 ON l1.name = CONCAT('payment_method_', $sql_tbl[payment_methods].paymentid) AND l1.code = '$shop_language' LEFT JOIN $sql_tbl[languages_alt] as l2 ON l2.name = CONCAT('payment_details_', $sql_tbl[payment_methods].paymentid) AND l2.code = '$shop_language' WHERE $sql_tbl[payment_methods].paymentid='$paymentid'");
+@@ -129,14 +116,6 @@
+         func_header_location('cart.php?mode=checkout');
+     }
+ 
+-    if (
+-        !isset($cart['paymentid'])
+-        || $cart['paymentid'] != $paymentid
+-    ) {
+-        $cart['paymentid'] = $paymentid;
+-        $payment_changed = true;
+-    }
+-
+     $payment_data['payment_script_url'] = (($payment_data['protocol'] == 'https' || $HTTPS) ? $https_location : $http_location) . '/payment/' . $payment_data['payment_script'];
+ 
+     if (!empty($payment_cc_fields)) {
+@@ -149,18 +128,10 @@
+     $checkout_step = 2 + $checkout_step_modifier['anonymous'] - $checkout_step_modifier['payment_methods'];
+ 
+     if ($payment_data['processor_file'] == 'ps_paypal_pro.php') {
+-
+-        $payment_cc_data = func_query_first("SELECT * FROM $sql_tbl[ccprocessors] WHERE processor='ps_paypal_pro.php'");
+-        $is_emulated_paypal = false;
+-        if ($active_modules['XPayments_Connector']) {
+-            func_xpay_func_load();
+-            $is_emulated_paypal = xpc_is_emulated_paypal($paymentid);
+-            if ($is_emulated_paypal) {
+-                $payment_cc_data = xpc_get_module_params($paymentid);
+-                $payment_data['payment_template'] = false;
+-            }
+-        }
+-
++        x_load('paypal');
++        // Adjust cc_data and payment template for paypal
++        $payment_data['paymentid'] = $paymentid;
++        list($payment_data, $payment_cc_data) = func_paypal_adjust_payment_data($payment_data, 'Fast_Lane_Checkout');
+     }
+ 
+     // Check if only one shipping method is available and hide link on the checkout page
+@@ -283,9 +254,11 @@
+ 
+ }
+ 
++x_load('user');
++$_anonymous_userinfo = func_get_anonymous_userinfo();
+ if (
+     empty($login)
+-    && empty($anonymous_userinfo)
++    && empty($_anonymous_userinfo)
+ ) {
+ 
+     $checkout_step = 0;

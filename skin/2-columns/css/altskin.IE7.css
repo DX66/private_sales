@@ -1,0 +1,14 @@
+/*
+$Id: altskin.IE7.css,v 1.1 2010/05/21 08:31:51 joy Exp $
+vim: set ts=2 sw=2 sts=2 et:
+*/
+
+.fancycat-icons-e ul {
+  width: 187px;
+}
+.fancycat-icons-e li ul li {
+  width: 176px;
+}
+.fancycat-icons-e li ul.fancycat-icons-level-1 li ul {
+  left: 170px;
+}

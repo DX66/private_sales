@@ -1,0 +1,212 @@
+/*
+$Id: altskin.IE6.css,v 1.3.2.1 2010/09/30 09:53:06 aim Exp $
+vim: set ts=2 sw=2 sts=2 et:
+*/
+
+/*
+  Changed
+*/
+#page-container {
+  padding: 0px 15px;
+  margin: 0px;
+  background: #000000 url(../images/vivid_dreams/black_bg.gif) repeat left top;
+  border-left: 0px none;
+}
+#page-container2 {
+  margin-left: 0px;
+}
+.halign-center {
+  padding-top: 6px;
+}
+.product-details .details .save-box {
+  width: 50%;
+}
+.product-details .details .save {
+  padding-top: 29px;
+  padding-bottom: 16px;
+  position: static;
+  background-position: left 6px;
+  height: 57px;
+}
+input.image-button {
+  margin-bottom: 0px;
+}
+#left-bar .menu-dialog .content {
+  width: 230px;
+}
+#header div.search,
+  #left-bar .menu-categories-list .content,
+  #left-bar .menu-fancy-categories-list .content
+{
+  width: 250px;
+}
+
+/*
+  Add
+*/
+#footer .subbox {
+  position: relative;
+  color: #ffffff;
+  height: 45px;
+  vertical-align: middle;
+  padding: 0px;
+}
+.block-news-links table {
+  position: relative;
+  width: auto;
+}
+.block-news-links-2 {
+  border-top: 0px none #ffffff;
+  padding-top: 0px;
+}
+.block-news-links .imgv-box {
+  display: block;
+  margin-left: -20px;
+  width: 100%;
+  height: 1px;
+  background-color: #d1d1d1;
+  margin-bottom: 23px;
+}
+.block-news-links table tr td {
+  width: 30%;
+  padding-right: 30px;
+  position: relative;
+  vertical-align: top;
+}
+.dialog .title_cat {
+  margin-right: 20px;
+}
+.button-row,
+  .buttons-row
+{
+  position: relative;
+}
+.products .buttons-row.nopad {
+  position: static;
+}
+.cart .right-buttons-row .checkout-button {
+  padding-top: 6px;
+}
+button.cart-button.detail {
+  position: relative;
+}
+button.main-button .button-right {
+  height: 25px;
+}
+a.offers-thumbnail:link img,
+  a.offers-thumbnail:visited img,
+  a.offers-thumbnail:hover img,
+  a.offers-thumbnail:active img
+{
+  background: transparent none !important;
+  filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="skin/vivid_dreams_chromo/images/vivid_dreams/offer_thumb.png",sizingMethod="scale");
+}
+.adv-search table .data-input input.for_s {
+  margin-top: 0px;
+}
+.fcomp-table table {
+  width: 100%;
+}
+.product-details .fcomp-select-box select {
+  margin-right: 0px !important;
+}
+.fcomp-product-box {
+  margin-bottom: 40px;
+}
+.fcomp-product-box .fcomp-select-box {
+  margin: 0px;
+  position: absolute;
+  z-index: -2;
+}
+table.cart-content {
+  width: 100%;
+}
+.gcheckout-cart-buttons p {
+  padding-top: 30px;
+  padding-bottom: 0px;
+}
+button.button {
+  padding-right: 2px;
+}
+.dialog .title-with-sort-row .dialog-search-sort-bar {
+  right: 10px;
+}
+
+#header div.search input.text {
+  margin-top: 1px;
+  height: 20px;
+}
+.search input.image-button {
+  margin-bottom: 0px;
+}
+
+.fancycat-icons-e ul li a:link,
+  .fancycat-icons-e ul li a:visited,
+  .fancycat-icons-e ul li a:hover,
+  .fancycat-icons-e ul li a:active,
+  .fancycat-icons-c ul li a:link,
+  .fancycat-icons-c ul li a:visited,
+  .fancycat-icons-c ul li a:hover,
+  .fancycat-icons-c ul li a:active
+{
+  width: 250px;
+}
+.menu-fancy-categories-list .fancycat-icons-e li ul li {
+  background: white none;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.fancycat-icons-e li ul,
+  .fancycat-icons-e li ul.fancycat-icons-level-1 li ul
+{
+  border: 0px none;
+  background: #356084 none;
+  padding: 1px;
+}
+.fancycat-icons-e li ul.fancycat-icons-level-1 li ul {
+  left: 246px;
+}
+
+.fancycat-icons-c li a.arrow:link,
+  .fancycat-icons-c li a.arrow:visited,
+  .fancycat-icons-c li a.arrow:hover,
+  .fancycat-icons-c li a.arrow:active,
+  .fancycat-icons-c li ul li a.arrow:link,
+  .fancycat-icons-c li ul li a.arrow:visited,
+  .fancycat-icons-c li ul li a.arrow:hover,
+  .fancycat-icons-c li ul li a.arrow:active
+{
+  left: -18px;
+}
+
+.cart-container, 
+  .cart-block
+{
+  z-index: 1000;
+}
+
+.creviews-vote-bar a,
+  .creviews-vote-bar span,
+  .creviews-vote-bar a img,
+  .creviews-vote-bar span img
+{
+  background-image: none;
+}
+.creviews-vote-bar .bg,
+  .creviews-vote-bar a img,
+  .creviews-vote-bar span img
+{
+  filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="skin/vivid_dreams_chromo/images/vivid_dreams/stars.png", sizingMethod="crop");
+}
+.products-table .button-row button.cart-button {
+  float: left;
+}
+
+.minicart-box .checkout-popup-link div.buttons-box {
+  top: 19px;
+}
+
+.checkout-container #center-main {
+  zoom:1;
+}
+

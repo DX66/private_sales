@@ -1,0 +1,25 @@
+Index: include/help.php
+--- include/help.php	2011-01-10 16:11:49.000000000 +0300
++++ include/help.php	2011-04-13 13:54:14.000000000 +0400
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: help.php,v 1.101.2.4 2011/01/10 13:11:49 ferz Exp $
++ * @version    $Id: help.php,v 1.101.2.5 2011/04/13 09:54:14 ferz Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -296,12 +296,6 @@
+ 
+ }
+ 
+-if ($section == 'cvv2') {
+-
+-    $smarty->assign('popup_title', func_get_langvar_by_name('lbl_what_is_cvv2', array(), false, true));
+-
+-}
+-
+ $pageid = -1;
+ switch ($section) {
+     case 'Password_Recovery':

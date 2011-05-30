@@ -1,0 +1,2579 @@
+18:16:14 05/19/11 ===== START =========================
+PATCH FILES
+CHANGELOG ... [OK]
+VERSION ... [OK]
+address_book.php ... [OK]
+admin/affiliates.php ... [OK]
+admin/atracking.php ... [OK]
+admin/auth.php ... [OK]
+admin/banner_info.php ... [OK]
+admin/cc_processing.php ... [OK]
+admin/configuration.php ... [OK]
+admin/db_backup.php ... [OK]
+admin/general.php ... [OK]
+admin/giftcerts.php ... [OK]
+admin/languages.php ... [OK]
+admin/orders.php ... [OK]
+admin/partner_adv_campaigns.php ... [OK]
+admin/partner_adv_stats.php ... [OK]
+admin/partner_banners.php ... [OK]
+admin/partner_element_list.php ... [OK]
+admin/partner_orders.php ... [OK]
+admin/partner_plans.php ... [OK]
+admin/partner_report.php ... [OK]
+admin/partner_top_performers.php ... [OK]
+admin/payment_methods.php ... [OK]
+admin/payment_upload.php ... [OK]
+admin/paypal_enable.php ... [OK]
+admin/process_user.php ... [OK]
+admin/referred_sales.php ... [OK]
+admin/shipping_options.php ... [OK]
+admin/snapshots.php ... [OK]
+admin/statistics.php ... [OK]
+admin/stats_search.php ... [OK]
+admin/tools.php ... [OK]
+admin/user_profiles.php ... [OK]
+admin/users.php ... [OK]
+cart.php ... [OK]
+config.php ... [OK]
+featured_products.php ... [OK]
+giftcert.php ... [OK]
+giftreg_manage.php ... [OK]
+https.php ... [OK]
+include/account_tabs.php ... [OK]
+include/adaptives.php ... [OK]
+include/address_book.php ... [OK]
+include/ajax_image_manipulations.php ... [OK]
+include/banner_stats.php ... [OK]
+include/bots.php ... [OK]
+include/cart_calculate_totals.php ... [OK]
+include/check_useraccount.php ... [OK]
+include/checkout.php ... [OK]
+include/checkout_init.php ... [OK]
+include/commissions.php ... [OK]
+include/common.php ... [OK]
+include/data_cache.php ... [OK]
+include/export.php ... [OK]
+include/func/func.ajax.php ... [OK]
+include/func/func.backoffice.php ... [OK]
+include/func/func.cart.php ... [OK]
+include/func/func.category.php ... [OK]
+include/func/func.clean_urls.php ... [OK]
+include/func/func.core.php ... [OK]
+include/func/func.db.php ... [OK]
+include/func/func.export.php ... [OK]
+include/func/func.files.php ... [OK]
+include/func/func.html_catalog.php ... [OK]
+include/func/func.http.php ... [OK]
+include/func/func.image.php ... [OK]
+include/func/func.import.php ... [OK]
+include/func/func.logging.php ... [OK]
+include/func/func.mail.php ... [OK]
+include/func/func.order.php ... [OK]
+include/func/func.pack.php ... [OK]
+include/func/func.payment.php ... [OK]
+include/func/func.paypal.php ... [OK]
+include/func/func.product.php ... [OK]
+include/func/func.shipping.php ... [OK]
+include/func/func.taxes.php ... [OK]
+include/func/func.templater.php ... [OK]
+include/func/func.tests.php ... [OK]
+include/func/func.user.php ... [OK]
+include/func/func.xml.php ... [OK]
+include/help.php ... [OK]
+include/history_order.php ... [OK]
+include/import.php ... [OK]
+include/import_address_book.php ... [OK]
+include/import_orders.php ... [OK]
+include/import_products.php ... [OK]
+include/install_lng_US.php ... [OK]
+include/logging.php ... [OK]
+include/login.php ... [OK]
+include/orders.php ... [OK]
+include/orders_export.php ... [OK]
+include/partner_banners.php ... [OK]
+include/payment/func.cc_bibit.php ... [OK]
+include/payment/func.cc_usaepay.php ... [OK]
+include/payment_method.php ... [OK]
+include/popup_users.php ... [OK]
+include/process_order.php ... [OK]
+include/product_clone.php ... [OK]
+include/product_modify.php ... [OK]
+include/product_tabs.php ... [OK]
+include/register.php ... [OK]
+include/search.php ... [OK]
+include/search_users.php ... [OK]
+include/sessions.php ... [OK]
+include/taxes.php ... [OK]
+include/templater/plugins/function.fancycat_get_cache.php ... [OK]
+include/templater/plugins/function.get_title.php ... [OK]
+include/templater/plugins/function.include_cache.php ... [OK]
+include/templater/plugins/function.load_defer.php ... [OK]
+include/templater/templater.php ... [OK]
+init.php ... [OK]
+minicart.php ... [OK]
+modules/Advanced_Order_Management/config.php ... [OK]
+modules/Advanced_Order_Management/func.edit.php ... [OK]
+modules/Advanced_Order_Management/order_edit.php ... [OK]
+modules/Advanced_Statistics/display_stats.php ... [OK]
+modules/Amazon_Checkout/checkout.php ... [OK]
+modules/Amazon_Checkout/checkout_callback.php ... [OK]
+modules/Amazon_Checkout/func.php ... [OK]
+modules/Amazon_Checkout/init.php ... [OK]
+modules/Amazon_Checkout/order_notifications.php ... [OK]
+modules/Anti_Fraud/config.php ... [OK]
+modules/Bestsellers/config.php ... [OK]
+modules/Customer_Reviews/config.php ... [OK]
+modules/Customer_Reviews/vote.php ... [OK]
+modules/Detailed_Product_Images/config.php ... [OK]
+modules/Detailed_Product_Images/func.php ... [OK]
+modules/Discount_Coupons/config.php ... [OK]
+modules/Discount_Coupons/discount_coupons.php ... [OK]
+modules/Discount_Coupons/func.php ... [OK]
+modules/Egoods/config.php ... [OK]
+modules/Egoods/func.php ... [OK]
+modules/Extra_Fields/config.php ... [OK]
+modules/Fast_Lane_Checkout/checkout.php ... [OK]
+modules/Fast_Lane_Checkout/config.php ... [OK]
+modules/Feature_Comparison/config.php ... [OK]
+modules/Feature_Comparison/func.php ... [OK]
+modules/Flyout_Menus/admin_config.php ... [OK]
+modules/Flyout_Menus/config.php ... [OK]
+modules/Flyout_Menus/func.php ... [OK]
+modules/Gift_Certificates/config.php ... [OK]
+modules/Gift_Registry/config.php ... [OK]
+modules/Gift_Registry/func.php ... [OK]
+modules/Gift_Registry/giftreg_display.php ... [OK]
+modules/Google_Checkout/checkout.php ... [OK]
+modules/Google_Checkout/config.php ... [OK]
+modules/Google_Checkout/func.php ... [OK]
+modules/Google_Checkout/gcheckout_callback.php ... [OK]
+modules/Google_Checkout/get_order_data.php ... [OK]
+modules/Google_Checkout/init.php ... [OK]
+modules/HTML_Editor/config.php ... [OK]
+modules/Image_Verification/config.php ... [OK]
+modules/Image_Verification/init.php ... [OK]
+modules/Magnifier/config.php ... [OK]
+modules/Magnifier/func.php ... [OK]
+modules/Maintenance_Agent/func.php ... [OK]
+modules/Manufacturers/config.php ... [OK]
+modules/Manufacturers/customer_manufacturers_list.php ... [OK]
+modules/News_Management/config.php ... [OK]
+modules/News_Management/news.php ... [OK]
+modules/One_Page_Checkout/checkout.php ... [OK]
+modules/One_Page_Checkout/config.php ... [OK]
+modules/One_Page_Checkout/func.php ... [OK]
+modules/Product_Configurator/config.php ... [OK]
+modules/Product_Configurator/func.php ... [OK]
+modules/Product_Configurator/pconf_customer_cart.php ... [OK]
+modules/Product_Options/config.php ... [OK]
+modules/Product_Options/func.php ... [OK]
+modules/Product_Options/product_options.php ... [OK]
+modules/Product_Options/product_variants.php ... [OK]
+modules/Products_Map/config.php ... [OK]
+modules/Products_Map/func.php ... [OK]
+modules/RMA/config.php ... [OK]
+modules/RMA/func.php ... [OK]
+modules/RMA/returns.php ... [OK]
+modules/Recently_Viewed/config.php ... [OK]
+modules/Recommended_Products/config.php ... [OK]
+modules/Recommended_Products/func.php ... [OK]
+modules/Shipping_Label_Generator/config.php ... [OK]
+modules/Shipping_Label_Generator/func.php ... [OK]
+modules/Sitemap/config.php ... [OK]
+modules/Sitemap/func.php ... [OK]
+modules/SnS_connector/config.php ... [OK]
+modules/Special_Offers/config.php ... [OK]
+modules/Special_Offers/func.php ... [OK]
+modules/Special_Offers/offers.php ... [OK]
+modules/Special_Offers/place_order_extra.php ... [OK]
+modules/Stop_List/config.php ... [OK]
+modules/Stop_List/func.php ... [OK]
+modules/Survey/config.php ... [OK]
+modules/Survey/customer_survey.php ... [OK]
+modules/Survey/func.php ... [OK]
+modules/Survey/survey.php ... [OK]
+modules/UPS_OnLine_Tools/config.php ... [OK]
+modules/UPS_OnLine_Tools/ups_shipping_methods.php ... [OK]
+modules/Upselling_Products/config.php ... [OK]
+modules/Wholesale_Trading/config.php ... [OK]
+modules/Wishlist/config.php ... [OK]
+modules/Wishlist/wishlist.php ... [OK]
+modules/XAffiliate/config.php ... [OK]
+modules/XML_Sitemap/config.php ... [OK]
+modules/XPayments_Connector/config.php ... [OK]
+modules/XPayments_Connector/xpc_func.php ... [OK]
+offers.php ... [OK]
+orders.php ... [OK]
+partner/auth.php ... [OK]
+partner/home.php ... [OK]
+partner/partner_banners.php ... [OK]
+partner/partner_element_list.php ... [OK]
+partner/product.php ... [OK]
+payment/3dsecure.php ... [OK]
+payment/cc_authorizenet.php ... [OK]
+payment/cc_authorizenet_sim.php ... [OK]
+payment/cc_bean.func.php ... [OK]
+payment/cc_bean.php ... [OK]
+payment/cc_eselect_form.php ... [OK]
+payment/cc_fdg_connect.php ... [OK]
+payment/cc_hsbc_xml.php ... [OK]
+payment/cc_ogone.php ... [OK]
+payment/cc_ogoneweb.php ... [OK]
+payment/cc_ogoneweb_result.php ... [OK]
+payment/cmpi.php ... [OK]
+payment/ebank_confirmation.php ... [OK]
+payment/ebank_nok.php ... [OK]
+payment/ebank_ok.php ... [OK]
+payment/ebank_validation.php ... [OK]
+payment/payment_cc.php ... [OK]
+payment/ps_paypal_pro.php ... [OK]
+payment/ps_paypal_pro_uk.php ... [OK]
+payment/ps_paypal_pro_us.php ... [OK]
+popup_address.php ... [OK]
+popup_estimate_shipping.php ... [OK]
+popup_poptions.php ... [OK]
+postauth.php ... [OK]
+prepare.php ... [OK]
+products.php ... [OK]
+provider/auth.php ... [OK]
+provider/search.php ... [OK]
+provider/shipping_rates.php ... [OK]
+provider/zones.php ... [OK]
+search.php ... [OK]
+shipping/intershipper.php ... [OK]
+shipping/mod_FEDEX.php ... [OK]
+shipping/mod_UPS.php ... [OK]
+shipping/mod_USPS.php ... [OK]
+skin/2-columns/customer/minicart_total.tpl ... [OK]
+skin/artistictunes_business/customer/minicart_total.tpl ... [OK]
+skin/artistictunes_car_tires/customer/minicart_total.tpl ... [OK]
+skin/artistictunes_fragrances_and_makeup/customer/minicart_total.tpl ... [OK]
+skin/artistictunes_water_colour/customer/minicart_total.tpl ... [OK]
+skin/common_files/admin/main/atracking_logins.tpl ... [OK]
+skin/common_files/admin/main/configuration.tpl ... [OK]
+skin/common_files/admin/main/partner_orders.tpl ... [OK]
+skin/common_files/admin/main/payment_methods.tpl ... [OK]
+skin/common_files/admin/main/register.tpl ... [OK]
+skin/common_files/admin/main/shipping.tpl ... [OK]
+skin/common_files/admin/main/shipping_options.tpl ... [OK]
+skin/common_files/admin/main/tools.tpl ... [OK]
+skin/common_files/admin/main/user_profiles.tpl ... [OK]
+skin/common_files/admin/main/users.tpl ... [OK]
+skin/common_files/admin/menu_box.tpl ... [OK]
+skin/common_files/check_registerform_fields_js.tpl ... [OK]
+skin/common_files/customer/help/popup_info.tpl ... [OK]
+skin/common_files/customer/home_main.tpl ... [OK]
+skin/common_files/customer/home_printable.tpl ... [OK]
+skin/common_files/customer/main/address.tpl ... [OK]
+skin/common_files/customer/main/address_box.tpl ... [OK]
+skin/common_files/customer/main/buy_now.tpl ... [OK]
+skin/common_files/customer/main/product.tpl ... [OK]
+skin/common_files/customer/main/top_links.tpl ... [OK]
+skin/common_files/customer/main/ui_tabs.tpl ... [OK]
+skin/common_files/customer/minicart_total.tpl ... [OK]
+skin/common_files/customer/preview.tpl ... [OK]
+skin/common_files/customer/service_css.tpl ... [OK]
+skin/common_files/customer/service_js.tpl ... [OK]
+skin/common_files/help/general.tpl ... [OK]
+skin/common_files/help/index.tpl ... [OK]
+skin/common_files/js/common.js ... [OK]
+skin/common_files/js/partner_orders.js ... [OK]
+skin/common_files/js/popup_users_open.js ... [OK]
+skin/common_files/main/commissions.tpl ... [OK]
+skin/common_files/main/order_info.tpl ... [OK]
+skin/common_files/main/orders_list.tpl ... [OK]
+skin/common_files/main/partner_banners.tpl ... [OK]
+skin/common_files/main/popup_users.tpl ... [OK]
+skin/common_files/main/product_details.tpl ... [OK]
+skin/common_files/main/quick_search.tpl ... [OK]
+skin/common_files/main/referred_sales.tpl ... [OK]
+skin/common_files/main/tooltip_js.tpl ... [OK]
+skin/common_files/main/zipcode.tpl ... [OK]
+skin/common_files/meta.tpl ... [OK]
+skin/common_files/modules/Amazon_Checkout/amazon_top_button.tpl ... [OK]
+skin/common_files/modules/Amazon_Checkout/checkout_btn.tpl ... [OK]
+skin/common_files/modules/Customer_Reviews/admin_reviews.tpl ... [OK]
+skin/common_files/modules/Customer_Reviews/vote_reviews.tpl ... [OK]
+skin/common_files/modules/Detailed_Product_Images/cloudzoom_image.tpl ... [OK]
+skin/common_files/modules/Detailed_Product_Images/colorbox_image.tpl ... [OK]
+skin/common_files/modules/Detailed_Product_Images/widget.tpl ... [OK]
+skin/common_files/modules/Egoods/wrong_key.tpl ... [OK]
+skin/common_files/modules/Flyout_Menus/Icons/fancy_subcategories.tpl ... [OK]
+skin/common_files/modules/Gift_Certificates/gc_admin.tpl ... [OK]
+skin/common_files/modules/Gift_Certificates/gc_customer_print.tpl ... [OK]
+skin/common_files/modules/Gift_Registry/product_event.tpl ... [OK]
+skin/common_files/modules/HTML_Editor/editors/ckeditor/config.js ... [OK]
+skin/common_files/modules/HTML_Editor/editors/ckeditor/contents.css ... [OK]
+skin/common_files/modules/Image_Verification/spambot_arrest.tpl ... [OK]
+skin/common_files/modules/Magnifier/popup_magnifier.tpl ... [OK]
+skin/common_files/modules/Magnifier/popup_window.tpl ... [OK]
+skin/common_files/modules/News_Management/news_lists_select.tpl ... [OK]
+skin/common_files/modules/One_Page_Checkout/opc_payment.tpl ... [OK]
+skin/common_files/modules/One_Page_Checkout/payment_methods.tpl ... [OK]
+skin/common_files/modules/One_Page_Checkout/profile/address_book_link.tpl ... [OK]
+skin/common_files/modules/One_Page_Checkout/profile/address_fields.tpl ... [OK]
+skin/common_files/modules/One_Page_Checkout/profile/personal_info.tpl ... [OK]
+skin/common_files/modules/One_Page_Checkout/summary/cart_totals.tpl ... [OK]
+skin/common_files/modules/RMA/modify_return.tpl ... [OK]
+skin/common_files/modules/RMA/returns.tpl ... [OK]
+skin/common_files/modules/Survey/admin_survey.tpl ... [OK]
+skin/common_files/modules/Survey/modify_maillist.tpl ... [OK]
+skin/common_files/modules/Survey/survey.tpl ... [OK]
+skin/common_files/modules/Survey/survey_instances.tpl ... [OK]
+skin/common_files/modules/Users_online/stats.tpl ... [OK]
+skin/common_files/modules/Wishlist/wishlists.tpl ... [OK]
+skin/common_files/payments/cc_2conew.tpl ... [OK]
+skin/common_files/payments/cc_bean.tpl ... [OK]
+skin/common_files/payments/cc_fdg_connect.tpl ... [OK]
+skin/common_files/payments/cc_hsbc_xml.tpl ... [OK]
+skin/fashion_mosaic_blue/customer/categories.tpl ... [OK]
+skin/fashion_mosaic_blue/customer/main/welcome.tpl ... [OK]
+skin/fashion_mosaic_blue/customer/minicart_total.tpl ... [OK]
+skin/fashion_mosaic_green/customer/categories.tpl ... [OK]
+skin/fashion_mosaic_green/customer/main/welcome.tpl ... [OK]
+skin/fashion_mosaic_green/customer/minicart_total.tpl ... [OK]
+skin/fashion_mosaic_grey/customer/categories.tpl ... [OK]
+skin/fashion_mosaic_grey/customer/main/welcome.tpl ... [OK]
+skin/fashion_mosaic_grey/customer/minicart_total.tpl ... [OK]
+skin/fashion_mosaic_pink/customer/categories.tpl ... [OK]
+skin/fashion_mosaic_pink/customer/main/welcome.tpl ... [OK]
+skin/fashion_mosaic_pink/customer/minicart_total.tpl ... [OK]
+skin/vivid_dreams_aquamarine/customer/main/buy_now.tpl ... [OK]
+skin/vivid_dreams_aquamarine/customer/minicart_total.tpl ... [OK]
+skin/vivid_dreams_chromo/customer/main/buy_now.tpl ... [OK]
+skin/vivid_dreams_chromo/customer/minicart_total.tpl ... [OK]
+skin/vivid_dreams_lotus/customer/main/buy_now.tpl ... [OK]
+skin/vivid_dreams_lotus/customer/minicart_total.tpl ... [OK]
+skin/vivid_dreams_violet/customer/main/buy_now.tpl ... [OK]
+skin/vivid_dreams_violet/customer/minicart_total.tpl ... [OK]
+
+PATCH RESULTS
+File CHANGELOG successfully patched
+File VERSION successfully patched
+File address_book.php successfully patched
+File admin/affiliates.php successfully patched
+File admin/atracking.php successfully patched
+File admin/auth.php successfully patched
+File admin/banner_info.php successfully patched
+File admin/cc_processing.php successfully patched
+File admin/configuration.php successfully patched
+File admin/db_backup.php successfully patched
+File admin/general.php successfully patched
+File admin/giftcerts.php successfully patched
+File admin/languages.php successfully patched
+File admin/orders.php successfully patched
+File admin/partner_adv_campaigns.php successfully patched
+File admin/partner_adv_stats.php successfully patched
+File admin/partner_banners.php successfully patched
+File admin/partner_element_list.php successfully patched
+File admin/partner_orders.php successfully patched
+File admin/partner_plans.php successfully patched
+File admin/partner_report.php successfully patched
+File admin/partner_top_performers.php successfully patched
+File admin/payment_methods.php successfully patched
+File admin/payment_upload.php successfully patched
+File admin/paypal_enable.php successfully patched
+File admin/process_user.php successfully patched
+File admin/referred_sales.php successfully patched
+File admin/shipping_options.php successfully patched
+File admin/snapshots.php successfully patched
+File admin/statistics.php successfully patched
+File admin/stats_search.php successfully patched
+File admin/tools.php successfully patched
+File admin/user_profiles.php successfully patched
+File admin/users.php successfully patched
+File cart.php successfully patched
+File config.php successfully patched
+File featured_products.php successfully patched
+File giftcert.php successfully patched
+File giftreg_manage.php successfully patched
+File https.php successfully patched
+File include/account_tabs.php successfully patched
+File include/adaptives.php successfully patched
+File include/address_book.php successfully patched
+File include/ajax_image_manipulations.php successfully patched
+File include/banner_stats.php successfully patched
+File include/bots.php successfully patched
+File include/cart_calculate_totals.php successfully patched
+File include/check_useraccount.php successfully patched
+File include/checkout.php successfully patched
+File include/checkout_init.php successfully patched
+File include/commissions.php successfully patched
+File include/common.php successfully patched
+File include/data_cache.php successfully patched
+File include/export.php successfully patched
+File include/func/func.ajax.php successfully patched
+File include/func/func.backoffice.php successfully patched
+File include/func/func.cart.php successfully patched
+File include/func/func.category.php successfully patched
+File include/func/func.clean_urls.php successfully patched
+File include/func/func.core.php successfully patched
+File include/func/func.db.php successfully patched
+File include/func/func.export.php successfully patched
+File include/func/func.files.php successfully patched
+File include/func/func.html_catalog.php successfully patched
+File include/func/func.http.php successfully patched
+File include/func/func.image.php successfully patched
+File include/func/func.import.php successfully patched
+File include/func/func.logging.php successfully patched
+File include/func/func.mail.php successfully patched
+File include/func/func.order.php successfully patched
+File include/func/func.pack.php successfully patched
+File include/func/func.payment.php successfully patched
+File include/func/func.paypal.php successfully patched
+File include/func/func.product.php successfully patched
+File include/func/func.shipping.php successfully patched
+File include/func/func.taxes.php successfully patched
+File include/func/func.templater.php successfully patched
+File include/func/func.tests.php successfully patched
+File include/func/func.user.php successfully patched
+File include/func/func.xml.php successfully patched
+File include/help.php successfully patched
+File include/history_order.php successfully patched
+File include/import.php successfully patched
+File include/import_address_book.php successfully patched
+File include/import_orders.php successfully patched
+File include/import_products.php successfully patched
+File include/install_lng_US.php successfully patched
+File include/logging.php successfully patched
+File include/login.php successfully patched
+File include/orders.php successfully patched
+File include/orders_export.php successfully patched
+File include/partner_banners.php successfully patched
+File include/payment/func.cc_bibit.php successfully patched
+File include/payment/func.cc_usaepay.php successfully patched
+File include/payment_method.php successfully patched
+File include/popup_users.php successfully patched
+File include/process_order.php successfully patched
+File include/product_clone.php successfully patched
+File include/product_modify.php successfully patched
+File include/product_tabs.php successfully patched
+File include/register.php successfully patched
+File include/search.php successfully patched
+File include/search_users.php successfully patched
+File include/sessions.php successfully patched
+File include/taxes.php successfully patched
+File include/templater/plugins/function.fancycat_get_cache.php successfully patched
+File include/templater/plugins/function.get_title.php successfully patched
+File include/templater/plugins/function.include_cache.php successfully patched
+File include/templater/plugins/function.load_defer.php successfully patched
+File include/templater/templater.php successfully patched
+File init.php successfully patched
+File minicart.php successfully patched
+File modules/Advanced_Order_Management/config.php successfully patched
+File modules/Advanced_Order_Management/func.edit.php successfully patched
+File modules/Advanced_Order_Management/order_edit.php successfully patched
+File modules/Advanced_Statistics/display_stats.php successfully patched
+File modules/Amazon_Checkout/checkout.php successfully patched
+File modules/Amazon_Checkout/checkout_callback.php successfully patched
+File modules/Amazon_Checkout/func.php successfully patched
+File modules/Amazon_Checkout/init.php successfully patched
+File modules/Amazon_Checkout/order_notifications.php successfully patched
+File modules/Anti_Fraud/config.php successfully patched
+File modules/Bestsellers/config.php successfully patched
+File modules/Customer_Reviews/config.php successfully patched
+File modules/Customer_Reviews/vote.php successfully patched
+File modules/Detailed_Product_Images/config.php successfully patched
+File modules/Detailed_Product_Images/func.php successfully patched
+File modules/Discount_Coupons/config.php successfully patched
+File modules/Discount_Coupons/discount_coupons.php successfully patched
+File modules/Discount_Coupons/func.php successfully patched
+File modules/Egoods/config.php successfully patched
+File modules/Egoods/func.php successfully patched
+File modules/Extra_Fields/config.php successfully patched
+File modules/Fast_Lane_Checkout/checkout.php successfully patched
+File modules/Fast_Lane_Checkout/config.php successfully patched
+File modules/Feature_Comparison/config.php successfully patched
+File modules/Feature_Comparison/func.php successfully patched
+File modules/Flyout_Menus/admin_config.php successfully patched
+File modules/Flyout_Menus/config.php successfully patched
+File modules/Flyout_Menus/func.php successfully patched
+File modules/Gift_Certificates/config.php successfully patched
+File modules/Gift_Registry/config.php successfully patched
+File modules/Gift_Registry/func.php successfully patched
+File modules/Gift_Registry/giftreg_display.php successfully patched
+File modules/Google_Checkout/checkout.php successfully patched
+File modules/Google_Checkout/config.php successfully patched
+File modules/Google_Checkout/func.php successfully patched
+File modules/Google_Checkout/gcheckout_callback.php successfully patched
+File modules/Google_Checkout/get_order_data.php successfully patched
+File modules/Google_Checkout/init.php successfully patched
+File modules/HTML_Editor/config.php successfully patched
+File modules/Image_Verification/config.php successfully patched
+File modules/Image_Verification/init.php successfully patched
+File modules/Magnifier/config.php successfully patched
+File modules/Magnifier/func.php successfully patched
+File modules/Maintenance_Agent/func.php successfully patched
+File modules/Manufacturers/config.php successfully patched
+File modules/Manufacturers/customer_manufacturers_list.php successfully patched
+File modules/News_Management/config.php successfully patched
+File modules/News_Management/news.php successfully patched
+File modules/One_Page_Checkout/checkout.php successfully patched
+File modules/One_Page_Checkout/config.php successfully patched
+File modules/One_Page_Checkout/func.php successfully patched
+File modules/Product_Configurator/config.php successfully patched
+File modules/Product_Configurator/func.php successfully patched
+File modules/Product_Configurator/pconf_customer_cart.php successfully patched
+File modules/Product_Options/config.php successfully patched
+File modules/Product_Options/func.php successfully patched
+File modules/Product_Options/product_options.php successfully patched
+File modules/Product_Options/product_variants.php successfully patched
+File modules/Products_Map/config.php successfully patched
+File modules/Products_Map/func.php successfully patched
+File modules/RMA/config.php successfully patched
+File modules/RMA/func.php successfully patched
+File modules/RMA/returns.php successfully patched
+File modules/Recently_Viewed/config.php successfully patched
+File modules/Recommended_Products/config.php successfully patched
+File modules/Recommended_Products/func.php successfully patched
+File modules/Shipping_Label_Generator/config.php successfully patched
+File modules/Shipping_Label_Generator/func.php successfully patched
+File modules/Sitemap/config.php successfully patched
+File modules/Sitemap/func.php successfully patched
+File modules/SnS_connector/config.php successfully patched
+File modules/Special_Offers/config.php successfully patched
+File modules/Special_Offers/func.php successfully patched
+File modules/Special_Offers/offers.php successfully patched
+File modules/Special_Offers/place_order_extra.php successfully patched
+File modules/Stop_List/config.php successfully patched
+File modules/Stop_List/func.php successfully patched
+File modules/Survey/config.php successfully patched
+File modules/Survey/customer_survey.php successfully patched
+File modules/Survey/func.php successfully patched
+File modules/Survey/survey.php successfully patched
+File modules/UPS_OnLine_Tools/config.php successfully patched
+File modules/UPS_OnLine_Tools/ups_shipping_methods.php successfully patched
+File modules/Upselling_Products/config.php successfully patched
+File modules/Wholesale_Trading/config.php successfully patched
+File modules/Wishlist/config.php successfully patched
+File modules/Wishlist/wishlist.php successfully patched
+File modules/XAffiliate/config.php successfully patched
+File modules/XML_Sitemap/config.php successfully patched
+File modules/XPayments_Connector/config.php successfully patched
+File modules/XPayments_Connector/xpc_func.php successfully patched
+File offers.php successfully patched
+File orders.php successfully patched
+File partner/auth.php successfully patched
+File partner/home.php successfully patched
+File partner/partner_banners.php successfully patched
+File partner/partner_element_list.php successfully patched
+File partner/product.php successfully patched
+File payment/3dsecure.php successfully patched
+File payment/cc_authorizenet.php successfully patched
+File payment/cc_authorizenet_sim.php successfully patched
+File payment/cc_bean.func.php successfully patched
+File payment/cc_bean.php successfully patched
+File payment/cc_eselect_form.php successfully patched
+File payment/cc_fdg_connect.php successfully patched
+File payment/cc_hsbc_xml.php successfully patched
+File payment/cc_ogone.php successfully patched
+File payment/cc_ogoneweb.php successfully patched
+File payment/cc_ogoneweb_result.php successfully patched
+File payment/cmpi.php successfully patched
+File payment/ebank_confirmation.php successfully patched
+File payment/ebank_nok.php successfully patched
+File payment/ebank_ok.php successfully patched
+File payment/ebank_validation.php successfully patched
+File payment/payment_cc.php successfully patched
+File payment/ps_paypal_pro.php successfully patched
+File payment/ps_paypal_pro_uk.php successfully patched
+File payment/ps_paypal_pro_us.php successfully patched
+File popup_address.php successfully patched
+File popup_estimate_shipping.php successfully patched
+File popup_poptions.php successfully patched
+File postauth.php successfully patched
+File prepare.php successfully patched
+File products.php successfully patched
+File provider/auth.php successfully patched
+File provider/search.php successfully patched
+File provider/shipping_rates.php successfully patched
+File provider/zones.php successfully patched
+File search.php successfully patched
+File shipping/intershipper.php successfully patched
+File shipping/mod_FEDEX.php successfully patched
+File shipping/mod_UPS.php successfully patched
+File shipping/mod_USPS.php successfully patched
+File skin/2-columns/customer/minicart_total.tpl successfully patched
+File skin/artistictunes_business/customer/minicart_total.tpl successfully patched
+File skin/artistictunes_car_tires/customer/minicart_total.tpl successfully patched
+File skin/artistictunes_fragrances_and_makeup/customer/minicart_total.tpl successfully patched
+File skin/artistictunes_water_colour/customer/minicart_total.tpl successfully patched
+File skin/common_files/admin/main/atracking_logins.tpl successfully patched
+File skin/common_files/admin/main/configuration.tpl successfully patched
+File skin/common_files/admin/main/partner_orders.tpl successfully patched
+File skin/common_files/admin/main/payment_methods.tpl successfully patched
+File skin/common_files/admin/main/register.tpl successfully patched
+File skin/common_files/admin/main/shipping.tpl successfully patched
+File skin/common_files/admin/main/shipping_options.tpl successfully patched
+File skin/common_files/admin/main/tools.tpl successfully patched
+File skin/common_files/admin/main/user_profiles.tpl successfully patched
+File skin/common_files/admin/main/users.tpl successfully patched
+File skin/common_files/admin/menu_box.tpl successfully patched
+File skin/common_files/check_registerform_fields_js.tpl successfully patched
+File skin/common_files/customer/help/popup_info.tpl successfully patched
+File skin/common_files/customer/home_main.tpl successfully patched
+File skin/common_files/customer/home_printable.tpl successfully patched
+File skin/common_files/customer/main/address.tpl successfully patched
+File skin/common_files/customer/main/address_box.tpl successfully patched
+File skin/common_files/customer/main/buy_now.tpl successfully patched
+File skin/common_files/customer/main/product.tpl successfully patched
+File skin/common_files/customer/main/top_links.tpl successfully patched
+File skin/common_files/customer/main/ui_tabs.tpl successfully patched
+File skin/common_files/customer/minicart_total.tpl successfully patched
+File skin/common_files/customer/preview.tpl successfully patched
+File skin/common_files/customer/service_css.tpl successfully patched
+File skin/common_files/customer/service_js.tpl successfully patched
+File skin/common_files/help/general.tpl successfully patched
+File skin/common_files/help/index.tpl successfully patched
+File skin/common_files/js/common.js successfully patched
+File skin/common_files/js/partner_orders.js successfully patched
+File skin/common_files/js/popup_users_open.js successfully patched
+File skin/common_files/main/commissions.tpl successfully patched
+File skin/common_files/main/order_info.tpl successfully patched
+File skin/common_files/main/orders_list.tpl successfully patched
+File skin/common_files/main/partner_banners.tpl successfully patched
+File skin/common_files/main/popup_users.tpl successfully patched
+File skin/common_files/main/product_details.tpl successfully patched
+File skin/common_files/main/quick_search.tpl successfully patched
+File skin/common_files/main/referred_sales.tpl successfully patched
+File skin/common_files/main/tooltip_js.tpl successfully patched
+File skin/common_files/main/zipcode.tpl successfully patched
+File skin/common_files/meta.tpl successfully patched
+File skin/common_files/modules/Amazon_Checkout/amazon_top_button.tpl successfully patched
+File skin/common_files/modules/Amazon_Checkout/checkout_btn.tpl successfully patched
+File skin/common_files/modules/Customer_Reviews/admin_reviews.tpl successfully patched
+File skin/common_files/modules/Customer_Reviews/vote_reviews.tpl successfully patched
+File skin/common_files/modules/Detailed_Product_Images/cloudzoom_image.tpl successfully patched
+File skin/common_files/modules/Detailed_Product_Images/colorbox_image.tpl successfully patched
+File skin/common_files/modules/Detailed_Product_Images/widget.tpl successfully patched
+File skin/common_files/modules/Egoods/wrong_key.tpl successfully patched
+File skin/common_files/modules/Flyout_Menus/Icons/fancy_subcategories.tpl successfully patched
+File skin/common_files/modules/Gift_Certificates/gc_admin.tpl successfully patched
+File skin/common_files/modules/Gift_Certificates/gc_customer_print.tpl successfully patched
+File skin/common_files/modules/Gift_Registry/product_event.tpl successfully patched
+File skin/common_files/modules/HTML_Editor/editors/ckeditor/config.js successfully patched
+File skin/common_files/modules/HTML_Editor/editors/ckeditor/contents.css successfully patched
+File skin/common_files/modules/Image_Verification/spambot_arrest.tpl successfully patched
+File skin/common_files/modules/Magnifier/popup_magnifier.tpl successfully patched
+File skin/common_files/modules/Magnifier/popup_window.tpl successfully patched
+File skin/common_files/modules/News_Management/news_lists_select.tpl successfully patched
+File skin/common_files/modules/One_Page_Checkout/opc_payment.tpl successfully patched
+File skin/common_files/modules/One_Page_Checkout/payment_methods.tpl successfully patched
+File skin/common_files/modules/One_Page_Checkout/profile/address_book_link.tpl successfully patched
+File skin/common_files/modules/One_Page_Checkout/profile/address_fields.tpl successfully patched
+File skin/common_files/modules/One_Page_Checkout/profile/personal_info.tpl successfully patched
+File skin/common_files/modules/One_Page_Checkout/summary/cart_totals.tpl successfully patched
+File skin/common_files/modules/RMA/modify_return.tpl successfully patched
+File skin/common_files/modules/RMA/returns.tpl successfully patched
+File skin/common_files/modules/Survey/admin_survey.tpl successfully patched
+File skin/common_files/modules/Survey/modify_maillist.tpl successfully patched
+File skin/common_files/modules/Survey/survey.tpl successfully patched
+File skin/common_files/modules/Survey/survey_instances.tpl successfully patched
+File skin/common_files/modules/Users_online/stats.tpl successfully patched
+File skin/common_files/modules/Wishlist/wishlists.tpl successfully patched
+File skin/common_files/payments/cc_2conew.tpl successfully patched
+File skin/common_files/payments/cc_bean.tpl successfully patched
+File skin/common_files/payments/cc_fdg_connect.tpl successfully patched
+File skin/common_files/payments/cc_hsbc_xml.tpl successfully patched
+File skin/fashion_mosaic_blue/customer/categories.tpl successfully patched
+File skin/fashion_mosaic_blue/customer/main/welcome.tpl successfully patched
+File skin/fashion_mosaic_blue/customer/minicart_total.tpl successfully patched
+File skin/fashion_mosaic_green/customer/categories.tpl successfully patched
+File skin/fashion_mosaic_green/customer/main/welcome.tpl successfully patched
+File skin/fashion_mosaic_green/customer/minicart_total.tpl successfully patched
+File skin/fashion_mosaic_grey/customer/categories.tpl successfully patched
+File skin/fashion_mosaic_grey/customer/main/welcome.tpl successfully patched
+File skin/fashion_mosaic_grey/customer/minicart_total.tpl successfully patched
+File skin/fashion_mosaic_pink/customer/categories.tpl successfully patched
+File skin/fashion_mosaic_pink/customer/main/welcome.tpl successfully patched
+File skin/fashion_mosaic_pink/customer/minicart_total.tpl successfully patched
+File skin/vivid_dreams_aquamarine/customer/main/buy_now.tpl successfully patched
+File skin/vivid_dreams_aquamarine/customer/minicart_total.tpl successfully patched
+File skin/vivid_dreams_chromo/customer/main/buy_now.tpl successfully patched
+File skin/vivid_dreams_chromo/customer/minicart_total.tpl successfully patched
+File skin/vivid_dreams_lotus/customer/main/buy_now.tpl successfully patched
+File skin/vivid_dreams_lotus/customer/minicart_total.tpl successfully patched
+File skin/vivid_dreams_violet/customer/main/buy_now.tpl successfully patched
+File skin/vivid_dreams_violet/customer/minicart_total.tpl successfully patched
+SQL PATCH: ``patch.sql'' was successuly applied
+<font color="green">The database was successfully patched !</font>
+Updating DB version info.
+
+PATCH LOG
+Patching file /homepages/5/d24027204/htdocs/private_shop/CHANGELOG ...
+Hunk #1 succeeded at 1.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/VERSION ...
+Hunk #1 succeeded at 1.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/address_book.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 52.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/admin/affiliates.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 48.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/admin/atracking.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 76.
+Hunk #3 succeeded at 85.
+Hunk #4 succeeded at 97.
+Hunk #5 succeeded at 134.
+Hunk #6 succeeded at 153.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/admin/auth.php ...
+Hunk #1 succeeded at 41.
+Hunk #2 succeeded at 91.
+Hunk #3 succeeded at 130.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/admin/banner_info.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 48.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/admin/cc_processing.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 57.
+Hunk #3 succeeded at 294.
+Hunk #4 succeeded at 387.
+Hunk #5 succeeded at 473.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/admin/configuration.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 488.
+Hunk #3 succeeded at 551.
+Hunk #4 succeeded at 562.
+Hunk #5 succeeded at 577.
+Hunk #6 succeeded at 605.
+Hunk #7 succeeded at 700.
+Hunk #8 succeeded at 738.
+Hunk #9 succeeded at 1007.
+Hunk #10 succeeded at 1124.
+Hunk #11 succeeded at 1135.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/admin/db_backup.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 94.
+Hunk #3 succeeded at 196.
+Hunk #4 succeeded at 261.
+Hunk #5 succeeded at 314.
+Hunk #6 succeeded at 341.
+Hunk #7 succeeded at 349.
+Hunk #8 succeeded at 403.
+Hunk #9 succeeded at 491.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/admin/general.php ...
+Hunk #1 succeeded at 42.
+Hunk #2 succeeded at 460.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/admin/giftcerts.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 427.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/admin/languages.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 270.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/admin/orders.php ...
+Hunk #1 succeeded at 40.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/admin/partner_adv_campaigns.php ...
+Hunk #1 succeeded at 40.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/admin/partner_adv_stats.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 48.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/admin/partner_banners.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 51.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/admin/partner_element_list.php ...
+Hunk #1 succeeded at 40.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/admin/partner_orders.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 48.
+Hunk #3 succeeded at 205.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/admin/partner_plans.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 51.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/admin/partner_report.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 48.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/admin/partner_top_performers.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 48.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/admin/payment_methods.php ...
+Hunk #1 succeeded at 41.
+Hunk #2 succeeded at 58.
+Hunk #3 succeeded at 270.
+Hunk #4 succeeded at 287.
+Hunk #5 succeeded at 335.
+Hunk #6 succeeded at 584.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/admin/payment_upload.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 50.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/admin/paypal_enable.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 73.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/admin/process_user.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 231.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/admin/referred_sales.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 48.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/admin/shipping_options.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 286.
+Hunk #3 succeeded at 318.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/admin/snapshots.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 445.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/admin/statistics.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 132.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/admin/stats_search.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 69.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/admin/tools.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 153.
+Hunk #3 succeeded at 2152.
+Hunk #4 succeeded at 2439.
+Hunk #5 succeeded at 2947.
+Hunk #6 succeeded at 2968.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/admin/user_profiles.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 130.
+Hunk #3 succeeded at 145.
+Hunk #4 succeeded at 164.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/admin/users.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 170.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/cart.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 59.
+Hunk #3 succeeded at 210.
+Hunk #4 succeeded at 253.
+Hunk #5 succeeded at 271.
+Hunk #6 succeeded at 316.
+Hunk #7 succeeded at 330.
+Hunk #8 succeeded at 354.
+Hunk #9 succeeded at 386.
+Hunk #10 succeeded at 450.
+Hunk #11 succeeded at 460.
+Hunk #12 succeeded at 471.
+Hunk #13 succeeded at 490.
+Hunk #14 succeeded at 515.
+Hunk #15 succeeded at 548.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/config.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 378.
+Hunk #3 succeeded at 392.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/featured_products.php ...
+Hunk #1 succeeded at 41.
+Hunk #2 succeeded at 54.
+Hunk #3 succeeded at 82.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/giftcert.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 249.
+Hunk #3 succeeded at 264.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/giftreg_manage.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 64.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/https.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 73.
+Hunk #3 succeeded at 218.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/include/account_tabs.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 64.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/include/adaptives.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 95.
+Hunk #3 succeeded at 111.
+Hunk #4 succeeded at 173.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/include/address_book.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 49.
+Hunk #3 succeeded at 60.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/include/ajax_image_manipulations.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 104.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/include/banner_stats.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 106.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/include/bots.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 53.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/include/cart_calculate_totals.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 50.
+Hunk #3 succeeded at 124.
+Hunk #4 succeeded at 177.
+Hunk #5 succeeded at 194.
+Hunk #6 succeeded at 233.
+Hunk #7 succeeded at 272.
+Hunk #8 succeeded at 300.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/include/check_useraccount.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 65.
+Hunk #3 succeeded at 362.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/include/checkout.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 81.
+Hunk #3 succeeded at 123.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/include/checkout_init.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 132.
+Hunk #3 succeeded at 146.
+Hunk #4 succeeded at 176.
+Hunk #5 succeeded at 264.
+Hunk #6 succeeded at 274.
+Hunk #7 succeeded at 311.
+Hunk #8 succeeded at 513.
+Hunk #9 succeeded at 535.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/include/commissions.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 71.
+Hunk #3 succeeded at 118.
+Hunk #4 succeeded at 137.
+Hunk #5 succeeded at 163.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/include/common.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 92.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/include/data_cache.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 109.
+Hunk #3 succeeded at 121.
+Hunk #4 succeeded at 159.
+Hunk #5 succeeded at 220.
+Hunk #6 succeeded at 301.
+Hunk #7 succeeded at 331.
+Hunk #8 succeeded at 371.
+Hunk #9 succeeded at 455.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/include/export.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 287.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/include/func/func.ajax.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 56.
+Hunk #3 succeeded at 158.
+Hunk #4 succeeded at 179.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/include/func/func.backoffice.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 133.
+Hunk #3 succeeded at 688.
+Hunk #4 succeeded at 711.
+Hunk #5 succeeded at 748.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/include/func/func.cart.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 100.
+Hunk #3 succeeded at 132.
+Hunk #4 succeeded at 432.
+Hunk #5 succeeded at 462.
+Hunk #6 succeeded at 948.
+Hunk #7 succeeded at 1053.
+Hunk #8 succeeded at 1096.
+Hunk #9 succeeded at 1267.
+Hunk #10 succeeded at 1283.
+Hunk #11 succeeded at 1556.
+Hunk #12 succeeded at 1670.
+Hunk #13 succeeded at 1703.
+Hunk #14 succeeded at 1739.
+Hunk #15 succeeded at 1936.
+Hunk #16 succeeded at 2133.
+Hunk #17 succeeded at 2457.
+Hunk #18 succeeded at 2495.
+Hunk #19 succeeded at 2503.
+Hunk #20 succeeded at 2955.
+Hunk #21 succeeded at 3042.
+Hunk #22 succeeded at 3057.
+Hunk #23 succeeded at 3099.
+Hunk #24 succeeded at 3199.
+Hunk #25 succeeded at 3255.
+Hunk #26 succeeded at 3448.
+Hunk #27 succeeded at 3458.
+Hunk #28 succeeded at 3475.
+Hunk #29 succeeded at 3533.
+Hunk #30 succeeded at 3662.
+Hunk #31 succeeded at 3768.
+Hunk #32 succeeded at 4042.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/include/func/func.category.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 120.
+Hunk #3 succeeded at 464.
+Hunk #4 succeeded at 585.
+Hunk #5 succeeded at 733.
+Hunk #6 succeeded at 915.
+Hunk #7 succeeded at 933.
+Hunk #8 succeeded at 975.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/include/func/func.clean_urls.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 569.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/include/func/func.core.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 72.
+Hunk #3 succeeded at 177.
+Hunk #4 succeeded at 728.
+Hunk #5 succeeded at 896.
+Hunk #6 succeeded at 976.
+Hunk #7 succeeded at 1006.
+Hunk #8 succeeded at 2287.
+Hunk #9 succeeded at 3215.
+Hunk #10 succeeded at 3237.
+Hunk #11 succeeded at 3329.
+Hunk #12 succeeded at 3395.
+Hunk #13 succeeded at 3440.
+Hunk #14 succeeded at 4283.
+Hunk #15 succeeded at 4303.
+Hunk #16 succeeded at 4596.
+Hunk #17 succeeded at 4671.
+Hunk #18 succeeded at 4714.
+Hunk #19 succeeded at 4730.
+Hunk #20 succeeded at 4964.
+Hunk #21 succeeded at 4976.
+Hunk #22 succeeded at 4992.
+Hunk #23 succeeded at 5662.
+Hunk #24 succeeded at 5705.
+Hunk #25 succeeded at 5767.
+Hunk #26 succeeded at 5947.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/include/func/func.db.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 887.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/include/func/func.export.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 173.
+Hunk #3 succeeded at 751.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/include/func/func.files.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 385.
+Hunk #3 succeeded at 441.
+Hunk #4 succeeded at 462.
+Hunk #5 succeeded at 521.
+Hunk #6 succeeded at 1258.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/include/func/func.html_catalog.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 564.
+Hunk #3 succeeded at 633.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/include/func/func.http.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 103.
+Hunk #3 succeeded at 186.
+Hunk #4 succeeded at 221.
+Hunk #5 succeeded at 256.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/include/func/func.image.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 494.
+Hunk #3 succeeded at 534.
+Hunk #4 succeeded at 690.
+Hunk #5 succeeded at 901.
+Hunk #6 succeeded at 930.
+Hunk #7 succeeded at 989.
+Hunk #8 succeeded at 1000.
+Hunk #9 succeeded at 1329.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/include/func/func.import.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 194.
+Hunk #3 succeeded at 359.
+Hunk #4 succeeded at 738.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/include/func/func.logging.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 355.
+Hunk #3 succeeded at 619.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/include/func/func.mail.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 199.
+Hunk #3 succeeded at 588.
+Hunk #4 succeeded at 757.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/include/func/func.order.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 353.
+Hunk #3 succeeded at 450.
+Hunk #4 succeeded at 646.
+Hunk #5 succeeded at 878.
+Hunk #6 succeeded at 984.
+Hunk #7 succeeded at 1024.
+Hunk #8 succeeded at 1056.
+Hunk #9 succeeded at 1087.
+Hunk #10 succeeded at 1265.
+Hunk #11 succeeded at 1310.
+Hunk #12 succeeded at 1458.
+Hunk #13 succeeded at 1592.
+Hunk #14 succeeded at 1650.
+Hunk #15 succeeded at 1669.
+Hunk #16 succeeded at 1819.
+Hunk #17 succeeded at 2049.
+Hunk #18 succeeded at 2149.
+Hunk #19 succeeded at 2264.
+Hunk #20 succeeded at 2691.
+Hunk #21 succeeded at 3309.
+Hunk #22 succeeded at 3382.
+Hunk #23 succeeded at 3440.
+Hunk #24 succeeded at 3516.
+Hunk #25 succeeded at 3526.
+Hunk #26 succeeded at 3741.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/include/func/func.pack.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 68.
+Hunk #3 succeeded at 454.
+Hunk #4 succeeded at 714.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/include/func/func.payment.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 102.
+Hunk #3 succeeded at 232.
+Hunk #4 succeeded at 431.
+Hunk #5 succeeded at 441.
+Hunk #6 succeeded at 472.
+Hunk #7 succeeded at 493.
+Hunk #8 succeeded at 528.
+Hunk #9 succeeded at 538.
+Hunk #10 succeeded at 574.
+Hunk #11 succeeded at 584.
+Hunk #12 succeeded at 612.
+Hunk #13 succeeded at 620.
+Hunk #14 succeeded at 630.
+Hunk #15 succeeded at 671.
+Hunk #16 succeeded at 681.
+Hunk #17 succeeded at 722.
+Hunk #18 succeeded at 732.
+Hunk #19 succeeded at 1448.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/include/func/func.paypal.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 1724.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/include/func/func.product.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 749.
+Hunk #3 succeeded at 769.
+Hunk #4 succeeded at 836.
+Hunk #5 succeeded at 867.
+Hunk #6 succeeded at 938.
+Hunk #7 succeeded at 1056.
+Hunk #8 succeeded at 1125.
+Hunk #9 succeeded at 1800.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/include/func/func.shipping.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 66.
+Hunk #3 succeeded at 115.
+Hunk #4 succeeded at 184.
+Hunk #5 succeeded at 203.
+Hunk #6 succeeded at 345.
+Hunk #7 succeeded at 364.
+Hunk #8 succeeded at 453.
+Hunk #9 succeeded at 480.
+Hunk #10 succeeded at 541.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/include/func/func.taxes.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 54.
+Hunk #3 succeeded at 76.
+Hunk #4 succeeded at 119.
+Hunk #5 succeeded at 216.
+Hunk #6 succeeded at 411.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/include/func/func.templater.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 323.
+Hunk #3 succeeded at 821.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/include/func/func.tests.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 288.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/include/func/func.user.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 237.
+Hunk #3 succeeded at 338.
+Hunk #4 succeeded at 360.
+Hunk #5 succeeded at 434.
+Hunk #6 succeeded at 609.
+Hunk #7 succeeded at 658.
+Hunk #8 succeeded at 699.
+Hunk #9 succeeded at 947.
+Hunk #10 succeeded at 1179.
+Hunk #11 succeeded at 1207.
+Hunk #12 succeeded at 1406.
+Hunk #13 succeeded at 1508.
+Hunk #14 succeeded at 1911.
+Hunk #15 succeeded at 2027.
+Hunk #16 succeeded at 2047.
+Hunk #17 succeeded at 2210.
+Hunk #18 succeeded at 2336.
+Hunk #19 succeeded at 2355.
+Hunk #20 succeeded at 2487.
+Hunk #21 succeeded at 2688.
+Hunk #22 succeeded at 2923.
+Hunk #23 succeeded at 2931.
+Hunk #24 succeeded at 3027.
+Hunk #25 succeeded at 3038.
+Hunk #26 succeeded at 3152.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/include/func/func.xml.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 164.
+Hunk #3 succeeded at 187.
+Hunk #4 succeeded at 217.
+Hunk #5 succeeded at 280.
+Hunk #6 succeeded at 308.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/include/help.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 296.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/include/history_order.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 232.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/include/import.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 247.
+Hunk #3 succeeded at 256.
+Hunk #4 succeeded at 479.
+Hunk #5 succeeded at 623.
+Hunk #6 succeeded at 646.
+Hunk #7 succeeded at 1013.
+Hunk #8 succeeded at 1054.
+Hunk #9 succeeded at 1664.
+Hunk #10 succeeded at 1944.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/include/import_address_book.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 175.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/include/import_orders.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 123.
+Hunk #3 succeeded at 139.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/include/import_products.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 256.
+Hunk #3 succeeded at 409.
+Hunk #4 succeeded at 478.
+Hunk #5 succeeded at 588.
+Hunk #6 succeeded at 619.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/include/install_lng_US.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 233.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/include/logging.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 98.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/include/login.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 259.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/include/orders.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 339.
+Hunk #3 succeeded at 540.
+Hunk #4 succeeded at 635.
+Hunk #5 succeeded at 648.
+Hunk #6 succeeded at 862.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/include/orders_export.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 338.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/include/partner_banners.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 87.
+Hunk #3 succeeded at 158.
+Hunk #4 succeeded at 313.
+Hunk #5 succeeded at 623.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/include/payment/func.cc_bibit.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 126.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/include/payment/func.cc_usaepay.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 112.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/include/payment_method.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 121.
+Hunk #3 succeeded at 200.
+Hunk #4 succeeded at 211.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/include/popup_users.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 206.
+Hunk #3 succeeded at 219.
+Hunk #4 succeeded at 257.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/include/process_order.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 202.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/include/product_clone.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 64.
+Hunk #3 succeeded at 253.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/include/product_modify.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 207.
+Hunk #3 succeeded at 768.
+Hunk #4 succeeded at 1148.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/include/product_tabs.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 53.
+Hunk #3 succeeded at 61.
+Hunk #4 succeeded at 77.
+Hunk #5 succeeded at 85.
+Hunk #6 succeeded at 93.
+Hunk #7 succeeded at 102.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/include/register.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 78.
+Hunk #3 succeeded at 201.
+Hunk #4 succeeded at 229.
+Hunk #5 succeeded at 337.
+Hunk #6 succeeded at 384.
+Hunk #7 succeeded at 531.
+Hunk #8 succeeded at 574.
+Hunk #9 succeeded at 596.
+Hunk #10 succeeded at 734.
+Hunk #11 succeeded at 748.
+Hunk #12 succeeded at 778.
+Hunk #13 succeeded at 835.
+Hunk #14 succeeded at 1029.
+Hunk #15 succeeded at 1406.
+Hunk #16 succeeded at 1436.
+Hunk #17 succeeded at 1446.
+Hunk #18 succeeded at 1545.
+Hunk #19 succeeded at 1613.
+Hunk #20 succeeded at 1662.
+Hunk #21 succeeded at 1692.
+Hunk #22 succeeded at 1835.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/include/search.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 160.
+Hunk #3 succeeded at 197.
+Hunk #4 succeeded at 286.
+Hunk #5 succeeded at 781.
+Hunk #6 succeeded at 799.
+Hunk #7 succeeded at 813.
+Hunk #8 succeeded at 1320.
+Hunk #9 succeeded at 1403.
+Hunk #10 succeeded at 1433.
+Hunk #11 succeeded at 1464.
+Hunk #12 succeeded at 1491.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/include/search_users.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 48.
+Hunk #3 succeeded at 91.
+Hunk #4 succeeded at 103.
+Hunk #5 succeeded at 252.
+Hunk #6 succeeded at 267.
+Hunk #7 succeeded at 277.
+Hunk #8 succeeded at 297.
+Hunk #9 succeeded at 313.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/include/sessions.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 144.
+Hunk #3 succeeded at 154.
+Hunk #4 succeeded at 188.
+Hunk #5 succeeded at 202.
+Hunk #6 succeeded at 211.
+Hunk #7 succeeded at 495.
+Hunk #8 succeeded at 734.
+Hunk #9 succeeded at 754.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/include/taxes.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 114.
+Hunk #3 succeeded at 351.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/include/templater/plugins/function.fancycat_get_cache.php ...
+Hunk #1 succeeded at 44.
+Hunk #2 succeeded at 55.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/include/templater/plugins/function.get_title.php ...
+Hunk #1 succeeded at 47.
+Hunk #2 succeeded at 76.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/include/templater/plugins/function.include_cache.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 61.
+Hunk #3 succeeded at 72.
+Hunk #4 succeeded at 90.
+Hunk #5 succeeded at 120.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/include/templater/plugins/function.load_defer.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 189.
+Hunk #3 succeeded at 234.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/include/templater/templater.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 139.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/init.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 101.
+Hunk #3 succeeded at 141.
+Hunk #4 succeeded at 294.
+Hunk #5 succeeded at 597.
+Hunk #6 succeeded at 621.
+Hunk #7 succeeded at 986.
+Hunk #8 succeeded at 1015.
+Hunk #9 succeeded at 1067.
+Hunk #10 succeeded at 1079.
+Hunk #11 succeeded at 1136.
+Hunk #12 succeeded at 1188.
+Hunk #13 succeeded at 1248.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/minicart.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 54.
+Hunk #3 succeeded at 81.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/Advanced_Order_Management/config.php ...
+Hunk #1 succeeded at 32.
+Hunk #2 succeeded at 54.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/Advanced_Order_Management/func.edit.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 265.
+Hunk #3 succeeded at 526.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/Advanced_Order_Management/order_edit.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 396.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/Advanced_Statistics/display_stats.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 54.
+Hunk #3 succeeded at 68.
+Hunk #4 succeeded at 190.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/Amazon_Checkout/checkout.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 51.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/Amazon_Checkout/checkout_callback.php ...
+Hunk #1 succeeded at 40.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/Amazon_Checkout/func.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 449.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/Amazon_Checkout/init.php ...
+Hunk #1 succeeded at 38.
+Hunk #2 succeeded at 65.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/Amazon_Checkout/order_notifications.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 48.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/Anti_Fraud/config.php ...
+Hunk #1 succeeded at 38.
+Hunk #2 succeeded at 65.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/Bestsellers/config.php ...
+Hunk #1 succeeded at 36.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/Customer_Reviews/config.php ...
+Hunk #1 succeeded at 32.
+Hunk #2 succeeded at 94.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/Customer_Reviews/vote.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 119.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/Detailed_Product_Images/config.php ...
+Hunk #1 succeeded at 38.
+Hunk #2 succeeded at 98.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/Detailed_Product_Images/func.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 51.
+Hunk #3 succeeded at 73.
+Hunk #4 succeeded at 91.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/Discount_Coupons/config.php ...
+Hunk #1 succeeded at 32.
+Hunk #2 succeeded at 129.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/Discount_Coupons/discount_coupons.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 111.
+Hunk #3 succeeded at 143.
+Hunk #4 succeeded at 172.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/Discount_Coupons/func.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 55.
+Hunk #3 succeeded at 117.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/Egoods/config.php ...
+Hunk #1 succeeded at 32.
+Hunk #2 succeeded at 64.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/Egoods/func.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 69.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/Extra_Fields/config.php ...
+Hunk #1 succeeded at 32.
+Hunk #2 succeeded at 130.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/Fast_Lane_Checkout/checkout.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 57.
+Hunk #3 succeeded at 104.
+Hunk #4 succeeded at 116.
+Hunk #5 succeeded at 128.
+Hunk #6 succeeded at 254.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/Fast_Lane_Checkout/config.php ...
+Hunk #1 succeeded at 36.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/Feature_Comparison/config.php ...
+Hunk #1 succeeded at 38.
+Hunk #2 succeeded at 267.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/Feature_Comparison/func.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 61.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/Flyout_Menus/admin_config.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 50.
+Hunk #3 succeeded at 106.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/Flyout_Menus/config.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 50.
+Hunk #3 succeeded at 133.
+Hunk #4 succeeded at 240.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/Flyout_Menus/func.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 88.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/Gift_Certificates/config.php ...
+Hunk #1 succeeded at 32.
+Hunk #2 succeeded at 116.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/Gift_Registry/config.php ...
+Hunk #1 succeeded at 32.
+Hunk #2 succeeded at 58.
+Hunk #3 succeeded at 90.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/Gift_Registry/func.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 95.
+Hunk #3 succeeded at 120.
+Hunk #4 succeeded at 139.
+Hunk #5 succeeded at 188.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/Gift_Registry/giftreg_display.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 103.
+Hunk #3 succeeded at 115.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/Google_Checkout/checkout.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 49.
+Hunk #3 succeeded at 57.
+Hunk #4 succeeded at 204.
+Hunk #5 succeeded at 295.
+Hunk #6 succeeded at 314.
+Hunk #7 succeeded at 462.
+Hunk #8 succeeded at 496.
+Hunk #9 succeeded at 520.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/Google_Checkout/config.php ...
+Hunk #1 succeeded at 32.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/Google_Checkout/func.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 187.
+Hunk #3 succeeded at 252.
+Hunk #4 succeeded at 293.
+Hunk #5 succeeded at 301.
+Hunk #6 succeeded at 312.
+Hunk #7 succeeded at 329.
+Hunk #8 succeeded at 511.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/Google_Checkout/gcheckout_callback.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 84.
+Hunk #3 succeeded at 150.
+Hunk #4 succeeded at 472.
+Hunk #5 succeeded at 515.
+Hunk #6 succeeded at 543.
+Hunk #7 succeeded at 578.
+Hunk #8 succeeded at 586.
+Hunk #9 succeeded at 609.
+Hunk #10 succeeded at 674.
+Hunk #11 succeeded at 708.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/Google_Checkout/get_order_data.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 49.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/Google_Checkout/init.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 109.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/HTML_Editor/config.php ...
+Hunk #1 succeeded at 38.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/Image_Verification/config.php ...
+Hunk #1 succeeded at 36.
+Hunk #2 succeeded at 49.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/Image_Verification/init.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 66.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/Magnifier/config.php ...
+Hunk #1 succeeded at 32.
+Hunk #2 succeeded at 54.
+Hunk #3 succeeded at 193.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/Magnifier/func.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 50.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/Maintenance_Agent/func.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 68.
+Hunk #3 succeeded at 119.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/Manufacturers/config.php ...
+Hunk #1 succeeded at 32.
+Hunk #2 succeeded at 72.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/Manufacturers/customer_manufacturers_list.php ...
+Hunk #1 succeeded at 40.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/News_Management/config.php ...
+Hunk #1 succeeded at 32.
+Hunk #2 succeeded at 71.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/News_Management/news.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 54.
+Hunk #3 succeeded at 356.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/One_Page_Checkout/checkout.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 51.
+Hunk #3 succeeded at 102.
+Hunk #4 succeeded at 112.
+Hunk #5 succeeded at 124.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/One_Page_Checkout/config.php ...
+Hunk #1 succeeded at 32.
+Hunk #2 succeeded at 53.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/One_Page_Checkout/func.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 56.
+Hunk #3 succeeded at 69.
+Hunk #4 succeeded at 99.
+Hunk #5 succeeded at 123.
+Hunk #6 succeeded at 148.
+Hunk #7 succeeded at 190.
+Hunk #8 succeeded at 218.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/Product_Configurator/config.php ...
+Hunk #1 succeeded at 32.
+Hunk #2 succeeded at 389.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/Product_Configurator/func.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 238.
+Hunk #3 succeeded at 384.
+Hunk #4 succeeded at 462.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/Product_Configurator/pconf_customer_cart.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 102.
+Hunk #3 succeeded at 131.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/Product_Options/config.php ...
+Hunk #1 succeeded at 32.
+Hunk #2 succeeded at 388.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/Product_Options/func.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 133.
+Hunk #3 succeeded at 1900.
+Hunk #4 succeeded at 2208.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/Product_Options/product_options.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 1149.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/Product_Options/product_variants.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 686.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/Products_Map/config.php ...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 81.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/Products_Map/func.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 181.
+Hunk #3 succeeded at 192.
+Hunk #4 succeeded at 337.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/RMA/config.php ...
+Hunk #1 succeeded at 32.
+Hunk #2 succeeded at 68.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/RMA/func.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 127.
+Hunk #3 succeeded at 168.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/RMA/returns.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 52.
+Hunk #3 succeeded at 84.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/Recently_Viewed/config.php ...
+Hunk #1 succeeded at 34.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/Recommended_Products/config.php ...
+Hunk #1 succeeded at 36.
+Hunk #2 succeeded at 49.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/Recommended_Products/func.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 59.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/Shipping_Label_Generator/config.php ...
+Hunk #1 succeeded at 32.
+Hunk #2 succeeded at 62.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/Shipping_Label_Generator/func.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 111.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/Sitemap/config.php ...
+Hunk #1 succeeded at 34.
+Hunk #2 succeeded at 76.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/Sitemap/func.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 168.
+Hunk #3 succeeded at 318.
+Hunk #4 succeeded at 433.
+Hunk #5 succeeded at 520.
+Hunk #6 succeeded at 604.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/SnS_connector/config.php ...
+Hunk #1 succeeded at 32.
+Hunk #2 succeeded at 63.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/Special_Offers/config.php ...
+Hunk #1 succeeded at 32.
+Hunk #2 succeeded at 101.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/Special_Offers/func.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 263.
+Hunk #3 succeeded at 1379.
+Hunk #4 succeeded at 1431.
+Hunk #5 succeeded at 1713.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/Special_Offers/offers.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 523.
+Hunk #3 succeeded at 628.
+Hunk #4 succeeded at 680.
+Hunk #5 succeeded at 717.
+Hunk #6 succeeded at 757.
+Hunk #7 succeeded at 776.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/Special_Offers/place_order_extra.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 49.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/Stop_List/config.php ...
+Hunk #1 succeeded at 32.
+Hunk #2 succeeded at 59.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/Stop_List/func.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 49.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/Survey/config.php ...
+Hunk #1 succeeded at 32.
+Hunk #2 succeeded at 109.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/Survey/customer_survey.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 85.
+Hunk #3 succeeded at 113.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/Survey/func.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 744.
+Hunk #3 succeeded at 870.
+Hunk #4 succeeded at 975.
+Hunk #5 succeeded at 1107.
+Hunk #6 succeeded at 1117.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/Survey/survey.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 840.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/UPS_OnLine_Tools/config.php ...
+Hunk #1 succeeded at 32.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/UPS_OnLine_Tools/ups_shipping_methods.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 71.
+Hunk #3 succeeded at 79.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/Upselling_Products/config.php ...
+Hunk #1 succeeded at 32.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/Wholesale_Trading/config.php ...
+Hunk #1 succeeded at 32.
+Hunk #2 succeeded at 40.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/Wishlist/config.php ...
+Hunk #1 succeeded at 32.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/Wishlist/wishlist.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 399.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/XAffiliate/config.php ...
+Hunk #1 succeeded at 32.
+Hunk #2 succeeded at 95.
+Hunk #3 succeeded at 159.
+Hunk #4 succeeded at 205.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/XML_Sitemap/config.php ...
+Hunk #1 succeeded at 34.
+Hunk #2 succeeded at 120.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/XPayments_Connector/config.php ...
+Hunk #1 succeeded at 32.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/modules/XPayments_Connector/xpc_func.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 604.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/offers.php ...
+Hunk #1 succeeded at 40.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/orders.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 70.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/partner/auth.php ...
+Hunk #1 succeeded at 41.
+Hunk #2 succeeded at 59.
+Hunk #3 succeeded at 81.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/partner/home.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 54.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/partner/partner_banners.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 51.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/partner/partner_element_list.php ...
+Hunk #1 succeeded at 40.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/partner/product.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 62.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/payment/3dsecure.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 51.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/payment/cc_authorizenet.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 84.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/payment/cc_authorizenet_sim.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 52.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/payment/cc_bean.func.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 58.
+Hunk #3 succeeded at 122.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/payment/cc_bean.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 86.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/payment/cc_eselect_form.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 97.
+Hunk #3 succeeded at 122.
+Hunk #4 succeeded at 138.
+Hunk #5 succeeded at 150.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/payment/cc_fdg_connect.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 129.
+Hunk #3 succeeded at 144.
+Hunk #4 succeeded at 189.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/payment/cc_hsbc_xml.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 56.
+Hunk #3 succeeded at 89.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/payment/cc_ogone.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 49.
+Hunk #3 succeeded at 459.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/payment/cc_ogoneweb.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 55.
+Hunk #3 succeeded at 77.
+Hunk #4 succeeded at 108.
+Hunk #5 succeeded at 120.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/payment/cc_ogoneweb_result.php ...
+Hunk #1 succeeded at 32.
+Hunk #2 succeeded at 40.
+Hunk #3 succeeded at 449.
+Hunk #4 succeeded at 518.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/payment/cmpi.php ...
+Hunk #1 succeeded at 41.
+Hunk #2 succeeded at 58.
+Hunk #3 succeeded at 75.
+Hunk #4 succeeded at 87.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/payment/ebank_confirmation.php ...
+Hunk #1 succeeded at 40.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/payment/ebank_nok.php ...
+Hunk #1 succeeded at 40.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/payment/ebank_ok.php ...
+Hunk #1 succeeded at 40.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/payment/ebank_validation.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 56.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/payment/payment_cc.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 71.
+Hunk #3 succeeded at 85.
+Hunk #4 succeeded at 132.
+Hunk #5 succeeded at 228.
+Hunk #6 succeeded at 386.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/payment/ps_paypal_pro.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 49.
+Hunk #3 succeeded at 83.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/payment/ps_paypal_pro_uk.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 131.
+Hunk #3 succeeded at 166.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/payment/ps_paypal_pro_us.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 102.
+Hunk #3 succeeded at 289.
+Hunk #4 succeeded at 304.
+Hunk #5 succeeded at 333.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/popup_address.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 53.
+Hunk #3 succeeded at 131.
+Hunk #4 succeeded at 184.
+Hunk #5 succeeded at 277.
+Hunk #6 succeeded at 295.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/popup_estimate_shipping.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 59.
+Hunk #3 succeeded at 85.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/popup_poptions.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 191.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/postauth.php ...
+Hunk #1 succeeded at 41.
+Hunk #2 succeeded at 92.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/prepare.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 152.
+Hunk #3 succeeded at 797.
+Hunk #4 succeeded at 937.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/products.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 85.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/provider/auth.php ...
+Hunk #1 succeeded at 41.
+Hunk #2 succeeded at 87.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/provider/search.php ...
+Hunk #1 succeeded at 40.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/provider/shipping_rates.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 61.
+Hunk #3 succeeded at 182.
+Hunk #4 succeeded at 242.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/provider/zones.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 129.
+Hunk #3 succeeded at 231.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/search.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 63.
+Hunk #3 succeeded at 121.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/shipping/intershipper.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 121.
+Hunk #3 succeeded at 192.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/shipping/mod_FEDEX.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 89.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/shipping/mod_UPS.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 109.
+Hunk #3 succeeded at 212.
+Hunk #4 succeeded at 257.
+Hunk #5 succeeded at 296.
+Hunk #6 succeeded at 585.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/shipping/mod_USPS.php ...
+Hunk #1 succeeded at 40.
+Hunk #2 succeeded at 84.
+Hunk #3 succeeded at 121.
+Hunk #4 succeeded at 131.
+Hunk #5 succeeded at 180.
+Hunk #6 succeeded at 217.
+Hunk #7 succeeded at 237.
+Hunk #8 succeeded at 258.
+Hunk #9 succeeded at 281.
+Hunk #10 succeeded at 292.
+Hunk #11 succeeded at 305.
+Hunk #12 succeeded at 317.
+Hunk #13 succeeded at 340.
+Hunk #14 succeeded at 456.
+Hunk #15 succeeded at 747.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/2-columns/customer/minicart_total.tpl ...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 19.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/artistictunes_business/customer/minicart_total.tpl ...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 12.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/artistictunes_car_tires/customer/minicart_total.tpl ...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 12.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/artistictunes_fragrances_and_makeup/customer/minicart_total.tpl ...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 12.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/artistictunes_water_colour/customer/minicart_total.tpl ...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 12.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/common_files/admin/main/atracking_logins.tpl ...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 16.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/common_files/admin/main/configuration.tpl ...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 56.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/common_files/admin/main/partner_orders.tpl ...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 147.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/common_files/admin/main/payment_methods.tpl ...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 234.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/common_files/admin/main/register.tpl ...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 76.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/common_files/admin/main/shipping.tpl ...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 110.
+Hunk #3 succeeded at 133.
+Hunk #4 succeeded at 142.
+Hunk #5 succeeded at 184.
+Hunk #6 succeeded at 203.
+Hunk #7 succeeded at 251.
+Hunk #8 succeeded at 269.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/common_files/admin/main/shipping_options.tpl ...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 97.
+Hunk #3 succeeded at 464.
+Hunk #4 succeeded at 485.
+Hunk #5 succeeded at 518.
+Hunk #6 succeeded at 579.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/common_files/admin/main/tools.tpl ...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 195.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/common_files/admin/main/user_profiles.tpl ...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 210.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/common_files/admin/main/users.tpl ...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 85.
+Hunk #3 succeeded at 93.
+Hunk #4 succeeded at 114.
+Hunk #5 succeeded at 227.
+Hunk #6 succeeded at 308.
+Hunk #7 succeeded at 473.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/common_files/admin/menu_box.tpl ...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 15.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/common_files/check_registerform_fields_js.tpl ...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 109.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/common_files/customer/help/popup_info.tpl ...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 65.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/common_files/customer/home_main.tpl ...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 106.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/common_files/customer/home_printable.tpl ...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 9.
+Hunk #3 succeeded at 63.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/common_files/customer/main/address.tpl ...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 30.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/common_files/customer/main/address_box.tpl ...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 42.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/common_files/customer/main/buy_now.tpl ...
+Hunk #1 succeeded at 1.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/common_files/customer/main/product.tpl ...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 12.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/common_files/customer/main/top_links.tpl ...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 7.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/common_files/customer/main/ui_tabs.tpl ...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 18.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/common_files/customer/minicart_total.tpl ...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 36.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/common_files/customer/preview.tpl ...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 26.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/common_files/customer/service_css.tpl ...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 22.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/common_files/customer/service_js.tpl ...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 95.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/common_files/help/general.tpl ...
+Hunk #1 succeeded at 1.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/common_files/help/index.tpl ...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 14.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/common_files/js/common.js ...
+Hunk #1 succeeded at 8.
+Hunk #2 succeeded at 1035.
+Hunk #3 succeeded at 1051.
+Hunk #4 succeeded at 1137.
+Hunk #5 succeeded at 1153.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/common_files/js/partner_orders.js ...
+Hunk #1 succeeded at 6.
+Hunk #2 succeeded at 70.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/common_files/js/popup_users_open.js ...
+Hunk #1 succeeded at 6.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/common_files/main/commissions.tpl ...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 34.
+Hunk #3 succeeded at 47.
+Hunk #4 succeeded at 124.
+Hunk #5 succeeded at 141.
+Hunk #6 succeeded at 161.
+Hunk #7 succeeded at 179.
+Hunk #8 succeeded at 206.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/common_files/main/order_info.tpl ...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 312.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/common_files/main/orders_list.tpl ...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 56.
+Hunk #3 succeeded at 71.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/common_files/main/partner_banners.tpl ...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 86.
+Hunk #3 succeeded at 135.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/common_files/main/popup_users.tpl ...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 54.
+Hunk #3 succeeded at 82.
+Hunk #4 succeeded at 206.
+Hunk #5 succeeded at 266.
+Hunk #6 succeeded at 295.
+Hunk #7 succeeded at 443.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/common_files/main/product_details.tpl ...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 374.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/common_files/main/quick_search.tpl ...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 52.
+Hunk #3 succeeded at 69.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/common_files/main/referred_sales.tpl ...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 126.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/common_files/main/tooltip_js.tpl ...
+Hunk #1 succeeded at 1.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/common_files/main/zipcode.tpl ...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 18.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/common_files/meta.tpl ...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 76.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/common_files/modules/Amazon_Checkout/amazon_top_button.tpl ...
+Hunk #1 succeeded at 1.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/common_files/modules/Amazon_Checkout/checkout_btn.tpl ...
+Hunk #1 succeeded at 1.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/common_files/modules/Customer_Reviews/admin_reviews.tpl ...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 34.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/common_files/modules/Customer_Reviews/vote_reviews.tpl ...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 26.
+Hunk #3 succeeded at 55.
+Hunk #4 succeeded at 66.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/common_files/modules/Detailed_Product_Images/cloudzoom_image.tpl ...
+Hunk #1 succeeded at 1.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/common_files/modules/Detailed_Product_Images/colorbox_image.tpl ...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 71.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/common_files/modules/Detailed_Product_Images/widget.tpl ...
+Hunk #1 succeeded at 1.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/common_files/modules/Egoods/wrong_key.tpl ...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 14.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/common_files/modules/Flyout_Menus/Icons/fancy_subcategories.tpl ...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 7.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/common_files/modules/Gift_Certificates/gc_admin.tpl ...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 174.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/common_files/modules/Gift_Certificates/gc_customer_print.tpl ...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 24.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/common_files/modules/Gift_Registry/product_event.tpl ...
+Hunk #1 succeeded at 1.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/common_files/modules/HTML_Editor/editors/ckeditor/config.js ...
+Hunk #1 succeeded at 1.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/common_files/modules/HTML_Editor/editors/ckeditor/contents.css ...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 16.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/common_files/modules/Image_Verification/spambot_arrest.tpl ...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 37.
+Hunk #3 succeeded at 65.
+Hunk #4 succeeded at 84.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/common_files/modules/Magnifier/popup_magnifier.tpl ...
+Hunk #1 succeeded at 1.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/common_files/modules/Magnifier/popup_window.tpl ...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 19.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/common_files/modules/News_Management/news_lists_select.tpl ...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 53.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/common_files/modules/One_Page_Checkout/opc_payment.tpl ...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 11.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/common_files/modules/One_Page_Checkout/payment_methods.tpl ...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 23.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/common_files/modules/One_Page_Checkout/profile/address_book_link.tpl ...
+Hunk #1 succeeded at 1.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/common_files/modules/One_Page_Checkout/profile/address_fields.tpl ...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 7.
+Hunk #3 succeeded at 16.
+Hunk #4 succeeded at 62.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/common_files/modules/One_Page_Checkout/profile/personal_info.tpl ...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 12.
+Hunk #3 succeeded at 26.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/common_files/modules/One_Page_Checkout/summary/cart_totals.tpl ...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 168.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/common_files/modules/RMA/modify_return.tpl ...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 15.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/common_files/modules/RMA/returns.tpl ...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 102.
+Hunk #3 succeeded at 130.
+Hunk #4 succeeded at 141.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/common_files/modules/Survey/admin_survey.tpl ...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 92.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/common_files/modules/Survey/modify_maillist.tpl ...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 47.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/common_files/modules/Survey/survey.tpl ...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 80.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/common_files/modules/Survey/survey_instances.tpl ...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 57.
+Hunk #3 succeeded at 119.
+Hunk #4 succeeded at 127.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/common_files/modules/Users_online/stats.tpl ...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 20.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/common_files/modules/Wishlist/wishlists.tpl ...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 89.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/common_files/payments/cc_2conew.tpl ...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 33.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/common_files/payments/cc_bean.tpl ...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 20.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/common_files/payments/cc_fdg_connect.tpl ...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 45.
+Hunk #3 succeeded at 127.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/common_files/payments/cc_hsbc_xml.tpl ...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 42.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/fashion_mosaic_blue/customer/categories.tpl ...
+Hunk #1 succeeded at 1.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/fashion_mosaic_blue/customer/main/welcome.tpl ...
+Hunk #1 succeeded at 1.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/fashion_mosaic_blue/customer/minicart_total.tpl ...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 19.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/fashion_mosaic_green/customer/categories.tpl ...
+Hunk #1 succeeded at 1.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/fashion_mosaic_green/customer/main/welcome.tpl ...
+Hunk #1 succeeded at 1.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/fashion_mosaic_green/customer/minicart_total.tpl ...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 19.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/fashion_mosaic_grey/customer/categories.tpl ...
+Hunk #1 succeeded at 1.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/fashion_mosaic_grey/customer/main/welcome.tpl ...
+Hunk #1 succeeded at 1.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/fashion_mosaic_grey/customer/minicart_total.tpl ...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 19.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/fashion_mosaic_pink/customer/categories.tpl ...
+Hunk #1 succeeded at 1.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/fashion_mosaic_pink/customer/main/welcome.tpl ...
+Hunk #1 succeeded at 1.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/fashion_mosaic_pink/customer/minicart_total.tpl ...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 19.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/vivid_dreams_aquamarine/customer/main/buy_now.tpl ...
+Hunk #1 succeeded at 1.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/vivid_dreams_aquamarine/customer/minicart_total.tpl ...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 25.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/vivid_dreams_chromo/customer/main/buy_now.tpl ...
+Hunk #1 succeeded at 1.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/vivid_dreams_chromo/customer/minicart_total.tpl ...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 25.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/vivid_dreams_lotus/customer/main/buy_now.tpl ...
+Hunk #1 succeeded at 1.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/vivid_dreams_lotus/customer/minicart_total.tpl ...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 25.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/vivid_dreams_violet/customer/main/buy_now.tpl ...
+Hunk #1 succeeded at 1.
+done
+Patching file /homepages/5/d24027204/htdocs/private_shop/skin/vivid_dreams_violet/customer/minicart_total.tpl ...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 25.
+done
+========================= END =========================

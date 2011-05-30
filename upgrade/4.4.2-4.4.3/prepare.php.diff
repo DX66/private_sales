@@ -1,0 +1,60 @@
+Index: prepare.php
+--- prepare.php	2011-01-10 16:11:44.000000000 +0300
++++ prepare.php	2011-03-25 13:22:50.000000000 +0300
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: prepare.php,v 1.118.2.1 2011/01/10 13:11:44 ferz Exp $
++ * @version    $Id: prepare.php,v 1.118.2.5 2011/03/25 10:22:50 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -152,8 +152,8 @@
+ {
+ 
+     list(
+-        $usec,
+-        $sec
++        $usec,  #nolint
++        $sec    #nolint
+     ) = explode(" ", microtime());
+ 
+     return ((float)$usec + (float)$sec);
+@@ -797,20 +797,6 @@
+         }
+ 
+     }
+-
+-    if (
+-        !isset($HTTP_RAW_POST_DATA)
+-        && phpversion() == '5.2.2'
+-    ) {
+-        // Generate $HTTP_RAW_POST_DATA due to the bug in PHP 5.2.2 (http://bugs.php.net/bug.php?id=41293)
+-
+-        $HTTP_RAW_POST_DATA = file_get_contents("php://input");
+-
+-        if (empty($HTTP_RAW_POST_DATA))
+-            unset($HTTP_RAW_POST_DATA);
+-
+-    }
+-
+ }
+ 
+ /**
+@@ -951,14 +937,13 @@
+ }
+ 
+ /**
+- * Initializations for the required variables
++ * Initializations for the required variables bt:0055759
+  */
+ foreach (
+     array(
+         'QUERY_STRING',
+         'HTTP_REFERER',
+         'antibot_input_str',
+-        'paymentid',
+         'pconf_update',
+         'action',
+         'user',

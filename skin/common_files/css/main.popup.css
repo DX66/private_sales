@@ -1,0 +1,102 @@
+/* vim: set ts=2 sw=2 sts=2 et: */
+/**
+ * CSS stylesheet for pop up content
+ *  
+ * @category   X-Cart
+ * @package    X-Cart
+ * @subpackage CSS
+ * @author     Ruslan R. Fazlyev <rrf@x-cart.com> 
+ * @version    $Id: main.popup.css,v 1.2 2010/05/28 12:53:04 igoryan Exp $
+ * @link       http://www.x-cart.com/
+ * @see        ____file_see____
+ */
+
+html,
+body
+{
+  min-width: inherit;
+}
+
+html, 
+body,
+#page-container,
+#page-container2,
+#content-container,
+.dialog .title
+{
+  background: transparent none !important;  
+}
+
+#center-main {
+  margin: 0 10px !important;
+  padding: 0 !important;
+  overflow: visible;
+}
+
+#content-container {
+  overflow: visible;
+  padding-bottom: 26px;
+  margin-top: 27px;
+}
+
+#content-container2 {
+  float: none;
+  right: 0;
+  width: 100%;
+}
+
+#center {
+  float: none;
+  width: 100%;
+  left: 0;
+}
+
+#header {
+  background-color: #fff;
+  height: 17px;
+  border-bottom: 1px solid #d0ddeb;
+  vertical-align: top;
+}
+
+#header div {
+  background-color: #d0ddeb;
+  height: 16px;
+  vertical-align: middle;
+  text-align: center;
+  font-weight: bold;
+  font-size: 12px;
+  border-bottom: 1px solid #ffffff;
+}
+
+#footer {
+  height: 26px;
+  text-align: right;
+  vertical-align: top;
+  padding-bottom: 10px;
+  background: transparent none;
+}
+
+#footer div {
+  text-align: right;
+  border-bottom: 1px solid #8e4b00;
+  padding-right: 20px;
+  font-weight: bold;
+  line-height: 26px;
+  height: 26px;
+  vertical-align: top;
+}
+
+.dialog {
+  margin-bottom: 0;
+}
+
+.popup-in-layer #content-container {
+  padding-bottom: 10px;
+  margin-top: 10px;
+}
+
+.popup-in-layer #header,
+.popup-in-layer #footer
+{
+  display: none;
+}

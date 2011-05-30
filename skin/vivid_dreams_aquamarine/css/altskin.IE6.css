@@ -1,0 +1,181 @@
+/*
+$Id: altskin.IE6.css,v 1.2.2.1 2010/09/30 09:53:06 aim Exp $
+vim: set ts=2 sw=2 sts=2 et:
+*/
+
+/*
+  Changed
+*/
+#page-container {
+  margin: 0px;
+  border-left: 0px none;
+}
+#page-container2 {
+  margin-left: 0px;
+}
+.halign-center {
+  padding-top: 6px;
+}
+.product-details .details .save-box {
+  width: 50%;
+}
+.product-details .details .save {
+  padding-top: 29px;
+  padding-bottom: 16px;
+  position: static;
+  background-position: left 6px;
+  height: 57px;
+}
+input.image-button {
+  margin-bottom: 0px;
+}
+#left-bar .menu-dialog .content,
+  #right-bar .menu-dialog .content
+{
+  width: 250px;
+}
+
+/*
+  Add
+*/
+.block-news-links table {
+  position: relative;
+  width: auto;
+}
+.block-news-links table tr td {
+  width: 30%;
+  padding-right: 30px;
+  position: relative;
+  vertical-align: top;
+}
+.menu-dialog.menu-special,
+  .menu-dialog.menu-help
+{
+  position: relative;
+}
+.menu-dialog.menu-special .title-bar,
+  .menu-dialog.menu-help .title-bar
+{
+  position: relative;
+}
+.dialog .title_cat {
+  margin-right: 20px;
+}
+.button-row,
+  .buttons-row
+{
+  position: relative;
+}
+.products .buttons-row.nopad {
+  position: static;
+}
+.cart .right-buttons-row .checkout-button {
+  padding-top: 6px;
+}
+button.cart-button.detail {
+  position: relative;
+}
+button.main-button .button-right {
+  height: 25px;
+}
+a.offers-thumbnail:link img,
+  a.offers-thumbnail:visited img,
+  a.offers-thumbnail:hover img,
+  a.offers-thumbnail:active img
+{
+  width: 48px;
+  height: 48px;
+  background: transparent none !important;
+  filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="skin/vivid_dreams_aquamarine/images/vivid_dreams/offer_thumb.png",sizingMethod="scale");
+}
+.adv-search table .data-input input.for_s {
+  margin-top: 0px;
+}
+.fcomp-table table {
+  width: 100%;
+}
+.product-details .fcomp-select-box select {
+  margin-right: 0px !important;
+}
+.fcomp-product-box {
+  margin-bottom: 40px;
+}
+.fcomp-product-box .fcomp-select-box {
+  margin: 0px;
+  position: absolute;
+  z-index: -2;
+}
+table.cart-content {
+  width: 100%;
+}
+.gcheckout-cart-buttons p {
+  padding-top: 30px;
+  padding-bottom: 0px;
+}
+button.button {
+  padding-right: 2px;
+}
+.dialog .title-with-sort-row .dialog-search-sort-bar {
+  right: 10px;
+}
+
+#header .search {
+  padding-top: 4px;
+}
+#header div.search input.text {
+  margin-top: 1px;
+  height: 19px;
+}
+.search input.image-button {
+  margin-bottom: 0px;
+}
+.menu-fancy-categories-list .content {
+  padding-right: 0px;
+}
+.fancycat-icons-e ul li a:link,
+  .fancycat-icons-e ul li a:visited,
+  .fancycat-icons-e ul li a:hover,
+  .fancycat-icons-e ul li a:active
+{
+  width: 215px;
+}
+.fancycat-icons-e li ul.fancycat-icons-level-1 li ul {
+  left: 220px;
+}
+.fancycat-icons-e li ul li,
+  .fancycat-icons-e li ul li.over
+{
+  background: #00446d none;
+}
+.fancycat-icons-e li ul {
+  border: 0px none;
+  background: #007399 none;
+  padding: 1px;
+}
+
+.cart-container,
+  .cart-block
+{
+  z-index: 2000;
+}
+.creviews-vote-bar a,
+  .creviews-vote-bar span,
+  .creviews-vote-bar a img,
+  .creviews-vote-bar span img
+{
+  background-image: none;
+}
+.creviews-vote-bar .bg,
+  .creviews-vote-bar a img,
+  .creviews-vote-bar span img
+{
+  filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="skin/vivid_dreams_aquamarine/images/vivid_dreams/stars.png", sizingMethod="crop");
+}
+.products-table .button-row button.cart-button {
+  float: left;
+}
+
+.minicart-box .checkout-popup-link div.buttons-box {
+  top: 19px;
+}
+

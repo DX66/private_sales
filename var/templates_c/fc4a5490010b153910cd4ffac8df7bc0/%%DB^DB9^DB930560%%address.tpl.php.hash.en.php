@@ -1,0 +1,1 @@
+bb6cb7e7752428546a3cb41f8b350934a:7:{s:16:"lbl_address_book";s:12:"Address book";s:8:"lbl_back";s:4:"Back";s:16:"lbl_edit_address";s:12:"Edit address";s:15:"lbl_new_address";s:11:"New address";s:8:"lbl_save";s:4:"Save";s:20:"lbl_use_as_b_address";s:22:"Use as billing address";s:20:"lbl_use_as_s_address";s:23:"Use as shipping address";}

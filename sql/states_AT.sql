@@ -1,0 +1,9 @@
+INSERT INTO xcart_states (state, code, country_code) VALUES ('Burgenland','1','AT');
+INSERT INTO xcart_states (state, code, country_code) VALUES ('Kärnten','2','AT');
+INSERT INTO xcart_states (state, code, country_code) VALUES ('Niederösterreich','3','AT');
+INSERT INTO xcart_states (state, code, country_code) VALUES ('Oberösterreich','4','AT');
+INSERT INTO xcart_states (state, code, country_code) VALUES ('Salzburg','5','AT');
+INSERT INTO xcart_states (state, code, country_code) VALUES ('Steiermark','6','AT');
+INSERT INTO xcart_states (state, code, country_code) VALUES ('Tirol','7','AT');
+INSERT INTO xcart_states (state, code, country_code) VALUES ('Vorarlberg','8','AT');
+INSERT INTO xcart_states (state, code, country_code) VALUES ('Wien','9','AT');

@@ -1,0 +1,105 @@
+/* vim: set ts=2 sw=2 sts=2 et: */
+/**
+ * Image verification module CSS stylesheet
+ *  
+ * @category   X-Cart
+ * @package    X-Cart
+ * @subpackage CSS
+ * @author     Ruslan R. Fazlyev <rrf@x-cart.com> 
+ * @version    $Id: main.css,v 1.2.2.1 2010/11/15 11:46:25 ferz Exp $
+ * @link       http://www.x-cart.com/
+ * @see        ____file_see____
+ */
+
+div.iv-box {
+  margin-top: 15px;
+  font-size: 10px;
+  line-height: normal;
+}
+
+table.data-table tr td.iv-box {
+  font-size: 10px;
+  line-height: normal;
+  vertical-align: top;
+  padding-right: 5px;
+}
+
+table.data-table tr td.iv-box-descr {
+  padding-top: 15px;
+  font-size: 10px;
+  line-height: normal;
+}
+
+.iv-description {
+  padding: 0;
+  margin: 0;
+}
+
+.iv-row {
+  text-align: left;
+  height: 60px;
+}
+
+.iv-img {
+  text-align: center;
+}
+
+.iv-input {
+  text-align: center;
+}
+
+.iv-row .iv-img {
+  text-align: left;
+  margin-right: 10px;
+  float: left;
+}
+
+.iv-row .iv-input {
+  text-align: left;
+  height: 60px;
+  line-height: 60px;
+}
+#opc_profile .iv-row {
+  margin-top: 4px;
+}
+#opc_profile .iv-row .iv-input {
+  height: auto;
+  line-height: normal;
+}
+#opc_profile .iv-row .iv-input .button {
+  margin: 3px 0px 0px 13px;
+}
+
+.iv-input input {
+  width: 100px;
+}
+
+.iv-error {
+  padding-left: 5px;
+  color: #880000;
+}
+
+.iv-box a:link,
+.iv-box a:visited,
+.iv-box a:hover,
+.iv-box a:active
+{
+  text-decoration: none;
+  border: none;
+  border-bottom: 1px dashed #3c6992;
+  white-space: nowrap;
+  color: #3c6992;
+  font-size: 10px;
+}
+.iv-box span.star {
+  padding: 0;
+}
+table.data-table tr td.iv-box .button-row {
+  margin: 4px 0px 3px 0px;
+}
+table.register-table div.iv-box {
+  text-align: center;
+}
+table.register-table div.iv-box div.iv-img {
+  margin-top: 4px;
+}

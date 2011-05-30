@@ -1,0 +1,146 @@
+/* vim: set ts=2 sw=2 sts=2 et: */
+/**
+ * X-Survey module CSS stylesheet
+ *  
+ * @category   X-Cart
+ * @package    X-Cart
+ * @subpackage CSS
+ * @author     Ruslan R. Fazlyev <rrf@x-cart.com> 
+ * @version    $Id: main.css,v 1.3 2010/07/27 06:19:38 igoryan Exp $
+ * @link       http://www.x-cart.com/
+ * @see        ____file_see____
+ */
+
+/* Surveys menu list */
+.menu-survey .title-bar img {
+  background: url(../../images/dingbats_categorie.gif) no-repeat;
+}
+
+/**
+ * Survey page
+ */
+.survey-name {
+  font-weight: bold;
+}
+
+.survey-header {
+  font-size: 11px;
+  padding-bottom: 15px;
+}
+
+.menu-survey .survey-header {
+  font-size: 10px;
+}
+
+.survey-question {
+  font-size: 12px;
+  font-weight: bold;
+  padding: 15px 2px 2px 2px;
+}
+
+.menu-survey .survey-question {
+  font-size: inherit;
+  padding: 0;
+}
+
+.survey-answers {
+  padding: 2px 2px 5px 20px;
+}
+
+.menu-survey .survey-answers {
+  padding: 8px 0;
+}
+
+.survey-textarea {
+  width: 400px;
+  height: 150px;
+}
+
+.menu-survey .survey-textarea {
+  width: 120px;
+  height: 60px;
+}
+
+.survey-answer {
+  padding: 0 25px 15px 0;
+  vertical-align: top;
+}
+
+.menu-survey .survey-answer {
+  padding-bottom: 5px;
+}
+
+.survey-answer label {
+  display: block;
+}
+
+.survey-answer textarea {
+  width: 380px;
+  height: 100px;
+  margin-left: 20px;
+}
+
+.menu-survey .survey-answer textarea {
+  width: 120px;
+  height: 60px;
+}
+
+.survey-answer table tr td {
+  padding: 3px;
+  vertical-align: top;
+}
+
+.menu-survey .survey-answer table tr td {
+  padding: 1px;
+}
+
+.survey-footer {
+  font-size: 11px;
+}
+
+.menu-survey .survey-footer {
+  font-size: 10px;
+}
+
+.survey-required {
+  color: #b51a00;
+  font-weight: bold;
+}
+
+.survey-required span {
+  color: #b51a00;
+  font-size: 10px;
+  padding-left: 10px;
+  font-weight: bold;
+}
+
+/**
+ * Survey result page
+ */
+.survey-result-row {
+  padding-left: 10px;
+}
+
+.survey-result-row table tr td {
+  padding: 1px;
+  white-space: nowrap;
+}
+
+.survey-result-answer {
+  width: 250px;
+}
+
+.survey-result-row img.survey-bar {
+  vertical-align: middle;
+  height: 15px;
+  background: transparent url(../../images/bar.gif) repeat left top;
+  float: left;
+}
+
+.survey-answer-hl .survey-result-row img.survey-bar {
+  background-image: url(../../images/bar_hl.gif);
+}
+
+.survey-bar-label {
+  padding-left: 6px;
+}

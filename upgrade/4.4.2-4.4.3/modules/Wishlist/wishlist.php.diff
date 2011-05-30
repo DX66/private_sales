@@ -1,0 +1,26 @@
+Index: modules/Wishlist/wishlist.php
+--- modules/Wishlist/wishlist.php	2011-01-10 16:12:04.000000000 +0300
++++ modules/Wishlist/wishlist.php	2011-03-01 12:26:24.000000000 +0300
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: wishlist.php,v 1.113.2.2 2011/01/10 13:12:04 ferz Exp $
++ * @version    $Id: wishlist.php,v 1.113.2.3 2011/03/01 09:26:24 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -399,12 +399,7 @@
+             $result = func_add_to_cart($cart, $add_product);
+ 
+             // Recalculate cart totals after new item added
+-            $intershipper_recalc = 'Y';
+-
+-            $products = func_products_in_cart($cart, (!empty($user_account['membershipid']) ? $user_account['membershipid'] : ''));
+-
+-            $cart = func_array_merge($cart, func_calculate($cart, $products, $logged_userid, $current_area, 0));
+-
++            list($cart, $products) = func_generate_products_n_recalculate_cart();
+         }
+ 
+     }

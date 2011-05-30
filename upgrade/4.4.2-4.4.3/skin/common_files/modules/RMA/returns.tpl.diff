@@ -1,0 +1,41 @@
+Index: skin/common_files/modules/RMA/returns.tpl
+--- skin/common_files/modules/RMA/returns.tpl	2010-06-11 12:15:52.000000000 +0400
++++ skin/common_files/modules/RMA/returns.tpl	2011-03-03 13:36:32.000000000 +0300
+@@ -1,5 +1,5 @@
+ {*
+-$Id: returns.tpl,v 1.2 2010/06/11 08:15:52 igoryan Exp $
++$Id: returns.tpl,v 1.2.2.2 2011/03/03 10:36:32 ferz Exp $
+ vim: set ts=2 sw=2 sts=2 et:
+ *}
+ {include file="page_title.tpl" title=$lng.lbl_returns}
+@@ -102,7 +102,7 @@
+ <tr{cycle values=', class="TableSubHead"'}>
+   <td align="center"><input type="checkbox" name="to_delete[{$v.returnid}]" value="Y" /></td>
+   <td valign="top"><a href="returns.php?mode=modify&amp;returnid={$v.returnid}">RMA#{$v.returnid}</a></td>
+-  <td valign="top"><a href="user_modify.php?user={$v.userid}&amp;usertype=C">{$v.firstname} {$v.lastname}</a></td>
++  <td valign="top"><a href="{$catalogs.admin}/user_modify.php?user={$v.userid}&amp;usertype=C">{$v.firstname} {$v.lastname}</a></td>
+   <td valign="top">
+ {if $v.productid gt 0}<a href="product_modify.php?productid={$v.productid}">{/if}{$v.product}{if $v.productid gt 0}</a>{/if}
+ {if $v.product_options ne "" and $active_modules.Product_Options ne ''}
+@@ -130,8 +130,8 @@
+   <td align="right" valign="top"><a href="order.php?orderid={$v.orderid}">{$v.orderid}</a></td>
+   <td valign="top">{$v.date|date_format:$config.Appearance.datetime_format}</td>
+   <td valign="top">{include file="modules/RMA/return_status.tpl" status=$v.status name="update[`$v.returnid`][status]" mode="select"}</td>
+-{if $active_modules.Gift_Certificates ne ''}
+   <td valign="top" align="left">
++{if $active_modules.Gift_Certificates ne ''}
+ {if $v.credit ne ''}
+     <a href="giftcerts.php?mode=modify_gc&amp;gcid={$v.credit}">{$lng.lbl_created}</a>
+ {elseif $v.status eq 'A' or $v.status eq 'C'}
+@@ -141,8 +141,10 @@
+ {else}
+ {$lng.lbl_creation_of_credit_forbidden}
+ {/if}
+-  </td>
++{else}
++{$lng.lbl_gift_certificate_turn_on}
+ {/if} 
++  </td>
+ {if $inv_err ne ""}
+   <td>{if $inv_err[$v.returnid]}<font class="Star">&lt;&lt;</font>{else}&nbsp;{/if}</td>
+ {/if}

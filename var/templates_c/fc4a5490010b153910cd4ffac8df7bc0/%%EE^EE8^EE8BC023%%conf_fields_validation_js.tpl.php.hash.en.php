@@ -1,0 +1,1 @@
+879b8829aeab5bd231c5719a65affb9ba:1:{s:22:"err_invalid_field_data";s:48:"Invalid data entered into the field '{{field}}'.";}

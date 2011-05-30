@@ -1,0 +1,18 @@
+Index: skin/common_files/customer/minicart_total.tpl
+--- skin/common_files/customer/minicart_total.tpl	2010-12-15 12:44:38.000000000 +0300
++++ skin/common_files/customer/minicart_total.tpl	2011-03-14 17:03:46.000000000 +0300
+@@ -1,5 +1,5 @@
+ {*
+-$Id: minicart_total.tpl,v 1.1.2.1 2010/12/15 09:44:38 aim Exp $
++$Id: minicart_total.tpl,v 1.1.2.2 2011/03/14 14:03:46 aim Exp $
+ vim: set ts=2 sw=2 sts=2 et:
+ *}
+ <div class="minicart">
+@@ -36,3 +36,7 @@
+   {/if}
+ 
+ </div>
++{if $minicart_total_standalone}
++{load_defer_code type="css"}
++{load_defer_code type="js"}
++{/if}

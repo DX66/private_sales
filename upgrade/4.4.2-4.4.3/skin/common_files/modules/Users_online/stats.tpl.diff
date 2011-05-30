@@ -1,0 +1,19 @@
+Index: skin/common_files/modules/Users_online/stats.tpl
+--- skin/common_files/modules/Users_online/stats.tpl	2010-12-15 12:44:41.000000000 +0300
++++ skin/common_files/modules/Users_online/stats.tpl	2011-01-20 11:03:46.000000000 +0300
+@@ -1,5 +1,5 @@
+ {*
+-$Id: stats.tpl,v 1.2.2.1 2010/12/15 09:44:41 aim Exp $
++$Id: stats.tpl,v 1.2.2.2 2011/01/20 08:03:46 aim Exp $
+ vim: set ts=2 sw=2 sts=2 et:
+ *}
+ {if $statistics}
+@@ -20,7 +20,7 @@
+ 
+ {foreach from=$statistics item=v}
+ <tr>
+-  <td bgcolor="#FFFFFF" nowrap="nowrap" valign="top">{if $v.userinfo ne ''}<a href="user_modify.php?user={$v.userinfo.id}&amp;usertype=C">{$v.userinfo.firstname} {$v.userinfo.lastname}</a>{if $v.userinfo.status eq 'A'}<br /><i>({$lng.lbl_anonymous_customer})</i>{/if}{else}{$lng.lbl_unregistered_customer}{/if}</td>
++  <td bgcolor="#FFFFFF" nowrap="nowrap" valign="top">{if $v.userinfo ne ''}<a href="{$catalogs.admin}/user_modify.php?user={$v.userinfo.id}&amp;usertype=C">{$v.userinfo.firstname} {$v.userinfo.lastname}</a>{if $v.userinfo.status eq 'A'}<br /><i>({$lng.lbl_anonymous_customer})</i>{/if}{else}{$lng.lbl_unregistered_customer}{/if}</td>
+   <td bgcolor="#FFFFFF" nowrap="nowrap" valign="top" align="center">{$v.session_create_date|date_format:$config.Appearance.date_format}<br />{$v.session_create_date|date_format:$config.Appearance.time_format}</td>
+   <td bgcolor="#FFFFFF" nowrap="nowrap" valign="top" align="center">{$v.current_date|date_format:$config.Appearance.date_format}<br />{$v.current_date|date_format:$config.Appearance.time_format}</td>
+   <td bgcolor="#FFFFFF" valign="top"><a href="{$v.current_url_page}" target="_blank">{$v.display_url_page|amp}</a></td>

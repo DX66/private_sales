@@ -1,0 +1,29 @@
+Index: search.php
+--- search.php	2011-01-10 16:11:44.000000000 +0300
++++ search.php	2011-01-27 15:26:08.000000000 +0300
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: search.php,v 1.59.2.1 2011/01/10 13:11:44 ferz Exp $
++ * @version    $Id: search.php,v 1.59.2.2 2011/01/27 12:26:08 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -63,6 +63,8 @@
+     'substring',
+     'by_title',
+     'by_descr',
++    'by_shortdescr',
++    'by_fulldescr',
+     'by_sku',
+     'extra_fields',
+     'by_keywords',
+@@ -119,7 +121,6 @@
+ if (
+     $REQUEST_METHOD == 'POST'
+     && $mode == 'search'
+-    && isset($posted_data)
+     && !empty($posted_data['substring'])
+ ) {
+     func_array2insert(

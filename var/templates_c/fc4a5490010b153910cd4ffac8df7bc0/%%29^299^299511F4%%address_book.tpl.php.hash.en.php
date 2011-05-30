@@ -1,0 +1,1 @@
+132b9f27247a34f99217440bc176a30ba:3:{s:16:"lbl_address_book";s:12:"Address book";s:21:"lbl_edit_address_book";s:17:"Edit address book";s:18:"lbl_select_address";s:14:"Select address";}

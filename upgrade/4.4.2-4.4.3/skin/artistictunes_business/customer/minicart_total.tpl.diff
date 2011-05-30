@@ -1,0 +1,18 @@
+Index: skin/artistictunes_business/customer/minicart_total.tpl
+--- skin/artistictunes_business/customer/minicart_total.tpl	2010-12-15 12:44:38.000000000 +0300
++++ skin/artistictunes_business/customer/minicart_total.tpl	2011-03-14 17:03:46.000000000 +0300
+@@ -1,5 +1,5 @@
+ {*
+-$Id: minicart_total.tpl,v 1.1.2.1 2010/12/15 09:44:38 aim Exp $
++$Id: minicart_total.tpl,v 1.1.2.2 2011/03/14 14:03:46 aim Exp $
+ vim: set ts=2 sw=2 sts=2 et:
+ *}
+ <span class="minicart">
+@@ -12,3 +12,7 @@
+     <strong>{$lng.lbl_cart_is_empty}</strong>
+   {/if}
+ </span>
++{if $minicart_total_standalone}
++{load_defer_code type="css"}
++{load_defer_code type="js"}
++{/if}

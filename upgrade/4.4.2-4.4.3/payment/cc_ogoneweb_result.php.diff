@@ -1,0 +1,49 @@
+Index: payment/cc_ogoneweb_result.php
+--- payment/cc_ogoneweb_result.php	2011-01-10 16:12:07.000000000 +0300
++++ payment/cc_ogoneweb_result.php	2011-02-04 13:00:08.000000000 +0300
+@@ -32,7 +32,7 @@
+ \*****************************************************************************/
+ 
+ /**
+- * "" payment module (credit card processor)
++ * "Ogone" payment module (credit card processor)
+  *
+  * @category   X-Cart
+  * @package    X-Cart
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: cc_ogoneweb_result.php,v 1.28.2.1 2011/01/10 13:12:07 ferz Exp $
++ * @version    $Id: cc_ogoneweb_result.php,v 1.28.2.2 2011/02/04 10:00:08 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -449,6 +449,10 @@
+     '99' => "Being processed "
+ );
+ 
++if (defined('OGONE_DEBUG')) {
++    func_pp_debug_log('ogoneweb', 'C', $_POST);
++}
++
+ if (empty($orderID))
+     exit;
+ 
+@@ -514,8 +518,14 @@
+ 
+ #Level 3 Security Checking
+ if (!empty($SHASIGN) && !$is_fake_callback && !empty($pp_secret)) {
+-    require($xcart_dir.'/payment/sha1.php');
+-    $sha1 = strtoupper(sha1($orderID . $currency . $amount . $PM . $ACCEPTANCE . $STATUS . $CARDNO . $PAYID . $NCERROR . $BRAND . $pp_secret));
++    func_pm_load('cc_ogone_common'); // Define Func_ogone_generate_signature function        
++
++    // Generate SHAsignature based on _POST var
++    $sha1 = func_ogone_generate_signature($_POST, 'associative_array', $pp_secret);
++    if (defined('OGONE_DEBUG')) {
++        func_pp_debug_log('ogoneweb', 'C', "Generated signature on X-Cart store side:" . $sha1);
++    }
++
+     if ($sha1 != $SHASIGN)
+         $is_fake_callback = true;
+ }

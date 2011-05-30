@@ -1,0 +1,50 @@
+Index: include/func/func.paypal.php
+--- include/func/func.paypal.php	2011-01-10 16:11:52.000000000 +0300
++++ include/func/func.paypal.php	2011-02-15 10:41:37.000000000 +0300
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: func.paypal.php,v 1.45.2.2 2011/01/10 13:11:52 ferz Exp $
++ * @version    $Id: func.paypal.php,v 1.45.2.3 2011/02/15 07:41:37 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -1724,4 +1724,37 @@
+         return isset($params['param03']) ? $params['param03'] : 'USD';
+     }
+ }
++
++/**
++ * Get payment_cc_data(Fast_Lane_Checkout) and get payment_data(XPayments_Connector) for emulated_paypal
++ * Disable Direct paypal payment_template for emulated_paypal 
++ */
++function func_paypal_adjust_payment_data($payment_data, $checkout_module)
++{
++    global $sql_tbl, $active_modules;
++
++    $payment_cc_data = $_cc_data = func_query_first("SELECT * FROM $sql_tbl[ccprocessors] WHERE processor='ps_paypal_pro.php'");
++
++    if ($checkout_module == 'One_Page_Checkout') {
++        func_unset($_cc_data, "paymentid", "processor");
++        $payment_data = func_array_merge($payment_data, $_cc_data);
++    }
++
++    $is_emulated_paypal = false;
++
++    if (!empty($active_modules['XPayments_Connector'])) {
++        func_xpay_func_load();
++        $is_emulated_paypal = xpc_is_emulated_paypal($payment_data['paymentid']);
++        if ($is_emulated_paypal) {
++            $payment_cc_data = xpc_get_module_params($payment_data['paymentid']);
++            $payment_data['payment_template'] = false;
++        }
++    }
++
++    if ($checkout_module == 'One_Page_Checkout')
++        return array($payment_data); //For One_Page_Checkout
++    else
++        return array($payment_data, $payment_cc_data); //For Fast_Lane_Checkout
++}
++
+ ?>

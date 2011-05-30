@@ -1,0 +1,200 @@
+Index: CHANGELOG
+--- CHANGELOG	2011-01-10 11:46:38.000000000 +0300
++++ CHANGELOG	2011-05-04 16:46:53.000000000 +0400
+@@ -1,4 +1,195 @@
+-$Id: CHANGELOG,v 1.20.2.3 2011/01/10 08:46:38 aim Exp $
++$Id: CHANGELOG,v 1.20.2.5 2011/05/04 12:46:53 aim Exp $
++
++------------------ X-CART v4.4.3 RELEASED
++
++*CHECKOUT*
++
++[*] 11 Feb 2011, aim - Improvement (0104194): Added new API for getting/setting cart paymentid.
++[!] 18 Feb 2011, aim - Bug (0105228): Fixed some bugs with zero total_cost.
++[*] 21 Feb 2011, aim - Improvement (0100686): Store requires billing details for orders with zero total cost. Fixed.
++[!] 24 Feb 2011, aim - Bug (0099947): 'Save as a new address' and 'Update existing address' check boxes do not work properly on the One-Page Checkout page. Fixed.
++[!] 28 Feb 2011, aim - Bug (0100609): Shipping cost sometimes appears empty on the One-Page Checkout page. Fixed.
++[!] 01 Mar 2011, aim - Bug (0100941): minicart total fails to update on address change. Fixed.
++[*] 07 Mar 2011, aim - Improvement (0105521): Some changes related to the infinite loop in the checkout with an invalid payment method.
++[*] 21 Mar 2011, aim - Improvement (0106517): Added the Amazon_Checkout integration.func_cart_is_need_shipping function.
++[*] 08 Apr 2011, aim - Improvement (0101500): Reworked Amazon_Checkout integration.
++[!] 18 Apr 2011, aim - Bug (0106083): AJAX queries do not work in PHP4. Fixed.
++
++*DESIGN AND APPEARANCE*
++
++[!] 14 Jan 2011, aim - Bug (0103484): Default site Title tag fails to appear on the home.php page. Fixed.
++[!] 27 Jan 2011, aim - Bug (0104250): nbsp character not converted properly for category description, product description, etc. Fixed.
++[!] 09 Mar 2011, aim - Bug (0084099): Product and account tabs fail to appear properly in the webmaster mode. Fixed.
++[!] 09 Mar 2011, aim - Bug (0102818): W3C errors in customer area. Fixed.
++[!] 14 Mar 2011, aim - Bug (0105368): JS error on printable pages. Fixed.
++[!] 12 Apr 2011, aim - Bug (0104429): 'Submit' button fails to lock in the IE8 browser. Fixed.
++[!] 25 Apr 2011, aim - Bug (0107843): Incorrect position of the 'Apply' button. Fixed.
++[!] 25 Apr 2011, aim - Bug (0104938): HTML entities like &thetasym; &Omicron; &nbsp; &#8364; &#8218; fail to appear properly. Fixed.
++[!] 29 Apr 2011, aim - Bug (0107951): CSS aggregator fails to work correctly with cloud-zoom jQuery plugin, Detailed_Product_Images module. Fixed.
++
++*IMAGES*
++
++[!] 20 Jan 2011, aim - Bug (0103860): Problem with image manipulation related to lower_case_table_names MySQL settings in Windows OS. Fixed.
++[!] 14 Mar 2011, aim - Bug (0105323): Import routine generates unnecessary zero-length thumbnails. Fixed.
++
++*INTERFACE*
++
++[*] 16 Feb 2011, ferz - Improvement (0104460): Improved description for the 'Number of columns to display the product list in' option.
++[*] 08 Apr 2011, ferz - Improvement (0107091, 0106625): Adjusted some email notification option texts.
++[*] 03 May 2011, aim - Improvement (0100421): Updated CKEditor to version 3.5.3.
++
++*LANGUAGES*
++
++[*] 14 Apr 2011, aim - Improvement (0107548): Removed duplicate lbl_fedex_address_2 label.
++[*] 28 Apr 2011, aim - Improvement (0107839): Small changes in labels.
++[!] 29 Apr 2011, aim - Bug (0108055): _lng SQL tables fail to refresh when the related language is deleted. Fixed.
++
++*ORDERS*
++
++[!] 02 Feb 2011, aim - Bug (0103528): Orders placed with the Google/Amazon Checkout payment methods could not be found. Fixed.
++[!] 08 Feb 2011, aim - Bug (0104714): Store returns wrong provider commission values. Fixed.
++[!] 18 Apr 2011, ferz - Bug (0107567): Payment CC data fails to show in the admin order notification message even with the option 'Add order details (including credit card information) to admin order...' enabled. Fixed.
++[!] 20 Apr 2011, ferz - Bug (0107668): Fails to show customer information for orders with deleted users. Fixed.
++[!] 21 Apr 2011, ferz - Bug (0100838): Product quantity fails to change when order status changes from 'Backordered'. Fixed.
++
++*SHIPPING*
++
++[!] 28 Jan 2011, ferz - Bug (0103960): FedEx Priority Overnight shipping method fails to appear. Fixed.
++[!] 28 Jan 2011, aim - Bug (0100768): 'Select a carrier' functionality fails to work properly in One-Page Checkout. Fixed.
++[!] 13 Apr 2011, aim - Improvement (0103715): Updated USPS API to versions RateV4 and IntlRateV2.
++[!] 14 Apr 2011, ferz - Bug (0107528): Intershipper fails to get shipping rates if the request contains spaces and special characters. Fixed.
++
++*TAXES*
++
++[!] 11 Apr 2011, aim - Bug (0104642): Wrong ST/DST+SH taxes when free shipping products are combined with regular products in the cart. Fixed.
++
++*USERS*
++
++[!] 20 Jan 2011, aim - Bug (0103840): 404 Not found error on some pages related to the user_modify.php?user={.id} link. Fixed.
++[!] 21 Jan 2011, aim - Bug (0102815): 'Require to change password on next log in' option on the user modify page does not work. Fixed.
++[*] 08 Feb 2011, aim - Improvement (0104675): Added new API for getting/setting anonymous_userinfo.
++[!] 09 Feb 2011, ferz - Bug (0104703): Obsolete 'login' field used instead of 'userid'. Fixed.
++[!] 01 Mar 2011, ferz - Bug (0105651): Unnecessary data remains in the database when a customer profile is deleted. Fixed.
++[!] 04 Mar 2011, aim - Bug (0105673): Incorrect error message on the user modify page in the admin area. Fixed.
++[!] 25 Apr 2011, aim - Bug (0100420): Names like d'Artagnan fail to appear properly for anonymous customers in One-Page Checkout. Fixed.
++[!] 27 Apr 2011, aim - Bug (0105143): Search users by address feature does not work. Fixed.
++
++*PAYMENTS*
++
++[*] 25 Jan 2011, aim - Improvement (0099622): Added new option 'Enable CVV2' for the Beanstream payment method.
++[*] 27 Jan 2011, ferz - Improvement (0104227): Updated Authorize.Net information variables.
++[*] 04 Feb 2011, aim - Improvement (0093809): Added new-generation algorithm for the SHA1 signature (SHASign).
++[*] 10 Feb 2011, aim - Improvement (0104815): Updated links for the 2Checkout payment gateway.
++[!] 15 Feb 2011, aim - Bug (0101429): CC info visible in PayPal WPP Direct Payment when using X-Payments. Fixed.
++[*] 01 Mar 2011, ferz - Improvement (0105617): Updated Beanstream payment method.
++[*] 09 Mar 2011, aim - Improvement (0088553): Added the 'Fraud check service' option for the HSBC XML payment gateway.
++[!] 10 Mar 2011, aim - Bug (0101140): Customers enter CC number twice for the First Data Global Gateway - Connect payment gateway. Fixed.
++[!] 10 Mar 2011, aim - Bug (0106040): Incorrect number format used with eSelect Plus - Hosted Paypage payment gateway. Fixed.
++[*] 21 Mar 2011, aim - Improvement (0106491): Minor changes in the default shipping rate in the Google Checkout module.
++[*] 22 Mar 2011, aim - Improvement (0101906): Added new 'Display the "Checkout with Amazon" button at the top of catalog pages' setting for the Amazon Checkout module.
++[!] 22 Mar 2011, aim - Bug (0105549): Google_Checkout/Amazon_Checkout works only with some other payment method enabled. Fixed.
++[!] 29 Mar 2011, ferz - Bug (0106138): Bibit/RBS Worldpay payment server declines transaction when login is not stored in customer profile. Fixed.
++[!] 30 Mar 2011, ferz - Bug (0105339): Payment method configuration page redirects to HTTPS in the admin area when the payment protocol is set to HTTPS. Fixed.
++[!] 04 Apr 2011, ferz - Bug (0089861): Adjusted Netbanx payment note in the admin area.
++[!] 07 Apr 2011, aim - Bug (0107260): Wrong reject duplicate 'NEW-ORDER-NOTIFICATION' logic. Fixed.
++
++*PRODUCTS*
++
++[!] 27 Jan 2011, aim - Bug (0102394): Search by_shortdescr by_fulldescr fails to work in the admin area. Fixed.
++[!] 02 Mar 2011, ferz - Bug (0082907): Advanced product search does not recognize zero values in search parameters. Fixed.
++[!] 03 Mar 2011, ferz - Bug (0100300): File on the Internet (enter image URL) functionality does not work on some servers. Fixed.
++
++*IMPORT/EXPORT*
++
++[!] 14 Feb 2011, aim - Bug (0104970): Address book fails to export properly. Fixed.
++[!] 01 Mar 2011, ferz - Bug (0105587): Order export routine in the format 4.0.x exports ZIP-4 on a separate line. Fixed.
++[!] 30 Mar 2011, ferz - Bug (0105264): Phone and fax values absent in order export CSV files. Fixed.
++
++*MODULES/ADD-ONS*
++
++[!] 21 Jan 2011, aim - Bug (0102022): Address info fails to fill correctly in some checkout modules. Fixed.
++[!] 02 Feb 2011, aim - Bug (0099759): Discount coupon: The 'Cart contains products from the category' condition does not work when the 'and its subcategories' check box is checked. Fixed.
++[!] 10 Feb 2011, ferz - Bug (0099535): Detailed Product Images: Option 'Number of detailed image thumbnails that must be displayed in the thumbnail area' does not work. Fixed.
++[!] 11 Feb 2011, aim - Bug (0099308): Disabled payment method selection on zero total cost. Fixed.
++[!] 11 Feb 2011, aim - Bug (0102754): The 'Disable online payment methods for orders containing egoods' (Egoods) setting fails to work correctly with PayPal Pro: DirectPayment. Fixed.
++[!] 14 Feb 2011, ferz - Bug (0104487): Store fails to redirect to HTTP from the offers.php script with the 'Redirect customers from HTTPS to HTTP' option enabled. Fixed.
++[*] 22 Feb 2011, ferz - Improvement (0100868): Users can now subscribe to Mailchimp without being logged in.
++[*] 03 Mar 2011, ferz - Improvement (0097159): RMA: Added an extra note to the search results page when the Gift Certificates module is off.
++[*] 11 Mar 2011, ferz - Improvement (0102871): X-Magnifier: Pop-up window size increased to hide scroll bars in some browsers.
++[!] 14 Mar 2011, ferz - Bug (0105847): HTML catalog: JavaScript error on the product details page. Fixed.
++[!] 14 Mar 2011, aim - Bug (0103385): jQuery colorbox fails to work with 'Use speed-up tool for CSS' enabled. Fixed.
++[!] 22 Mar 2011, aim - Bug (0106507): The 'Cache the menu' setting fails to work properly for the Flyout Menus module with Fashion Mosaic Templates. Fixed.
++[!] 28 Mar 2011, ferz - Bug (0106160): Categories overlapped by the Cloud Zoom module section when the Flyout Menus module is turned on. Fixed.
++[*] 28 Mar 2011, ferz - Improvement (0106023): Removed unnecessary text from the Customer Reviews form.
++[!] 29 Mar 2011, ferz - Bug (0106428): Typo in the Advanced Statistics module. Fixed.
++[!] 31 Mar 2011, aim - Bug (0099592): Customer cannot add multiple gift certificates to cart. Fixed.
++[*] 11 Apr 2011, ferz - Improvement (0106996): X-Affiliate: Partner no longer needs to replace the PARTNER value with his partner ID.
++[!] 12 Apr 2011, ferz - Bug (0107372): X-Affiliates: "Save banner & Get HTML code" button does not work. Fixed.
++[!] 18 Apr 2011, aim - Bug (0098199): ZIP code disappears from the One-Page Checkout page when the fax and phone fields are disabled. Fixed.
++[!] 19 Apr 2011, aim - Bug (0104976): Special offer icon fails to appear on catalog pages. Fixed.
++[!] 28 Apr 2011, aim - Bug (0070194): Product reviews fails to appear properly with an error present in 'image verification code' in the customer area. Fixed.
++[!] 03 May 2011, aim - Bug (0108031): PHP warning fixed on the customer 'Events list' page, Gift Registry module.
++
++*PERFORMANCE*
++
++[!] 17 Jan 2011, aim - Bug (0103462): The Speed Up CSS tool fails to support constructions like url("/path_to_image.image.jpg"). Fixed.
++[*] 18 Jan 2011, aim - Improvement (0103699): Added new 'Use cached buy_now.tpl template calls' check box on the general settings page.
++[*] 20 Jan 2011, aim - Improvement (0103848): Adjusted condition for invalidating cache in the func_get_default_fields function.
++[*] 11 Feb 2011, ferz - Improvement (0104803): Optimized some queries in banner statistics.
++[*] 24 Mar 2011, aim - Improvement (0106652, 0099127): Slightly optimized the 'Change user authentication mode' functionality.
++[!] 14 Apr 2011, aim - Bug (0105061): 'Language labels and customer fields' fail to appear properly in multilingual stores. Fixed.
++[!] 21 Apr 2011, aim - Bug (0106486): Fixed var/cache overload.
++[*] 22 Apr 2011, aim - Improvement (0102163): Optimized module initialization.
++[*] 28 Apr 2011, aim - Improvement (0104799): Optimized Advanced Statistics module.
++[*] 28 Apr 2011, aim - Improvement (0105901): Optimized Survey module.
++
++*BACKUP/RESTORE*
++
++[!] 14 Apr 2011, aim - Bug (0105036): DB backup/restore functionality fails to work properly. Fixed.
++
++*PATCH/UPGRADE*
++
++[!] 26 Apr 2011, aim - Bug (0105527): Patch tool inserts hunks after the ?> tag. Fixed.
++
++*MISCELLANEOUS*
++
++[*] 12 Jan 2011, aim - Improvement (0103380): Minor change related to the installation_auth_code comment.
++[!] 17 Jan 2011, aim - Bug (0103701): PHP notices fixed.
++[!] 17 Jan 2011, ferz - Bug (0103628): Duplicate code found in the install.php script. Fixed.
++[!] 18 Jan 2011, aim - Bug (0103725): PHP notices fixed in logging in to the admin/provider area.
++[*] 18 Jan 2011, aim - Improvement (0103709): SQL error status improved in the upgrade procedure.
++[!] 18 Jan 2011, aim - Bug (0099823): Shipping methods not available on the offer configuration page (Special_Offers module). Fixed.
++[!] 18 Jan 2011, aim - Bug (0103758): PHP notices fixed on the General settings page.
++[!] 18 Jan 2011, aim - Bug (0103760): PHP notices fixed on the offer configuration page, Special Offers module.
++[!] 19 Jan 2011, aim - Bug (0103770): PHP notices fixed on the product page in the customer area.
++[!] 19 Jan 2011, aim - Bug (0103769): Typo related to the x_error_reporting variable and PHP 5.3 error-level reporting logic. Fixed.
++[!] 20 Jan 2011, aim - Bug (0101556): Multiple fixes related to 'Provider commissions'.
++[!] 24 Jan 2011, aim - Bug (0104030): HTML tags fail to appear properly on the 'News lists' page in the admin area. Fixed.
++[!] 24 Jan 2011, ferz - Bug (0093549): Updated ProxyPay3 integration.
++[*] 26 Jan 2011, aim - Improvement (0104018): JSON library updated to version 1.0.3. IE7 problem related to Content-type: application/x-javascript header fixed.
++[!] 27 Jan 2011, aim - Bug (0104228): PHP notices fixed during functional tests.
++[!] 31 Jan 2011, ferz - Bug (0103067): The admin side fails to stay in the HTTPS mode. Fixed.
++[!] 01 Feb 2011, aim - Bug (0103398): USPS shipping label generator fails to work properly with the new shipping methods. Fixed.
++[!] 07 Feb 2011, aim - Bug (0101410): Maximum thumbnail width/height settings are ignored on the Products Map page. Fixed.
++[!] 07 Feb 2011, aim - Bug (0104638): Fixed access to uninitialized variables.
++[!] 09 Feb 2011, aim - Bug (0104802): Fixed SQL errors.
++[!] 14 Feb 2011, aim - Bug (0104968): Fixed the 'Cache_Lite : Unable to remove cache' error.
++[*] 03 Mar 2011, aim - Improvement (0104538): jQuery API updated to version 1.5.1.
++[!] 03 Mar 2011, aim - Bug (0102569): Address book fails to provide correct shipping address to the checkout page. Fixed.
++[!] 10 Mar 2011, ferz - Bug (0104096): Obsolete value in the COMPATIBLE_VERSION constant in the installation script. Fixed.
++[!] 16 Mar 2011, ferz - Bug (0106246): E-mail message header is not RFC compliant. Fixed.
++[*] 22 Mar 2011, ferz - Improvement (0104564): SEO: Improved the canonical tag.
++[!] 07 Apr 2011, aim - Bug (0107274): 'Call to undefined function func_cart_set_flag' error fixed.
++[!] 08 Apr 2011, ferz - Bug (0106953): Same 'Contact us' form cache used in the Customer, Partner and Admin areas. Fixed.
++[!] 11 Apr 2011, aim - Bug (0107403): SQL error fixed on the cart page related to the Special Offer module.
++[!] 14 Apr 2011, ferz - Bug (0107161): 'Operate as this user' feature fails to restore cart content. Fixed.
++[*] 14 Apr 2011, aim - Improvement (0103629): Changed min MySQL version to 4.0.18 (for 4.0) and 4.1.2 (for 4.1). Added support for MySQL 5.5.x.
++[!] 15 Apr 2011, aim - Bug (0105559): Libcurl used in the func_http_get_request function even when disabled in the General Settings. Fixed.
++[!] 15 Apr 2011, aim - Bug (0089959): Code strings fail to paste properly to the command line. Fixed.
++[!] 21 Apr 2011, aim - Bug (0107570): Regular expression not quoted. Fixed.
++[!] 25 Apr 2011, aim - Bug (0102888): Installer fails to create new database. Fixed.
++[*] 29 Apr 2011, ferz - Improvement (107472): Removed obsolete code.
++[*] 04 May 2011, aim - Improvement (0108185): Changed ads management.
+ 
+ ------------------ X-CART v4.4.2 RELEASED
+ 

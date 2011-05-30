@@ -1,0 +1,21 @@
+Index: admin/process_user.php
+--- admin/process_user.php	2011-01-10 16:11:46.000000000 +0300
++++ admin/process_user.php	2011-01-25 12:43:11.000000000 +0300
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: process_user.php,v 1.81.2.4 2011/01/10 13:11:46 ferz Exp $
++ * @version    $Id: process_user.php,v 1.81.2.5 2011/01/25 09:43:11 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -231,7 +231,7 @@
+ 
+     } elseif ($mode == 'update') {
+ 
+-        if ($active_modules['XAffiliate'] && isset($plan) && is_array($plan)) {
++        if (!empty($active_modules['XAffiliate']) && isset($plan) && is_array($plan)) {
+             foreach ($plan as $u => $planid) {
+                 func_array2insert(
+                     'partner_commissions',

@@ -1,0 +1,617 @@
+/* vim: set ts=2 sw=2 sts=2 et: */
+/**
+ * Installation wizard CSS stylesheet
+ * 
+ * @category   X-Cart
+ * @package    X-Cart
+ * @subpackage CSS
+ * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+ * @version    $Id: install.css,v 1.2.2.1 2010/08/12 12:01:45 igoryan Exp $
+ * @link       http: //www.x-cart.com/
+ * @see        ____file_see____
+ */
+
+/**
+ * General tags styles
+ */
+html,
+body
+{
+  height: 100%;
+  background-color: #fff;
+  margin: 0;
+  padding: 0;
+  font-family: verdana, arial, helvetica, sans-serif;
+  font-size: 11px;
+  min-width: 960px;
+  text-align: center;
+  border: 0 none;
+}
+
+div,
+th,
+td,
+p,
+input,
+select,
+textarea,
+tt,
+button
+{
+  font-family: verdana, arial, helvetica, sans-serif;
+  color: #2c3e49;
+  font-size: 11px;
+}
+
+a:link,
+a:visited,
+a:hover,
+a:active 
+{
+  color: #043fa0;
+  text-decoration: underline;
+}
+
+a:hover {
+  color: #2863c2;
+  text-decoration: underline;
+}
+
+h1 {
+  font-family: arial, verdana, helvetica, sans-serif;
+  margin: 5px 0 20px;
+  padding: 0;
+  font-size: 22px;
+  color: #000;
+  font-weight: 400;
+}
+
+h2 {
+  margin: 25px 0 0;
+  padding: 0;
+  font-size: 13px;
+  color: #a10000;
+}
+
+h3 {
+  margin: 12px 0;
+  padding: 0;
+  font-size: 12px;
+  color: #2c3e49;
+}
+
+hr {
+  border: 0 none;
+  border-bottom: 1px solid #888;
+  margin: 20px 0 10px;
+  padding: 0;
+  height: 0;
+}
+
+form {
+  margin: 0;
+}
+
+table,
+img
+{
+  border: 0;
+}
+
+em {
+  font-style: italic;
+}
+
+strong {
+  font-weight: 700;
+}
+
+/**
+ * Service styles
+ */
+
+/**
+ * Float-box finisher
+ */
+.clearing {
+  height: 0;
+  font-size: 0;
+  clear: both;
+}
+
+/**
+ * Page container
+ */
+#page-container {
+  min-height: 100%;
+  position: relative;
+  border: 0 none;
+  margin: 0 auto;
+  text-align: left;
+  width: 960px;
+  float: none;
+}
+
+#page-container2 {
+  margin: 0;
+  float: none;
+}
+
+/**
+ * Page layout
+ */
+#content-container {
+  clear: both;
+  float: left;
+  overflow: hidden;
+  position: relative;
+  width: 960px;
+  padding-bottom: 75px;
+  margin-top: 110px;
+}
+
+#content-container2 {
+  float: left;
+  position: relative;
+  right: 100%;
+  width: 200%;
+}
+
+#center {
+  float: left;
+  position: relative;
+  width: 50%;
+  left: 50%;
+}
+
+#left-bar {
+  float: left;
+  position: relative;
+  width: 260px;
+  margin-left: 7px;
+  padding: 0;
+}
+
+#center-main {
+  float: none;
+  margin: 0 20px 0 280px;
+  overflow: hidden;
+  padding-bottom: 100px;
+}
+
+#header {
+  height: 110px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+}
+
+#footer {
+  border-top: solid 1px #acb7c7;
+  height: 50px;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  overflow: hidden;
+  float: left;
+}
+
+/**
+ * Header styles
+ */
+#header .line1 {
+  height: 70px;
+  direction: ltr;
+  background: url(../images/install_xlogo.gif) no-repeat 15px 10px;
+}
+
+#header .line2 {
+  width: 100%;
+  border: none;
+  background: url(../images/install_linebg.gif) repeat-x left top;
+  height: 24px;
+  border-left: solid 1px #f7b221;
+  border-right: solid 1px #f7b221;
+}
+
+.install-header {
+  font-family: arial, verdana, helvetica, sans-serif;
+  position: absolute;
+  padding-left: 180px;
+  padding-top: 24px;
+  min-width: 300px;
+  font-size: 24px;
+  color: #5f594a;
+  font-weight: 400;
+  float: left;
+}
+
+.install-version {
+  position: absolute;
+  float: right;
+  right: 20px;
+  padding-top: 35px;
+  z-index: 1;
+  color: #4f4f4f;
+  border: 1px;
+  font-size: 11px;
+}
+
+/**
+ * Footer styles 
+ */
+#footer .copyright {
+  padding-top: 10px;
+  font-size: 10px;
+  line-height: 16px;
+  margin-left: 15px;
+}
+
+/**
+ * Status box styles
+ */
+.status-box {
+  width: 235px;
+  padding: 0;
+  margin: 0;
+  background: url(../images/install_grey_steps_bg.gif);
+}
+
+.status-box ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.status-box ul li {
+  width: 200px;
+  border: none;
+  border-bottom: solid 1px #ddddd9;
+  border-left: solid 1px #ddddd9;
+  border-right: solid 1px #ddddd9;
+  font-size: 11px;
+  line-height: 24px;
+  font-weight: 700;
+  color: #9b9b9b;
+  padding: 4px 5px 5px 30px;
+  background: transparent url(../images/install_bullet_further.gif) no-repeat 15px 13px;
+}
+
+.status-box ul li.menu-heading {
+  border: solid 1px #acb7c7;
+  color: #253161;
+  padding: 9px 20px 9px 15px;
+  background: url(../images/install_menu_header_bg.gif) repeat-x top;
+  font-size: 14px;
+}
+
+.status-box ul li.current {
+  color: #003f7f;
+  background: transparent url(../images/install_bullet_current.gif) no-repeat 15px 13px;
+}
+
+.status-box ul li.passed {
+  color: green;
+  background: transparent url(../images/install_bullet_passed.gif) no-repeat 15px 13px;
+}
+
+.box-container {
+  background: #fafafa url(../images/install_box.jpg) no-repeat 25px 10px;
+  height: 245px;
+  width: 235px;
+  border-bottom: solid 1px #ddddd9;
+  border-left: solid 1px #ddddd9;
+  border-right: solid 1px #ddddd9;
+}
+
+/** 
+ * Styles used during configuration steps
+ */
+.check_cfg_subhead {
+  font-weight: 700;
+  font-size: 12px;
+  color: #000;
+  vertical-align: middle;
+  height: 30px;
+}
+
+h2.cfg-warning-header {
+  padding: 15px 15px 15px 40px;
+  margin: 0;
+  background: transparent url(../images/icon_warning.gif) no-repeat left center;
+}
+
+h2.cfg-error-header {
+  padding: 15px 15px 15px 40px;
+  margin: 0;
+  background: transparent url(../images/icon_error.gif) no-repeat left center;
+}
+
+.cfg-error-details {
+  font-weight: 400;
+  color: #a10000;
+  margin: 0 0 25px;
+  padding: 0;
+}
+
+.cfg-error-details div {
+  font-weight: 400;
+  color: #a10000;
+  margin-bottom: 10px;
+}
+
+.cfg-error-details ul {
+  padding: 0;
+  list-style-position: inside;
+  list-style-type: disc;
+  margin: 0;
+}
+
+.cfg-error-details ul li {
+  color: #000;
+  margin-bottom: 5px;
+}
+
+.cfg-error-details ul li code {
+  font-family: monospace;
+  background-color: #ddd;
+}
+
+.cfg-error-details div.show-hide {
+  margin: 5px 0 10px;
+}
+
+input.check-again {
+  font-weight: 700;
+}
+
+.error-report {
+  background: transparent url(../images/install_send_report.gif) no-repeat 10px 10px;
+  padding: 10px;
+  border: solid 1px #ddddd9;
+  margin: 10px 0;
+}
+
+.error-report-content {
+  margin: 0;
+  padding-left: 40px;
+}
+
+h2.dep-error {
+  color: #a10000;
+}
+
+.clr1 {
+  background-color: #fff;
+}
+
+.clr2 {
+  background-color: #f0f0f0;
+}
+
+.clr3 {
+  background-color: #e5edf6;
+  font-weight: 700;
+}
+
+.message-error,.warning-error,.fatal-error
+{
+  color: #600;
+  text-align: center;
+  font-weight: 700;
+}
+
+.message {
+  text-align: left;
+}
+
+.toggle-img {
+  vertical-align: middle;
+  cursor: pointer;
+}
+
+.tech-report-textarea {
+  font-family: monospace;
+}
+
+#server_check_results_pane {
+  vertical-align: top;
+}
+
+#permission_notification {
+  color: #006;
+}
+
+#report_error_request {
+  border: 1px solid #ddddd9;
+}
+
+#step_title {
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.remove-package-recommend {
+  background: transparent url(../images/icon_warning.gif) no-repeat 10px 10px;
+  padding: 15px 25px 15px 50px;
+  border: solid 1px #ddddd9;
+}
+
+.permissions-list {
+  color: green;
+  list-style: disc;
+}
+
+.interfaces ul {
+  padding: 10px 0;
+  margin: 0;
+}
+
+.interfaces ul li {
+  padding: 5px 0;
+  list-style: none;
+  font-size: 12px;
+}
+
+.interfaces ul li span {
+  font-size: 11px;
+  font-weight: 400;
+}
+
+.files-check-err-header {
+  background: transparent url(../images/icon_warning.gif) no-repeat left 20px;
+  height: 45px;
+  padding-left: 40px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  vertical-align: middle;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.files-check-err-header h2 {
+  color: #724c02;
+}
+
+.thank-you-message {
+  font-size: 18px;
+  color: #638294;
+}
+
+/**
+ * License agreement
+ */
+#copyright_notice {
+  overflow: auto;
+  width: 620px;
+  height: 400px;
+  border: 1px solid #999;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  text-align: left;
+  font: 11px monospace;
+}
+
+#copyright_notice pre {
+  margin: 4px 15px;
+}
+
+#top_message {
+  font-size: 12px;
+  line-height: 16px;
+  text-align: left;
+}
+
+.auth-code-note {
+  text-align: left;
+  padding: 10px 25px 10px 200px;
+  font-size: 10px;
+}
+
+/**
+ * NoScript warning
+ */
+.noscript-warning {
+  position: absolute;
+  top: 10px;
+  left: 30%;
+  right: 30%;
+  padding: 10px;
+  overflow: hidden;
+  border: 1px solid #ddd;
+  background: #fff none;
+  display: table;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.noscript-warning .content {
+  background: transparent url(../images/icon_warning.gif) no-repeat left top;
+  font-weight: 700;
+  padding-left: 37px;
+  line-height: 16px;
+  color: #b51a00;
+  text-align: center;
+}
+
+/**
+ * Dialog message container
+ */
+#dialog-message {
+  position: relative;
+  margin: 15px 0 20px;
+  width: 100%;
+  text-align: center;
+}
+
+#dialog-message .box {
+  position: relative;
+  width: 450px;
+  margin: 0 auto;
+  border: 1px solid #000;
+  border-top: 3px solid #000;
+  padding: 10px 25px 10px 59px;
+  vertical-align: middle;
+  text-align: left;
+  min-height: 32px;
+}
+
+#dialog-message .box a.close-link:link,
+#dialog-message .box a.close-link:visited,
+#dialog-message .box a.close-link:hover,
+#dialog-message .box a.close-link:active
+{
+  display: block;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 13px;
+  height: 13px;
+  text-decoration: none;
+}
+
+#dialog-message .close-img {
+  width: 13px;
+  height: 13px;
+  background: transparent url(../images/but_cross.gif) no-repeat left top;
+}
+
+#dialog-message .message-i {
+  color: #112536;
+  border-color: #7a97c1;
+  background: #f4f5f7 url(../images/icon_info.gif) no-repeat 10px 10px;
+}
+
+#dialog-message .message-w {
+  color: #3e3104;
+  border-color: #c3902f;
+  background: #f8f7f3 url(../images/icon_warning.gif) no-repeat 10px 10px;
+}
+
+#dialog-message .message-e {
+  color: #590a0a;
+  border-color: #d30000;
+  background: #f7f3f3 url(../images/icon_error.gif) no-repeat 10px 10px;
+}
+
+#dialog-message .anchor {
+  position: relative;
+  margin-left: auto;
+  margin-right: 0;
+  height: 15px;
+  text-align: right;
+  vertical-align: middle;
+}
+
+#dialog-message .anchor img {
+  width: 12px;
+  height: 10px;
+  vertical-align: middle;
+  background: transparent url(../images/goto_arr.gif) no-repeat left top;
+}
+
+.dialogtr {
+  color: #40b8d9;
+}

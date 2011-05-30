@@ -1,0 +1,63 @@
+Index: include/import_products.php
+--- include/import_products.php	2011-01-10 16:11:49.000000000 +0300
++++ include/import_products.php	2011-03-14 13:40:52.000000000 +0300
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: import_products.php,v 1.74.2.4 2011/01/10 13:11:49 ferz Exp $
++ * @version    $Id: import_products.php,v 1.74.2.7 2011/03/14 10:40:52 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -256,7 +256,7 @@
+     }
+ 
+     // Check 'categoryid' and 'category' fields if categories list is empty
+-    if (($empty_categories_list || $import_file['drop']['categories'] == 'Y') && (empty($values['categoryid']) || empty($values['category']))) {
++    if (($empty_categories_list || @$import_file['drop']['categories'] == 'Y') && (empty($values['categoryid']) || empty($values['category']))) {
+         func_import_module_error('msg_err_import_log_message_51', array('field' => empty($values['categoryid']) ? "CATEGORYID" : "CATEGORY"));
+         return;
+     }
+@@ -409,7 +409,7 @@
+ 
+     // Update the products...
+ 
+-    if ($import_file['drop']['products'] == 'Y') {
++    if (@$import_file['drop']['products'] == 'Y') {
+ 
+         func_import_save_image('T');
+         func_import_save_image('P');
+@@ -478,8 +478,6 @@
+         unset($product['generate_thumbnail']);
+ 
+         $_productid = false;
+-        $old_productid = $product['productid'];
+-        $old_productcode = $product['productcode'];
+         if (isset($product['productid'])) {
+             // Detect product by productid
+             if (!empty($product['productid'])) {
+@@ -590,10 +588,10 @@
+                     $data[$k] = func_xss_free($data[$k]);
+             }
+             $int_descr_data = array(
+-                'product'   => $data['product'],
+-                'descr'     => $data['descr'],
+-                'fulldescr' => $data['fulldescr'],
+-                'keywords'  => $data['keywords']
++                'product'   => @$data['product'],
++                'descr'     => @$data['descr'],
++                'fulldescr' => @$data['fulldescr'],
++                'keywords'  => @$data['keywords']
+             );
+             foreach ($int_descr_data as $k_int=>$v_int) {
+                 if (!isset($data[$k_int]))
+@@ -621,6 +619,8 @@
+             $result['products']['updated']++;
+         }
+ 
++        $old_productid = @$product['productid'];
++        $old_productcode = @$product['productcode'];
+         // Store $_productid in the cache
+         if (!empty($old_productcode))
+             func_import_save_cache('PR', $old_productcode, $_productid);

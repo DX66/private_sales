@@ -1,0 +1,93 @@
+/* vim: set ts=2 sw=2 sts=2 et: */
+/**
+ * CSS stylesheet
+ *  
+ * @category   X-Cart
+ * @package    X-Cart
+ * @subpackage CSS
+ * @author     Ruslan R. Fazlyev <rrf@x-cart.com> 
+ * @version    $Id: main.IE7.css,v 1.2 2010/05/28 12:53:04 igoryan Exp $
+ * @link       http://www.x-cart.com/
+ * @see        ____file_see____
+ */
+
+img {
+  -ms-interpolation-mode: bicubic;
+}
+
+/** 
+ * Button styles 
+ */
+button {
+  width: auto;
+  overflow: visible;
+}
+
+div.menu-button {
+  margin-top: 1px;
+}
+
+button.simple-button img {
+  margin-bottom: 2px;
+}
+
+a.simple-button {
+  vertical-align: middle;
+}
+
+a.simple-button img {
+  vertical-align: middle;
+  margin-bottom: 2px;
+}
+
+input.image-button {
+  height: 24px;
+}
+
+#header .languages select {
+  vertical-align: middle;
+}
+
+.products .details a.product-title {
+  display: block; 
+  position: relative;
+}
+
+.images-viewer-icons img {
+  margin: 0px 1px;
+}
+
+/* right-to-left text direction*/
+.rtl #content-container2 {
+  right: 0;
+  left: 100%;
+}
+
+.images-preview-bg {
+  filter:progid:DXImageTransform.Microsoft.Alpha(opacity = 50);
+}
+
+.ajax-minicart .title-bar img.minicart-button {
+  margin-top: 3px;
+  margin-bottom: 3px;
+}
+
+.minicart-box {
+  top: 21px;
+}
+
+.minicart-box .checkout-popup-link div.buttons-box {
+  top: 21px;
+}
+
+.buttons-row {
+  height: 43px !important;
+}
+
+div.details {
+  zoom: 1;
+}
+
+div.halign-center {
+  margin: 0 50% !important;
+}

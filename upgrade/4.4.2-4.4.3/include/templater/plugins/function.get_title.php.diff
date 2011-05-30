@@ -1,0 +1,23 @@
+Index: include/templater/plugins/function.get_title.php
+--- include/templater/plugins/function.get_title.php	2011-01-10 16:11:53.000000000 +0300
++++ include/templater/plugins/function.get_title.php	2011-01-14 12:49:53.000000000 +0300
+@@ -47,7 +47,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: function.get_title.php,v 1.19.2.4 2011/01/10 13:11:53 ferz Exp $
++ * @version    $Id: function.get_title.php,v 1.19.2.5 2011/01/14 09:49:53 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -76,6 +76,10 @@
+             // Category page
+             x_load('category');
+             $title = func_get_category_title($params['page_id']);
++
++            if (empty($title))
++                $title = $default_title_entity;
++
+             break;
+ 
+         case 'M':

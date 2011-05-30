@@ -1,0 +1,408 @@
+/* vim: set ts=2 sw=2 sts=2 et: */
+/**
+ * Feature Comparison Module CSS stylesheet
+ * 
+ * @category   X-Cart
+ * @package    X-Cart
+ * @subpackage CSS
+ * @author     Ruslan R. Fazlyev <rrf@x-cart.com> 
+ * @version    $Id: main.css,v 1.5 2010/07/27 11:49:37 igoryan Exp $
+ * @link       http: //www.x-cart.com/
+ * @see        ____file_see____
+ */
+
+/**
+ * Comparison list
+ */
+.fcomp-list .title-bar img {
+  background: url(../../images/dingbats_categorie.gif) no-repeat;
+}
+
+.fcomp-list .fcomp-subtitle {
+  font-weight: 700;
+  padding: 0 0 5px;
+  margin: 0;
+}
+
+.fcomp-list ul {
+  margin: 0;
+  padding: 0;
+}
+
+.fcomp-list ul li {
+  padding: 1px 16px 1px 1px;
+  margin: 0;
+  position: relative;
+}
+
+.fcomp-list ul li img.delete-icon {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+}
+
+.fcomp-list ul li.fcomp-line {
+  padding: 2px 0;
+}
+
+.fcomp-list ul li.fcomp-line hr {
+  margin: 0;
+  border-bottom-color: #dee2e9;
+}
+
+ul.fcomp-buttons li {
+  margin: 5px 0px 25px 0px;
+}
+
+a.fcomp-menu-link {
+  font-weight: 400;
+  text-decoration: underline;
+}
+
+/**
+ * Functionality in products list
+ */
+.fcomp-checkbox-box label {
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.fcomp-checkbox-box label * {
+  vertical-align: middle;
+}
+
+.products-list .fcomp-checkbox-box {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.products-table .fcomp-checkbox-box {
+  margin-top: 3px;
+}
+
+.fcomp-product-box {
+  margin-top: 22px;
+}
+
+.fcomp-compare-with-title {
+  margin: 15px 0 5px;
+}
+
+.fcomp-select-box {
+  position: relative;
+  white-space: nowrap;
+  padding: 10px 0 0;
+  height: 24px;
+}
+
+.fcomp-select-product {
+  width: 200px;
+  vertical-align: top;
+}
+
+.fcomp-compare-buttons {
+  padding: 25px 0;
+}
+
+.printable .fcomp-compare-buttons,
+.printable .fcomp-checkbox-box,
+.printable .fcomp-product-box
+{
+  display: none;
+}
+
+/**
+ * Comparison page (classes list)
+ */
+.fcomp-classes-list .fcomp-class-title {
+  background: #eee none;
+  font-weight: 700;
+  margin-top: 15px;
+}
+
+.fcomp-classes-list ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.fcomp-classes-list ul li {
+  margin: 0;
+  padding: 0 0 0 5px;
+}
+
+/**
+ * Comparison page (classes list)
+ */
+.fcomp-toolbar {
+  text-align: left;
+  white-space: nowrap;
+  padding-bottom: 15px;
+  margin-right: 20px;
+}
+
+.fcomp-show-not-equal {
+  width: 24px;
+  height: 24px;
+  background: transparent url(../../images/nofiltr.png) no-repeat;
+}
+
+.fcomp-show-equal {
+  width: 24px;
+  height: 24px;
+  background: transparent url(../../images/filtr.png) no-repeat;
+}
+
+.fcomp-axis {
+  width: 24px;
+  height: 24px;
+  background: transparent url(../../images/change.png) no-repeat;
+}
+
+.fcomp-popup-link {
+  width: 24px;
+  height: 24px;
+  background: transparent url(../../images/popup.png) no-repeat;
+}
+
+.fcomp-removed-features {
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+.fcomp-removed-features span {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+span.fcomp-removed-features-title {
+  font-weight: 700;
+  padding-right: 5px;
+}
+
+.fcomp-table .search-sort-bar {
+  padding-right: 0;
+  margin: 0 0 15px;
+}
+
+.fcomp-table table {
+  background: #ccc none;
+  float: left;
+}
+
+.fcomp-table tr td {
+  padding: 2px;
+}
+
+.fcomp-table tr td.fcomp-corner {
+  background: #fff none;
+  width: 200px;
+}
+
+.fcomp-table tr td.fcomp-title {
+  background: #ccc none;
+  font-weight: 700;
+  text-align: center;
+}
+
+.fcomp-table tr td.fcomp-empty {
+  background-color: #eee;
+}
+
+.fcomp-xy tr td.fcomp-title-h {
+  vertical-align: top;
+  text-align: center;
+  background-color: #eee;
+  font-weight: 700;
+}
+
+.fcomp-xy tr td.fcomp-title-v {
+  vertical-align: middle;
+  background-color: #eee;
+  white-space: nowrap;
+}
+
+.fcomp-yx tr td.fcomp-title-h {
+  vertical-align: top;
+  text-align: center;
+  background-color: #eee;
+  font-weight: 700;
+}
+
+.fcomp-yx tr td.fcomp-title-v {
+  vertical-align: middle;
+  background-color: #eee;
+  white-space: nowrap;
+}
+
+.fcomp-yx tr td.fcomp-title-h a:link,
+.fcomp-yx tr td.fcomp-title-h a:visited,
+.fcomp-yx tr td.fcomp-title-h a:hover,
+.fcomp-yx tr td.fcomp-title-h a:link,
+.fcomp-yx tr td.fcomp-title-v a:link,
+.fcomp-yx tr td.fcomp-title-v a:visited,
+.fcomp-yx tr td.fcomp-title-v a:hover,
+.fcomp-yx tr td.fcomp-title-v a:active
+{
+  font-weight: 700;
+}
+
+.fcomp-yx tr td.fcomp-title-h label,
+.fcomp-xy tr td.fcomp-title-v label
+{
+  font-weight: 700;
+}
+
+.fcomp-table tr td.fcomp-hl-cell {
+  vertical-align: middle;
+  background-color: #fff5e4;
+  text-align: center;
+}
+
+.fcomp-table tr td.fcomp-cell {
+  vertical-align: middle;
+  background-color: #fff;
+  text-align: center;
+}
+
+.fcomp-table img.fcomp-yes {
+  vertical-align: middle;
+  width: 12px;
+  height: 9px;
+  background: transparent url(../../images/yes.png) no-repeat left top;
+}
+
+.fcomp-table img.fcomp-no {
+  vertical-align: middle;
+  width: 10px;
+  height: 10px;
+  background: transparent url(../../images/no.png) no-repeat left top;
+}
+
+.fcomp-table tr td.fcomp-center-note {
+  white-space: nowrap;
+  text-align: center;
+  background: #fff none;
+}
+
+.fcomp-table tr td.fcomp-note {
+  text-align: center;
+  background: #fff none;
+}
+
+.fcomp-table tr td.fcomp-delete-cell {
+  white-space: nowrap;
+  background: #fff none;
+  vertical-align: top;
+  line-height: 15px;
+}
+
+.fcomp-table tr td.fcomp-delete-cell a:link,
+.fcomp-table tr td.fcomp-delete-cell a:visited,
+.fcomp-table tr td.fcomp-delete-cell a:hover,
+.fcomp-table tr td.fcomp-delete-cell a:active
+{
+  background: transparent url(../../images/delete_obj.gif) no-repeat left 1px;
+  padding-left: 16px;
+  display: block;
+  height: 15px;
+}
+
+/**
+ * Choosing page (classes list)
+ */
+.fcomp-class-cell {
+  float: left;
+  text-align: center;
+}
+
+.fcomp-class-cell a.image:link,
+.fcomp-class-cell a.image:visited,
+.fcomp-class-cell a.image:hover,
+.fcomp-class-cell a.image:active
+{
+  text-decoration: none;
+}
+
+.fcomp-class-cell a:link,
+.fcomp-class-cell a:visited,
+.fcomp-class-cell a:hover,
+.fcomp-class-cell a:active
+{
+  font-weight: 700;
+}
+
+/**
+ * Choosing page (options list)
+ */
+.fcomp-options-table .data-name {
+  white-space: nowrap;
+}
+
+table.fcomp-options-table td {
+  padding-bottom: 15px;
+}
+
+table.fcomp-options-table table td {
+  padding-bottom: 0;
+}
+
+.fcomp-options-label-including {
+  padding: 0;
+  font-size: 10px;
+}
+
+/**
+ * Products list popup
+ */
+.fcomp-popup-dialog .content {
+  vertical-align: top;
+}
+
+.fcomp-popup-dialog form {
+  width: 100%;
+}
+
+.fcomp-popup-categories-list {
+  width: 48%;
+  float: left;
+  vertical-align: top;
+  padding: 0 0 15px;
+}
+
+.fcomp-popup-products-list {
+  margin-left: 50%;
+  width: 48%;
+  vertical-align: top;
+  padding: 0 0 15px;
+}
+
+.fcomp-popup-column-title {
+  font-weight: 700;
+}
+
+.fcomp-popup-categories-list select,
+.fcomp-popup-products-list select
+{
+  width: 100%;
+}
+
+img.fcomp-in-cart {
+  width: 16px;
+  height: 18px;
+  background: transparent url(images/in_cart.png) no-repeat;
+}
+
+img.fcomp-fake-image {
+  display: none;
+}
+
+img.fcomp-progress-image {
+  width: 60px;
+  height: 19px;
+  background: transparent url(../../images/progress.gif) repeat-x 0 5px;
+}
+
+select.fcomp-select-product {
+  margin-right: 10px;
+}

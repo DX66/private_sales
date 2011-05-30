@@ -1,0 +1,113 @@
+Index: include/func/func.image.php
+--- include/func/func.image.php	2011-01-10 16:11:51.000000000 +0300
++++ include/func/func.image.php	2011-03-14 14:11:23.000000000 +0300
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: func.image.php,v 1.85.2.3 2011/01/10 13:11:51 ferz Exp $
++ * @version    $Id: func.image.php,v 1.85.2.11 2011/03/14 11:11:23 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -494,6 +494,9 @@
+     $return = false;
+     $config_data = $config['setup_images'][$type];
+ 
++    if (!isset($file_upload_data[$type]))
++        return false;
++
+     $image_posted = $file_upload_data[$type];
+ 
+     if (!func_allow_file($image_posted['file_path'], true))
+@@ -531,6 +534,7 @@
+     $config_data = $config['setup_images'][$type];
+ 
+     $file_path = $image_data['file_path'];
++    $image = false;
+     if (!is_url($file_path)) {
+         $file_path = func_realpath($file_path);
+     } else {
+@@ -686,7 +690,7 @@
+ 
+     // unique file location
+     $file_name = func_image_gen_unique_filename(
+-        $image_data['filename'], $type, $image_data['image_type'],
++        @$image_data['filename'], $type, $image_data['image_type'],
+         $image_data['id'], $image_data['imageid']);
+ 
+     if ($file_name === false) {
+@@ -897,25 +901,25 @@
+ 
+         $image = func_query_first("SELECT image, image_type, image_x, image_y, image_path FROM ".$sql_tbl[$from]." WHERE id='$id'");
+ 
+-        if (is_url($image['image_path'])) {
++        if (!empty($image)) {
++            if (is_url($image['image_path'])) {
+ 
+-            $image_filename = func_get_url_image($image['image_path']);
++                $image_filename = func_get_url_image($image['image_path']);
+ 
+-            if (!$image_filename)
+-                return false;
++                if (!$image_filename)
++                    return false;
+ 
+-        } else {
++            } else {
+ 
+-            $image_filename = ($config['setup_images'][$from_type]['location'] == "DB")
+-                ? func_temp_store($image['image']) 
+-                : func_image_dir($from_type) . XC_DS . basename($image['image_path']);
++                $image_filename = ($config['setup_images'][$from_type]['location'] == "DB")
++                    ? func_temp_store($image['image']) 
++                    : func_image_dir($from_type) . XC_DS . basename($image['image_path']);
+ 
++            }
+         }
+ 
+     }
+ 
+-    $image_type = func_get_image_ext($image['image_type']);
+-
+     if (empty($image_filename)) {
+ 
+         $top_message = array(
+@@ -926,6 +930,8 @@
+         return false;
+     }
+ 
++    $image_type = func_get_image_ext($image['image_type']);
++
+     $new_x = $config['images_dimensions'][$to_type]['width'];
+     $new_y = $config['images_dimensions'][$to_type]['height'];
+ 
+@@ -983,7 +989,7 @@
+         if ($config['setup_images'][$from_type]['location'] == "DB")
+             @unlink($image_filename);
+ 
+-        $temp_image = func_temp_read($new_image['file_path'], true);
++        $temp_image = func_temp_read($new_image['file_path']);
+         $new_image['md5'] = md5($temp_image);
+ 
+         if ($config['setup_images'][$to_type]['location'] == "DB") {
+@@ -994,6 +1000,7 @@
+             $new_image['date']     = XC_TIME;
+             $new_image['filename'] = '';
+ 
++            @unlink($new_image['file_path']);
+             $new_image = func_addslashes($new_image);
+ 
+         } else {
+@@ -1322,9 +1329,9 @@
+     if (!is_string($type) || !isset($config['available_images'][$type]))
+         return array();
+ 
+-    if (!$name) {
++    if (empty($name)) {
+ 
+-        $name = $image_caches[$type];
++        $name = @$image_caches[$type];
+ 
+     } elseif (!is_array($name)) {
+ 

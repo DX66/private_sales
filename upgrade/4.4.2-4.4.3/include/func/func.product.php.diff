@@ -1,0 +1,140 @@
+Index: include/func/func.product.php
+--- include/func/func.product.php	2011-01-10 16:11:52.000000000 +0300
++++ include/func/func.product.php	2011-02-07 16:53:01.000000000 +0300
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: func.product.php,v 1.124.2.6 2011/01/10 13:11:52 ferz Exp $
++ * @version    $Id: func.product.php,v 1.124.2.9 2011/02/07 13:53:01 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -749,8 +749,6 @@
+ 
+         $thumb_dims = func_query_hash("SELECT id, image_x, image_y FROM $sql_tbl[images_T] WHERE id IN ('" . implode("','", $ids) . "')", 'id', false);
+ 
+-        $img_w = $config['Appearance']['simple_thumbnail_width'];
+-        $img_h = $config['Appearance']['simple_thumbnail_height'];
+ 
+         if (
+             !empty($active_modules['Product_Options'])
+@@ -771,7 +769,7 @@
+                 if ($result[$key]['price'] != 0)
+                     $result[$key]['price'] += $options_markups[$value['productid']];
+ 
+-                $result[$key]['taxed_price'] = $products[$key]['price'];
++                $result[$key]['taxed_price'] = $result[$key]['price'];
+ 
+                 $value = $result[$key];
+ 
+@@ -838,31 +836,15 @@
+ 
+             unset($result[$key]['image_path']);
+ 
+-            $dims_tmp = !isset($thumb_dims[$v['productid']]) 
+-                ? $config['setup_images']['T'] 
+-                : $thumb_dims[$value['productid']];
++            $dims_tmp = isset($thumb_dims[$value['productid']]) 
++                ? $thumb_dims[$value['productid']]
++                : $config['setup_images']['T']; 
+ 
+             $result[$key] = func_array_merge($result[$key], $dims_tmp);
+ 
+-            if (!empty($result[$key]['image_x']) && !empty($result[$key]['image_y'])) {
+-
+-                $result[$key]['tmbn_x'] = $result[$key]['image_x'];
+-                $result[$key]['tmbn_y'] = $result[$key]['image_y'];
+-
+-                $need_resize = ($result[$key]['tmbn_x'] > $img_w || $result[$key]['tmbn_y'] > $img_h);
+-
+-                if ($need_resize) {
+-                    list(
+-                        $result[$key]['tmbn_x'], 
+-                        $result[$key]['tmbn_y']
+-                    ) = func_get_proper_dimensions(
+-                        $result[$key]['image_x'], 
+-                        $result[$key]['image_y'],
+-                        $img_w, 
+-                        $img_h
+-                    );
+-                }
+-            }
++            $_limit_width = $config['Appearance']['simple_thumbnail_width'];
++            $_limit_height = $config['Appearance']['simple_thumbnail_height'];
++            $result[$key] = func_get_product_tmbn_dims($result[$key], $_limit_width, $_limit_height);
+ 
+             if (
+                 $current_area == 'C'
+@@ -885,6 +867,7 @@
+ {
+     global $logged_userid, $login_type, $current_area, $single_mode, $cart, $current_location;
+     global $store_language, $sql_tbl, $config, $active_modules;
++    global $REQUEST_METHOD; //To avoid PHP notices in modules/Google_Checkout/product_modify.php included below
+ 
+     x_load('files','taxes', 'image');
+ 
+@@ -955,7 +938,7 @@
+         $add_fields .= ", $sql_tbl[manufacturers].manufacturer";
+     }
+ 
+-    if ($active_modules['Special_Offers']) {
++    if (!empty($active_modules['Special_Offers'])) {
+         $join .= " LEFT JOIN $sql_tbl[offer_product_params] ON $sql_tbl[offer_product_params].productid = $sql_tbl[products].productid";
+         $add_fields .= ", $sql_tbl[offer_product_params].sp_discount_avail, $sql_tbl[offer_product_params].bonus_points";
+     }
+@@ -1073,6 +1056,8 @@
+ 
+     $image_data = func_get_image_url_by_types($image_ids, $prefered_image_type);
+ 
++    $product['taxed_price'] = $product['price'];
++
+     if (
+         $current_area == 'C'
+         || $current_area == 'B'
+@@ -1140,8 +1125,6 @@
+ 
+         }
+ 
+-        $product['taxed_price'] = $product['price'];
+-
+         if (
+             !$always_select
+             && (
+@@ -1817,4 +1800,36 @@
+     return $data;
+ }
+ 
++/*
++ * Get product thumbnail image dims with defined limits
++ */
++function func_get_product_tmbn_dims($product, $limit_width, $limit_height)
++{
++    if (
++        !empty($product['image_x']) 
++        && !empty($product['image_y'])
++    ) {
++        x_load('image');
++
++        $product['tmbn_x'] = $product['image_x'];
++        $product['tmbn_y'] = $product['image_y'];
++
++        $need_resize = ($product['tmbn_x'] > $limit_width || $product['tmbn_y'] > $limit_height);
++
++        if ($need_resize) {
++            list(
++                $product['tmbn_x'],
++                $product['tmbn_y']
++            ) = func_get_proper_dimensions(
++                $product['image_x'],
++                $product['image_y'],
++                $limit_width,
++                $limit_height
++            );
++        }
++    }
++
++    return $product;
++}
++
+ ?>

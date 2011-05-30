@@ -1,0 +1,20 @@
+Index: modules/Manufacturers/customer_manufacturers_list.php
+--- modules/Manufacturers/customer_manufacturers_list.php	2011-01-10 16:11:59.000000000 +0300
++++ modules/Manufacturers/customer_manufacturers_list.php	2011-01-25 12:43:13.000000000 +0300
+@@ -40,14 +40,14 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: customer_manufacturers_list.php,v 1.38.2.1 2011/01/10 13:11:59 ferz Exp $
++ * @version    $Id: customer_manufacturers_list.php,v 1.38.2.2 2011/01/25 09:43:13 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+ 
+ if ( !defined('XCART_START') ) { header("Location: ../"); die("Access denied"); }
+ 
+-if ($active_modules['Manufacturers']) {
++if (!empty($active_modules['Manufacturers'])) {
+     include $xcart_dir.'/modules/Manufacturers/customer_manufacturers.php';
+ }
+ 

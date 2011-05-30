@@ -1,0 +1,18 @@
+Index: skin/vivid_dreams_violet/customer/main/buy_now.tpl
+--- skin/vivid_dreams_violet/customer/main/buy_now.tpl	2010-12-15 14:57:07.000000000 +0300
++++ skin/vivid_dreams_violet/customer/main/buy_now.tpl	2011-04-21 11:19:58.000000000 +0400
+@@ -1,7 +1,13 @@
+ {*
+-$Id: buy_now.tpl,v 1.4.2.5 2010/12/15 11:57:07 aim Exp $
++$Id: buy_now.tpl,v 1.4.2.7 2011/04/21 07:19:58 aim Exp $
+ vim: set ts=2 sw=2 sts=2 et:
+ *}
++{*
++Note for designers:
++You must register any new template variable in
++include/templater/plugins/function.include_cache.php file to handle cache properly
++Search for the 'vars_used_in_templates' variable in the file.
++*}
+ <div class="buy-now">
+ 
+ <script type="text/javascript">

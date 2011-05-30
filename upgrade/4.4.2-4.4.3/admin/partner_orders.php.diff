@@ -1,0 +1,30 @@
+Index: admin/partner_orders.php
+--- admin/partner_orders.php	2011-01-10 16:11:46.000000000 +0300
++++ admin/partner_orders.php	2011-01-25 12:43:11.000000000 +0300
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: partner_orders.php,v 1.31.2.1 2011/01/10 13:11:46 ferz Exp $
++ * @version    $Id: partner_orders.php,v 1.31.2.3 2011/01/25 09:43:11 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -48,7 +48,7 @@
+ require './auth.php';
+ require $xcart_dir.'/include/security.php';
+ 
+-if (!$active_modules['XAffiliate'])
++if (empty($active_modules['XAffiliate']))
+     func_403(27);
+ 
+ $location[] = array(func_get_langvar_by_name('lbl_partners_orders'), '');
+@@ -205,7 +205,7 @@
+                 $arr = func_query("SELECT firstname, lastname, id AS userid, login FROM $sql_tbl[customers] WHERE id IN ('" . implode("','", array_keys($ready)) . "') ORDER BY login");
+                 if ($arr) {
+                     foreach($arr as $k => $v) {
+-                        $arr[$k]['min_paid'] = isset($ready[$v['id']]) ? doubleval($ready[$v['id']]) : 0;
++                        $arr[$k]['min_paid'] = isset($ready[$v['userid']]) ? doubleval($ready[$v['userid']]) : 0;
+                     }
+                     $smarty->assign('ready', $arr);
+                 }

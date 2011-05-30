@@ -1,0 +1,85 @@
+Index: include/payment_method.php
+--- include/payment_method.php	2011-01-10 16:11:50.000000000 +0300
++++ include/payment_method.php	2011-05-04 11:16:14.000000000 +0400
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: payment_method.php,v 1.95.2.1 2011/01/10 13:11:50 ferz Exp $
++ * @version    $Id: payment_method.php,v 1.95.2.7 2011/05/04 07:16:14 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -121,24 +121,18 @@
+     $_POST['card_valid_from'] = sprintf("%04d", intval($card_valid_from));
+ }
+ 
+-if (!empty($logged_userid)) {
+-
+-    $userinfo = func_userinfo($logged_userid, $login_type, false, true, array('C','H'));
+-
+-    if (
+-        $mailchimp_subscription == 'Y'
+-        && !(
+-            empty($active_modules['Mailchimp_Subscription'])
+-            || empty($userinfo['email'])
+-        )
+-    ) {
+-        $mailchimp_response = func_mailchimp_subscribe($userinfo['email']);
+-    }
+-
+-} else {
++if (empty($logged_userid)) {
++    $logged_userid = 0;
++}
+ 
+-    $userinfo = func_userinfo(0, $login_type, false, true, array('C','H'));
++$userinfo = func_userinfo($logged_userid, $login_type, false, true, array('C','H'));
+ 
++if (
++    !empty($active_modules['Mailchimp_Subscription'])
++    && !empty($mailchimp_subscription)
++    && !empty($userinfo['email'])
++) {
++    $mailchimp_response = func_mailchimp_subscribe($userinfo['email']);
+ }
+ 
+ /**
+@@ -206,8 +200,8 @@
+ if (
+     !empty($userinfo)
+     && (
+-        $userinfo['status'] != 'A'
+-        || $is_anonymous
++        $is_anonymous
++        || $userinfo['status'] != 'A'
+     )
+     && !func_check_required_fields($userinfo)
+ ) {
+@@ -217,13 +211,21 @@
+     );
+ }
+ 
+-$payment_info = func_query_first("SELECT * FROM $sql_tbl[payment_methods] WHERE paymentid = '$paymentid'");
++/**
++ * Check if paymentid can be used
++ */
++if (!func_is_valid_payment_method($paymentid)) {
++    $cart = func_cart_set_paymentid($cart, 0);
++    $top_message['content'] = func_get_langvar_by_name('err_payment_cc_not_available');
++    $top_message['type']    = 'E';
++    func_header_location($xcart_catalogs['customer'] . '/cart.php');
++} else {
++    $cart = func_cart_set_paymentid($cart, $paymentid);
++}
+ 
++$payment_info = func_query_first("SELECT * FROM $sql_tbl[payment_methods] WHERE paymentid = '$paymentid'");
+ if (
+-    (
+-        $payment_info['active'] != 'Y'
+-        || $payment_info['payment_script'] != basename($php_url['url'])
+-    )
++    $payment_info['payment_script'] != basename($php_url['url'])
+     && $cart['total_cost'] > 0
+ ) {
+     func_header_location($xcart_catalogs['customer'] . "/error_message.php?error_ccprocessor_baddata");

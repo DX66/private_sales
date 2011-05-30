@@ -1,0 +1,21 @@
+Index: include/import_address_book.php
+--- include/import_address_book.php	2011-01-10 16:11:49.000000000 +0300
++++ include/import_address_book.php	2011-02-14 10:56:20.000000000 +0300
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>. All rights reserved
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: import_address_book.php,v 1.5.2.1 2011/01/10 13:11:49 ferz Exp $
++ * @version    $Id: import_address_book.php,v 1.5.2.2 2011/02/14 07:56:20 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -175,7 +175,7 @@
+         $u_row = func_export_get_user($userid);
+ 
+         // Get data
+-        $row = func_query("SELECT * FROM $sql_tbl[address_book] WHERE $sql_tbl[address_book].id = '$userid'");
++        $row = func_query("SELECT * FROM $sql_tbl[address_book] WHERE $sql_tbl[address_book].userid = '$userid'");
+ 
+         if (!$row || !$u_row) {
+             continue;

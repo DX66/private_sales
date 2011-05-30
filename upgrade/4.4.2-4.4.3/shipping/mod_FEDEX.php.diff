@@ -1,0 +1,21 @@
+Index: shipping/mod_FEDEX.php
+--- shipping/mod_FEDEX.php	2011-01-10 16:12:10.000000000 +0300
++++ shipping/mod_FEDEX.php	2011-01-28 15:21:12.000000000 +0300
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: mod_FEDEX.php,v 1.88.2.3 2011/01/10 13:12:10 ferz Exp $
++ * @version    $Id: mod_FEDEX.php,v 1.88.2.4 2011/01/28 12:21:12 ferz Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -89,7 +89,7 @@
+         'INTERNATIONAL_FIRST'                     => '96',
+         'INTERNATIONAL_PRIORITY'                 => '48',
+         'INTERNATIONAL_PRIORITY_FREIGHT'         => '136',
+-        'PRIORITY_OVERNIGHT'                     => '46',
++        'PRIORITY_OVERNIGHT'                     => '45',
+         'SMART_POST'                             => '175',
+         'STANDARD_OVERNIGHT'                     => '46',
+         'FEDEX_FREIGHT'                         => '176',

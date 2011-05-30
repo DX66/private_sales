@@ -1,0 +1,43 @@
+Index: payment/cc_authorizenet_sim.php
+--- payment/cc_authorizenet_sim.php	2011-01-10 16:12:05.000000000 +0300
++++ payment/cc_authorizenet_sim.php	2011-01-27 15:11:13.000000000 +0300
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: cc_authorizenet_sim.php,v 1.53.2.2 2011/01/10 13:12:05 ferz Exp $
++ * @version    $Id: cc_authorizenet_sim.php,v 1.53.2.3 2011/01/27 12:11:13 ferz Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -52,19 +52,19 @@
+     $bill_output['sessid'] = func_query_first_cell("SELECT sessionid FROM $sql_tbl[cc_pp3_data] WHERE ref='".$_POST["x_invoice_num"]."'");
+ 
+     $avserr = array(
+-        'A' => "Address (Street) matches, ZIP does not",
+-        'B' => "Address information not provided for AVS check",
+-        'E' => "AVS error",
+-        'G' => "Non-U.S. Card Issuing Bank",
+-        'N' => "No Match on Address (Street) or ZIP",
++        'A' => "The street address matches, but the 5-digit ZIP code does not",
++        'B' => "Address information was not submitted in the transaction information, so AVS check could not be performed",
++        'E' => "The AVS data provided is invalid, or AVS is not allowed for the card type submitted",
++        'G' => "The credit card issuing bank is of non-U.S. origin and does not support AVS",
++        'N' => "Neither the street address nor the 5-digit ZIP code matches the address and ZIP code on file for the card",
+         'P' => "AVS not applicable for this transaction",
+-        'R' => "Retry - System unavailable or timed out",
+-        'S' => "Service not supported by issuer",
+-        'U' => "Address information is unavailable",
+-        'W' => "9 digit ZIP matches, Address (Street) does not",
++        'R' => "AVS was unavailable at the time the transaction was processed. Retry transaction",
++        'S' => "The U.S. card issuing bank does not support AVS",
++        'U' => "Address information is not available for the customer's credit card",
++        'W' => "The 9-digit ZIP code matches, but the street address does not match",
+         'X' => "Address (Street) and 9 digit ZIP match",
+-        'Y' => "Address (Street) and 5 digit ZIP match",
+-        'Z' => "5 digit ZIP matches, Address (Street) does not"
++        'Y' => "The street address and the first 5 digits of the ZIP code match perfectly",
++        'Z' => "The first 5 digits of the ZIP code matches, but the street address does not match"
+     );
+ 
+     $cvverr = array(

@@ -1,0 +1,18 @@
+Index: provider/search.php
+--- provider/search.php	2011-01-10 16:12:09.000000000 +0300
++++ provider/search.php	2011-02-02 19:01:15.000000000 +0300
+@@ -40,12 +40,12 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: search.php,v 1.78.2.1 2011/01/10 13:12:09 ferz Exp $
++ * @version    $Id: search.php,v 1.78.2.2 2011/02/02 16:01:15 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+ 
+-define('NUMBER_VARS', "posted_data[price_min],posted_data[price_max],posted_data[avail_min],posted_data[avail_max],posted_data[weight_min],posted_data[weight_max]");
++define('NUMBER_VARS', "posted_data['price_min'],posted_data['price_max'],posted_data['avail_min'],posted_data['avail_max'],posted_data['weight_min'],posted_data['weight_max']");
+ require './auth.php';
+ require $xcart_dir.'/include/security.php';
+ 

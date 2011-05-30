@@ -1,0 +1,144 @@
+/*
+$Id: altskin.IE6.css,v 1.1 2010/05/21 08:31:56 joy Exp $
+vim: set ts=2 sw=2 sts=2 et:
+*/
+
+/*
+  Add
+*/
+#page-container2 {
+  background: transparent url(../images/custom/mainbg.gif) repeat scroll left top;
+}
+.more-categories li a {
+  width: 200px;
+  display: inline-block;
+}
+.products a.product-title:link,
+  .products a.product-title:visited,
+  .products a.product-title:hover,
+  .products a.product-title:active,
+  .products .product-title,
+  .product-details .product-title
+{
+  left: 0px;
+}
+.product-details .save {
+  left: -145px;
+}
+
+input.image-button {
+  background-position: left center;
+}
+#left-bar .menu-dialog .content,
+  #right-bar .menu-dialog .content,
+  #right-bar .menu-dialog .title-bar,
+.menu-dialog .title-bar .title-bar-points 
+
+{
+  width: auto;
+}
+
+#right-bar {
+  right: -25px !important;
+}
+
+.dialog .content {
+  border-right: 1px solid #ffffff;
+}
+
+.fancycat-icons-e ul li {
+  width: 198px;
+}
+.fancycat-icons-e ul {
+  width: 198px;
+}
+.fancycat-icons-e ul.fancycat-icons-level-0 a.sub-link:link,
+  .fancycat-icons-e ul.fancycat-icons-level-0 a.sub-link:visited,
+  .fancycat-icons-e ul.fancycat-icons-level-0 a.sub-link:hover,
+  .fancycat-icons-e ul.fancycat-icons-level-0 a.sub-link:active
+{
+  background-image: none;
+}
+.fancycat-icons-e ul.fancycat-icons-level-1 a.sub-link:link,
+  .fancycat-icons-e ul.fancycat-icons-level-1 a.sub-link:visited,
+  .fancycat-icons-e ul.fancycat-icons-level-1 a.sub-link:hover,
+  .fancycat-icons-e ul.fancycat-icons-level-1 a.sub-link:active
+{
+  background-image: url(modules/Flyout_Menus/Icons/tree_subdir_plus.gif);
+}
+.fancycat-icons-e ul li a:link,
+  .fancycat-icons-e ul li a:visited,
+  .fancycat-icons-e ul li a:hover,
+  .fancycat-icons-e ul li a:active
+{
+  width: 198px;
+}
+.fancycat-icons-e ul.fancycat-icons-level-1 li a:link,
+  .fancycat-icons-e ul.fancycat-icons-level-1 li a:visited,
+  .fancycat-icons-e ul.fancycat-icons-level-1 li a:hover,
+  .fancycat-icons-e ul.fancycat-icons-level-1 li a:active
+{
+  width: 210px;
+}
+.fancycat-icons-e ul.fancycat-icons-level-0 li ul,
+  .fancycat-icons-e ul.fancycat-icons-level-0 ul li
+{
+  width: 230px;
+}
+.fancycat-icons-e li ul {
+  right: 185px;
+  border: 0px none;
+  background: #487546 none;
+  padding: 1px;
+}
+.fancycat-icons-e ul li {
+  padding-right: 1px !important;
+  margin-right: 0px !important;
+}
+
+.fancycat-icons-e li ul li ul {
+  right: 215px;
+}
+.fancycat-icons-e li ul li {
+  background: white;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.button-row a.simple-arrow-button:link,
+  .button-row a.simple-arrow-button:visited,
+  .button-row a.simple-arrow-button:hover,
+  .button-row a.simple-arrow-button:active
+{
+  padding-top: 7px;
+  background-position: left 8px;
+}
+.dialog .content {
+  padding-top: 20px;
+  padding-bottom: 25px;
+  zoom: 1;
+}
+
+.bottom-menu {
+  width: auto;
+  margin-right: 240px;
+}
+.bottom-menu td {
+  padding-right: 50px;
+}
+.bottom-menu td .menu-dialog {
+  width: 150px;
+}
+.bottom-menu td.news-box .menu-dialog {
+  width: 250px;
+}
+
+.minicart-box .checkout-popup-link div.buttons-box {
+  top: 22px;
+}
+.minicart-box div.buttons-box .buttons-row {
+}
+
+.product-details .save-percent-container .save {
+  left: -160px !important;
+}

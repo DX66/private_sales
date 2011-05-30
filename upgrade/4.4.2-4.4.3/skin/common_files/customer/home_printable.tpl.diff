@@ -1,0 +1,39 @@
+Index: skin/common_files/customer/home_printable.tpl
+--- skin/common_files/customer/home_printable.tpl	2010-07-27 16:16:48.000000000 +0400
++++ skin/common_files/customer/home_printable.tpl	2011-03-04 16:33:10.000000000 +0300
+@@ -1,5 +1,5 @@
+ {*
+-$Id: home_printable.tpl,v 1.2 2010/07/27 12:16:48 igoryan Exp $
++$Id: home_printable.tpl,v 1.2.2.1 2011/03/04 13:33:10 aim Exp $
+ vim: set ts=2 sw=2 sts=2 et:
+ *}
+ <?xml version="1.0" encoding="{$default_charset|default:"iso-8859-1"}"?>
+@@ -9,12 +9,6 @@
+ <head>
+   {include file="customer/service_head.tpl"}
+ 
+-{capture assign=printing_code}
+-$(document).ready(function(){ldelim}
+-  window.print();
+-{rdelim});
+-{/capture}
+-{load_defer file="printing_code" direct_info=$printing_code type="js"}
+ 
+ </head>
+ <body{$reading_direction_tag}{if $body_onload ne ''} onload="javascript: {$body_onload}"{/if} class="printable{foreach from=$container_classes item=c} {$c}{/foreach}">
+@@ -69,5 +63,15 @@
+ 
+   </div>
+ </div>
++
++{capture assign=printing_code}
++$(document).ready(function(){ldelim}
++  window.print();
++{rdelim});
++{/capture}
++{load_defer file="printing_code" direct_info=$printing_code type="js"}
++
++{load_defer_code type="css"}
++{load_defer_code type="js"}
+ </body>
+ </html>

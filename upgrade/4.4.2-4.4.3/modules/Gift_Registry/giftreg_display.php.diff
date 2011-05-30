@@ -1,0 +1,30 @@
+Index: modules/Gift_Registry/giftreg_display.php
+--- modules/Gift_Registry/giftreg_display.php	2011-01-10 16:11:57.000000000 +0300
++++ modules/Gift_Registry/giftreg_display.php	2011-01-25 12:43:13.000000000 +0300
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: giftreg_display.php,v 1.38.2.1 2011/01/10 13:11:57 ferz Exp $
++ * @version    $Id: giftreg_display.php,v 1.38.2.2 2011/01/25 09:43:13 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -103,7 +103,7 @@
+ 
+         $wl_products = func_products_from_scratch($wl_raw, $user_account['membershipid'], true);
+ 
+-        if ($active_modules['Subscriptions']) {
++        if (!empty($active_modules['Subscriptions'])) {
+             if (!function_exists('SubscriptionProducts'))
+                 if (
+                     file_exists($xcart_dir.'/modules/Subscriptions/subscription.php')
+@@ -115,7 +115,7 @@
+             $wl_products = SubscriptionProducts($wl_products);
+         }
+ 
+-        if ($active_modules['Product_Configurator']) {
++        if (!empty($active_modules['Product_Configurator'])) {
+             include $xcart_dir.'/modules/Product_Configurator/pconf_customer_wishlist.php';
+         }
+     }

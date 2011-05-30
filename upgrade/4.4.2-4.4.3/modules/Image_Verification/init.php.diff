@@ -1,0 +1,23 @@
+Index: modules/Image_Verification/init.php
+--- modules/Image_Verification/init.php	2011-01-10 16:11:58.000000000 +0300
++++ modules/Image_Verification/init.php	2011-04-22 16:14:17.000000000 +0400
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com> 
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: init.php,v 1.26.2.1 2011/01/10 13:11:58 ferz Exp $
++ * @version    $Id: init.php,v 1.26.2.2 2011/04/22 12:14:17 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -66,6 +66,10 @@
+     !empty($active_modules['Survey'])
+     && !defined('QUICK_START')
+ ) {
++    $old_include_init = $include_init;
++    $include_init = false;
++    include $xcart_dir . '/modules/Survey/config.php';
++    $include_init = $old_include_init;
+ 
+     $surveys_ids = func_query_column("SELECT surveyid FROM $sql_tbl[surveys] WHERE survey_type != 'D'");
+ 

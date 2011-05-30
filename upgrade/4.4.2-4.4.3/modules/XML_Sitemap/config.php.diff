@@ -1,0 +1,46 @@
+Index: modules/XML_Sitemap/config.php
+--- modules/XML_Sitemap/config.php	2011-01-10 16:12:04.000000000 +0300
++++ modules/XML_Sitemap/config.php	2011-04-22 16:14:18.000000000 +0400
+@@ -34,17 +34,18 @@
+ /**
+  * Module configuration
+  *
+- * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+- * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+- * @license    http://www.x-cart.com/license.php X-Cart license agreement
+  * @category   X-Cart
+- * @package    Modules
++ * @package    X-Cart
+  * @subpackage XML Sitemap
+- * @version    $Id: config.php,v 1.10.2.1 2011/01/10 13:12:04 ferz Exp $
++ * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
++ * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>. All rights reserved
++ * @license    http://www.x-cart.com/license.php X-Cart license agreement
++ * @version    $Id: config.php,v 1.10.2.2 2011/04/22 12:14:18 aim Exp $
+  * @since      4.4.0
++ * @see        ____file_see____
+  */
+ 
+-if (!defined('XCART_START')) { header('Location: ../../'); die('Access denied'); }
++if ( !defined('XCART_START') ) { header('Location: ../../'); die('Access denied'); }
+ 
+ // Db tables added by the module
+ $sql_tbl['xmlmap_extra']   = 'xcart_xmlmap_extra';
+@@ -119,4 +120,17 @@
+         ),
+     ),
+ );
++
++$_module_dir  = $xcart_dir . XC_DS . 'modules' . XC_DS . 'XML_Sitemap';
++/*
++ Load module functions
++*/
++if (!empty($include_func))
++    require_once $_module_dir . XC_DS . 'func.php';
++
++/*
++ Module initialization
++*/
++if (!empty($include_init))
++    include $_module_dir . XC_DS . 'init.php';
+ ?>

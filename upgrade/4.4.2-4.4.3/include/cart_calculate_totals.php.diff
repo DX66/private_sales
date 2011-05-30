@@ -1,0 +1,154 @@
+Index: include/cart_calculate_totals.php
+--- include/cart_calculate_totals.php	2011-01-10 16:11:48.000000000 +0300
++++ include/cart_calculate_totals.php	2011-03-30 16:51:43.000000000 +0400
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>. All rights reserved
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: cart_calculate_totals.php,v 1.15.2.3 2011/01/10 13:11:48 ferz Exp $
++ * @version    $Id: cart_calculate_totals.php,v 1.15.2.10 2011/03/30 12:51:43 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -50,8 +50,11 @@
+ if (!func_is_cart_empty($cart)) {
+ 
+     if ($checkout_module == 'One_Page_Checkout') {
+-        $paymentid  = isset($paymentid) ? $paymentid : $cart['paymentid'];
+-        $shippingid = $cart['shippingid'];
++        $paymentid = func_cart_get_paymentid($cart, 'One_Page_Checkout');
++        $cart = func_cart_set_paymentid($cart, $paymentid);
++
++        if (isset($cart['shippingid']))
++            $shippingid = $cart['shippingid'];
+     }
+     // Make md5 of the totals
+     $totals_checksum_fields = array(
+@@ -121,66 +124,15 @@
+         $userinfo['b_statename']   = $userinfo['s_statename']   = func_get_state($userinfo['s_state'], $userinfo['s_country']);
+     }
+ 
+-    // Check if shipping cost needs to be calculated
+-    $need_shipping = false;
+-
+-    if (
+-        $config['Shipping']['enable_shipping'] == 'Y'
+-        && is_array($products)
+-        && (
+-            !empty($userinfo)
+-            || $config['General']['apply_default_country'] == 'Y'
+-            || $config['Shipping']['enable_all_shippings'] == 'Y'
+-        )
+-    ) {
+-        foreach ($products as $pKey => $product) {
+-
+-            if (!empty($active_modules['Special_Offers'])) {
+-
+-               $products[$pKey]['free_shipping_used'] = $product['free_shipping_used'] = false;
+-
+-            }
+-
+-            if (
+-                !empty($product["distribution"])
+-                || (
+-                    (
+-                        $product['free_shipping'] == 'Y'
+-                        || $product['free_shipping_used']
+-                    )
+-                    && $config['Shipping']['do_not_require_shipping'] == 'Y'
+-                )
+-            ) {
+-                continue;
+-            }
+-
+-            // Check if all products in the cart have shipping freight
+-
+-            if (
+-                $config['Shipping']['replace_shipping_with_freight'] == 'Y'
+-                && $product['shipping_freight'] > 0
+-            ) {
+-                continue;
+-            }
+-
+-            $need_shipping = true;
+-
+-            break;
+-
++    // Init free_shipping_used key bt:0066433    
++    foreach ($products as $pKey => $product) {
++        if (!empty($active_modules["Special_Offers"])) {
++            $products[$pKey]["free_shipping_used"] = false;
+         }
+-
+-    }
+-
+-    // Process discount coupons
+-    if (
+-        $active_modules['Discount_Coupons']
+-        && isset($cart['coupon_type'])
+-        && $cart['coupon_type'] == 'free_ship'
+-        && $config['Shipping']['do_not_require_shipping'] == 'Y'
+-        && $need_shipping
+-    ) {
+-        $need_shipping = false;
+     }
++    
++    // Check if shipping cost needs to be calculated
++    $need_shipping = func_cart_is_need_shipping($cart, $products, $userinfo);
+ 
+     // Get the allowed shipping methods list
+     if ($need_shipping) {
+@@ -225,7 +177,7 @@
+         }
+ 
+         if (!$shipping_matched && !empty($shipping))
+-            $cart['shippingid'] = $shipping[0]['shippingid'];
++            $cart = func_cart_set_shippingid($cart, $shipping[0]['shippingid']);
+ 
+         if (!empty($shipping)) {
+             foreach ($shipping as $shipping_method) {
+@@ -242,11 +194,11 @@
+ 
+         $shipping = '';
+         $cart['delivery'] = '';
+-        $cart['shippingid'] = 0;
++        $cart = func_cart_set_shippingid($cart, 0);
+ 
+     } // if ($need_shipping)
+ 
+-    if ($active_modules['Special_Offers']) {
++    if (!empty($active_modules['Special_Offers'])) {
+ 
+         include $xcart_dir . '/modules/Special_Offers/apply_free_offers.php';
+ 
+@@ -281,7 +233,7 @@
+ 
+     } else {
+ 
+-        $products = func_products_in_cart($cart, $userinfo['membershipid']);
++        $products = func_products_in_cart($cart, @$userinfo['membershipid']);
+ 
+         // Correct displayed tax_value (changed by Special_Offers) bt:#93897
+         if (
+@@ -320,7 +272,7 @@
+         if (empty($need_shipping)) {
+ 
+             $cart['delivery']     = '';
+-            $cart['shippingid'] = 0;
++            $cart = func_cart_set_shippingid($cart, 0);
+ 
+             $shipping             = '';
+ 
+@@ -348,12 +300,6 @@
+ 
+     }
+ 
+-    if (isset($amazon_enabled) && $amazon_enabled) {
+-
+-        include $xcart_dir . '/modules/Amazon_Checkout/cart.php';
+-
+-    }
+-
+     if (!empty($cart['split_query'])) {
+ 
+         $cart['split_query']['paid_amount'] = func_calculate_paid_amount($cart);

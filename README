@@ -1,0 +1,136 @@
+X-CART README
+=============
+
+Welcome!
+This file contains basic information about X-Cart. More detailed information 
+is available in X-Cart User manual.
+
+I.    SYSTEM REQUIREMENTS
+II.   INSTALLATION
+III.  COMMENTS FOR DEVELOPER
+IV.   X-CART STRUCTURE
+V.    X-CART FILES
+VI.   DEFAULT ACCOUNTS
+VII.  SETTING UP AND CONFIGURING
+VIII. BUG REPORTS
+
+
+I. SYSTEM REQUIREMENTS
+======================
+
+For detailed information  on system requirements, refer to the User manual  for 
+your X-Cart version. You can find it in the file area of the Support HelpDesk or
+on our website (http://help.qtmsoft.com/index.php?title=X-Cart:User_manual_contents).
+System requirements information is also available on this page:
+http://help.qtmsoft.com/index.php?title=X-Cart:Server_Requirements_(latest_X-Cart_version)
+
+Because of bugs in Opera v10.0, X-Cart will not work in this browser when an IP address is used in the store URL. Please use a domain name or upgrade/change your browser.
+
+II. INSTALLATION
+================
+
+For detailed instructions on X-Cart installation, refer to the User manual for 
+your X-Cart version.
+
+
+III. COMMENTS FOR DEVELOPER
+===========================
+
+There are several ways to customize the look and feel of X-Cart:
+
+1. You can modify the Smarty templates out of which the store's pages are built.
+The templates can be edited using X-Cart's "Edit templates" or "Webmaster mode" 
+features or any decent text editor.
+
+2. You can modify the presentation of the store's pages (color, etc) by editing 
+X-Cart's CSS files. These files can be edited using X-Cart's "Edit templates"
+feature or any decent text editor.
+
+3. You can upload your own images for use in the store's user interface to
+the directory <xcart-dir>/skin1/images/ and get the store's templates to use 
+them. The images can be uploaded using FTP or X-Cart's "Edit templates" feature. 
+4. Most  of  X-Cart  texts  are  stored in "language variables".  You can  edit 
+language  variables  under  the  "Languages" section  of  the  admin interface.
+
+For information on Smarty, refer to the Smarty manual at 
+http://www.smarty.net/manual/en/.
+
+For detailed information on editing X-Cart's template and CSS files, as well as 
+instructions for editing X-Cart's language variables, refer to the User manual 
+for your X-Cart version.
+
+To get a detailed consultation about modifying X-Cart, contact our support
+service using your personal Support HelpDesk account at https://secure.qtmsoft.com.
+
+
+IV. X-CART STRUCTURE
+====================
+
+1. PHP scripts:
+   a) Customer related scripts are located in the ./ (root) directory.
+   b) Administrator related scripts are located in the ./admin directory.
+   c) Provider related scripts are located in the ./provider directory.
+   d) Common scripts are located in the ./include directory.
+   e) Modules related scripts are located in the ./modules directory.
+   f) Customer/Administrator/Provider related scripts location is configured in
+      the ./top.inc.php script.
+
+2. Smarty class scripts are located in ./include/lib/smarty directory.
+
+3. CSS styles are described in ./skin1/*.css file.
+
+4. Smarty templates configuration can be found in ./skin1/skin1.conf file.
+
+5. Templates directory:
+   a) Common templates are located in the ./skin1 and ./skin1/main directories.
+   b) Templates for the Customer area are located in the ./skin1/customer directory.
+   c) Templates for the Admin area are located in the ./skin1/admin directory.
+   d) Templates for the Provider area are located in the ./skin1/provider directory.
+   e) Mail templates are located in the ./skin1/mail directory.
+   f) Templates for X-Cart modules are located in the ./skin1/modules directory.
+
+6. Compiled templates (for cache and Smarty internal use): ./var/templates_c
+
+7. Dump of MySQL database is in ./sql/*.sql file.
+
+8. Website images are located in ./skin1/images directory.
+
+9. Product images, category images, manufacturer images etc are located in the 
+./images directory.
+
+10. Files related to integrated shipping modules are located in the ./shipping
+   directory.
+
+
+V. SETTING UP AND CONFIGURING
+===============================
+
+X-Cart system configuration is divided into several files.  
+
+X-Cart's main configuration file - "config.php" -  is  located  under  main  
+X-Cart  directory. This file contains variables for the following:
+
+* SQL DB information
+* Single Store operation mode flag
+* Safe Administrator mode flag
+* Customer titles
+* Credit Card types accepted by your store
+* etc
+
+X-Cart's template configuration file is "skin1.conf". Configuration variables from
+this file are used in templates and affect the look and feel of your store.
+
+
+VI. BUG REPORTS
+=================
+
+You can report bugs and suggestions for improving X-Cart using your personal 
+Support HelpDesk account at https://secure.qtmsoft.com.
+
+
+                                 *  *  *  *  *
+
+X-Cart
+Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+All rights reserved.
+

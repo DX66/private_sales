@@ -1,0 +1,85 @@
+/* vim: set ts=2 sw=2 sts=2 et: */
+/**
+ * Gift certificates Module CSS stylesheet
+ *  
+ * @category   X-Cart
+ * @package    X-Cart
+ * @subpackage CSS
+ * @author     Ruslan R. Fazlyev <rrf@x-cart.com> 
+ * @version    $Id: main.css,v 1.2 2010/05/31 06:08:29 igoryan Exp $
+ * @link       http://www.x-cart.com/
+ * @see        ____file_see____
+ */
+
+
+/**
+ * Gift certificate page 
+ */
+.giftcert-header {
+  vertical-align: middle;
+  padding-bottom: 15px;
+}
+
+.giftcert-header img {
+  width: 61px;
+  height: 67px;
+  background: transparent url(../../images/gift.gif) no-repeat left top;
+  float: left;
+  margin: 0 15px 15px 0;
+}
+
+.giftcert-table .giftcert-title {
+  color: #b51a00;
+  font-weight: bold;
+  font-size: 12px;
+  padding: 10px 0 0;
+}
+
+.giftcert-table .data-name {
+  text-align: right;
+}
+
+.giftcert-table .giftcert-subtitle {
+  padding-bottom: 30px;
+}
+
+.giftcert-table .giftcert-h-separator {
+  padding: 15px 0;
+}
+
+.giftcert-table .giftcert-h-separator hr {
+  border-bottom: 1px solid #ccc;
+}
+
+.giftcert-table .buttons-row #preview_button {
+  float: left;
+}
+
+.giftcert-table .giftcert-delivery-method {
+  font-weight: bold;
+}
+
+table.data-table tr#preview_template td {
+  vertical-align: middle;
+}
+
+#preview_template td select {
+  margin-right: 20px;
+}
+
+/**
+ * Cart page 
+ */
+.giftcert-item .image img {
+  width: 84px;
+  height: 69px;
+  background: transparent url(../../images/gift.gif) no-repeat left top;
+}
+
+.giftcert-item .giftcert-item-row .giftcert-item-subtitle {
+  padding-right: 3px;
+}
+
+.giftcert-item .product-title {
+  padding-bottom: 15px;
+}

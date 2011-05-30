@@ -1,0 +1,13 @@
+/*
+$Id: main.IE6.css,v 1.1 2010/05/21 08:32:21 joy Exp $
+vim: set ts=2 sw=2 sts=2 et:
+*/
+.fcomp-list UL LI {
+	width: 100%;
+}
+.fcomp-toolbar {
+  margin-right: 0px;
+}
+.fcomp-popup-products-list {
+  width: 99%;
+}

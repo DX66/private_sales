@@ -1,0 +1,1 @@
+86d20210b0362f05bab4fbc40c75f058a:1:{s:16:"lbl_close_window";s:12:"Close window";}

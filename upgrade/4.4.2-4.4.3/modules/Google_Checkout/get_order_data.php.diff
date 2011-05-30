@@ -1,0 +1,22 @@
+Index: modules/Google_Checkout/get_order_data.php
+--- modules/Google_Checkout/get_order_data.php	2011-01-10 16:11:58.000000000 +0300
++++ modules/Google_Checkout/get_order_data.php	2011-02-04 13:12:26.000000000 +0300
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: get_order_data.php,v 1.13.2.1 2011/01/10 13:11:58 ferz Exp $
++ * @version    $Id: get_order_data.php,v 1.13.2.2 2011/02/04 10:12:26 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -49,6 +49,9 @@
+ 
+ $order['gcheckout_data'] = func_query_first("SELECT * FROM $sql_tbl[gcheckout_orders] WHERE orderid='$orderid'");
+ 
++if (empty($order['gcheckout_data']))
++    return ;
++
+ if ($current_area == 'A' || ($current_area == 'P' && !empty($active_modules['Simple_Mode']))) {
+     // Get all linked orders
+     $order['gcheckout_data']['linked_orders'] = func_query("SELECT $sql_tbl[orders].orderid, $sql_tbl[orders].total FROM $sql_tbl[gcheckout_orders], $sql_tbl[orders] WHERE $sql_tbl[gcheckout_orders].orderid=$sql_tbl[orders].orderid AND $sql_tbl[gcheckout_orders].goid='{$order['gcheckout_data']['goid']}' ORDER BY $sql_tbl[orders].orderid");

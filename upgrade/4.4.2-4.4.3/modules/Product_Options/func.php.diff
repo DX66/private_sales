@@ -1,0 +1,39 @@
+Index: modules/Product_Options/func.php
+--- modules/Product_Options/func.php	2011-01-10 16:12:00.000000000 +0300
++++ modules/Product_Options/func.php	2011-03-07 15:56:20.000000000 +0300
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: func.php,v 1.128.2.3 2011/01/10 13:12:00 ferz Exp $
++ * @version    $Id: func.php,v 1.128.2.6 2011/03/07 12:56:20 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -133,7 +133,7 @@
+ 
+                 }
+ 
+-                $classes[$kc]['options'][$ko]["taxes"] = $_taxes["taxes"];
++                $classes[$kc]['options'][$ko]["taxes"] = !empty($_taxes["taxes"]) ? $_taxes["taxes"] : '';
+ 
+             }
+ 
+@@ -1900,7 +1900,7 @@
+     }
+ 
+     // Get class options
+-    $options = func_query_hash("SELECT classid, optionid FROM $sql_tbl[class_options] WHERE classid IN ('".implode("','", array_keys($classes))."') AND avail = 'Y' ORDER BY orderby", "classid", true, true);
++    $options = func_query_hash("SELECT classid, optionid FROM $sql_tbl[class_options] WHERE classid IN ('".implode("','", array_keys($classes))."') AND avail = 'Y' ORDER BY orderby, optionid", "classid", true, true);
+ 
+     $_flag = false;
+ 
+@@ -2208,7 +2208,7 @@
+ {
+     global $active_modules;
+ 
+-    return $active_modules['Product_Options'] && $active_modules['Product_Configurator'];
++    return !empty($active_modules['Product_Options']) && !empty($active_modules['Product_Configurator']);
+ }
+ 
+ function func_ic_get_size_pvarthmbn($width, $height)

@@ -1,0 +1,61 @@
+Index: include/func/func.import.php
+--- include/func/func.import.php	2011-01-10 16:11:51.000000000 +0300
++++ include/func/func.import.php	2011-03-14 14:04:20.000000000 +0300
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: func.import.php,v 1.25.2.3 2011/01/10 13:11:51 ferz Exp $
++ * @version    $Id: func.import.php,v 1.25.2.6 2011/03/14 11:04:20 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -194,7 +194,7 @@
+ function func_import_rebuild_product($productid)
+ {
+     global $active_modules;
+-    if ($active_modules['Recommended_Products']) {
++    if (!empty($active_modules['Recommended_Products'])) {
+         func_refresh_product_rnd_keys($productid);
+     }
+ 
+@@ -359,30 +359,6 @@
+ }
+ 
+ /**
+- * Check array elements emptiness
+- */
+-function func_array_empty($data)
+-{
+-    if (empty($data))
+-        return true;
+-
+-    if (!is_array($data))
+-        return empty($data);
+-
+-    foreach ($data as $v) {
+-        if (is_array($v)) {
+-            if (!func_array_empty($v))
+-                return false;
+-
+-        } elseif (!empty($v)) {
+-            return false;
+-        }
+-    }
+-
+-    return true;
+-}
+-
+-/**
+  * This function checks if current row contains the section tag
+  */
+ function func_import_tag($columns)
+@@ -762,7 +738,7 @@
+             $prop = func_query_first("SELECT image_path, filename, (image IS NOT NULL AND LENGTH(image) > '0') AS in_db FROM ".$sql_tbl['images_'.$type]." WHERE id = '$id'");
+ 
+             // Check imported image the same that assigned
+-            if (!zerolen($prop['image_path']) && !is_url($prop['image_path']) && !$prop['in_db']) {
++            if (!empty($prop) && !zerolen($prop['image_path']) && !is_url($prop['image_path']) && !$prop['in_db']) {
+                 $image_path = $prop['image_path'];
+                 if (zerolen($image_path)) {
+                     $image_path = func_relative_path(func_image_dir($type).'/'.$prop['filename']);

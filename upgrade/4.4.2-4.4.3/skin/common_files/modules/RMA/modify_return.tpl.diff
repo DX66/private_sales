@@ -1,0 +1,19 @@
+Index: skin/common_files/modules/RMA/modify_return.tpl
+--- skin/common_files/modules/RMA/modify_return.tpl	2010-05-21 12:32:47.000000000 +0400
++++ skin/common_files/modules/RMA/modify_return.tpl	2011-01-20 11:03:46.000000000 +0300
+@@ -1,5 +1,5 @@
+ {*
+-$Id: modify_return.tpl,v 1.1 2010/05/21 08:32:47 joy Exp $
++$Id: modify_return.tpl,v 1.1.2.1 2011/01/20 08:03:46 aim Exp $
+ vim: set ts=2 sw=2 sts=2 et:
+ *}
+ 
+@@ -15,7 +15,7 @@
+ {if $usertype ne 'C'}
+ <tr>
+   <td>{$lng.lbl_customer}</td>
+-  <td><a href="user_modify.php?user={$return.order.userid}&amp;usertype=C">{$return.order.firstname} {$return.order.lastname}</a></td>
++  <td><a href="{$catalogs.admin}/user_modify.php?user={$return.order.userid}&amp;usertype=C">{$return.order.firstname} {$return.order.lastname}</a></td>
+ </tr>
+ {/if}
+ <tr>

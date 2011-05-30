@@ -1,0 +1,23 @@
+Index: admin/partner_adv_campaigns.php
+--- admin/partner_adv_campaigns.php	2011-01-10 16:11:46.000000000 +0300
++++ admin/partner_adv_campaigns.php	2011-02-02 19:01:14.000000000 +0300
+@@ -40,16 +40,16 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: partner_adv_campaigns.php,v 1.22.2.1 2011/01/10 13:11:46 ferz Exp $
++ * @version    $Id: partner_adv_campaigns.php,v 1.22.2.3 2011/02/02 16:01:14 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+ 
+-define('NUMBER_VARS', "add[per_visit],add[per_period]");
++define('NUMBER_VARS', "add['per_visit'],add['per_period']");
+ require './auth.php';
+ require $xcart_dir.'/include/security.php';
+ 
+-if(!$active_modules['XAffiliate'])
++if (empty($active_modules['XAffiliate']))
+     func_403(29);
+ 
+ $location[] = array(func_get_langvar_by_name('lbl_adv_campaigns_management'), "");

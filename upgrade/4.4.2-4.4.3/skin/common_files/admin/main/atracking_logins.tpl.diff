@@ -1,0 +1,23 @@
+Index: skin/common_files/admin/main/atracking_logins.tpl
+--- skin/common_files/admin/main/atracking_logins.tpl	2010-05-21 12:31:58.000000000 +0400
++++ skin/common_files/admin/main/atracking_logins.tpl	2011-04-22 18:20:59.000000000 +0400
+@@ -1,5 +1,5 @@
+ {*
+-$Id: atracking_logins.tpl,v 1.1 2010/05/21 08:31:58 joy Exp $
++$Id: atracking_logins.tpl,v 1.1.2.2 2011/04/22 14:20:59 aim Exp $
+ vim: set ts=2 sw=2 sts=2 et:
+ *}
+ {if $statistics}
+@@ -16,10 +16,10 @@
+ {section name=idx loop=$statistics}
+ <tr>
+   <td nowrap="nowrap">{$statistics[idx].date_time|date_format:$config.Appearance.datetime_format}</td>
+-  <td><a href="user_modify.php?user={$statistics[idx].userid}&amp;usertype={$statistics[idx].usertype}">{$statistics[idx].login}</a></td>
++  <td><a href="{$catalogs.admin}/user_modify.php?user={$statistics[idx].userid}&amp;usertype={$statistics[idx].usertype}">{$statistics[idx].login}</a></td>
+   <td>{$statistics[idx].usertype}</td>
+   <td>{$statistics[idx].action}</td>
+-  <td>{$statistics[idx].ip}</td>
++  <td>{$statistics[idx].s_ip}</td>
+   <td>{if $statistics[idx].status ne "success"}<font class="Star"><b>{/if}{$statistics[idx].status}{if $statistics[idx].status ne "success"}</b></font>{/if}</td>
+ </tr>
+ {/section}

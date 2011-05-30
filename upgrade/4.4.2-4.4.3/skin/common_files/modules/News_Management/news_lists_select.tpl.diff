@@ -1,0 +1,19 @@
+Index: skin/common_files/modules/News_Management/news_lists_select.tpl
+--- skin/common_files/modules/News_Management/news_lists_select.tpl	2010-07-21 15:58:50.000000000 +0400
++++ skin/common_files/modules/News_Management/news_lists_select.tpl	2011-01-24 18:36:35.000000000 +0300
+@@ -1,5 +1,5 @@
+ {*
+-$Id: news_lists_select.tpl,v 1.4 2010/07/21 11:58:50 aim Exp $
++$Id: news_lists_select.tpl,v 1.4.2.1 2011/01/24 15:36:35 aim Exp $
+ vim: set ts=2 sw=2 sts=2 et:
+ *}
+ {capture name="dialog"}
+@@ -53,7 +53,7 @@
+   <input type="hidden" name="posted_data[{$lists[idx].listid}][listid]" value="{$lists[idx].listid}" />
+   <input type="checkbox" name="to_delete[{$lists[idx].listid}]" />
+   </td>
+-  <td><b><a href="news.php?mode=modify&amp;targetlist={$lists[idx].listid}" title="Click for details">{$lists[idx].name}</a></b></td>
++  <td><b><a href="news.php?mode=modify&amp;targetlist={$lists[idx].listid}" title="{$lng.lbl_sp_click_for_details}">{$lists[idx].name|escape}</a></b></td>
+   <td align="center"><input type="checkbox" name="posted_data[{$lists[idx].listid}][show_as_news]"{if $lists[idx].show_as_news eq "Y"} checked="checked"{/if} /></td>
+   <td align="center"><input type="checkbox" name="posted_data[{$lists[idx].listid}][avail]"{if $lists[idx].avail eq "Y"} checked="checked"{/if} /></td>
+ </tr>

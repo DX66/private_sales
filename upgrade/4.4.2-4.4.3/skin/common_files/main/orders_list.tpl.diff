@@ -1,0 +1,31 @@
+Index: skin/common_files/main/orders_list.tpl
+--- skin/common_files/main/orders_list.tpl	2010-12-15 12:44:39.000000000 +0300
++++ skin/common_files/main/orders_list.tpl	2011-02-02 18:56:47.000000000 +0300
+@@ -1,5 +1,5 @@
+ {*
+-$Id: orders_list.tpl,v 1.8.2.2 2010/12/15 09:44:39 aim Exp $
++$Id: orders_list.tpl,v 1.8.2.4 2011/02/02 15:56:47 aim Exp $
+ vim: set ts=2 sw=2 sts=2 et:
+ *}
+ {assign var="total" value=0.00}
+@@ -56,9 +56,9 @@
+ <input type="hidden" name="order_status_old[{$orders[oid].orderid}]" value="{$orders[oid].status}" />
+ {if $orders[oid].goid ne ""}
+ {assign var="is_gcheckout_orders" value="1"}
+-{include file="main/order_status.tpl" status=$orders[oid].status mode="select" name="order_status[`$orders[oid].orderid`]" extra="disabled='disabled'"}
++{include file="main/order_status.tpl" status=$orders[oid].status mode="select" name="order_status[`$orders[oid].orderid`]" extra="disabled='disabled' class='ui-state-disabled'"}
+ {elseif $orders[oid].status_blocked}
+-{include file="main/order_status.tpl" status=$orders[oid].status mode="select" name="order_status[`$orders[oid].orderid`]" extra="disabled='disabled'"}
++{include file="main/order_status.tpl" status=$orders[oid].status mode="select" name="order_status[`$orders[oid].orderid`]" extra="disabled='disabled' class='ui-state-disabled'"}
+ {else}
+ {include file="main/order_status.tpl" status=$orders[oid].status mode="select" name="order_status[`$orders[oid].orderid`]"}
+ {/if}
+@@ -71,7 +71,7 @@
+   </td>
+   <td>
+     {if $is_admin_user and $current_membership_flag ne 'FS' and $orders[oid].existing_userid eq $orders[oid].userid}
+-      <a href="user_modify.php?user={$orders[oid].userid|escape:"url"}&amp;usertype=C" title="{$lng.lbl_modify_profile|escape}" target="_blank">{$orders[oid].firstname|default:$orders[oid].b_firstname} {$orders[oid].lastname|default:$orders[oid].b_lastname}</a>
++      <a href="{$catalogs.admin}/user_modify.php?user={$orders[oid].userid|escape:"url"}&amp;usertype=C" title="{$lng.lbl_modify_profile|escape}" target="_blank">{$orders[oid].firstname|default:$orders[oid].b_firstname} {$orders[oid].lastname|default:$orders[oid].b_lastname}</a>
+     {else}
+       {$orders[oid].firstname} {$orders[oid].lastname} 
+       {if $orders[oid].existing_userid ne $orders[oid].userid and $orders[oid].userid gt 0}

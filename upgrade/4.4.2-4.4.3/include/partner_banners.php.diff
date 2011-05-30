@@ -1,0 +1,68 @@
+Index: include/partner_banners.php
+--- include/partner_banners.php	2011-01-10 16:11:50.000000000 +0300
++++ include/partner_banners.php	2011-04-12 16:22:03.000000000 +0400
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: partner_banners.php,v 1.25.2.1 2011/01/10 13:11:50 ferz Exp $
++ * @version    $Id: partner_banners.php,v 1.25.2.4 2011/04/12 12:22:03 ferz Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -87,7 +87,7 @@
+     'title' => func_get_langvar_by_name('lbl_add_category_banner')
+ );
+ 
+-if ($active_modules['Manufacturers']) {
++if (!empty($active_modules['Manufacturers'])) {
+ 
+     $dialog_tools_data['left'][] = array(
+         'link'  => 'partner_banners.php?banner_type=F',
+@@ -158,7 +158,7 @@
+ 
+     // Add/Modify banner
+ 
+-    if ($banner_type == 'F' && !$active_modules['Manufacturers']) {
++    if ($banner_type == 'F' && empty($active_modules['Manufacturers'])) {
+         func_header_location('partner_banners.php');
+     }
+ 
+@@ -313,7 +313,7 @@
+     }
+     $_get = ($is_new || $mode2 == 'choose_elem') ? '&get=1' : '';
+ 
+-    func_header_location('partner_banners.php?bannerid=' . $bannerid . $get);
++    func_header_location('partner_banners.php?bannerid=' . $bannerid . $_get);
+ 
+ } elseif ($mode == 'delete') {
+ 
+@@ -623,20 +623,22 @@
+     $smarty->assign('banners', $banners);
+ }
+ 
+-$smarty->assign('elements_names', $elements_names);
+-
+ if ($banner_type) {
+-    $smarty->assign ('banner_type', $banner_type);
++    $smarty->assign('banner_type', $banner_type);
+ }
+ 
+-$smarty->assign ('now', XC_TIME);
++if ($is_partner_area) {
++    $smarty->assign('current_partner', $logged_userid);
++}
+ 
+-$smarty->assign (
++$smarty->assign(
+     'has_elements',
+     func_query_first_cell("SELECT COUNT(*) FROM $sql_tbl[images_L]")
+ );
+ 
+-$smarty->assign ('main', 'partner_banners');
++$smarty->assign('now',            XC_TIME);
++$smarty->assign('main',           'partner_banners');
++$smarty->assign('elements_names', $elements_names);
+ 
+ // Assign the current location line
+ $smarty->assign('location', $location);

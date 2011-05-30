@@ -1,0 +1,807 @@
+Index: include/func/func.user.php
+--- include/func/func.user.php	2011-01-10 16:11:52.000000000 +0300
++++ include/func/func.user.php	2011-04-25 12:18:01.000000000 +0400
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: func.user.php,v 1.137.2.20 2011/01/10 13:11:52 ferz Exp $
++ * @version    $Id: func.user.php,v 1.137.2.37 2011/04/25 08:18:01 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -237,6 +237,7 @@
+     db_query("DELETE FROM $sql_tbl[register_field_values] WHERE userid='$user'");
+     db_query("DELETE FROM $sql_tbl[old_passwords] WHERE userid='$user'");
+     db_query("DELETE FROM $sql_tbl[customers] WHERE id='$user'");
++    db_query("DELETE FROM $sql_tbl[stats_cart_funnel] WHERE userid='$user'");
+     db_query("DELETE FROM $sql_tbl[login_history] WHERE userid='$user'");
+     db_query("DELETE FROM $sql_tbl[stats_customers_products] WHERE userid='$user'");
+     db_query("DELETE FROM $sql_tbl[wishlist] WHERE userid = '$user'");
+@@ -337,13 +338,15 @@
+ 
+     global $store_cc, $store_cvv2;
+ 
+-    global $anonymous_userinfo;
+-
+-    // $cart['used_s_address'] can be changed in func_adjust_customer_address when $merge_cart_info is true
+-    // $cart['used_*_address'] in func_adjust_customer_address when $merge_cart_info is true
++    // $cart['used_s_address'] can be changed in Func_adjust_customer_address when $merge_cart_info is true
++    // $cart['used_*_address'] in Func_adjust_customer_address when $merge_cart_info is true
+     global $cart;
+ 
+     static $result = array();
++    $cart_used_b_address = func_get_cart_address('b');
++    $cart_used_s_address = func_get_cart_address('s');
++
++    $_anonymous_userinfo = func_get_anonymous_userinfo();
+ 
+     $need_password = (bool)$need_password;
+     $need_cc = (bool)$need_cc;
+@@ -357,36 +360,35 @@
+         $need_password, 
+         $need_cc, 
+         $profile_area, 
+-        $anonymous_userinfo, 
++        $_anonymous_userinfo, 
+         $merge_cart_info, 
+-        isset($cart['used_b_address']) ? $cart['used_b_address'] : '',
+-        isset($cart['used_s_address']) ? $cart['used_b_address'] : ''
++        $cart_used_b_address,
++        $cart_used_s_address
+     )));
+ 
+     if (isset($result[$md5_args])) {
+         return $result[$md5_args];
+     }
+ 
++    $force_need_cc = ($current_area == 'C' && $config['General']['disable_cc'] != 'Y');
+     if ( 0 === $user) {
+ 
+         // Anonymous profile
+ 
+         if (
+-            !$anonymous_userinfo
+-            || empty($anonymous_userinfo)
++            empty($_anonymous_userinfo)
++            || !$_anonymous_userinfo
+         ) {
+             $result[$md5_args] = false;
+             return false;
+         }
+ 
+-        $userinfo = $anonymous_userinfo;
++        $userinfo = $_anonymous_userinfo = func_stripslashes($_anonymous_userinfo);
+ 
+     } else {
+ 
+         // Get info about registered user
+ 
+-        $force_need_cc = ($current_area == 'C' && $config['General']['disable_cc'] != 'Y');
+-
+         if (
+             $need_password
+             || $need_cc
+@@ -432,10 +434,15 @@
+ 
+     if (!empty($userinfo)) {
+ 
+-        $userinfo['titleid'] = func_detect_title(addslashes($userinfo['title']));
+-        $userinfo['title']   = func_get_title($userinfo['titleid']);
++        if (!empty($userinfo['title'])) {
++            $userinfo['titleid'] = func_detect_title(addslashes($userinfo['title']));
++            $userinfo['title']   = func_get_title($userinfo['titleid']);
++        }            
+ 
+-        if ($need_password) {
++        if (
++            $need_password
++            && isset($userinfo['password'])
++        ) {
+ 
+             $userinfo['passwd1'] = $userinfo['passwd2'] = $userinfo['password'] = text_decrypt($userinfo['password']);
+ 
+@@ -602,7 +609,8 @@
+ 
+     }
+ 
+-    $email = $userinfo['email'];
++    if (isset($userinfo['email']))
++        $email = $userinfo['email'];
+ 
+     // Get additional fields
+     $additional_fields = func_get_additional_fields($profile_area, $user);
+@@ -650,13 +658,13 @@
+             }
+ 
+         } elseif (
+-            isset($anonymous_userinfo['address'])
+-            && !empty($anonymous_userinfo['address'])
++            isset($_anonymous_userinfo['address'])
++            && !empty($_anonymous_userinfo['address'])
+         ) {
+ 
+             // Prepare address information
+ 
+-            foreach ($anonymous_userinfo['address'] as $type => $address) {
++            foreach ($_anonymous_userinfo['address'] as $type => $address) {
+ 
+                 $address = $userinfo['address'][$type] = func_prepare_address($address);
+ 
+@@ -691,17 +699,17 @@
+         && $merge_cart_info
+         && 
+             (
+-                isset($cart['used_b_address'])
+-                || isset($cart['used_s_address'])
++                !empty($cart_used_b_address)
++                || !empty($cart_used_s_address)
+             )
+     ) {
+-        // Adjust addresses for logged in customer
+-        func_adjust_customer_address($cart, $userinfo);
++        // Adjust addresses for logged in customer ($cart can be changed)
++        list($cart, $userinfo) = func_adjust_customer_address($cart, $userinfo);
+     }
+ 
+     // Add these fields for backward compatibility with 43x code like payment gateways
+-    $userinfo['phone'] = empty($userinfo['b_phone']) ? $userinfo['s_phone'] : $userinfo['b_phone'];
+-    $userinfo['fax'] = empty($userinfo['b_fax']) ? $userinfo['s_fax'] : $userinfo['b_fax'];
++    $userinfo['phone'] = empty($userinfo['b_phone']) ? @$userinfo['s_phone'] : $userinfo['b_phone'];
++    $userinfo['fax'] = empty($userinfo['b_fax']) ? @$userinfo['s_fax'] : $userinfo['b_fax'];
+ 
+     $result[$md5_args] = $userinfo;
+ 
+@@ -939,13 +947,21 @@
+     global $default_address_book_fields;
+     global $default_contact_us_fields;
+ 
++    global $shop_language;
++
+     settype($page, 'string');
+     settype($avail_only, 'boolean');
+     settype($quick_hash, 'boolean');
+ 
+     $md5_args = md5(serialize(array(
+         $default_user_profile_fields, $default_address_book_fields, $default_contact_us_fields,
+-        $page, $avail_only, $quick_hash
++        $fields_area, $page, $avail_only, $quick_hash, 
++        $config['User_Profiles']['register_fields'], 
++        $config['User_Profiles']['address_book_fields'], 
++        $config['Contact_Us']['contact_us_fields'],
++        $config['default_customer_language'],
++        $config['default_admin_language'],
++        $shop_language // To work cache correctly for the function call stack:func_get_default_field->func_get_langvar_by_name
+     )));
+ 
+     if ($data = func_get_cache_func($md5_args, 'get_default_fields')) {
+@@ -1163,7 +1179,9 @@
+  */
+ function func_get_additional_fields($area = '', $user = '')
+ {
+-    global $sql_tbl, $shop_language, $is_anonymous, $anonymous_userinfo;
++    global $sql_tbl, $shop_language, $is_anonymous;
++
++    $_anonymous_userinfo = func_get_anonymous_userinfo();
+ 
+     if ($area) {
+ 
+@@ -1189,10 +1207,10 @@
+             if ( 
+                 $is_anonymous
+                 && $area
+-                && isset($anonymous_userinfo['additional_values'][$v['fieldid']]) 
++                && isset($_anonymous_userinfo['additional_values'][$v['fieldid']]) 
+             ) {
+                 // Anonymous profile
+-                $fields[$k]['value'] = $anonymous_userinfo['additional_values'][$v['fieldid']];
++                $fields[$k]['value'] = stripslashes($_anonymous_userinfo['additional_values'][$v['fieldid']]);
+             }    
+ 
+             $fields[$k]['title'] = func_get_languages_alt("lbl_register_field_" . $v['fieldid'], $shop_language);
+@@ -1388,7 +1406,7 @@
+ 
+         case 'user_profile':
+             $default_fields    = func_get_default_fields($area, $page);
+-            $additional_fields = func_get_additional_fields($area, $userinfo['id']);
++            $additional_fields = func_get_additional_fields($area, @$userinfo['id']);
+             break;
+ 
+         case 'address_book':
+@@ -1490,27 +1508,12 @@
+  */
+ function func_store_login_action($userid, $usertype = 'C', $action = 'login', $status = 'success')
+ {
+-    global $REMOTE_ADDR;
++    global $REMOTE_ADDR, $sql_tbl;
+ 
+     if (empty($userid)) {
+         return false;
+     }
+-
+-    // Prepare data
+-    $login_history_data = array(
+-        'userid'    => $userid,
+-        'date_time' => XC_TIME,
+-        'usertype'  => $usertype,
+-        'action'    => $action,
+-        'status'    => $status,
+-        'ip'        => $REMOTE_ADDR,
+-    );
+-
+-    return func_array2insert(
+-        'login_history',
+-        $login_history_data,
+-        true
+-    );
++    return db_query("REPLACE INTO $sql_tbl[login_history] (`userid`, `date_time`, `usertype`, `action`, `status`, `ip`) VALUES ('$userid', '".XC_TIME."', '$usertype', '$action', '$status', INET_ATON('$REMOTE_ADDR'))");
+ }
+ 
+ /**
+@@ -1908,8 +1911,8 @@
+             );
+ 
+         } elseif (
+-            $default_fields['county']
+-            && $config['General']['use_counties'] == 'Y'
++            $config['General']['use_counties'] == 'Y'
++            && $default_fields['county']
+         ) {
+ 
+             if (!func_check_county($data['county'], stripslashes($data['state']), $data['country'])) {
+@@ -2024,7 +2027,7 @@
+ function func_save_address($userid = 0, $addressid = 0, $data = array())
+ {
+     global $sql_tbl, $default_address_book_fields, $login_type;
+-    global $config, $states, $countries, $current_area, $anonymous_userinfo;
++    global $config, $states, $countries, $current_area;
+ 
+     if (empty($data) || !is_array($data)) {
+         return false;
+@@ -2044,7 +2047,7 @@
+ 
+         $fname = 'default_' . strtolower($suffix);
+ 
+-        if ($data[$fname]) {
++        if (!empty($data[$fname])) {
+ 
+             $default_marks[] = $suffix;
+ 
+@@ -2207,15 +2210,18 @@
+ {
+     global $config;
+ 
+-    $address['titleid']     = func_detect_title(addslashes($address['title']));
+-    $address['title']       = func_get_title($address['titleid']);
+-
+-    $_tmp = preg_split("/[\r\n]+/", $address['address']);
+-
+-    $address['address']     = @$_tmp[0];
+-    
+-    if (isset($_tmp[1]))
+-        $address['address_2']   = @$_tmp[1];
++    if (!empty($address['title'])) {
++        $address['titleid']     = func_detect_title(addslashes($address['title']));
++        $address['title']       = func_get_title($address['titleid']);
++    }        
++
++    if (isset($address['address'])) {
++        $_tmp = preg_split("/[\r\n]+/", $address['address']);
++        $address['address']     = @$_tmp[0];
++        
++        if (isset($_tmp[1]))
++            $address['address_2']   = @$_tmp[1];
++    }    
+ 
+     $address['statename']   = func_get_state($address['state'], $address['country']);
+     $address['countryname'] = func_get_country($address['country']);
+@@ -2330,9 +2336,10 @@
+ 
+     $result = func_query($base_query.$condition);
+ 
+-    if ($result) {
++    if (!empty($result)) {
+ 
+         $address = array();
++        $one_default_b_s_address = false;
+ 
+         foreach ($result as $k => $a) {
+ 
+@@ -2348,8 +2355,20 @@
+ 
+             }
+ 
++            if (
++                count($result) == 1
++                && $a['default_b'] == 'Y'
++                && $a['default_s'] == 'Y'
++            ) {
++                $one_default_b_s_address = true;
++            }
++
+         }
+ 
++        // Assign id only to B address if address is one in adress book
++        if ($one_default_b_s_address) {
++            func_unset($address['S'], 'id');
++        }
+     }
+ 
+     return $address;
+@@ -2468,7 +2487,7 @@
+ function func_login_error($num = 0, $redirect_to = 'login.php', $force_redirect = true)
+ {
+     global $config, $sql_tbl, $top_message, $userid, $usertype, $login_field_name;
+-    global $active_modules, $mail_smarty, $login_antibot_on;
++    global $active_modules, $mail_smarty, $login_antibot_on, $REMOTE_ADDR;
+ 
+     // Define errors
+ 
+@@ -2669,13 +2688,13 @@
+ 
+         if ($usertype == 'A') {
+ 
+-            $identifiers['P'] = $identifiers[$login_type];
++            $identifiers['P'] = $identifiers['A'];
+ 
+         }
+ 
+         if ($usertype == 'P') {
+ 
+-            $identifiers['A'] = $identifiers[$login_type];
++            $identifiers['A'] = $identifiers['P'];
+ 
+         }
+ 
+@@ -2904,7 +2923,7 @@
+     // After 3 failures redirects to Recover password page
+     $login_attempt++;
+ 
+-    $max_login_attempts;
++    $max_login_attempts = 0;
+ 
+     if (!empty($active_modules['Image_Verification'])) {
+ 
+@@ -2912,6 +2931,9 @@
+ 
+     }
+ 
++    if (empty($max_login_attempts))
++        $max_login_attempts = 3;
++
+     $autolock = intval($config['Security']['auto_unlock']) > 0
+         ? 'autolock'
+         : '';
+@@ -3005,6 +3027,7 @@
+ function func_authenticate_user($userid = 0)
+ {
+     global $active_modules, $login_redirect, $REMOTE_ADDR;
++    global $login_antibot_on, $login_attempt;
+ 
+     $user_data = func_userinfo($userid);
+ 
+@@ -3015,6 +3038,10 @@
+     $usertype = $user_data['usertype'];
+ 
+     func_start_user_session($userid);
++    
++    $login_antibot_on = false;
++    $login_attempt = "";
++    func_check_change_password($user_data);
+ 
+     if ($usertype == 'C') {
+ 
+@@ -3125,50 +3152,395 @@
+  * @return void
+  * @see    ____func_see____
+  */
+-function func_adjust_customer_address(&$cart, &$userinfo)
++function func_adjust_customer_address($l_cart, $l_userinfo)
+ {
+ 
+     // Prefill shipping address with billing address
++    $cart_used_s_address = func_get_cart_address('s');
++    $cart_used_b_address = func_get_cart_address('b');
+ 
+     if (
+-        isset($cart['used_b_address'])
+-        && !empty($cart['used_b_address'])
+-        && (
+-            !isset($cart['used_s_address'])
+-            || empty($cart['used_s_address'])
+-        )
++        !empty($cart_used_b_address)
++        && empty($cart_used_s_address)
+     ) {
+-        $cart['used_s_address'] = $cart['used_b_address'];
++        $cart_used_s_address = $cart_used_b_address;
++        func_unset($cart_used_s_address, 'id');
++        $l_cart = func_set_cart_address($l_cart, 's', $cart_used_s_address);
+     }
+ 
+     // Check alternatively selected addresses
+ 
+     foreach (array('B', 'S') as $prefix) {
+ 
+-        $fname = 'used_' . strtolower($prefix) . '_address';
++        $fname = 'cart_used_' . strtolower($prefix) . '_address';
+ 
+-        if (
+-            isset($cart[$fname])
+-            && !empty($cart[$fname])
+-        ) {
++        if (!empty($$fname)) {
+ 
+             $addr = array();
+-            if (!is_array($cart[$fname])) {
++            if (!is_array($$fname)) {
+ 
+                 // Get address by ID
+-                $addr = func_get_address($cart[$fname]);
++                $addr = func_get_address($$fname);
+ 
+             } else {
+ 
+                 // Restore previously saved address data from cart
+-                $addr = func_prepare_address($cart[$fname]);
++                $addr = func_prepare_address($$fname);
+             }
+-            $userinfo['address'][$prefix] = $addr;
+-            $userinfo = func_array_merge($userinfo, func_extract_address($addr, $prefix));
++            $l_userinfo['address'][$prefix] = $addr;
++            $l_userinfo = func_array_merge($l_userinfo, func_extract_address($addr, $prefix));
++        }
++    }
++
++    return array($l_cart, $l_userinfo);
++}
++
++/*
++ * Generate complete customer userinfo based on some partial userinfo (for example from data from payment callback)
++ */
++function func_userinfo_from_scratch($userinfo, $userinfo_type = 'userinfo_for_payment')
++{
++    global $current_area, $logged_userid, $user_account;
++
++    $params = array(
++        'userinfo_for_payment' => array( // Params values are the same as from include/payment_method.php
++            'usertype' => 'C', 
++            'need_password' => false, 
++            'need_cc' => true, 
++            'profile_area' => array('C','H')
++        ),
++        'userinfo_for_cart' => array( // Params values are the same as from include/checkout_init.php
++            'usertype' => @$user_account['usertype'], 
++            'need_password' => false, 
++            'need_cc' => false, 
++            'profile_area' => 'H'
++        ),
++    );
++
++    if (
++        $current_area == 'C'
++        && isset($params[$userinfo_type])
++    ) {
++        $var = $params[$userinfo_type];
++
++        if (!empty($logged_userid)) {
++            $userinfo_from_scratch = func_userinfo($logged_userid, $var['usertype'], $var['need_password'], $var['need_cc'], $var['profile_area']);
++        } else{
++            $userinfo_from_scratch = func_userinfo(0, $var['usertype'], $var['need_password'], $var['need_cc'], $var['profile_area']);
+         }
++
++        settype($userinfo, 'array');
++        $userinfo = func_array_merge($userinfo_from_scratch, $userinfo);
++    }
++
++    return $userinfo;
++}
++
++function func_check_change_password($user_data)
++{
++    assert('isset($user_data["change_password"]) /*Func_check_change_password*/');
++    global $require_change_password, $login_change;
++    
++    if ($user_data["change_password"] == "Y") {
++        $usertype = $user_data['usertype'];
++        x_session_register("login_change");
++        x_session_register('require_change_password');
++        $require_change_password[$usertype] = true;
++        $login_change[$usertype] = $user_data["id"];
++    } else {
++        x_session_unregister("login_change");
++    }
++
++    return true;
++}
++
++/*
++ * Getter for anonymous_userinfo session var. 
++ * Use only this function to get global $anonymous_userinfo var
++ */
++function func_get_anonymous_userinfo()
++{
++    global $anonymous_userinfo;
++
++    if (!isset($anonymous_userinfo))
++        x_session_register('anonymous_userinfo', array());
++    
++    assert('is_array($anonymous_userinfo) /*return Func_get_anonymous_userinfo*/');
++    return $anonymous_userinfo;        
++}
++
++/*
++ * Setter for anonymous_userinfo session var. 
++ * Use only this function to change global $anonymous_userinfo var
++ */
++function func_set_anonymous_userinfo($userinfo, $run_x_session_save = '')
++{
++    global $anonymous_userinfo;
++
++    if (!empty($userinfo)) {
++        $anonymous_userinfo = $userinfo;
++        $anonymous_userinfo['usertype'] = empty($userinfo['usertype']) ? 'C' : $userinfo['usertype'];
++    } else {
++        $anonymous_userinfo = array();
++    }
++
++    x_session_register('anonymous_userinfo', $anonymous_userinfo);
++
++    if (!empty($run_x_session_save)) {
++        // Use this block to avoid race condition with userinfo with multithreading script like AJAX get_profile call
++        x_session_save('anonymous_userinfo');
+     }
+ 
+     return true;
+ }
+ 
++/**
++ * Delete address from address book
++ */
++function func_delete_from_address_book($address_book, $address_to_delete)
++{
++
++    // Prepare an array of addresses to delete
++    $address_to_delete = (isset($address_to_delete) && !empty($address_to_delete))
++        ? array_keys($address_to_delete)
++        : false;
++
++    if (
++        !is_array($address_book)    
++        || !is_array($address_to_delete)
++    ) {
++        return $address_book;
++    }
++
++    foreach ($address_book as $addrid => $data) {
++
++        if (in_array($addrid, $address_to_delete)) {
++          
++            // Delete address
++            func_delete_address($addrid);
++            $address_book[$addrid] = array();
++        }
++    }
++
++    return $address_book;
++}
++
++/**
++ * Prepare address book to save
++ */
++function func_prepare_address_book_data_for_save($address_book)
++{
++    assert('!empty($address_book) && is_array($address_book) /*param Func_prepare_address_book_data_for_save*/'); 
++
++    foreach ($address_book as $addrid => $data) {
++        if (!empty($data['address_2'])) {
++            $data['address'] .= "\n" . $data['address_2'];
++        }
++        func_unset($data, 'address_2');
++        $address_book[$addrid] = $data;
++    }
++
++    return $address_book;
++}
++
++/**
++ * Save customer address book from admin area
++ */
++function func_admin_save_address_book($address_book)
++{
++    assert('!empty($address_book) && is_array($address_book) /*param Func_prepare_address_book_data_for_save*/'); 
++
++    global $logged_userid;
++
++    $new_addressid = null;
++    foreach ($address_book as $addrid => $data) {
++        if (empty($data))
++            continue;
++
++        $_res = func_save_address($logged_userid, $addrid, $data);
++
++        if (empty($addrid)) {
++            $new_addressid = $_res['addressid'];
++        }
++    }
++
++    return array($address_book, $new_addressid);
++}
++
++/**
++ * Save customer address book from checkout page in session var
++ */
++function func_customer_save_address_book_insession($l_cart, $address_book, $ship2diff)
++{
++    assert('!empty($address_book) && is_array($address_book) /*param Func_customer_save_address_book_insession*/'); 
++    
++    global $is_anonymous;
++
++    foreach ($address_book as $addrid => $data) {
++        // Add/update address
++
++        // Store address record during registration at checkout
++        if ($addrid == 'S' && @$ship2diff != 'Y') {
++            $l_cart = func_set_cart_address($l_cart, 's', '');
++            continue;
++        }
++
++        if ($is_anonymous) {
++            $_anonymous_userinfo = func_get_anonymous_userinfo();
++            @$_anonymous_userinfo['address'][$addrid] = $data;
++            func_set_anonymous_userinfo($_anonymous_userinfo, 'run_x_session_save');
++        } else {
++            $l_cart = func_set_cart_address($l_cart, $addrid, func_stripslashes($data));
++        }
++    }
++
++    return $l_cart;
++} 
++
++/**
++ * Save customer address book from checkout page in database
++ */
++function func_customer_save_address_book_indb($address_book, $ship2diff, $existing_address, $new_address)
++{
++    global $is_anonymous, $logged_userid;
++
++    if ($is_anonymous)
++        return $address_book;
++
++    $is_address_book_empty = func_is_address_book_empty($logged_userid);
++
++    $previous_added_address = array();
++
++    foreach ($address_book as $addrid => $data) {
++        // Add/update address
++
++        $is_first_registration = $is_address_book_empty && func_is_adresses_different($previous_added_address, $data, 'H');
++
++        $data['default_' . strtolower($addrid)] = 'Y';
++
++        if (@$ship2diff != 'Y') {
++            if ($addrid == 'S') {
++                continue;
++            } else {
++                $data['default_s'] = $data['default_b'] = 'Y';
++            }
++        } 
++
++        if (
++            (
++                $is_first_registration
++                || isset($new_address[$addrid])
++            )
++        ) {
++            // Add new address book row from checkout
++            $previous_added_address = $data;
++            func_unset($previous_added_address, 'default_s', 'default_b');
++
++            $_res = func_save_address($logged_userid, 0, $data);
++            $address_book[$addrid]['id'] = $_res['addressid'];
++        } elseif (!empty($existing_address[$addrid]) > 0) {
++            // Update address book from checkout
++            func_save_address($logged_userid, $existing_address[$addrid], $data);
++        }
++    }
++
++    return $address_book;
++}
++
++function func_admin_mark_default_addresses($logged_userid, $new_addressid)
++{
++    if (!empty($logged_userid)) {
++        foreach (array('B', 'S') as $suffix) {
++            $fieldname = 'default_' . strtolower($suffix);
++            if (isset($_POST[$fieldname])) {
++                $addressid = ($_POST[$fieldname] == 0 && isset($new_addressid))
++                    ? $new_addressid
++                    : abs(intval($_POST[$fieldname]));
++                func_mark_default_address($addressid, $logged_userid, $suffix);
++            }
++        }
++    }
++
++    return true;
++}
++
++/**
++ * Compare b_address with s_address on checkout pages
++ * return false if is equal
++ * return true if is different
++ */
++function func_is_adresses_different($b_address, $s_address, $fields_area = 'H')
++{
++    $is_different = false;
++
++    func_unset($b_address, 'id');
++    func_unset($s_address, 'id');
++
++    $addr_intersect = array_intersect_assoc($b_address, $s_address);
++    $address_fields = func_get_default_fields($fields_area, 'address_book');
++
++    if (
++        empty($s_address)
++        || count($b_address) != count($s_address)
++        || count($b_address) != count($addr_intersect)
++    ) {
++       $is_different = true;
++    }
++
++    if (
++        !$is_different
++        && $address_fields['zipcode']['avail'] == 'Y'
++        && !empty($s_address['zipcode'])
++        && !empty($s_address['country'])
++    ) {
++        $is_different = !func_check_zip($s_address['zipcode'], $s_address['country'], false);
++    }
++
++    return $is_different;
++}
++
++/**
++ * Setter for $cart['used_s(b)_address'] global session var. 
++ * Setter for $l_cart['used_s(b)_address'] local var
++ * Use only this function to change the vars
++ */
++function func_set_cart_address($l_cart, $type, $data, $run_x_session_save = '')
++{
++    // x_session_register('cart') should be run before func_set_cart_address in global scope
++    global $cart;
++
++    settype($type, 'string');
++
++    if (func_is_cart_empty($cart))
++        return $cart;
++
++    $cart['used_' . strtolower($type) . '_address'] = $data;
++    $l_cart['used_' . strtolower($type) . '_address'] = $data;
++
++    x_session_register('cart', $cart);
++
++    if (!empty($run_x_session_save)) {
++        x_session_save('cart');
++    }
++    
++    return $l_cart;
++} 
++
++/*
++ * Getter for $cart['used_s(b)_address'] session vars. 
++ * Use only this function to get these vars
++ */
++function func_get_cart_address($type)
++{
++    global $cart;
++    settype($type, 'string');
++
++    if (!isset($cart))
++        x_session_register('cart');
++
++    if (isset($cart['used_' . strtolower($type) . '_address']))        
++        return $cart['used_' . strtolower($type) . '_address']; 
++    else         
++        return '';
++}
+ ?>

@@ -1,0 +1,39 @@
+Index: skin/common_files/modules/One_Page_Checkout/profile/personal_info.tpl
+--- skin/common_files/modules/One_Page_Checkout/profile/personal_info.tpl	2010-07-21 12:04:01.000000000 +0400
++++ skin/common_files/modules/One_Page_Checkout/profile/personal_info.tpl	2011-04-25 09:30:01.000000000 +0400
+@@ -1,5 +1,5 @@
+ {*
+-$Id: personal_info.tpl,v 1.2 2010/07/21 08:04:01 aim Exp $ 
++$Id: personal_info.tpl,v 1.2.2.2 2011/04/25 05:30:01 aim Exp $ 
+ vim: set ts=2 sw=2 sts=2 et:
+ *}
+ {if $is_areas.P eq 'Y'}
+@@ -12,16 +12,7 @@
+   {foreach from=$default_fields item=f key=fname}
+ 
+     {if $f.avail eq 'Y'}
+-
+-      {if $fname eq 'title' or $fname eq 'firstname' or $fname eq 'lastname'}
+-        {assign var=liclass value="fields-group"}
+-        {if $fname eq 'lastname'}
+-          {assign var=liclass value="fields-group last"}
+-        {/if}
+-      {else}
+-        {assign var=liclass value="single-field"}
+-      {/if}
+-
++      {getvar var=liclass func=func_tpl_get_user_field_cssclass current_field=$fname default_fields=$default_fields}
+       <li class="{$liclass}">
+ 
+         {capture name=regfield}
+@@ -35,6 +26,10 @@
+ 
+       </li>
+ 
++    {if $liclass eq 'fields-group last'}
++      <li class="clearing"></li>
++    {/if}
++
+     {/if}
+   {/foreach}
+   </ul>

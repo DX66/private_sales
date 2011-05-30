@@ -1,0 +1,58 @@
+Index: include/func/func.taxes.php
+--- include/func/func.taxes.php	2011-01-10 16:11:52.000000000 +0300
++++ include/func/func.taxes.php	2011-03-03 16:27:04.000000000 +0300
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: func.taxes.php,v 1.39.2.2 2011/01/10 13:11:52 ferz Exp $
++ * @version    $Id: func.taxes.php,v 1.39.2.4 2011/03/03 13:27:04 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -54,7 +54,7 @@
+  */
+ function func_get_product_taxes(&$product, $userid = 0, $calculate_discounted_price = false, $taxes = '')
+ {
+-    global $config, $anonymous_userinfo;
++    global $config;
+ 
+     $amount = (isset($product['amount']) ? $product['amount'] : 1);
+ 
+@@ -76,6 +76,9 @@
+     $total_tax_percent = 0;
+     $total_tax_value = 0;
+ 
++    x_load('user');
++    $_anonymous_userinfo = func_get_anonymous_userinfo();
++
+     foreach ($taxes as $k=>$tax_rate) {
+ 
+         if (empty($userid) && $config['General']['apply_default_country'] != 'Y')
+@@ -116,7 +119,7 @@
+ 
+         // Calculate the tax value
+ 
+-        if (!empty($tax_rate['skip']) || (empty($userid) && empty($anonymous_userinfo) && $config['General']['apply_default_country'] != 'Y'))
++        if (!empty($tax_rate['skip']) || (empty($userid) && empty($_anonymous_userinfo) && $config['General']['apply_default_country'] != 'Y'))
+             continue;
+ 
+         $assessment = func_calculate_assessment($tax_rate['formula'], $formula_data);
+@@ -213,7 +216,7 @@
+     }
+ 
+     foreach ($_product as $productid => $product) {
+-        if ($product['free_tax'] == 'Y' || !is_array($_taxes[$productid]) || empty($_taxes[$productid]))
++        if (@$product['free_tax'] == 'Y' || !is_array($_taxes[$productid]) || empty($_taxes[$productid]))
+             continue;
+ 
+         $taxes = $_taxes[$productid];
+@@ -408,7 +411,7 @@
+     $return = 0;
+     if (is_array($formula_data)) {
+         // Correct the default values...
+-        if (is_null($formula_data['DST']))
++        if (!isset($formula_data['DST']))
+             $formula_data['DST'] = $formula_data['ST'];
+ 
+         if (empty($formula_data['SH']))

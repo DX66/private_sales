@@ -1,0 +1,97 @@
+Index: payment/payment_cc.php
+--- payment/payment_cc.php	2011-01-10 16:12:08.000000000 +0300
++++ payment/payment_cc.php	2011-03-10 12:01:03.000000000 +0300
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: payment_cc.php,v 1.127.2.3 2011/01/10 13:12:08 ferz Exp $
++ * @version    $Id: payment_cc.php,v 1.127.2.5 2011/03/10 09:01:03 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -71,7 +71,7 @@
+     && isset($module_params['processor'])
+     && $module_params['processor'] == 'ps_paypal_pro.php'
+ ) {
+-    $paypal_express_paymentid = func_query_first_cell("SELECT $sql_tbl[payment_methods].paymentid FROM $sql_tbl[ccprocessors], $sql_tbl[payment_methods] WHERE $sql_tbl[ccprocessors].processor='ps_paypal_pro.php' AND $sql_tbl[ccprocessors].paymentid=$sql_tbl[payment_methods].paymentid AND $sql_tbl[payment_methods].active='Y'");
++    $paypal_express_paymentid = func_cart_get_paypal_express_id();
+ 
+     if (
+         $paypal_express_paymentid == $paymentid
+@@ -85,28 +85,20 @@
+ // (web-based method with ccinfo form enabled)
+ if (
+     !empty($module_params)
+-    && !empty($module_params['processor'])
+-    && $module_params['background'] == 'N'
+-    && $module_params['disable_ccinfo'] == 'N'
++    && func_is_direct_post_payment_method($module_params)
+ ) {
+ 
+     include_once $xcart_dir . '/include/payment_form.php';
+ 
+ } else {
+ 
+-    if ($module_params['background'] == 'I') 
++    if (@$module_params['background'] == 'I') 
+         $smarty->assign('use_iframe', 'Y');
+ 
+     require_once $xcart_dir . '/include/payment_wait.php';
+ 
+ }
+ 
+-$is_egoods = false;
+-
+-if ($config['Egoods']['egoods_manual_cc_processing'] == 'Y') {
+-    $is_egoods = func_esd_in_cart($cart);
+-}
+-
+ x_session_register('payment_cc_fields');
+ 
+ $is_paypal_pro = func_query_first_cell("SELECT COUNT(*) FROM " . $sql_tbl['payment_methods'] . " WHERE paymentid='" . $paymentid . "' AND processor_file='ps_paypal_pro.php'");
+@@ -140,18 +132,6 @@
+ }
+ 
+ if (
+-    $is_egoods
+-    && $paymentid != 1
+-    && !empty($payment_cc_data)
+-) {
+-
+-    $paymentid = 1;
+-
+-    $payment_cc_data = array();
+-
+-}
+-
+-if (
+     $paymentid == 1
+     && !empty($config['card_types'])
+ ) {
+@@ -248,16 +228,6 @@
+ 
+ $customer_notes = $Customer_Notes;
+ 
+-/**
+- *  Only logged users can submit orders
+- */
+-$is_valid_paymentid = func_query_first_cell("SELECT COUNT(*) FROM " . $sql_tbl['payment_methods'] . " LEFT JOIN " . $sql_tbl['pmethod_memberships'] . " ON " . $sql_tbl['pmethod_memberships'] . ".paymentid = " . $sql_tbl['payment_methods'] . ".paymentid WHERE " . $sql_tbl['payment_methods'] . ".paymentid='" . $paymentid . "'" . (($is_egoods && $paymentid == 1) ? "" : " AND " . $sql_tbl['payment_methods'] . ".active='Y'") . " AND (" . $sql_tbl['pmethod_memberships'] . ".membershipid IS NULL OR  " . $sql_tbl['pmethod_memberships'] . ".membershipid = '" . $userinfo['membershipid'] . "') ");
+-
+-if (!$is_valid_paymentid) {
+-
+-    func_header_location($xcart_catalogs['customer'] . "/cart.php?mode=checkout&err=paymentid");
+-
+-}
+ 
+ if ($is_paypal_pro) {
+ 
+@@ -416,7 +386,7 @@
+     x_session_save();
+ 
+     // Set CVV2 info line...
+-    $a = strlen($userinfo['card_cvv2']);
++    $a = isset($userinfo['card_cvv2']) ? strlen($userinfo['card_cvv2']) : 0;
+ 
+     $bill_output = array(
+         'cvvmes' => ($a ? ($a . ' digit(s)') : 'not set') . ' / ',

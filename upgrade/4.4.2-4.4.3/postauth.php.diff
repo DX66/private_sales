@@ -1,0 +1,25 @@
+Index: postauth.php
+--- postauth.php	2011-01-10 16:11:43.000000000 +0300
++++ postauth.php	2011-02-14 11:57:49.000000000 +0300
+@@ -41,7 +41,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: postauth.php,v 1.42.2.2 2011/01/10 13:11:43 ferz Exp $
++ * @version    $Id: postauth.php,v 1.42.2.3 2011/02/14 08:57:49 ferz Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -92,11 +92,7 @@
+     exit();
+ }
+ 
+-if (!defined('HTTPS_CHECK_SKIP')) {
+-
+-    include $xcart_dir . DIR_CUSTOMER . '/https.php';
+-
+-}
++include $xcart_dir . DIR_CUSTOMER . '/https.php';
+ 
+ if (!empty($active_modules['Users_online'])) {
+ 

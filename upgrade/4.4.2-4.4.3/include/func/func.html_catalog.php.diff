@@ -1,0 +1,30 @@
+Index: include/func/func.html_catalog.php
+--- include/func/func.html_catalog.php	2011-01-10 16:11:51.000000000 +0300
++++ include/func/func.html_catalog.php	2011-01-25 12:43:12.000000000 +0300
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: func.html_catalog.php,v 1.40.2.3 2011/01/10 13:11:51 ferz Exp $
++ * @version    $Id: func.html_catalog.php,v 1.40.2.5 2011/01/25 09:43:12 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -564,7 +564,7 @@
+ 
+     $page_src = preg_replace("/<input[ \t]+type\s*=\s*[\"']?hidden[\"']?[ \t]+name\s*=\s*[\"']?".$XCART_SESSION_NAME."[\"']?[ \t]+value\s*=\s*[\"']?[\da-fA-F]*[\"']?[ \t]*[\/]?>/iS", "", $page_src);
+ 
+-    $page_src = preg_replace("/(<form[ \t][^>]+>)/Ssi", "\\1<input type=\"hidden\" name=\"is_hc\" value=\"Y\" />", $page_src);
++    $page_src = preg_replace("/(<form[ \t][^>]+>)/Ssi", "\\1<input type=\"hidden\" name=\"is_submit_from_html_page\" value=\"Y\" />", $page_src);
+ 
+     // Modify relative links to absolute links
+     $page_src = preg_replace_callback("/(<a[^<>]+href[\s]*=[\s]*[\"']+)([^\"':]+)([\"'])/i", "add_html_location", $page_src);
+@@ -633,7 +633,7 @@
+ 
+     $result = array();
+     $cat = $category_id;
+-    if ($active_modules['Bestsellers'])
++    if (!empty($active_modules['Bestsellers']))
+         include $xcart_dir.'/modules/Bestsellers/bestsellers.php';
+ 
+     if (is_array($bestsellers)) {

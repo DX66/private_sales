@@ -1,0 +1,1 @@
+41a711f55ec2f12aac00d30fe03f9f7fa:2:{s:21:"lbl_sp_cart_free_item";s:26:"This item is FREE for you!";s:30:"lbl_sp_cart_free_shipping_item";s:14:"Free shipping!";}

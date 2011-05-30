@@ -1,0 +1,25 @@
+/* vim: set ts=2 sw=2 sts=2 et: */
+/**
+ * Discount Coupons Module CSS stylesheet
+ *  
+ * @category   X-Cart
+ * @package    X-Cart
+ * @subpackage CSS
+ * @author     Ruslan R. Fazlyev <rrf@x-cart.com> 
+ * @version    $Id: main.css,v 1.2 2010/05/31 06:08:29 igoryan Exp $
+ * @link       http://www.x-cart.com/
+ * @see        ____file_see____
+ */
+
+.dcoupons-add-coupon {
+  color: #112536;
+  font-weight: bold;
+}
+
+/* clear link */
+.dcoupons-clear img {
+  background: transparent url(../../images/delete_cross.gif) no-repeat;
+  width: 11px;
+  height: 11px;
+  vertical-align: bottom;
+}

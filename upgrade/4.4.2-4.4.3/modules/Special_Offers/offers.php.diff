@@ -1,0 +1,145 @@
+Index: modules/Special_Offers/offers.php
+--- modules/Special_Offers/offers.php	2011-01-10 16:12:02.000000000 +0300
++++ modules/Special_Offers/offers.php	2011-01-18 18:36:07.000000000 +0300
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: offers.php,v 1.65.2.3 2011/01/10 13:12:02 ferz Exp $
++ * @version    $Id: offers.php,v 1.65.2.7 2011/01/18 15:36:07 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -523,7 +523,7 @@
+             }
+ 
+             if (!empty($offer_lng)) {
+-                db_query("UPDATE $sql_tbl[offers] SET modified_time=UNIX_TIMESTAMP(NOW()) WHERE offerid='".$offer["offerid"]."'");
++                db_query("UPDATE $sql_tbl[offers] SET modified_time=UNIX_TIMESTAMP(NOW()) WHERE offerid='$offerid'");
+             }
+         }
+ 
+@@ -628,13 +628,17 @@
+     $offerid = (int)$offerid;
+     $prov_cond = ($single_mode?'':" AND provider='$logged_userid'");
+     $offer = func_query_first("SELECT offerid, offer_name AS name, offer_start, offer_end, offer_avail AS avail, show_short_promo FROM $sql_tbl[offers] WHERE offerid='$offerid'".$prov_cond);
+-    if (empty($mode)) $mode = 'conditions';
++    if (
++        empty($mode)
++        && !empty($offer)
++    ) {
++        $mode = 'conditions';
++    }
+ }
+ 
+ if (empty($offer) && !empty($mode) && $mode != 'create') {
+     $mode = '';
+-}
+-else {
++} else {
+     if (!empty($offer)) {
+         $offer['bonuses'] = func_offer_get_bonuses($offer, $logged_userid);
+         $offer['conditions'] = func_offer_get_conditions($offer, $logged_userid);
+@@ -676,8 +680,7 @@
+         }
+ 
+         $smarty->assign('conditions', $conditions);
+-    }
+-    elseif ($mode == 'bonuses') {
++    } elseif ($mode == 'bonuses') {
+ 
+         $bonuses = func_get_default_values('bonuses');
+ 
+@@ -714,52 +717,27 @@
+ 
+         $smarty->assign('bonuses', $bonuses);
+ 
+-        $shipping = func_query("SELECT $sql_tbl[shipping].* FROM $sql_tbl[shipping] INNER JOIN $sql_tbl[shipping_rates] ON $sql_tbl[shipping_rates].shippingid = $sql_tbl[shipping].shippingid AND $sql_tbl[shipping_rates].provider = '$logged_userid' WHERE $sql_tbl[shipping].active = 'Y' AND $sql_tbl[shipping].code != 'Y' GROUP BY $sql_tbl[shipping].shippingid ORDER BY orderby");
++        $provider_condition = empty($active_modules["Simple_Mode"]) 
++            ? " AND $sql_tbl[shipping_rates].provider = '$logged_userid'" 
++            : '';
++
++        $_shipping_offline = func_query("SELECT $sql_tbl[shipping].* FROM $sql_tbl[shipping] INNER JOIN $sql_tbl[shipping_rates] ON $sql_tbl[shipping_rates].shippingid = $sql_tbl[shipping].shippingid $provider_condition WHERE $sql_tbl[shipping].active = 'Y' AND $sql_tbl[shipping].code = '' GROUP BY $sql_tbl[shipping].shippingid ORDER BY orderby");
++
++        $_shipping_realtime = func_query("SELECT $sql_tbl[shipping].* FROM $sql_tbl[shipping] WHERE $sql_tbl[shipping].active = 'Y' AND $sql_tbl[shipping].code != '' AND $sql_tbl[shipping].subcode != '' ORDER BY shipping,orderby");
++
+         $selected_shipping = func_query_hash("SELECT $sql_tbl[offer_bonus_params].param_id, '1' FROM $sql_tbl[offer_bonus_params] INNER JOIN $sql_tbl[offer_bonuses] ON $sql_tbl[offer_bonuses].bonusid = $sql_tbl[offer_bonus_params].bonusid AND $sql_tbl[offer_bonus_params].param_type = 'S' AND $sql_tbl[offer_bonuses].offerid = '".$offer["offerid"]."' AND $sql_tbl[offer_bonuses].bonus_type = 'S'", "param_id", false, true);
+ 
+-        $smarty->assign('shipping', $shipping);
++        $shipping = func_array_merge($_shipping_offline, $_shipping_realtime);
++        $smarty->assign_by_ref('shipping', $shipping);
+         $smarty->assign('selected_shipping', $selected_shipping);
+-    }
+-    else {
++    } elseif (!empty($offerid)) {
+         if (empty($offer_lng_code))
+             $offer_lng_code = $config['default_customer_language'];
+ 
+-        $new_code = '';
+-        if (is_array($all_languages)) {
+-            if (!empty($all_languages)) {
+-                list($x) = $all_languages;
+-                $new_code = $x['code']; // grab first code
+-            }
+-
+-            foreach ($all_languages as $v) {
+-                if ($v['code'] == $offer_lng_code) {
+-                    $new_code = $offer_lng_code;
+-                }
+-            }
+-        }
+-        $offer_lng_code = $new_code;
+-
+-        $offer_language = '';
+-        if (!empty($offer_lng_code)) {
+-            $offer_languages = func_query("SELECT offerid, code, promo_short, IF($sql_tbl[images_S].id IS NULL, '', '1') AS promo_short_img, promo_long, promo_checkout, promo_items_amount FROM $sql_tbl[offers_lng] LEFT JOIN $sql_tbl[images_S] ON SUBSTRING($sql_tbl[images_S].id, 3) = '$offerid' WHERE offerid='$offerid'");
+-
+-            if (is_array($offer_languages)) {
+-                foreach ($offer_languages as $ko=>$offer_lang) {
+-                    #$offer_languages[$ko]['language'] = func_get_langvar_by_name('language_'.$offer_lang['code']);
+-                    if ($offer_lang['code'] == $offer_lng_code)
+-                        $offer_language = $offer_lang;
+-                }
+-            }
+-        }
++        $offer_language = func_query_first("SELECT offerid, code, promo_short, IF($sql_tbl[images_S].id IS NULL, '', '1') AS promo_short_img, promo_long, promo_checkout, promo_items_amount FROM $sql_tbl[offers_lng] LEFT JOIN $sql_tbl[images_S] ON SUBSTRING($sql_tbl[images_S].id, 3) = '$offerid' WHERE offerid='$offerid' AND code='$offer_lng_code'");
+ 
+-        if (empty($offer_language)) {
+-            $offer_language['offerid'] = $offerid;
++        if (empty($offer_language['code'])) {
+             $offer_language['code'] = $offer_lng_code;
+-            $offer_language['promo_short'] = '';
+-            $offer_language['promo_short_img'] = 0;
+-            $offer_language['promo_long'] = '';
+-            $offer_language['promo_checkout'] = '';
+-            $offer_language['promo_items_amount'] = '';
+         }
+ 
+         $smarty->assign('offer_lng_code', $offer_lng_code);
+@@ -779,8 +757,13 @@
+     $dialog_tools_data['left'][] = array("link" => 'offers.php', 'title' => func_get_langvar_by_name('lbl_sp_list_of_offers'));
+     $dialog_tools_data['left'][] = array("link" => 'offers.php?mode=create', 'title' => func_get_langvar_by_name('lbl_sp_create_new_offer'));
+ 
+-    $cnt_cond = func_query_first_cell("SELECT COUNT(offerid) FROM $sql_tbl[offer_conditions] WHERE offerid='$offerid'");
+-    $cnt_bons = func_query_first_cell("SELECT COUNT(offerid) FROM $sql_tbl[offer_bonuses] WHERE offerid='$offerid'");
++    if (!empty($offerid)) {
++        $cnt_cond = func_query_first_cell("SELECT COUNT(offerid) FROM $sql_tbl[offer_conditions] WHERE offerid='$offerid'");
++        $cnt_bons = func_query_first_cell("SELECT COUNT(offerid) FROM $sql_tbl[offer_bonuses] WHERE offerid='$offerid'");
++        $offername = func_query_first_cell("SELECT offer_name AS name FROM $sql_tbl[offers] WHERE offerid='$offerid'");
++        $smarty->assign('offername', $offername);
++        $smarty->assign('offerid', $offerid);
++    }
+ 
+     $nav_data = '';
+     $nav_data[] = array('mode'=>'conditions', 'title'=>func_get_langvar_by_name('lbl_sp_nav_conditions'));
+@@ -793,10 +776,6 @@
+ 
+     $smarty->assign('nav_data', $nav_data);
+ 
+-    $offername = func_query_first_cell("SELECT offer_name AS name FROM $sql_tbl[offers] WHERE offerid='$offerid'");
+-    $smarty->assign('offername', $offername);
+-    $smarty->assign('offerid', $offerid);
+-
+     if (!empty($last_item_type)) {
+         $smarty->assign('last_item_type',$last_item_type);
+     }

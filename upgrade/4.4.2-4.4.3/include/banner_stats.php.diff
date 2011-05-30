@@ -1,0 +1,24 @@
+Index: include/banner_stats.php
+--- include/banner_stats.php	2011-01-10 16:11:48.000000000 +0300
++++ include/banner_stats.php	2011-02-11 17:42:02.000000000 +0300
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: banner_stats.php,v 1.36.2.1 2011/01/10 13:11:48 ferz Exp $
++ * @version    $Id: banner_stats.php,v 1.36.2.2 2011/02/11 14:42:02 ferz Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -106,9 +106,9 @@
+     if ($where_clicks)
+         $where_clicks_condition = " AND ".implode(" AND ", $where_clicks);
+ 
+-    $views = func_query("SELECT $sql_tbl[partner_banners].*, $sql_tbl[partner_views].*, COUNT($sql_tbl[partner_views].bannerid) as views, 0 as order_count, 0 as total FROM $sql_tbl[partner_banners] LEFT JOIN $sql_tbl[partner_views] ON $sql_tbl[partner_banners].bannerid = $sql_tbl[partner_views].bannerid $where_condition WHERE $sql_tbl[partner_views].bannerid IS NOT NULL GROUP BY $sql_tbl[partner_banners].bannerid, $sql_tbl[partner_views].target, $sql_tbl[partner_views].targetid");
++    $views = func_query("SELECT $sql_tbl[partner_banners].*, $sql_tbl[partner_views].*, COUNT($sql_tbl[partner_views].bannerid) as views, 0 as order_count, 0 as total FROM $sql_tbl[partner_banners] INNER JOIN $sql_tbl[partner_views] ON $sql_tbl[partner_banners].bannerid = $sql_tbl[partner_views].bannerid $where_condition GROUP BY $sql_tbl[partner_banners].bannerid, $sql_tbl[partner_views].target, $sql_tbl[partner_views].targetid");
+ 
+-    $clicks = func_query("SELECT $sql_tbl[partner_banners].*, $sql_tbl[partner_clicks].*, COUNT($sql_tbl[partner_clicks].bannerid) as clicks, COUNT($sql_tbl[orders].total) as order_count, SUM($sql_tbl[orders].total) as total FROM $sql_tbl[partner_banners] LEFT JOIN $sql_tbl[partner_clicks] ON $sql_tbl[partner_banners].bannerid = $sql_tbl[partner_clicks].bannerid $where_clicks_condition LEFT JOIN $sql_tbl[orders] ON $sql_tbl[orders].clickid = $sql_tbl[partner_clicks].clickid WHERE $sql_tbl[partner_clicks].bannerid IS NOT NULL GROUP BY $sql_tbl[partner_banners].bannerid, $sql_tbl[partner_clicks].target, $sql_tbl[partner_clicks].targetid");
++    $clicks = func_query("SELECT $sql_tbl[partner_banners].*, $sql_tbl[partner_clicks].*, COUNT($sql_tbl[partner_clicks].bannerid) as clicks, COUNT($sql_tbl[orders].total) as order_count, SUM($sql_tbl[orders].total) as total FROM $sql_tbl[partner_banners] INNER JOIN $sql_tbl[partner_clicks] ON $sql_tbl[partner_banners].bannerid = $sql_tbl[partner_clicks].bannerid $where_clicks_condition LEFT JOIN $sql_tbl[orders] ON $sql_tbl[orders].clickid = $sql_tbl[partner_clicks].clickid GROUP BY $sql_tbl[partner_banners].bannerid, $sql_tbl[partner_clicks].target, $sql_tbl[partner_clicks].targetid");
+     $clicks_unknown = func_query("SELECT $sql_tbl[partner_clicks].*, COUNT($sql_tbl[partner_clicks].clickid) as clicks, COUNT($sql_tbl[orders].total) as order_count, SUM($sql_tbl[orders].total) as total FROM $sql_tbl[partner_clicks] LEFT JOIN $sql_tbl[orders] ON $sql_tbl[orders].clickid = $sql_tbl[partner_clicks].clickid WHERE $sql_tbl[partner_clicks].bannerid = '' $where_clicks_condition GROUP BY $sql_tbl[partner_clicks].target, $sql_tbl[partner_clicks].targetid");
+     if (!is_array($clicks))
+         $clicks = array();

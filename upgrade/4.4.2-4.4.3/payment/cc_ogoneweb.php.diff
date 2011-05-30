@@ -1,0 +1,56 @@
+Index: payment/cc_ogoneweb.php
+--- payment/cc_ogoneweb.php	2011-01-10 16:12:07.000000000 +0300
++++ payment/cc_ogoneweb.php	2011-02-04 13:00:08.000000000 +0300
+@@ -40,7 +40,7 @@
+  * @author     Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @copyright  Copyright (c) 2001-2011 Ruslan R. Fazlyev <rrf@x-cart.com>
+  * @license    http://www.x-cart.com/license.php X-Cart license agreement
+- * @version    $Id: cc_ogoneweb.php,v 1.32.2.1 2011/01/10 13:12:07 ferz Exp $
++ * @version    $Id: cc_ogoneweb.php,v 1.32.2.2 2011/02/04 10:00:08 aim Exp $
+  * @link       http://www.x-cart.com/
+  * @see        ____file_see____
+  */
+@@ -55,6 +55,10 @@
+     if (!func_is_active_payment('cc_ogoneweb.php'))
+         exit;
+ 
++    if (defined('OGONE_DEBUG')) {
++        func_pp_debug_log('ogoneweb', 'B', $_GET);
++    }
++
+     $skey = $oid;
+ 
+     if ($mode == 'accept') {
+@@ -73,7 +77,7 @@
+ 
+     if (!defined('XCART_START')) { header("Location: ../"); die("Access denied"); }
+ 
+-    require($xcart_dir.'/payment/sha1.php');
++    func_pm_load('cc_ogone_common'); // Define Func_ogone_generate_signature function
+ 
+     $pp_merch = $module_params['param01'];
+     $pp_secret = $module_params['param03'];
+@@ -104,8 +108,7 @@
+         'EMAIL' => $userinfo['email'],
+         'Owneraddress' => $userinfo['b_address'],
+         'OwnerZip' => $userinfo['b_zipcode'],
+-        'language' => $l[$store_language] ? $l[$store_language] : 'en_US',
+-        'SHASign' => sha1($ordr . (100 * $cart['total_cost']) . $pp_curr . $pp_merch . $pp_secret)
++        'language' => isset($l[$store_language]) ? $l[$store_language] : 'en_US'
+     );
+ 
+     $post['accepturl'] = $post['declineurl'] = $post['exceptionurl'] = $post['cancelurl'] = $http_location."/payment/cc_ogoneweb.php?oid=$ordr&mode=";
+@@ -117,6 +120,13 @@
+     // For security checking
+     $post['COMPLUS'] = md5($pp_curr . $pp_merch . $pp_secret . $XCARTSESSID);
+ 
++    // Generate SHAsignature based on previous defined $post var
++    $post['SHASign'] = func_ogone_generate_signature($post, 'associative_array', $pp_secret);
++
++    if (defined('OGONE_DEBUG')) {
++        func_pp_debug_log('ogoneweb', 'I', $post);
++    }
++    
+     func_create_payment_form($pp_test, $post, 'Ogone');
+ }
+ exit;

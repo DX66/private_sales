@@ -1,0 +1,65 @@
+BODY,DIV,TH,TD,P,INPUT,SELECT,TEXTAREA,TT {
+        FONT-FAMILY: Verdana, Arial, Helvetica, Sans-serif; 
+        COLOR: #000000; FONT-SIZE: 10px;
+}
+A:link {
+        COLOR: #330000; TEXT-DECORATION: none;
+}
+A:visited {
+        COLOR: #330000; TEXT-DECORATION: none;
+}
+A:hover {
+        COLOR: #550000; TEXT-DECORATION: underline;
+}
+A:active  {
+        COLOR: #330000; TEXT-DECORATION: none;
+}
+H1 {
+        FONT-SIZE: 15px;
+}
+H2 {
+        FONT-SIZE: 13px;
+}
+H3 {
+        FONT-SIZE: 12px;
+}
+HR {
+        COLOR: #DDDDDD; HEIGHT: 1px;
+}
+BODY { 
+	MARGIN-TOP: 0px; MARGIN-BOTTOM: 0px; MARGIN-LEFT: 0px; MARGIN-RIGHT: 0px; 
+	BACKGROUND-COLOR: #FFFFFF;
+}
+
+.gcHeader {
+	COLOR: #BA3A5F;
+	FONT-SIZE: 36px;
+	FONT-FAMILY: Verdana, Arial, Helvetica;
+}
+
+.gcInfo {
+	COLOR: #420E1D;
+	FONT-SIZE: 12px;
+	FONT-FAMILY: Verdana, Arial, Helvetica;
+}
+
+.gcInfoBorder {
+	COLOR: #420E1D;
+	FONT-SIZE: 12px;
+	FONT-FAMILY: Verdana, Arial, Helvetica;
+	BORDER: 1px #EF92AD solid;
+	PADDING: 5px 5px 5px 5px;
+}
+
+.gcPostalInfo {
+	COLOR: #5A5A5A;
+	FONT-SIZE: 11px;
+	FONT-FAMILY: Verdana, Arial, Helvetica;
+}
+
+.gcPostalHeader {
+	COLOR: #000000;
+	FONT-SIZE: 15px;
+	FONT-FAMILY: Times New Roman, Verdana, Arial, Helvetica;
+	FONT-WEIGHT: bold;
+}
