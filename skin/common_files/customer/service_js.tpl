@@ -102,4 +102,6 @@ var txt_this_link_is_for_demo_purposes = '{$lng.txt_this_link_is_for_demo_purpos
   {/if}
 {/if}
 
+{load_defer file="modules/Dx66/main.js" type="js"}
+
 {include file="onload_js.tpl"}

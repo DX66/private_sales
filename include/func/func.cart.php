@@ -3486,6 +3486,9 @@ function func_add_to_cart(&$cart, $product_data)
         }
 
     }
+    
+    //@adam - hacked here to add this variable
+    $cart['dx66_cart_expiry'] = XC_TIME + 30;//30 seconds for testing
 
     return $return;
 }
